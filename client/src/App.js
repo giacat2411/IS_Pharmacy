@@ -7,13 +7,16 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      message: ''
+      message: '',
+      doctors: []
     }
   }
 
   componentDidMount() {
     axios.get('/api/tests')
-         .then(result => this.setState({ message: result.data.message }))
+         .then(result => this.setState({ message: result.data.message}));
+    axios.get('/api/doctors')
+         .then(result => {console.log(result.data.doctors);this.setState({ doctors: result.data.doctors})})
   };
 
   render(){
@@ -33,6 +36,17 @@ class App extends Component {
           >
             Learn React
           </a>
+          <div>
+            <ul>
+              {this.state.doctors.map(doctor => {
+                return (
+                  <li>
+                    Doctor, {doctor.phone}, {doctor.specialism}, {doctor.experience_year}
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
         </header>
       </div>
     );
