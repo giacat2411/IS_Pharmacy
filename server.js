@@ -25,8 +25,10 @@ app.get("/api/tests", (req, res) => {
 ///////////////////////////
 //          GET          //
 ///////////////////////////
+// Form: /api/get/...
 
-app.get('/api/doctors', (req, res) => {
+///// Cat /////
+app.get('/api/get/doctors', (req, res) => {
   var sql = "SELECT * FROM DOCTOR";
   connection.query(sql, function(err, results) {
     if (err) throw err;
@@ -34,20 +36,54 @@ app.get('/api/doctors', (req, res) => {
   });
 });
 
+///// Phuc /////
+
+///// Chanh /////
+
+///// Dung /////
+
 //////////////////////////////
 //          UPDATE          //
 //////////////////////////////
+// Form: /api/update/...
+
+
+///// Cat /////
+
+///// Phuc /////
+
+///// Chanh /////
+
+///// Dung /////
 
 
 //////////////////////////////
 //          DELETE          //
 //////////////////////////////
+// Form: /api/delete/...
 
+
+///// Cat /////
+
+///// Phuc /////
+
+///// Chanh /////
+
+///// Dung /////
 
 //////////////////////////////
 //          INSERT          //
 //////////////////////////////
+// Form: /api/insert/...
 
+
+///// Cat /////
+
+///// Phuc /////
+
+///// Chanh /////
+
+///// Dung /////
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);

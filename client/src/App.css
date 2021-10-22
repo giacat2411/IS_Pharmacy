@@ -1,38 +1,108 @@
-.App {
+/* ----------------------------------Cat------------------------------------*/
+/* -------------------------------------------------------------------------*/
+/* -------------------------------------------------------------------------*/
+/* -------------------------------------------------------------------------*/
+
+* {
+  box-sizing : border-box;
+}
+
+body {
+  font-size: 15px;
+  background-color: #F6F8FB;
+}
+
+.header-content {
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.header-content > p.content-1 {
+  margin-bottom: -10px;
+}
+
+.header-decription, .service-description, .service-text {
+  color: #7D7987;
+}
+
+.home-image img {
+  width: 100%;
+}
+
+.btn-primary {
+  border-radius: 55px !important;
+}
+
+.home-button-calendar {
+  margin-top: 20px;
+}
+
+.Logo {
+  width: 50px;
+}
+
+.navbar-dark {
+  background-color: #D8EDFD;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: black !important;
+}
+
+.service-content, .service-description {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.service-content{
+  font-weight: bold;
+  font-size: 25px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.service-img {
+  margin-top: 20px;
+  margin-left: 20px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.service-item {
+  height: 300px
 }
 
-.App-link {
-  color: #61dafb;
+.contact-button {
+  background-color: #F6F8FB;
+  color: #458FF6;
+  border-radius: 55px;
+  border: 1px solid #458FF6;
+  margin-left: 300px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.footer {
+  background-color: #5B9BF3;
 }
+.footer-header {
+  font-size: 15px;
+  color: #F6F8FD;
+  font-weight: bold;
+}
+
+.footer-content {
+  color: #F6F8FD;
+  font-size: 10px;
+}
+
+
+/* ----------------------------------Phuc------------------------------------*/
+/* --------------------------------------------------------------------------*/
+/* --------------------------------------------------------------------------*/
+/* --------------------------------------------------------------------------*/
+
+
+/* ----------------------------------Chanh------------------------------------*/
+/* ---------------------------------------------------------------------------*/
+/* ---------------------------------------------------------------------------*/
+/* ---------------------------------------------------------------------------*/
+
+
+/* ----------------------------------Dung------------------------------------*/
+/* --------------------------------------------------------------------------*/
+/* --------------------------------------------------------------------------*/
+/* --------------------------------------------------------------------------*/
