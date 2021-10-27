@@ -86,9 +86,78 @@ body {
 
 .footer-content {
   color: #F6F8FD;
-  font-size: 10px;
+  font-size: 15px;
 }
 
+.cat-cushome-header {
+  font-size: 30px;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.cat-customer-item-left {
+  width: 250px;
+  height: 250px;
+  margin-right: auto;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.cat-customer-item-right {
+  width: 250px;
+  height: 250px;
+  margin-left: auto;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.cat-customer-img {
+  margin: auto;
+  margin-top: 50px
+}
+
+.cat-customer-text {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.cat-customer-item-link {
+  text-decoration: none;
+  color: black;
+}
+
+.cat-customer-item-link:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.drug-item {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 20px;
+}
+.drug-img {
+  margin: auto;
+  margin-top: 5px
+}
+
+.drug-text {
+  font-size: 15px;
+  height: 40px;
+}
+
+.drug-title {
+  color: #7C7C7C
+}
+
+.drug-price {
+  font-size: 15px;
+  margin-top: 15px
+}
+.drug-add-item {
+  margin-left: 21px;
+}
 
 /* ----------------------------------Phuc------------------------------------*/
 /* --------------------------------------------------------------------------*/

@@ -8,6 +8,8 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Home from './HomeComponent';
+import Customer from './CustomerComponent';
+import BuyDrug from './BuyDrugComponent';
 
 class Main extends Component {
   render() {
@@ -23,6 +25,8 @@ class Main extends Component {
         <div>
           <Switch>
               <Route path='/home' component={HomePage} />
+              <Route path='/buydrug' component={BuyDrug} />
+              <Route exact path='/customer' component={Customer} />
               <Redirect to="/home" />
           </Switch>
         </div>

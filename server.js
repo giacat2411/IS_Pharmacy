@@ -36,6 +36,14 @@ app.get('/api/get/doctors', (req, res) => {
   });
 });
 
+app.get('/api/get/drugs', (req, res) => {
+  var sql = "SELECT * FROM DRUG";
+  connection.query(sql, function(err, results) {
+    if (err) throw err;
+    res.json({drugs: results});
+  });
+});
+
 ///// Phuc /////
 
 ///// Chanh /////

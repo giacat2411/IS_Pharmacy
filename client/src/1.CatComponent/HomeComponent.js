@@ -7,6 +7,7 @@ class Home extends Component{
     render(){
         return(
             <Container>
+                <Row> <Col> <a href='/customer'>Khách hàng</a> </Col> </Row>
                 <Row>
                     <Col>
                     <div className="header-content">
