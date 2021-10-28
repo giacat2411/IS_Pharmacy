@@ -132,17 +132,17 @@ body {
   color: black;
 }
 
-.drug-item {
+.drug-item, .modal-drug-item{
   margin-top: 15px;
   margin-bottom: 15px;
   border-radius: 20px;
 }
-.drug-img {
+.drug-img, .modal-drug-img {
   margin: auto;
   margin-top: 5px
 }
 
-.drug-text {
+.drug-text, .modal-drug-text {
   font-size: 15px;
   height: 20px;
   overflow: hidden;
@@ -152,8 +152,15 @@ body {
   margin-bottom: 8px;
 }
 
+.modal-drug-text {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 15px;
+  height: fit-content
+}
 
-.drug-title {
+
+.drug-title, .modal-drug-title {
   color: #7C7C7C;
   height: 20px;
   overflow: hidden;
@@ -163,18 +170,52 @@ body {
   font-size: 12px;
 }
 
-.drug-price-add {
+.modal-drug-title {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.modal-add-button {
+  margin: auto;
+  background-color: #62AFFC;
+  color: white;
+  font-weight: bold;
+  border: 1px white;
+  border-radius: 20px;
+  height: 67px;
+  font-size: 20px;
+  margin-top: 10px;
+  width: 466px;
+}
+
+.modal-add-button:hover {
+  background-color: #62AFFC;
+}
+
+.drug-price-add, .modal-drug-price-add {
   margin-top: 10px;
 }
+
 .drug-price {
   font-size: 15px;
   width: 10px;
   font-weight: bold;
 }
+
+.modal-drug-price {
+  font-size: 25px;
+  font-weight: bold;
+  text-align: right;
+}
+
 .drug-add-item {
   position: absolute;
   right: 10px;
   bottom: 14px;
+}
+
+.drug-add-item-img:hover {
+  cursor: pointer;
 }
 
 .search-drug-bar {
@@ -235,6 +276,14 @@ body {
 .search-button-text {
   margin-top: 15px;
   color: white
+}
+
+.not-found {
+  font-size: 30px;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
 }
 
 /* ----------------------------------Phuc------------------------------------*/
