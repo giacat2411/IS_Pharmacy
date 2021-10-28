@@ -19,7 +19,7 @@ class Home extends Component{
                         Có thể truy cập từ máy tính, điện thoại cho tất cả mọi người
                     </div>
                     <div className="home-button-calendar">
-                    <Button color="primary">Lịch làm việc</Button>
+                    <Button className="calendar" color="primary">Lịch làm việc</Button>
                     </div>
                     </Col>
                     <Col className="home-image">
