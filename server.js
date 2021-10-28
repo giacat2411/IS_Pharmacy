@@ -5,6 +5,13 @@ const PORT = process.env.PORT || 4000;
 
 const app = express();
 
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
 // CONECTION TO MYSQL
 
 const connection = mysql.createConnection({

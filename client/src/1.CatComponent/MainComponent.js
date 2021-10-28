@@ -10,6 +10,7 @@ import Footer from './FooterComponent';
 import Home from './HomeComponent';
 import Customer from './CustomerComponent';
 import BuyDrug from './BuyDrugComponent';
+import ViewCart from './ViewCartComponent';
 
 class Main extends Component {
   render() {
@@ -19,6 +20,12 @@ class Main extends Component {
       );
     }
 
+    const ViewMyCart = ({match}) => {
+      return(
+        <ViewCart cart = {JSON.parse(match.params.cart)} />
+      )
+    }
+
     return (
       <div>
         <Header />
@@ -26,7 +33,8 @@ class Main extends Component {
           <Switch>
               <Route path='/home' component={HomePage} />
               <Route path='/buydrug' component={BuyDrug} />
-              <Route exact path='/customer' component={Customer} />
+              <Route path='/customer' component={Customer} />
+              <Route path='/view_cart/:cart' component={ViewMyCart}/>
               <Redirect to="/home" />
           </Switch>
         </div>
