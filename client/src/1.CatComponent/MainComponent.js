@@ -8,7 +8,11 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Home from './HomeComponent';
-
+//PHUC
+import LoginPane from '../2.PhucComponent/loginPaneComponent';
+import SignPwd from '../2.PhucComponent/forgetpwd';
+import Profile from '../2.PhucComponent/profile';
+//NOT PHUC
 class Main extends Component {
   render() {
     const HomePage = () => {
@@ -16,14 +20,26 @@ class Main extends Component {
           <Home />
       );
     }
-
+    const Login = () => {
+      return(
+          <LoginPane />
+      );
+    }
+    const Sign = () => {
+      return(
+          <SignPwd />
+      );
+    }
     return (
       <div>
         <Header />
         <div>
           <Switch>
               <Route path='/home' component={HomePage} />
-              <Redirect to="/home" />
+              <Route path='/login' component={Login}/>
+              <Route path='/signup' component={Sign}/>
+              <Route path='/forgetpwd' component={Sign}/>
+              <Redirect to="/login" />
           </Switch>
         </div>
         <Footer />

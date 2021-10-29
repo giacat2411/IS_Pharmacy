@@ -92,6 +92,49 @@ body {
 
 /* ----------------------------------Phuc------------------------------------*/
 /* --------------------------------------------------------------------------*/
+
+Log{
+  min-height: 42px;
+  font-family: var(--font-family-roboto);
+  font-weight: 700;
+  color: #222221c2;
+  font-size: var(--font-size-m);
+  letter-spacing: 0;
+}
+.ava{
+  position: absolute;
+width: 266px;
+height: 266px;
+left: 71px;
+top: 156px;
+border-radius: 166px;
+}
+.center{
+  position: absolute;
+  right: 43px;
+  left:888px;
+  top: 133px;
+  
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 451px;
+    position: relative;
+    width: 481px;
+}
+
+.exception{
+  font-family: Roboto;
+font-style: italic;
+font-weight: normal;
+font-size: 11px;
+line-height: 21px;
+color: #00B2FF;
+background-color: #00000000;
+}
+
+
+
 /* --------------------------------------------------------------------------*/
 /* --------------------------------------------------------------------------*/
 
