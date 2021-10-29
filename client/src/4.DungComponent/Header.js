@@ -4,7 +4,7 @@ import { Navbar, NavbarBrand, Nav, NavItem,
 import { FaHome, FaRegCalendarAlt, FaInfo, FaUserPlus, FaSignOutAlt} from "react-icons/fa";
 
 
-class Header extends Component {
+class HeaderDoctor extends Component {
     render(){
         return(
             <Navbar dark expand="md">
@@ -39,4 +39,4 @@ class Header extends Component {
     }
 }
 
-export default Header;
+export default HeaderDoctor;
