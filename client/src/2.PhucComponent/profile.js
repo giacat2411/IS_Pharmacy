@@ -6,11 +6,14 @@ import Home from '../1.CatComponent/HomeComponent';
 import '../'
 class Profile extends Component{
     render(){
+        const current = new Date();
+        const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
         const {
-            phone="{0919}",
-            addr="123",
+            phone="0919813172",
+            addr="123 KTX khu A",
             username="Võ Hồng Phúc",
-            birth="",
+            birth="12/04/2003",
+
             info = {
                 height:"1.23",
                 weight:"53",
@@ -19,22 +22,25 @@ class Profile extends Component{
                 ill:"",
                 press:"90",
                 before:"",
-            },
-            date="123456"
+            }
         }=this.props;
         return(
             <div >
                 <Row>
-                <Col xs={1}/>
                 <Col>
-                <img className="ava" src='../logo.svg'></img>
-                {phone}
-                {addr}
-                <Button color="secondary"> Điều chỉnh thông tin</Button>
-                <Route path="editProfile" component={Home}/>
-                <Button color="secondary"> Thay đổi mật khẩu</Button>
+                <div className="center">
+                <Row><img className="ava" src='assets/images/ava_user.JPG'></img></Row>
+                <Row>{phone}</Row>
+                <Row>{addr}</Row>
+                <Row><Button color="secondary"> Điều chỉnh thông tin</Button></Row>
+                {/*<Route path="editProfile" component={Home}/>*/}
+
+
+                <Row><Button color="secondary"> Thay đổi mật khẩu</Button></Row>
                 <Route path="changePwd" component={Home}/>
+                </div>
                 </Col>
+                <Col>
                 <h1> Người dùng: {username}</h1>
                 <Row>Ngày sinh: {birth}</Row>
                 <Row>Chiều cao: {info.height}</Row>
@@ -48,13 +54,11 @@ class Profile extends Component{
 
                 <Row classname="additional"> *Thông tin từ ngày {date}</Row>
                 <Button> Cập nhật tình trạng sức khỏe </Button> 
+                </Col>
                 <Col> 
                 
-                <Button color="yellow">Xem bệnh án </Button>
+                <Button classname="center_screen">Xem bệnh án </Button>
                 </Col>
-                <Col>
-            </Col>
-                <Col xs={1}/>
                 </Row>
             </div>
         )

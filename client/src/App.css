@@ -102,27 +102,22 @@ Log{
   letter-spacing: 0;
 }
 .ava{
-  position: absolute;
 width: 266px;
 height: 266px;
 left: 71px;
-top: 156px;
+top: 12px;
 border-radius: 166px;
 }
 .center{
-  position: absolute;
-  right: 43px;
-  left:888px;
-  top: 133px;
-  
     align-items: center;
     display: flex;
     flex-direction: column;
-    height: 451px;
     position: relative;
-    width: 481px;
 }
-
+center_screen{
+  position: 'absolute';
+  left: '50%'; top: '50%';
+}
 .exception{
   font-family: Roboto;
 font-style: italic;
