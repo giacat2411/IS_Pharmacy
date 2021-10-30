@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Navbar, NavbarBrand, Nav, NavItem, 
-        NavLink, Collapse, NavbarToggler } from 'reactstrap';
+        Collapse, NavbarToggler } from 'reactstrap';
 import { FaHome, FaRegCalendarAlt, FaInfo, FaUserPlus, FaSignInAlt } from "react-icons/fa";
-
+import { NavLink } from 'react-router-dom';
 
 class Header extends Component {
     render(){
@@ -14,7 +14,7 @@ class Header extends Component {
                 <Collapse navbar>
                     <Nav navbar>
                         <NavItem>
-                            <NavLink className="nav-link"  to='/'><FaHome /> Trang chủ</NavLink>
+                            <NavLink className="nav-link"  to='/home'><FaHome /> Trang chủ</NavLink>
                         </NavItem>
                         <NavItem>
                             <NavLink className="nav-link" to='/'><FaRegCalendarAlt /> Lịch làm việc</NavLink>

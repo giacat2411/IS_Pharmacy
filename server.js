@@ -5,6 +5,13 @@ const PORT = process.env.PORT || 4000;
 
 const app = express();
 
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
 // CONECTION TO MYSQL
 
 const connection = mysql.createConnection({
@@ -33,6 +40,14 @@ app.get('/api/get/doctors', (req, res) => {
   connection.query(sql, function(err, results) {
     if (err) throw err;
     res.json({doctors: results});
+  });
+});
+
+app.get('/api/get/drugs', (req, res) => {
+  var sql = "SELECT * FROM DRUG";
+  connection.query(sql, function(err, results) {
+    if (err) throw err;
+    res.json({drugs: results});
   });
 });
 

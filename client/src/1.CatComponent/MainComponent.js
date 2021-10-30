@@ -8,6 +8,9 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Home from './HomeComponent';
+import Customer from './CustomerComponent';
+import BuyDrug from './BuyDrugComponent';
+import ViewCart from './ViewCartComponent';
 
 // DUNG
 import HeaderDoctor from '../4.DungComponent/Header';
@@ -21,10 +24,16 @@ class Main extends Component {
       );
     }
 
+    const ViewMyCart = ({match}) => {
+      return(
+        <ViewCart cart = {JSON.parse(match.params.cart)} />
+      )
+      
     const DoctorPage = () => {
       return(
           <Doctor />
       );
+
     }
 
     return (
@@ -36,6 +45,9 @@ class Main extends Component {
         <div>
           <Switch>
               <Route path='/home' component={HomePage} />
+              <Route path='/buydrug' component={BuyDrug} />
+              <Route path='/customer' component={Customer} />
+              <Route path='/view_cart/:cart' component={ViewMyCart}/>
               <Route path='/doctor' component={DoctorPage} />
               <Redirect to="/home" />
           </Switch>
