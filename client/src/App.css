@@ -404,3 +404,43 @@ body {
 /* --------------------------------------------------------------------------*/
 /* --------------------------------------------------------------------------*/
 /* --------------------------------------------------------------------------*/
+.dung-title{
+  text-align: center;
+  padding: 5% 0%;
+}
+
+.dung-service-item{
+  height: 20rem;
+  width: 20rem;
+  border-radius: 5%;
+  align-items: center;
+}
+
+.dung-imgfor-doctor{
+  padding-top: 20%;
+}
+
+div.card-body{
+  padding: 20% 0%;
+}
+
+
+div.doctor-service.row{
+  padding: 1.5%;
+  display: inline-flex;
+}
+
+div.dung-doctor-row1{
+  text-align: center;
+}
+
+div.dung-doctor-row2{
+  text-align: center;
+  padding-bottom: 5%;
+} 
+
+div.dung-title hr{
+  background-color: #000000;
+  width: 10%;
+}
+

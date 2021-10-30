@@ -12,6 +12,10 @@ import Customer from './CustomerComponent';
 import BuyDrug from './BuyDrugComponent';
 import ViewCart from './ViewCartComponent';
 
+// DUNG
+import HeaderDoctor from '../4.DungComponent/Header';
+import Doctor from '../4.DungComponent/DoctorComponent';
+
 class Main extends Component {
   render() {
     const HomePage = () => {
@@ -24,17 +28,27 @@ class Main extends Component {
       return(
         <ViewCart cart = {JSON.parse(match.params.cart)} />
       )
+      
+    const DoctorPage = () => {
+      return(
+          <Doctor />
+      );
+
     }
 
     return (
       <div>
-        <Header />
+        <Switch>
+          <Route path='/home' component={Header} />
+          <Route path='/doctor' component={HeaderDoctor} />
+        </Switch>
         <div>
           <Switch>
               <Route path='/home' component={HomePage} />
               <Route path='/buydrug' component={BuyDrug} />
               <Route path='/customer' component={Customer} />
               <Route path='/view_cart/:cart' component={ViewMyCart}/>
+              <Route path='/doctor' component={DoctorPage} />
               <Redirect to="/home" />
           </Switch>
         </div>
@@ -45,3 +59,4 @@ class Main extends Component {
 }
 
 export default Main;
+
