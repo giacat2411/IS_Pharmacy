@@ -7,26 +7,21 @@ import { Form, FormGroup, Input, Button } from 'reactstrap';
 import { Modal, ModalBody } from 'reactstrap';
 import { FaShoppingCart, FaSearch } from 'react-icons/fa';
 import axios from 'axios';
-import { NavLink, Link } from 'react-router-dom';
 
 class BuyDrug extends Component {
     constructor(props) {
         super(props);
         this.state = {
             drugs : [],
-            nums_item_buy: 0,
-            cart: [],
+            nums_item: 0,
+            carts: [],
             drugs_display: [],
             item_open: [],
-            nums_item_open: 0,
             isModalOpen: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
         this.setItemModal = this.setItemModal.bind(this);
-        this.addItem = this.addItem.bind(this);
-        this.adjustItem = this.adjustItem.bind(this);
-        this.addDrug = this.addDrug.bind(this);
     }
 
     toggleModal() {
@@ -35,37 +30,9 @@ class BuyDrug extends Component {
         });
     }
 
-    addItem() {
-        this.setState({
-            nums_item_open: this.state.nums_item_open + 1
-        })
-    }
-
-    adjustItem() {
-        if (this.state.nums_item_open === 0) 
-            alert("Số lượng sản phẩm phải lớn hơn 0");
-        else this.setState({
-            nums_item_open: this.state.nums_item_open - 1
-        })
-    }
-
-    addDrug() {
-        const newCart = this.state.cart;
-        const item = this.state.item_open;
-        const number = this.state.nums_item_open;
-
-        newCart.push({item, number});
-        
-        this.setState({
-            carts: newCart,
-            nums_item_buy: this.state.nums_item_buy + 1
-        })
-    }
-
     setItemModal(item, e) {
         this.setState({
-            item_open: item,
-            nums_item_open: 1
+            item_open: item
         });
     }
 
@@ -152,11 +119,9 @@ class BuyDrug extends Component {
 
                         <Nav className="ml-auto" navbar>
                             <NavItem className="cart">
-                            <NavLink className="nav-link" to={`/view_cart/${JSON.stringify(this.state.cart)}`}>
                             <FaShoppingCart className="buy-cart"/> 
                             <span> Giỏ hàng </span>
-                            <span className="buy-cart-item"> {this.state.nums_item_buy} </span>
-                            </NavLink>
+                            <span className="buy-cart-item"> {this.state.nums_item} </span>
                             </NavItem>
                         </Nav>
                     </Collapse>
@@ -177,18 +142,14 @@ class BuyDrug extends Component {
                         <CardBody>
                         <CardTitle tag="h5" className="modal-drug-text">{this.state.item_open.drug_name}</CardTitle>
                         <CardSubtitle tag="h6" className="modal-drug-title">500mg, Viên sủi</CardSubtitle>
-                        <CardText className="modal-item-content">
-                            <div className="modal-adjust-item"> <img  onClick={() => this.adjustItem()} width="17px" height="2.76px" src="/assets/images/adjust_item.png" alt="Adjust"/> </div>
-                            <div className="modal-number-item"> {this.state.nums_item_open} </div>
-                            <div className="modal-add-item"> <img onClick={() => this.addItem()} width="17px" height="16.56px" src="/assets/images/add_item.png" alt="Add"/> </div>
-                            <div className="modal-drug-price"> {(this.state.item_open.price*1000).toLocaleString('vi-VN')}đ </div>
+                        <CardText className="modal-drug-price">
+                            {(this.state.item_open.price*1000).toLocaleString('vi-VN')}đ 
                         </CardText>     
                         </CardBody>
                     </Card>
-                        <Button onClick={() => {this.toggleModal(); this.addDrug()}} className="modal-add-button"> Thêm vào giỏ hàng </Button>
+                        <Button onClick={this.toggleModal} className="modal-add-button"> Thêm vào giỏ hàng </Button>
                     </ModalBody>
                 </Modal>
-                <Link to={`/view_cart/${JSON.stringify(this.state.cart)}`}> Giỏ hàng </Link>
               </>
           )
       }
