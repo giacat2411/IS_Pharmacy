@@ -19,12 +19,6 @@ class Main extends Component {
       );
     }
 
-    const ViewMyCart = ({match}) => {
-      return(
-        <ViewCart cart = {JSON.parse(match.params.cart)} />
-      )
-    }
-
     return (
       <div>
         <Switch>
@@ -35,8 +29,7 @@ class Main extends Component {
           <Switch>
               <Route path='/home' component={HomePage} />
               <Route path='/buydrug' component={BuyDrug} />
-              <Route path='/customer' component={Customer} />
-              <Route path='/view_cart/:cart' component={ViewMyCart}/>
+              <Route exact path='/customer' component={Customer} />
               <Redirect to="/home" />
           </Switch>
         </div>
