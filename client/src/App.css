@@ -114,9 +114,10 @@ border-radius: 166px;
     flex-direction: column;
     position: relative;
 }
-center_screen{
+.center_screen{
   position: 'absolute';
   left: '50%'; top: '50%';
+  align-items: center;
 }
 .exception{
   font-family: Roboto;

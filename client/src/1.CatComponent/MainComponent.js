@@ -30,6 +30,7 @@ class Main extends Component {
           <SignPwd />
       );
     }
+    const {goto}=this.props;
     return (
       <div>
         <Header />
@@ -39,7 +40,7 @@ class Main extends Component {
               <Route path='/login' component={Login}/>
               <Route path='/signup' component={Sign}/>
               <Route path='/forgetpwd' component={Sign}/>
-              <Redirect to="/login" />
+              <Redirect to={goto} />
           </Switch>
         </div>
         <Footer />

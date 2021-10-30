@@ -7,7 +7,7 @@ import '../'
 class Profile extends Component{
     render(){
         const current = new Date();
-        const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
+        //const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
         const {
             phone="0919813172",
             addr="123 KTX khu A",
@@ -22,6 +22,7 @@ class Profile extends Component{
                 ill:"",
                 press:"90",
                 before:"",
+                date:"11/10/2021"
             }
         }=this.props;
         return(
@@ -40,19 +41,21 @@ class Profile extends Component{
                 <Route path="changePwd" component={Home}/>
                 </div>
                 </Col>
-                <Col>
+                <Col xs={5} >
+                    <Col xs={5}/>
+                    <Col>
                 <h1> Người dùng: {username}</h1>
                 <Row>Ngày sinh: {birth}</Row>
                 <Row>Chiều cao: {info.height}</Row>
                 <Row>Cân nặng: {info.weight}</Row>
-                <Row>Chỉ số BMI: {info.weight/info.height*info.height}</Row>
+                <Row>Chỉ số BMI: {info.weight/info.height*info.height,1}</Row>
                 <Row>Nhóm máu: {info.blood} </Row>
                 <Row>Nhịp tim: {info.heart} </Row>
                 <Row>Huyết áp: {info.press} </Row>
                 <Row>Tiền sử: {info.before} </Row>
                 <Row>Bệnh lý nền: {info.ill}</Row>
-
-                <Row classname="additional"> *Thông tin từ ngày {date}</Row>
+                </Col>
+                <Row classname="additional"> *Thông tin từ ngày {info.date}</Row>
                 <Button> Cập nhật tình trạng sức khỏe </Button> 
                 </Col>
                 <Col> 

@@ -22,7 +22,9 @@ class LoginPane extends Component{
             <div classname="center">
                 <Row>
                 
-                <Col/><Col/>
+                <Col xs={0.5}>
+                <Row><img  src='assets/images/pana.svg'></img></Row>
+                </Col>
                 <Col><div>
             <h1>Đăng Nhập</h1>
             Số điện thoại
