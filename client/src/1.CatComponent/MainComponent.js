@@ -11,10 +11,6 @@ import Home from './HomeComponent';
 import Customer from './CustomerComponent';
 import BuyDrug from './BuyDrugComponent';
 
-// DUNG
-import HeaderDoctor from '../4.DungComponent/Header';
-import Doctor from '../4.DungComponent/DoctorComponent';
-
 class Main extends Component {
   render() {
     const HomePage = () => {
@@ -23,21 +19,12 @@ class Main extends Component {
       );
     }
 
-<<<<<<< HEAD
     const ViewMyCart = ({match}) => {
       return(
         <ViewCart cart = {JSON.parse(match.params.cart)} />
       )
-      
-    const DoctorPage = () => {
-      return(
-          <Doctor />
-      );
-
     }
 
-=======
->>>>>>> parent of a10e943 (Update Buy and View Cart Feature)
     return (
       <div>
         <Switch>
@@ -48,13 +35,8 @@ class Main extends Component {
           <Switch>
               <Route path='/home' component={HomePage} />
               <Route path='/buydrug' component={BuyDrug} />
-<<<<<<< HEAD
               <Route path='/customer' component={Customer} />
               <Route path='/view_cart/:cart' component={ViewMyCart}/>
-              <Route path='/doctor' component={DoctorPage} />
-=======
-              <Route exact path='/customer' component={Customer} />
->>>>>>> parent of a10e943 (Update Buy and View Cart Feature)
               <Redirect to="/home" />
           </Switch>
         </div>
