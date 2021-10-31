@@ -16,7 +16,7 @@ class HomeNur extends Component{
                     <Col>
                         <Card className="service-item">
                             <center>
-                            <img className="service-img" width="61.86px" height="85px" src="/assets/images/buy-home.png" alt = "Quản lý đơn thuốc"></img>
+                            <img className="service-img" width="61.86px" height="85px" vspace="30px" src="/assets/images/buy-home.png" alt = "Quản lý đơn thuốc"></img>
                             </center>
                             <CardBody>
                             <center>
@@ -28,7 +28,7 @@ class HomeNur extends Component{
                     <Col>
                         <Card className="service-item">
                             <center>
-                            <img className="service-img" width="61.86px" height="85px" src="/assets/images/buy-home.png" alt = "Tạo lịch khám"></img>
+                            <img className="service-img" width="61.86px" height="85px" vspace="30px" src="/assets/images/schedule.png" alt = "Tạo lịch khám"></img>
                             </center>
                             <CardBody>
                             <center>
@@ -40,7 +40,7 @@ class HomeNur extends Component{
                     <Col>
                         <Card className="service-item">
                             <center>
-                            <img className="service-img" width="61.86px" height="85px" src="/assets/images/make-treat-home.png" alt = "Thống kê lịch khám"></img>
+                            <img className="service-img" width="61.86px" height="85px" vspace="30px" src="/assets/images/make-treat-home.png" alt = "Thống kê lịch khám"></img>
                             </center>
                             <CardBody>
                             <center>
