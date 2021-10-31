@@ -13,6 +13,10 @@ import BuyDrug from './BuyDrugComponent';
 import ViewCart from './ViewCartComponent';
 import NurseManageMedicine from './NurseManageMedicineComponent';
 
+// DUNG
+import HeaderDoctor from '../4.DungComponent/Header';
+import Doctor from '../4.DungComponent/DoctorComponent';
+
 class Main extends Component {
   render() {
     const HomePage = () => {
@@ -27,9 +31,18 @@ class Main extends Component {
       )
     }
 
+    const DoctorPage = () => {
+      return(
+          <Doctor />
+      );
+    }
+
     return (
       <div>
-        <Header />
+        <Switch>
+          <Route path='/home' component={Header} />
+          <Route path='/doctor' component={HeaderDoctor} />
+        </Switch>
         <div>
           <Switch>
               <Route path='/home' component={HomePage} />
@@ -37,6 +50,7 @@ class Main extends Component {
               <Route path='/customer' component={Customer} />
               <Route path='/view_cart/:cart' component={ViewMyCart}/>
               <Route path='/manage_medicine' component={NurseManageMedicine} />
+              <Route path='/doctor' component={DoctorPage} />
               <Redirect to="/home" />
           </Switch>
         </div>
@@ -47,3 +61,4 @@ class Main extends Component {
 }
 
 export default Main;
+
