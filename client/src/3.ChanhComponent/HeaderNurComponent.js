@@ -26,7 +26,7 @@ class Header extends Component {
 
                     <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <NavLink className="nav-link" href="/"><img src='assets/images/FaceUer.png' height="25px" width="25px" alt='Hươu Cao Cổ' /> Hươu Cao Cổ</NavLink>
+                            <NavLink className="nav-link" href="/"><img src='assets/images/FaceUer.png' height="25px" width="25px" alt='Hươu Cao Cổ' /></NavLink>
                         </NavItem>
                         <NavItem>
                             <NavLink className="nav-link" to='/'> <FaSignOutAlt/> Đăng xuất </NavLink>
