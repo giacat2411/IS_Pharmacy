@@ -188,7 +188,6 @@ class BuyDrug extends Component {
                         <Button onClick={() => {this.toggleModal(); this.addDrug()}} className="modal-add-button"> Thêm vào giỏ hàng </Button>
                     </ModalBody>
                 </Modal>
-                <Link to={`/view_cart/${JSON.stringify(this.state.cart)}`}> Giỏ hàng </Link>
               </>
           )
       }

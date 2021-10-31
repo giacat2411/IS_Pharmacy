@@ -61,23 +61,28 @@ class Main extends Component {
     
     return (
       <div>
-        <Switch>
-          <Route path='/home' component={Header} />
-          <Route path='/doctor' component={HeaderDoctor} />
-        </Switch>
+        <Header />
         <div>
           <Switch>
+              {/*---------------------------------Cat------------------------------------*/}
               <Route path='/home' component={HomePage} />
               <Route path='/buydrug' component={BuyDrug} />
               <Route path='/customer' component={Customer} />
               <Route path='/view_cart/:cart' component={ViewMyCart}/>
               <Route path='/manage_medicine' component={NurseManageMedicine} />
+
+              {/*---------------------------------Dung------------------------------------*/}
               <Route path='/doctor' component={DoctorPage} />
-              <Redirect to="/home" />
+
+              {/*---------------------------------Phuc------------------------------------*/}
               <Route path='/login' component={Login}/>
               <Route path='/signup' component={Sign}/>
               <Route path='/forgetpwd' component={Sign}/>
               <Route path='/profile' component={ProfilePage}/>
+
+              {/*---------------------------------Chanh------------------------------------*/}
+
+
               <Redirect to='/home' />
           </Switch>
         </div>

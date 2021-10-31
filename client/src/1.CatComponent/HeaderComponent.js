@@ -26,10 +26,10 @@ class Header extends Component {
 
                     <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <NavLink className="nav-link" to='/'> <FaUserPlus/> Đăng ký </NavLink>
+                            <NavLink className="nav-link" to='/signup'> <FaUserPlus/> Đăng ký </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink className="nav-link" to='/'> <FaSignInAlt /> Đăng nhập </NavLink>
+                            <NavLink className="nav-link" to='/login'> <FaSignInAlt /> Đăng nhập </NavLink>
                         </NavItem>
                             </Nav>
                 </Collapse>
