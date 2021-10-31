@@ -3,16 +3,6 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { Container, Input, Row, Col,Button } from 'reactstrap';
 import Home from '../1.CatComponent/HomeComponent';
-/*   try = () => {
-        return (
-          <Router>
-            <Switch>
-              <Route exact path="/" component={App} />
-              <Route path="/user" component={User} />
-            </Switch>
-          </Router>
-        );
-      } */
 class LoginPane extends Component{
     
     render(){
@@ -21,9 +11,8 @@ class LoginPane extends Component{
         return(
             <div classname="center">
                 <Row>
-                
                 <Col xs={0.5}>
-                <Row><img  src='assets/images/pana.svg'></img></Row>
+                <Row><img  src='assets/images/pana.svg' xs={0.8}></img></Row>
                 </Col>
                 <Col><div>
             <h1>Đăng Nhập</h1>

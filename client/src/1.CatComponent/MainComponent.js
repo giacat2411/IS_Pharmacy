@@ -30,7 +30,12 @@ class Main extends Component {
           <SignPwd />
       );
     }
-    const {goto}=this.props;
+    const ProfilePage = () =>{
+      return (
+        <Profile/>
+      )
+    }
+    
     return (
       <div>
         <Header />
@@ -40,7 +45,8 @@ class Main extends Component {
               <Route path='/login' component={Login}/>
               <Route path='/signup' component={Sign}/>
               <Route path='/forgetpwd' component={Sign}/>
-              <Redirect to={goto} />
+              <Route path='/profile' component={ProfilePage}/>
+              <Redirect to='/home' />
           </Switch>
         </div>
         <Footer />
