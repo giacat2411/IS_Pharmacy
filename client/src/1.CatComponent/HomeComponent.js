@@ -8,11 +8,15 @@ class Home extends Component{
         return(
             <Container>
                 <Row> 
-                    <Col> <a href='/customer'>Khách hàng</a> </Col> 
+                    <Col> <a href='/customer'> Giao diện khách hàng</a> </Col> 
+                </Row>
+                <Row>
+                    <Col> <a href='/doctor'> Giao diện bác sĩ </a></Col>
                 </Row>
                 <Row>
                     <Col> <a href='/manage_medicine'> Quản lý đơn thuốc </a></Col>
                 </Row>
+
                 <Row>
                     <Col>
                     <div className="header-content">
