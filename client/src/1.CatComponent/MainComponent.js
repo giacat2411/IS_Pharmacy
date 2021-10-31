@@ -12,6 +12,7 @@ import Customer from './CustomerComponent';
 import BuyDrug from './BuyDrugComponent';
 import ViewCart from './ViewCartComponent';
 import NurseManageMedicine from './NurseManageMedicineComponent';
+import DoctorManageTreatment from './DoctorManagaTreatmentComponent';
 
 // DUNG
 import HeaderDoctor from '../4.DungComponent/Header';
@@ -70,6 +71,7 @@ class Main extends Component {
               <Route path='/customer' component={Customer} />
               <Route path='/view_cart/:cart' component={ViewMyCart}/>
               <Route path='/manage_medicine' component={NurseManageMedicine} />
+              <Route path='/manage_treatment' component={DoctorManageTreatment} />
 
               {/*---------------------------------Dung------------------------------------*/}
               <Route path='/doctor' component={DoctorPage} />
