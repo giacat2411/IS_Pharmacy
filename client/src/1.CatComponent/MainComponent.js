@@ -17,6 +17,12 @@ import NurseManageMedicine from './NurseManageMedicineComponent';
 import HeaderDoctor from '../4.DungComponent/Header';
 import Doctor from '../4.DungComponent/DoctorComponent';
 
+//PHUC
+import LoginPane from '../2.PhucComponent/loginPaneComponent';
+import SignPwd from '../2.PhucComponent/forgetpwd';
+import Profile from '../2.PhucComponent/profile';
+//NOT PHUC
+
 class Main extends Component {
   render() {
     const HomePage = () => {
@@ -37,6 +43,22 @@ class Main extends Component {
       );
     }
 
+    const Login = () => {
+      return(
+          <LoginPane />
+      );
+    }
+    const Sign = () => {
+      return(
+          <SignPwd />
+      );
+    }
+    const ProfilePage = () =>{
+      return (
+        <Profile/>
+      )
+    }
+    
     return (
       <div>
         <Switch>
@@ -52,6 +74,11 @@ class Main extends Component {
               <Route path='/manage_medicine' component={NurseManageMedicine} />
               <Route path='/doctor' component={DoctorPage} />
               <Redirect to="/home" />
+              <Route path='/login' component={Login}/>
+              <Route path='/signup' component={Sign}/>
+              <Route path='/forgetpwd' component={Sign}/>
+              <Route path='/profile' component={ProfilePage}/>
+              <Redirect to='/home' />
           </Switch>
         </div>
         <Footer />

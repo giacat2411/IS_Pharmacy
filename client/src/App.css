@@ -408,6 +408,45 @@ body {
 }
 /* ----------------------------------Phuc------------------------------------*/
 /* --------------------------------------------------------------------------*/
+
+Log{
+  min-height: 42px;
+  font-family: var(--font-family-roboto);
+  font-weight: 700;
+  color: #222221c2;
+  font-size: var(--font-size-m);
+  letter-spacing: 0;
+}
+.ava{
+width: 266px;
+height: 266px;
+left: 71px;
+top: 12px;
+border-radius: 166px;
+}
+.center{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.center_screen{
+  position: 'absolute';
+  left: '50%'; top: '50%';
+  align-items: center;
+}
+.exception{
+  font-family: Roboto;
+font-style: italic;
+font-weight: normal;
+font-size: 11px;
+line-height: 21px;
+color: #00B2FF;
+background-color: #00000000;
+}
+
+
+
 /* --------------------------------------------------------------------------*/
 /* --------------------------------------------------------------------------*/
 
