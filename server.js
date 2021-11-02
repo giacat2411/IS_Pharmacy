@@ -69,7 +69,6 @@ app.post('/regist', async (req,res)=>{
   //   }
   // )
   console.log("Successful");
-  return {A};
 });
 ///// Chanh /////
 
