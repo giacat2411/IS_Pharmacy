@@ -55,7 +55,7 @@ app.get('/api/get/drugs', (req, res) => {
 
 ///// Phuc /////
 
-import userInfo from './user';
+// import userInfo from './user';
 app.use(express.urlencoded({extended:false}))
 app.post('/login',(req,res)=>{
 res.body.phone
