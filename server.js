@@ -1,4 +1,5 @@
 const express = require("express");
+
 const mysql = require('mysql');
 
 const PORT = process.env.PORT || 4000;
@@ -26,6 +27,7 @@ const connection = mysql.createConnection({
 ////////////////////////////
 
 app.get("/api/tests", (req, res) => {
+  console.log("success");
     res.json({ message: "Hello from server!" });
   });
 
@@ -53,6 +55,22 @@ app.get('/api/get/drugs', (req, res) => {
 
 ///// Phuc /////
 
+import userInfo from './user';
+app.use(express.urlencoded({extended:false}))
+app.post('/login',(req,res)=>{
+res.body.phone
+req.body.pwd
+});
+app.post('/regist', async (req,res)=>{
+  // var sql = "INSERT INTO ACCOUNT VALUE (7,7)";
+  //   connection.query(sql, function(err, results) {
+  //     if (err) throw err;
+  //     res.json({account: results});
+  //   }
+  // )
+  console.log("Successful");
+  return {A};
+});
 ///// Chanh /////
 
 ///// Dung /////

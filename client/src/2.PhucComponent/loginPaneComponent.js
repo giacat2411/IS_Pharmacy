@@ -15,19 +15,22 @@ class LoginPane extends Component{
                 <Row><img  src='assets/images/pana.svg' xs={0.8}></img></Row>
                 </Col>
                 <Col><div>
+
+                <form action="/login" method="POST">
             <h1>Đăng Nhập</h1>
             Số điện thoại
-            <Input name="Phone" text={phone} type="number" required/>
+            <Input name="phone" text={phone} type="number" required/>
 
              Mật khẩu
             <Input name="pwd" text={pwd} type="password" required/>
             <Button className="exception">Quên mật khẩu?</Button>
             
             <Row align="center">
-            <Button onClick={this.try} color="primary" >Đăng nhập</Button>
+            <Button type="submit" color="primary" >Đăng nhập</Button>
             <Route path='/home' component={Home}/>
             </Row>
             <Button className="exception">Chưa có tài khoản? Đăng ký</Button>
+            </form>
             </div>
             </Col>
             <Col/>
