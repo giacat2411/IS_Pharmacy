@@ -14,12 +14,16 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.23.0",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "concurrently": "^6.3.0",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
+    "express-session": "^1.17.2",
     "multer": "^1.4.3",
     "mysql": "^2.18.1",
+    "react-pro-sidebar": "^0.7.1",
+    "session-file-store": "^1.5.0",
     "styled-components": "^5.3.3"
   }
 }

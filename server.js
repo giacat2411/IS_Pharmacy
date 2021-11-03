@@ -57,17 +57,24 @@ app.get('/api/get/drugs', (req, res) => {
 
 // import userInfo from './user';
 app.use(express.urlencoded({extended:false}))
-app.post('/login',(req,res)=>{
-res.body.phone
-req.body.pwd
+app.post('/regist',function(req,res){
+  var sql="INSERT INTO SYSTEM_USER (phone, firstname, dateofbirth, email, pwd) VALUES("+res.body.phone+","+res.body.name
+        +res.body.birth+","+res.body.pwd+")";
+  connection.query(sql,function(arr,results){
+    if (err)throw err;
+  }
+  )
 });
-app.post('/regist', async (req,res)=>{
-  // var sql = "INSERT INTO ACCOUNT VALUE (7,7)";
-  //   connection.query(sql, function(err, results) {
-  //     if (err) throw err;
-  //     res.json({account: results});
-  //   }
-  // )
+app.get('/login', async (req,res)=>{
+  var sql = "SELECT * FROM SYSTEM_USER WHERE phone="+req.body.phone+", pwd = "+req.body.pwd;
+  connection.query(sql, function(err, results) {
+    if (err) throw err;
+    if (!results){
+      throw ("Wrong information!");
+    }
+    res.json({users: results});
+    
+  });
   console.log("Successful");
 });
 ///// Chanh /////
