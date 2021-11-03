@@ -56,27 +56,39 @@ app.get('/api/get/drugs', (req, res) => {
 ///// Phuc /////
 
 // import userInfo from './user';
-app.use(express.urlencoded({extended:false}))
-app.post('/regist',function(req,res){
-  var sql="INSERT INTO SYSTEM_USER (phone, firstname, dateofbirth, email, pwd) VALUES("+res.body.phone+","+res.body.name
-        +res.body.birth+","+res.body.pwd+")";
-  connection.query(sql,function(arr,results){
-    if (err)throw err;
-  }
-  )
-});
-app.get('/login', async (req,res)=>{
-  var sql = "SELECT * FROM SYSTEM_USER WHERE phone="+req.body.phone+", pwd = "+req.body.pwd;
+// app.post('/regist',function(req,res){
+//   if (res.body.pwd==res.body.repwd){
+//     var sql="INSERT INTO SYSTEM_USER (phone, firstname, dateofbirth, email, pwd) VALUES("+res.body.phone+","+res.body.name
+//         +res.body.birth+","+res.body.pwd+")";
+//   connection.query(sql,function(arr,results){
+//     if (err)throw err;
+//   })
+//   }
+//   else throw ("Mật khẩu chưa khớp!")
+  
+  
+// });
+app.get('/api/get/users', (req,res)=>{
+  var sql = "SELECT * FROM SYSTEM_USER ";
   connection.query(sql, function(err, results) {
-    if (err) throw err;
-    if (!results){
-      throw ("Wrong information!");
-    }
+    try{
+      
     res.json({users: results});
     
+    }
+    catch {
+      throw (err);
+    }
   });
-  console.log("Successful");
 });
+app.get('/api/get/username', (req, res) => {
+  var sql = "SELECT * FROM system_user";
+  connection.query(sql, function(err, results) {
+    if (err) throw err;
+    res.json({users: results});
+  });
+});
+
 ///// Chanh /////
 
 ///// Dung /////
