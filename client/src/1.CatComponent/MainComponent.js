@@ -14,8 +14,8 @@ import ViewCart from './ViewCartComponent';
 import NurseManageMedicine from './NurseManageMedicineComponent';
 
 // DUNG
-import HeaderDoctor from '../4.DungComponent/Header';
 import Doctor from '../4.DungComponent/DoctorComponent';
+import Appointment from '../4.DungComponent/AppointmentComponent';
 
 //PHUC
 import LoginPane from '../2.PhucComponent/loginPaneComponent';
@@ -58,6 +58,12 @@ class Main extends Component {
         <Profile/>
       )
     }
+
+    const AppointmentPage = () => {
+      return(
+          <Appointment />
+      );
+    }
     
     return (
       <div>
@@ -73,6 +79,7 @@ class Main extends Component {
 
               {/*---------------------------------Dung------------------------------------*/}
               <Route path='/doctor' component={DoctorPage} />
+              <Route path='/appointment' component={AppointmentPage} />
 
               {/*---------------------------------Phuc------------------------------------*/}
               <Route path='/login' component={Login}/>
