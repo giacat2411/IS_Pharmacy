@@ -2,12 +2,27 @@ import React, {Component} from 'react';
 import { Container, Row, Col, Table, Nav, NavItem, NavLink, TabContent, TabPane} from 'reactstrap';
 import { Button } from 'reactstrap';
 import { Card, CardText, CardBody, CardTitle} from 'reactstrap';
+import Modal from './Modal.js';
 
 class AppointmentTable extends Component {
+    constructor() {
+        super();
+        this.state = {
+          show: false
+        };
+        this.showModal = this.showModal.bind(this);
+        this.hideModal = this.hideModal.bind(this);
+      }
+    
+      showModal = () => {
+        this.setState({ show: true });
+      };
+    
+      hideModal = () => {
+        this.setState({ show: false });
+      };
+
     render(){
-        function open(){
-            
-        }
         return(
             <Container>
                 <Table hover>
@@ -50,8 +65,11 @@ class AppointmentTable extends Component {
                             <td>
                                 @mdo
                             </td>
-                            <td>                      
-                                <button class='dung-button-dangky'>Đăng ký</button>            
+                            <td>
+                                <Modal show={this.state.show} handleClose={this.hideModal}>
+                                    <p>Bạn có chắc chắn về sự lựa chọn của mình?</p>
+                                </Modal>                      
+                                <button class='dung-button-dangky' type="button" onClick={this.showModal}>Đăng ký</button>            
                             </td>
                         </tr>
 
@@ -72,7 +90,10 @@ class AppointmentTable extends Component {
                                 @mdo
                             </td>
                             <td>
-                                <button class='dung-button-dangky'>Đăng ký</button> 
+                                <Modal show={this.state.show} handleClose={this.hideModal}>
+                                    <p>Bạn có chắc chắn về sự lựa chọn của mình?</p>
+                                </Modal>                      
+                                <button class='dung-button-dangky' type="button" onClick={this.showModal}>Đăng ký</button> 
                             </td>
                         </tr>
 
@@ -93,7 +114,10 @@ class AppointmentTable extends Component {
                                 @mdo
                             </td>
                             <td>
-                                <button class='dung-button-dangky'>Đăng ký</button> 
+                                <Modal show={this.state.show} handleClose={this.hideModal}>
+                                    <p>Bạn có chắc chắn về sự lựa chọn của mình?</p>
+                                </Modal>                      
+                                <button class='dung-button-dangky' type="button" onClick={this.showModal}>Đăng ký</button> 
                             </td>
                         </tr>
 
