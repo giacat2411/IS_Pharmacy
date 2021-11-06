@@ -65,45 +65,39 @@ app.get('/api/get/drugs', (req, res) => {
 // initPassport(passport)
 
 app.use(cookieParser());
-app.use(session({secret: "Shh, its a secret!",cookie:{expires: 60}})); // Week long cookie));
+app.use(session({secret: "key",cookie:{expires: 60}})); 
 app.get("/", (req, res) => {
   if (req.session.count){
-    req.session.user={};
-    req.session.count=0;
+    req.session={user:{},count:0,resave:false}
   }
   else req.session.count++;
   });
 app.get('/api/get/users', (req, res) => {
-  res.data=req.session.user
+  
+  res.json({user:req.session.user})
 });
 app.post('api/post/regist',(req,res)=>{
-  var sql = `INSERT INTO system_user VALUEs 
-        (${req.body.phone}, ${req.body.firstname},${req.body.lastname},
-        ${req.body.dateofbirth},${req.body.address},${req.body.email},${req.body.pwd}`
-  try {
-    connection.query(sql)
-    console.log(req.body)
-  }
-  catch{
-  res.redirect('localhost:3000/login')
-}
+  var sql = `INSERT INTO system_user (phone, firstname, lastname, dateofbirth, address, email, pwd) VALUES 
+        (${req.query.phone}," ${req.query.firstname}","${req.query.lastname}",
+        "${req.query.dateofbirth}","${req.query.address}","${req.query.email}","${req.query.pwd}")`
+    // connection.query(sql,function(err, results) {
+    //   console.log("INTO")
+    // })
+  console.log(sql)
+  // res.redirect('localhost:3000/login')
+
 })
 
 app.get('/api/get/phuc', (req, res) => { console.log(req.session)})
 
 app.get('/api/get/login', (req, res) => {
-
-  var sql = `SELECT * FROM system_user where phone=1294333157`//${req.body.phone}`
+console.log(req);
+  var sql = `SELECT * FROM system_user where phone=${req.query.phone}`
+  console.log(req)
   connection.query(sql, function(err, results) {
     res.json({users: results});
     
-    // if (length(users)==0){
-    //   res.send({message:"no account"})
-    // }
-    // else{
-      //Check pwd
-      //console.log(results)
-      req.session.user=res.json(results[0])
+      req.session.user=results[0]
       console.log(req.session)
     // }
   });

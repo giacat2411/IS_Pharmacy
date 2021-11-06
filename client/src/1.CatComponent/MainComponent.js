@@ -1,7 +1,7 @@
 // IMPORT FROM EXTERNAL
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-
+import axios from 'axios';
 // IMPORT DATA
 
 // IMPORT COMPONENTS
@@ -19,8 +19,8 @@ import Doctor from '../4.DungComponent/DoctorComponent';
 
 //PHUC
 import LoginPane from '../2.PhucComponent/loginPaneComponent';
-import SignPwd from '../2.PhucComponent/forgetpwd';
 import Profile from '../2.PhucComponent/profile';
+import SignUp from '../2.PhucComponent/Signup';
 //NOT PHUC
 
 class Main extends Component {
@@ -42,26 +42,10 @@ class Main extends Component {
           <Doctor />
       );
     }
-
-    const Login = () => {
-      return(
-          <LoginPane />
-      );
-    }
-    const Sign = () => {
-      return(
-          <SignPwd />
-      );
-    }
-    const ProfilePage = () =>{
-      return (
-        <Profile/>
-      )
-    }
     
     return (
       <div>
-        <Header />
+        <Header/>
         <div>
           <Switch>
               {/*---------------------------------Cat------------------------------------*/}
@@ -75,10 +59,9 @@ class Main extends Component {
               <Route path='/doctor' component={DoctorPage} />
 
               {/*---------------------------------Phuc------------------------------------*/}
-              <Route path='/login' component={Login}/>
-              <Route path='/signup' component={Sign}/>
-              <Route path='/forgetpwd' component={Sign}/>
-              <Route path='/profile' component={ProfilePage}/>
+              {/* <Route path='/login' component={LoginPane}/> */}
+              {/* <Route path='/signup' component={SignUp}/> */}
+              {/* <Route path='/profile' component={Profile}/> */}
 
               {/*---------------------------------Chanh------------------------------------*/}
 
