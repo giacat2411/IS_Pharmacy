@@ -26,25 +26,21 @@ class SignUp extends Component{
       }
     
     subReg(){
-        // console.log("BUG")
-        // const str=this.state.firstname
-        // const arr=str.split(',');
-        // this.setState({lastname:arr.pop()})
-        // this.setState({firstname:arr.shift()})
-        // if (this.state.pwd!=this.state.repwd){
-        //     alert("Hãy kiểm tra lại mật khẩu!")
-        // }
-        // axios.post('/api/post/regist')
-
-
-
-
-
-        // .then(res => {
-        //    const users = res.data;
-        //    this.setState({ user: users.users});
-        // //    console.log(this.state.user);
-        //  })
+        const str=this.state.firstname
+        const arr=str.split(',');
+        this.setState({lastname:arr.pop()})
+        this.setState({firstname:arr.shift()})
+        if (this.state.pwd!=this.state.repwd){
+            alert("Hãy kiểm tra lại mật khẩu!")
+        }
+        axios.post('/api/post/regist',{
+            params:this.state
+        })
+        .then(res => {
+           const users = res.data;
+           this.setState({ user: users.users});
+        //    console.log(this.state.user);
+         })
     }
     
     render(){

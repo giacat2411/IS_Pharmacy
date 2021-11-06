@@ -62,10 +62,9 @@ app.get('/api/get/drugs', (req, res) => {
 });
 
 ///// Phuc /////
-// initPassport(passport)
 
 app.use(cookieParser());
-app.use(session({secret: "key",cookie:{expires: 60}})); 
+app.use(session({secret: "key",cookie:{expires: TIMEOUT}})); 
 app.get("/", (req, res) => {
   if (req.session.count){
     req.session={user:{},count:0,resave:false}
@@ -77,14 +76,13 @@ app.get('/api/get/users', (req, res) => {
   res.json({user:req.session.user})
 });
 app.post('api/post/regist',(req,res)=>{
+  console.log(req.session)
   var sql = `INSERT INTO system_user (phone, firstname, lastname, dateofbirth, address, email, pwd) VALUES 
         (${req.query.phone}," ${req.query.firstname}","${req.query.lastname}",
         "${req.query.dateofbirth}","${req.query.address}","${req.query.email}","${req.query.pwd}")`
-    // connection.query(sql,function(err, results) {
-    //   console.log("INTO")
-    // })
-  console.log(sql)
-  // res.redirect('localhost:3000/login')
+     connection.query(sql,function(err, results) {
+alert("INTO")
+    });
 
 })
 
@@ -153,4 +151,27 @@ console.log(req);
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+const knex = require('knex')({
+  client: 'mysql',
+  connection: {
+    host : '127.0.0.1',
+    port : 4000,
+    user: 'root',
+    password: '123456',
+    database: 'pharmacy'
+  }
 });

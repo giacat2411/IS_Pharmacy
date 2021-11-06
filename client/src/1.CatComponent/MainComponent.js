@@ -59,9 +59,9 @@ class Main extends Component {
               <Route path='/doctor' component={DoctorPage} />
 
               {/*---------------------------------Phuc------------------------------------*/}
-              {/* <Route path='/login' component={LoginPane}/> */}
-              {/* <Route path='/signup' component={SignUp}/> */}
-              {/* <Route path='/profile' component={Profile}/> */}
+              <Route path='/login' component={LoginPane}/>
+              <Route path='/signup' component={SignUp}/>
+              <Route path='/profile' component={Profile}/>
 
               {/*---------------------------------Chanh------------------------------------*/}
 
