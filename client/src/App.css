@@ -29,7 +29,7 @@ body {
   width: 100%;
 }
 
-.btn-primary {
+.calendar  {
   border-radius: 55px !important;
 }
 
@@ -77,6 +77,7 @@ body {
 
 .footer {
   background-color: #5B9BF3;
+  clear: both;
 }
 .footer-header {
   font-size: 15px;
@@ -86,12 +87,364 @@ body {
 
 .footer-content {
   color: #F6F8FD;
-  font-size: 10px;
+  font-size: 15px;
+}
+
+.cat-cushome-header {
+  font-size: 30px;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.cat-customer-item-left {
+  width: 250px;
+  height: 250px;
+  margin-right: auto;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.cat-customer-item-right {
+  width: 250px;
+  height: 250px;
+  margin-left: auto;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.cat-customer-img {
+  margin: auto;
+  margin-top: 50px
+}
+
+.cat-customer-text {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.cat-customer-item-link {
+  text-decoration: none;
+  color: black;
+}
+
+.cat-customer-item-link:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.drug-item, .modal-drug-item{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 20px;
+}
+.drug-img, .modal-drug-img {
+  margin: auto;
+  margin-top: 5px
+}
+
+.drug-text, .modal-drug-text {
+  font-size: 15px;
+  height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.modal-drug-text {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 15px;
+  height: fit-content
 }
 
 
+.drug-title, .modal-drug-title {
+  color: #7C7C7C;
+  height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  font-size: 12px;
+}
+
+.modal-drug-title {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.modal-add-button {
+  margin: auto;
+  background-color: #62AFFC;
+  color: white;
+  font-weight: bold;
+  border: 1px white;
+  border-radius: 20px;
+  height: 67px;
+  font-size: 20px;
+  margin-top: 10px;
+  width: 466px;
+}
+
+.modal-add-button:hover {
+  background-color: #62AFFC;
+}
+
+.drug-price-add, .modal-drug-price-add {
+  margin-top: 10px;
+}
+
+.drug-price {
+  font-size: 15px;
+  width: 10px;
+  font-weight: bold;
+}
+
+.modal-item-content {
+  margin-top: 10px;
+  position: relative;
+}
+
+.modal-adjust-item, .modal-add-item, .modal-number-item{
+  float: left;
+  width: 17px;
+  text-align: center;
+  font-size: 20px;
+  margin-right: 15px;
+  padding-top: 5px
+}
+
+.modal-number-item {
+  width: 45.67px;
+  height: 45.67px;
+  border: 1px solid;
+  border-radius: 17px;
+}
+
+
+.modal-drug-price {
+  margin-top: 0px;
+  position: absolute;
+  font-size: 25px;
+  font-weight: bold;
+  right: 0px
+}
+
+.drug-add-item {
+  position: absolute;
+  right: 10px;
+  bottom: 14px;
+}
+
+.drug-add-item-img:hover {
+  cursor: pointer;
+}
+
+.search-drug-bar {
+  background-color: #D8EDFD;
+}
+
+.search {
+  margin-left: 5px;
+}
+
+.search-1 {
+  margin-top: 1px;
+  font-size: 12px;
+}
+
+.search-2 {
+  margin-top: -17px;
+  font-weight: bold;
+}
+
+.show-category {
+  margin-top: 23px;
+  margin-left: 2px
+}
+
+.cart {
+  position: relative;
+}
+
+.buy-cart {
+  font-size: 40px;
+}
+
+.buy-cart-item {
+  position: absolute;
+  background-color: #62AFFC;
+  color: white;
+  border-radius: 55%;
+  width: 20px;
+  text-align: center;
+  font-weight: bold;
+  left: 27px;
+  top: -1px
+}
+
+.search-bar {
+  width: 560px;
+  margin-left: 30px;
+  border-radius: 0px;
+}
+
+.search-button {
+  height: 38px;
+  width: 90px;
+  text-align: center;
+}
+
+.search-button-text {
+  margin-top: 15px;
+  color: white
+}
+
+.not-found {
+  font-size: 30px;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.cart-item {
+  position: relative;
+  border: 1px solid;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+.cart-header {
+  font-size: 30px;
+  text-align: center;
+  font-weight: bold;
+  margin: 30px 0px 30px 0px;
+}
+
+.cart-button {
+  position: relative;
+  background-color: #62AFFC;
+  border: 1px #62AFFC;
+  border-radius: 10px;
+  width: 300px;
+  height: 55px;
+  font-weight: bold;
+  font-size: 20px;
+  margin: auto;
+  margin-bottom: 20px;
+  margin-top: 5px
+}
+
+.cart-button:hover {
+  background-color: #62AFFC;
+  color: white;
+}
+
+.cart-total {
+  position: absolute;
+  padding: 1px;
+  font-size: 12px;
+  width: 65px;
+  height: 22px;
+  background-color: #1E8EFE;
+  border-radius: 4px;
+  top: 35%;
+  right: 10px
+}
+
+.cart-item-img {
+  float: left;
+  margin-right: 20px;
+}
+
+.cart-item-name {
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 5px;
+}
+
+.cart-item-content {
+  font-weight: bold;
+  color: #7C7C7C;
+  margin-top: 10px
+}
+
+.cart-item-number {
+  margin-left: 200px;
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.cart-item-price {
+  position: absolute;
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+  right: 33px;
+  bottom: 18px;
+
+}
+
+.pro-sidebar > .pro-sidebar-inner, .pro-sidebar .pro-menu.shaped .pro-menu-item > .pro-inner-item > .pro-icon-wrapper,
+.pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item {
+  background-color: #BDE0FF;
+}
+
+.pro-sidebar, .pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item:hover {
+  color: black;
+}
+
+.pro-sidebar {
+  float: left;
+}
+
+.pro-item-content:not(:hover), .pro-icon-wrapper:not(:hover) {
+  color: black;
+}
 /* ----------------------------------Phuc------------------------------------*/
 /* --------------------------------------------------------------------------*/
+
+Log{
+  min-height: 42px;
+  font-family: var(--font-family-roboto);
+  font-weight: 700;
+  color: #222221c2;
+  font-size: var(--font-size-m);
+  letter-spacing: 0;
+}
+.ava{
+width: 266px;
+height: 266px;
+left: 71px;
+top: 12px;
+border-radius: 166px;
+}
+.center{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.center_screen{
+  position: 'absolute';
+  left: '50%'; top: '50%';
+  align-items: center;
+}
+.exception{
+  font-family: Roboto;
+font-style: italic;
+font-weight: normal;
+font-size: 11px;
+line-height: 21px;
+color: #00B2FF;
+background-color: #00000000;
+}
+
 /* --------------------------------------------------------------------------*/
 /* --------------------------------------------------------------------------*/
 
@@ -106,3 +459,43 @@ body {
 /* --------------------------------------------------------------------------*/
 /* --------------------------------------------------------------------------*/
 /* --------------------------------------------------------------------------*/
+.dung-title{
+  text-align: center;
+  padding: 5% 0%;
+}
+
+.dung-service-item{
+  height: 20rem;
+  width: 20rem;
+  border-radius: 5%;
+  align-items: center;
+}
+
+.dung-imgfor-doctor{
+  padding-top: 20%;
+}
+
+.dung-service-item div.card-body{
+  padding: 20% 0%;
+}
+
+
+div.doctor-service.row{
+  padding: 1.5%;
+  display: inline-flex;
+}
+
+div.dung-doctor-row1{
+  text-align: center;
+}
+
+div.dung-doctor-row2{
+  text-align: center;
+  padding-bottom: 5%;
+} 
+
+div.dung-title hr{
+  background-color: #000000;
+  width: 10%;
+}
+

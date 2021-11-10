@@ -8,6 +8,20 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Home from './HomeComponent';
+import Customer from './CustomerComponent';
+import BuyDrug from './BuyDrugComponent';
+import ViewCart from './ViewCartComponent';
+import NurseManageMedicine from './NurseManageMedicineComponent';
+
+// DUNG
+import HeaderDoctor from '../4.DungComponent/Header';
+import Doctor from '../4.DungComponent/DoctorComponent';
+
+//PHUC
+import LoginPane from '../2.PhucComponent/loginPaneComponent';
+import SignPwd from '../2.PhucComponent/forgetpwd';
+import Profile from '../2.PhucComponent/profile';
+//NOT PHUC
 
 class Main extends Component {
   render() {
@@ -17,13 +31,59 @@ class Main extends Component {
       );
     }
 
+    const ViewMyCart = ({match}) => {
+      return(
+        <ViewCart cart = {JSON.parse(match.params.cart)} />
+      )
+    }
+
+    const DoctorPage = () => {
+      return(
+          <Doctor />
+      );
+    }
+
+    const Login = () => {
+      return(
+          <LoginPane />
+      );
+    }
+    const Sign = () => {
+      return(
+          <SignPwd />
+      );
+    }
+    const ProfilePage = () =>{
+      return (
+        <Profile/>
+      )
+    }
+    
     return (
       <div>
         <Header />
         <div>
           <Switch>
+              {/*---------------------------------Cat------------------------------------*/}
               <Route path='/home' component={HomePage} />
-              <Redirect to="/home" />
+              <Route path='/buydrug' component={BuyDrug} />
+              <Route path='/customer' component={Customer} />
+              <Route path='/view_cart/:cart' component={ViewMyCart}/>
+              <Route path='/manage_medicine' component={NurseManageMedicine} />
+
+              {/*---------------------------------Dung------------------------------------*/}
+              <Route path='/doctor' component={DoctorPage} />
+
+              {/*---------------------------------Phuc------------------------------------*/}
+              <Route path='/login' component={Login}/>
+              <Route path='/signup' component={Sign}/>
+              <Route path='/forgetpwd' component={Sign}/>
+              <Route path='/profile' component={ProfilePage}/>
+
+              {/*---------------------------------Chanh------------------------------------*/}
+
+
+              <Redirect to='/home' />
           </Switch>
         </div>
         <Footer />
@@ -33,3 +93,4 @@ class Main extends Component {
 }
 
 export default Main;
+

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Navbar, NavbarBrand, Nav, NavItem, 
-        Collapse, NavbarToggler } from 'reactstrap';
-import { FaHome, FaRegCalendarAlt, FaInfo, FaUserPlus, FaSignInAlt } from "react-icons/fa";
-import { NavLink } from 'react-router-dom';
+        NavLink, Collapse, NavbarToggler } from 'reactstrap';
+import { FaHome, FaRegCalendarAlt, FaInfo, FaUserPlus, FaSignOutAlt} from "react-icons/fa";
 
-class Header extends Component {
+
+class HeaderDoctor extends Component {
     render(){
         return(
             <Navbar dark expand="md">
@@ -14,7 +14,7 @@ class Header extends Component {
                 <Collapse navbar>
                     <Nav navbar>
                         <NavItem>
-                            <NavLink className="nav-link"  to='/home'><FaHome /> Trang chủ</NavLink>
+                            <NavLink className="nav-link"  to='/'><FaHome /> Trang chủ</NavLink>
                         </NavItem>
                         <NavItem>
                             <NavLink className="nav-link" to='/'><FaRegCalendarAlt /> Lịch làm việc</NavLink>
@@ -26,10 +26,10 @@ class Header extends Component {
 
                     <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <NavLink className="nav-link" to='/signup'> <FaUserPlus/> Đăng ký </NavLink>
+                            <NavLink className="nav-link" to='/'> <img src='assets/images/doctor.png' height="26px" width="26px" alt='Doctor'  /> Hươu cao cổ </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink className="nav-link" to='/login'> <FaSignInAlt /> Đăng nhập </NavLink>
+                            <NavLink className="nav-link" to='/'> <FaSignOutAlt /> Đăng xuất </NavLink>
                         </NavItem>
                             </Nav>
                 </Collapse>
@@ -39,4 +39,4 @@ class Header extends Component {
     }
 }
 
-export default Header;
+export default HeaderDoctor;
