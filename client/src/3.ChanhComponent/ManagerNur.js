@@ -3,18 +3,14 @@ import { Container, Row, Col } from 'reactstrap';
 <<<<<<< Updated upstream
 import DoctorSideBar from './DoctorSideBarComponent';
 =======
-// import DoctorseSideBar from './DoctorSideBarComponent';
+import DoctorseSideBar from './DoctorSideBarComponent';
 >>>>>>> Stashed changes
 
 class ManagerNur extends Component {
     render() {
         return(
             <div>
-<<<<<<< Updated upstream
                 <DoctorSideBar />
-=======
-                {/* <DoctorSideBar /> */}
->>>>>>> Stashed changes
                 <Container>
                     <Row>
                         <Col> Danh sách điều dưỡng </Col>
