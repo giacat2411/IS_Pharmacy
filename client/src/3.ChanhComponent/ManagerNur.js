@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import NurseSideBar from './NurseSideBarComponent';
+<<<<<<< Updated upstream
+import DoctorSideBar from './DoctorSideBarComponent';
+=======
+// import DoctorseSideBar from './DoctorSideBarComponent';
+>>>>>>> Stashed changes
 
 class ManagerNur extends Component {
     render() {
         return(
             <div>
-                <NurseSideBar />
+<<<<<<< Updated upstream
+                <DoctorSideBar />
+=======
+                {/* <DoctorSideBar /> */}
+>>>>>>> Stashed changes
                 <Container>
                     <Row>
-                        <Col> Danh sách đơn thuốc </Col>
-                        <Col> Tìm đơn thuốc </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                        Các đơn thuốc
-                        </Col>
+                        <Col> Danh sách điều dưỡng </Col>
+                        <Col> Tìm thông tin điều dưỡng </Col>
                     </Row>
                 </Container>
             </div>
