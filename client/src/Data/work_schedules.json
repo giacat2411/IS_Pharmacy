@@ -1,0 +1,142 @@
+[
+    {
+        "doctor_phone": 677604815,
+        "day": 2,
+        "session": "S"
+    },
+    {
+        "doctor_phone": 196032156,
+        "day": 2,
+        "session": "S"
+    },
+    {
+        "doctor_phone": 251178364,
+        "day": 2,
+        "session": "C"
+    },
+    {
+        "doctor_phone": 677604815,
+        "day": 2,
+        "session": "C"
+    },
+    {
+        "doctor_phone": 251178364,
+        "day": 3,
+        "session": "S"
+    },
+    {
+        "doctor_phone": 677604815,
+        "day": 3,
+        "session": "S"
+    },
+    {
+        "doctor_phone": 433419089,
+        "day": 3,
+        "session": "C"
+    },
+    {
+        "doctor_phone": 186592617,
+        "day": 3,
+        "session": "C"
+    },
+    {
+        "doctor_phone": 196032156,
+        "day": 4,
+        "session": "S"
+    },
+    {
+        "doctor_phone": 677604815,
+        "day": 4,
+        "session": "S"
+    },
+    {
+        "doctor_phone": 415531371,
+        "day": 4,
+        "session": "C"
+    },
+    {
+        "doctor_phone": 289701658,
+        "day": 4,
+        "session": "C"
+    },
+    {
+        "doctor_phone": 196032156,
+        "day": 5,
+        "session": "S"
+    },
+    {
+        "doctor_phone": 677604815,
+        "day": 5,
+        "session": "S"
+    },
+    {
+        "doctor_phone": 677604815,
+        "day": 5,
+        "session": "C"
+    },
+    {
+        "doctor_phone": 566134806,
+        "day": 5,
+        "session": "C"
+    },
+    {
+        "doctor_phone": 186592617,
+        "day": 6,
+        "session": "S"
+    },
+    {
+        "doctor_phone": 736026591,
+        "day": 6,
+        "session": "S"
+    },
+    {
+        "doctor_phone": 217436678,
+        "day": 6,
+        "session": "C"
+    },
+    {
+        "doctor_phone": 960734370,
+        "day": 6,
+        "session": "C"
+    },
+    {
+        "doctor_phone": 528090195,
+        "day": 7,
+        "session": "S"
+    },
+    {
+        "doctor_phone": 76817658,
+        "day": 7,
+        "session": "S"
+    },
+    {
+        "doctor_phone": 433419089,
+        "day": 7,
+        "session": "C"
+    },
+    {
+        "doctor_phone": 289701658,
+        "day": 7,
+        "session": "C"
+    },
+    {
+        "doctor_phone": 289701658,
+        "day": 8,
+        "session": "S"
+    },
+    {
+        "doctor_phone": 960734370,
+        "day": 8,
+        "session": "S"
+    },
+    {
+        "doctor_phone": 433419089,
+        "day": 8,
+        "session": "C"
+    },
+    {
+        "doctor_phone": 217436678,
+        "day": 8,
+        "session": "C"
+    }
+]
