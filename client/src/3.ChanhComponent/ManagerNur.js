@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import DoctorSideBar from './DoctorSideBarComponent';
 
-class ViewSchedule extends Component {
+class ManagerNur extends Component {
     render() {
         return(
             <div>
@@ -18,4 +18,4 @@ class ViewSchedule extends Component {
     }
 }
 
-export default ViewSchedule;
+export default ManagerNur;
