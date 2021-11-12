@@ -1,7 +1,6 @@
 import './App.css';
 import { Component } from 'react';
-//import Main from './1.CatComponent/MainComponent';
-import Main from './3.ChanhComponent/ManagerNur';
+import Main from './1.CatComponent/MainComponent';
 import { BrowserRouter } from 'react-router-dom';
 
 class App extends Component {
