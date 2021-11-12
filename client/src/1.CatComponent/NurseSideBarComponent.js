@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarContent, SidebarFooter, SidebarHeader } from 'react-pro-sidebar';
 import { FaGem, FaHeart, FaGithub } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 class NurseSideBar extends Component {
     render(){
@@ -26,10 +27,19 @@ class NurseSideBar extends Component {
                 </SidebarHeader>
                 <SidebarContent>
                     <Menu iconShape="square">
-                        <MenuItem icon={<FaHeart />}>Quản lý thuốc</MenuItem>
+                        <MenuItem icon={<FaHeart />}>
+                            Quản lý thuốc
+                            <Link to='/manage_drug' />
+                        </MenuItem>
                         <SubMenu title="Quản lý đơn thuốc" icon={<FaHeart />}>
-                            <MenuItem>Xem thông tin đơn thuốc</MenuItem>
-                            <MenuItem>Thống kê doanh thu</MenuItem>
+                            <MenuItem> 
+                                Xem thông tin đơn thuốc 
+                                <Link to='/view_order' />
+                            </MenuItem>
+                            <MenuItem>
+                                Thống kê doanh thu
+                                <Link to='/statistic_order' />
+                            </MenuItem>
                         </SubMenu>
                         <SubMenu title="Quản lý lịch khám" icon={<FaHeart />}>
                             <MenuItem>Tạo lịch khám</MenuItem>

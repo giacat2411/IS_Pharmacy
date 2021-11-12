@@ -54,17 +54,17 @@ class ManageDrug extends Component {
         axios.get('/api/get/drugs')
             .then(res => {
                const newdrugs = res.data.drugs; 
-               this.setState({drugs: newdrugs});
+               this.setState({drugs: newdrugs, display_drugs: newdrugs});
             })
         .catch(error => console.log(error));
     }
 
     render() {   
-        const Add = <AddDrug />;
+        const Add = <AddDrug drugs = {this.state.drugs} getDrugs = {this.getDrugs}/>;
         const View = <ViewDrug drugs = {this.state.drugs} drug_open = {this.state.drug_open}
                                display_drugs = {this.state.display_drugs} 
                                changeDisplayDrug = {this.changeDisplayDrug}
-                               changeDrugOpen = {this.changeDrugOpen}/>; 
+                               changeDrugOpen = {this.changeDrugOpen} getDrugs = {this.getDrugs}/>; 
         return(
             <>
                 <NurseSideBar />

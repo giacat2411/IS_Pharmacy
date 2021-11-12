@@ -51,6 +51,20 @@ app.get('/api/get/drugs', (req, res) => {
   });
 });
 
+app.get('/api/get/orders', (req, res) => {
+  var sql = "select id, created_date, patient_phone, concat(lastname,' ', firstname) as full_name,"
+      + " sum(include.quantity * drug.price) as total"
+      + " from  (medicine join purchase_medicine on id = purchase_id)" 
+      + " join system_user on (patient_phone = phone) join include on (purchase_id = medicine_id)"
+      + " natural join drug"
+      + " group by id, created_date, patient_phone, firstname, lastname;";
+
+  connection.query(sql, function(err, results) {
+    if (err) throw err;
+    res.json({orders: results});
+  });
+});
+
 ///// Phuc /////
 
 ///// Chanh /////
@@ -70,6 +84,7 @@ app.post('/api/update/drug_quantity', function(req, res) {
           + "SET REMAIN = " + req.body.quantity 
           + " WHERE DRUG_NAME = '"
           +   req.body.drug.drug_name + "'";
+  console.log(sql);
   connection.query(sql, function (err, results) {
     if(err) throw err;
     res.json({news: results});
@@ -104,6 +119,19 @@ app.post('/api/update/drug_quantity', function(req, res) {
 
 
 ///// Cat /////
+app.post('/api/insert/drug', function(req, res) {
+  var sql = "INSERT INTO DRUG(drug_name, unit, price, remain) VALUE "
+          + "('" + req.body.drug_name + "',"
+          + "'" + req.body.unit + "',"
+          + req.body.price + ","
+          + req.body.remain + ")"
+
+  console.log(sql);
+  connection.query(sql, function (err, results) {
+    if(err) throw err;
+    res.json({news: results});
+  });
+});
 
 ///// Phuc /////
 

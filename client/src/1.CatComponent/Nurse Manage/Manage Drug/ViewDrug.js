@@ -12,11 +12,18 @@ class ViewDrug extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isModelOpen: false
+            isModelOpen: false,
+            isAgreeModelOpen: false
         }
         this.onInputDrugName = this.onInputDrugName.bind(this);
         this.onToggleModel = this.onToggleModel.bind(this);
+        this.onToggleAgreeModel = this.onToggleAgreeModel.bind(this);
         this.add_num_drugs = this.add_num_drugs.bind(this);
+        this.check_quantity = this.check_quantity.bind(this);
+    }
+
+    onToggleAgreeModel() {
+        this.setState({isAgreeModelOpen: !this.state.isAgreeModelOpen})
     }
 
     onToggleModel(drug, flag) {
@@ -25,14 +32,24 @@ class ViewDrug extends Component {
             isModelOpen: !this.state.isModelOpen});
     }
 
+    check_quantity() {
+        if (this.drugs_quantity.value <= 0) {
+            alert('Vui lòng nhập số lớn hơn 0');
+            return false;
+        }
+        return true;
+    }
+
     add_num_drugs() {
         const item = {
-            drug: this.props.drug_open,
-            quantity: parseInt(this.drugs_quantity.value) + parseInt(this.props.drug_open.remain)
+        drug: this.props.drug_open,
+        quantity: parseInt(this.drugs_quantity.value) + parseInt(this.props.drug_open.remain)
         }
         console.log(item);
         axios.post('/api/update/drug_quantity', item)
             .then().catch(error => console.log(error));
+        this.props.getDrugs();
+        
     }
     
     onInputDrugName() {
@@ -48,7 +65,7 @@ class ViewDrug extends Component {
     }
 
     render() {
-        const display_drugs = this.props.drugs.map((drug) => {
+        const display_drugs = this.props.display_drugs.map((drug) => {
             return (
                 <tr>
                 <th scope="row">
@@ -76,11 +93,13 @@ class ViewDrug extends Component {
 
         return (
             <Container>
-                    <Row className="manage-order-heading">
-                        <Col className='manage-order-header'> Danh sách sản phẩm thuốc </Col>
+                    <Row className="manage-drug-heading">
+                        <Col className='manage-drug-header'> Danh sách sản phẩm thuốc </Col>
                         <Col>
                             <Row>
-                                <Form className="search-drug1-bar" onSubmit={e => {e.preventDefault();}}>
+                                <Form className="search-drug1-bar" 
+                                    onSubmit={e => {e.preventDefault(); this.onInputDrugName();}}
+                                    autocomplete="off">
                                     <FormGroup>
                                         <Input className="search-box" id="search" name="search-drugs" placeholder="Nhập tên thuốc"
                                         innerRef={(input) => this.search_item = input} />
@@ -130,16 +149,50 @@ class ViewDrug extends Component {
                         <ModalBody>
                             <Container>
                                 <Row>
-                                <Form className="search-drug1-bar" onSubmit={e => {e.preventDefault();}}>
+                                <Form className="search-drug1-bar"  
+                                    onSubmit={e => {e.preventDefault(); if (this.check_quantity()) this.onToggleAgreeModel(); }}
+                                    autocomplete="off">
                                     <FormGroup>
                                         <Input className="search-box" id="search" name="search-drugs" placeholder="Nhập số lượng"
                                         innerRef={(input) => this.drugs_quantity = input} />
                                     </FormGroup>
                                 </Form> 
-                                <Button className="search-drug-button" onClick={() => {this.onToggleModel("",false); this.add_num_drugs();}}>
+                                <Button className="search-drug-button" onClick={() => {if (this.check_quantity()) this.onToggleAgreeModel(); }}>
                                     <FaSearch /> Nhập <span style={{textTransform: 'lowercase'}}> hàng </span>
                                 </Button>
                                 </Row>
+                            </Container>
+                        </ModalBody>
+                    </Modal>
+                    <Modal isOpen={this.state.isAgreeModelOpen} toggle={this.onToggleAgreeModel} centered>
+                        <ModalHeader>
+                        Bạn có chắc chắn không ?
+                        </ModalHeader>
+                        <ModalBody>
+                            <Container>
+                            <Row>
+                                <Col>
+                                <Button className="search-drug-button" 
+                                        onClick={() => {
+                                                        alert('Nhập hàng thành công');
+                                                        this.onToggleModel("", false); 
+                                                        this.onToggleAgreeModel(); 
+                                                        this.add_num_drugs();
+                                                        }}>
+                                            Có
+                                </Button>
+                                </Col>
+                                <Col>
+                                <Button className="search-drug-button" 
+                                        onClick={() => {
+                                                        alert('Nhập hàng thất bại');
+                                                        this.onToggleModel("", false); 
+                                                        this.onToggleAgreeModel();
+                                                        }}>
+                                            Không
+                                </Button>
+                                </Col>
+                            </Row>
                             </Container>
                         </ModalBody>
                     </Modal>
