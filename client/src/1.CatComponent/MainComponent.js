@@ -21,10 +21,13 @@ import Doctor from '../4.DungComponent/DoctorComponent';
 import LoginPane from '../2.PhucComponent/loginPaneComponent';
 import Profile from '../2.PhucComponent/profile';
 import SignUp from '../2.PhucComponent/Signup';
+//TODO: Context user with role
+
 //NOT PHUC
 
 class Main extends Component {
   render() {
+
     const HomePage = () => {
       return(
           <Home />
@@ -42,6 +45,8 @@ class Main extends Component {
           <Doctor />
       );
     }
+
+
     
     return (
       <div>

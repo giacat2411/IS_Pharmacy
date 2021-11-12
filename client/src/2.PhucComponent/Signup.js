@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Input, Row, Col,Button } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 class SignUp extends Component{
     constructor(props) {
@@ -61,7 +62,7 @@ class SignUp extends Component{
                     Xác nhận mật khẩu
                     <Input name="repwd" defaultValue={this.state.repwd} onChange={this.handleChange} type="password" required/>
                     
-                    <Button onClick={this.subReg} type='submit' color="primary">Đăng ký</Button>
+                    <Button onClick={this.subReg} type='submit' color="primary"> <NavLink className="nav-link" to='/login'>Đăng ký</NavLink></Button>
                 
             <Button className="exception">Bạn muốn đăng nhập</Button>
             </form>

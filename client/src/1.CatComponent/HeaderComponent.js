@@ -1,33 +1,43 @@
 import React, { Component } from 'react';
 import { Navbar, NavbarBrand, Nav, NavItem, 
         Collapse, NavbarToggler } from 'reactstrap';
-import { FaHome, FaRegCalendarAlt, FaInfo, FaUserPlus, FaSignInAlt } from "react-icons/fa";
+import { FaHome, FaRegCalendarAlt, FaInfo, FaUserPlus, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+
+
+import LogButton from './LogButton';
+// import {HeaderDefine, ThingsProvider} from './Context';
+// import HeaderDefine from '../2.PhucComponent/Context';
+
 
 class Header extends Component {
     constructor(props) {
         super(props);
         this.state={
-            user:{
-                phone: "0",
-                firstname:"Guest",
-                lastname:"",
-                dateofbirth:'01/01/2001', 
-                address: "HCM", 
-                email:'phuc@gmail.com', 
-                pwd:'123456',
-            }
+            //user:HeaderDefine.user,
+
+            // {
+            //     phone: "0",
+            //     firstname:"Guest",
+            //     lastname:"",
+            //     dateofbirth:'01/01/2001', 
+            //     address: "HCM", 
+            //     email:'phuc@gmail.com', 
+            //     pwd:'123456',
+            // }
         }
+        // this.setState(user.pwd='123456')
     }
-    componentDidMount(){
-        axios.get('/api/get/users').then(res =>{
-            const users = res.data;
-           this.setState({ user: users.users});
-        //    console.log(this.state.user);
-        })
-    }
+    // componentDidMount(){
+    //     axios.get('/api/get/users').then(res =>{
+    //         const users = res.data;
+    //        this.setState({ user: users.users});
+    //     //    console.log(this.state.user);
+    //     })
+    // }
     render(){
+
         return(
             <Navbar dark expand="md">
             <div className="container">
@@ -45,15 +55,7 @@ class Header extends Component {
                             <NavLink className="nav-link"  to='/'><FaInfo /> Liên hệ</NavLink>
                         </NavItem>
                     </Nav>
-
-                    <Nav className="ml-auto" navbar>
-                        <NavItem>
-                            <NavLink className="nav-link" to='/signup'> <FaUserPlus/> Đăng ký </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink className="nav-link" to='/login'> <FaSignInAlt /> Đăng nhập </NavLink>
-                        </NavItem>
-                            </Nav>
+                    <LogButton/>
                 </Collapse>
             </div>
         </Navbar>
