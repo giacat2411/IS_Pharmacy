@@ -14,7 +14,7 @@ class Home extends Component{
                     <Col> <a href='/doctor'> Giao diện bác sĩ </a></Col>
                 </Row>
                 <Row>
-                    <Col> <a href='/manage_medicine'> Quản lý đơn thuốc </a></Col>
+                    <Col> <a href='/manage_drug'> Quản lý thuốc </a></Col>
                 </Row>
                 <Row>
                     <Col> <a href='/manage_treatment'> Quản lý lượt điều trị </a></Col>

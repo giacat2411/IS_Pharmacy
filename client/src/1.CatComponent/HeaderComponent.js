@@ -10,7 +10,7 @@ class Header extends Component {
             <Navbar dark expand="md">
             <div className="container">
                 <NavbarToggler/>
-                <NavbarBrand className="mr-auto" href="/"><img src='assets/images/Logo.png' height="38px" width="38px" alt='HealthCare' /></NavbarBrand>
+                <NavbarBrand className="mr-auto" href="/"><img src='/assets/images/Logo.png' height="38px" width="38px" alt='HealthCare' /></NavbarBrand>
                 <Collapse navbar>
                     <Nav navbar>
                         <NavItem>

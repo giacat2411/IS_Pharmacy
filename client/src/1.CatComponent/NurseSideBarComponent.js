@@ -21,12 +21,12 @@ class NurseSideBar extends Component {
                         }}
                         >
                         <img style={{'margin-right': '5px', 'margin-top': '-5px'}} height="45.88px" width="45px" src="/assets/images/sub_logo.png" /> 
-                        <span> Tính năng điều dưỡng </span>
+                        <span> Điều dưỡng </span>
                     </div>
                 </SidebarHeader>
                 <SidebarContent>
                     <Menu iconShape="square">
-                        <MenuItem icon={<FaGem />}>Quản lý thuốc</MenuItem>
+                        <MenuItem icon={<FaHeart />}>Quản lý thuốc</MenuItem>
                         <SubMenu title="Quản lý đơn thuốc" icon={<FaHeart />}>
                             <MenuItem>Xem thông tin đơn thuốc</MenuItem>
                             <MenuItem>Thống kê doanh thu</MenuItem>

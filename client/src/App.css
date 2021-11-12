@@ -401,6 +401,9 @@ body {
 
 .pro-sidebar {
   float: left;
+  top: 0;
+  position: sticky;
+  height: 100vh;
 }
 
 .pro-item-content:not(:hover), .pro-icon-wrapper:not(:hover) {

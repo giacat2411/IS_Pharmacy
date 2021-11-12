@@ -65,6 +65,17 @@ app.get('/api/get/drugs', (req, res) => {
 
 ///// Cat /////
 
+app.post('/api/update/drug_quantity', function(req, res) {
+  var sql = "UPDATE DRUG "
+          + "SET REMAIN = " + req.body.quantity 
+          + " WHERE DRUG_NAME = '"
+          +   req.body.drug.drug_name + "'";
+  connection.query(sql, function (err, results) {
+    if(err) throw err;
+    res.json({news: results});
+  });
+});
+
 ///// Phuc /////
 
 ///// Chanh /////

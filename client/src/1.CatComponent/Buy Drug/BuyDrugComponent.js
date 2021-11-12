@@ -36,7 +36,9 @@ class BuyDrug extends Component {
     }
 
     addItem() {
-        this.setState({
+        if (this.state.nums_item_open >= this.state.item_open.remain)
+            alert("Không đủ số lượng");
+        else this.setState({
             nums_item_open: this.state.nums_item_open + 1
         })
     }
@@ -97,14 +99,14 @@ class BuyDrug extends Component {
               );
           }
           const drug_list = this.state.drugs_display.map(drug => {
-              const price = drug.price * 1000;
+              const price = drug.price;
               return(
                 <Col lg="2" md="3" sm="4">
                 <Card className="drug-item">
                 <img className="drug-img" width="91.98px" height="90px" src="/assets/images/drug_example.png" alt = "Xem hồ sơ bệnh án"></img>
                 <CardBody>
                 <CardTitle tag="h5" className="drug-text">{drug.drug_name}</CardTitle>
-                <CardSubtitle tag="h6" className="drug-title">500mg, Viên sủi</CardSubtitle>
+                <CardSubtitle tag="h6" className="drug-title">{drug.unit}</CardSubtitle>
                 <CardText className="drug-price-add">
                     <span className="drug-price"> {price.toLocaleString('vi-VN')}đ </span>
                     <span className="drug-add-item"> 
@@ -126,14 +128,14 @@ class BuyDrug extends Component {
                     <Collapse navbar>
                         <Nav navbar>
                             <NavItem>
-                                <img src='assets/images/category.png' width="40px" height="40px" alt="Danh mục"></img>
+                                <img src='/assets/images/category.png' width="40px" height="40px" alt="Danh mục"></img>
                             </NavItem>
                             <NavItem className="search">
                                 <p className="search-1"> Danh Mục </p>
                                 <p className="search-2"> Sản Phẩm </p>
                             </NavItem>
                             <NavItem>
-                                <img className="show-category" src='assets/images/arrow.png' width="17px" height="17px" alt="Chọn"></img>
+                                <img className="show-category" src='/assets/images/arrow.png' width="17px" height="17px" alt="Chọn"></img>
                             </NavItem>
                             <NavItem>
                                 <Form className="search-bar" onSubmit={e => {e.preventDefault();}}>
@@ -176,12 +178,12 @@ class BuyDrug extends Component {
                         <img className="modal-drug-img" width="283px" height="283px" src="/assets/images/drug_example.png" alt = "Ảnh thuốc"></img>
                         <CardBody>
                         <CardTitle tag="h5" className="modal-drug-text">{this.state.item_open.drug_name}</CardTitle>
-                        <CardSubtitle tag="h6" className="modal-drug-title">500mg, Viên sủi</CardSubtitle>
+                        <CardSubtitle tag="h6" className="modal-drug-title">{this.state.item_open.unit}</CardSubtitle>
                         <CardText className="modal-item-content">
                             <div className="modal-adjust-item"> <img  onClick={() => this.adjustItem()} width="17px" height="2.76px" src="/assets/images/adjust_item.png" alt="Adjust"/> </div>
                             <div className="modal-number-item"> {this.state.nums_item_open} </div>
                             <div className="modal-add-item"> <img onClick={() => this.addItem()} width="17px" height="16.56px" src="/assets/images/add_item.png" alt="Add"/> </div>
-                            <div className="modal-drug-price"> {(this.state.item_open.price*1000*this.state.nums_item_open).toLocaleString('vi-VN')}đ </div>
+                            <div className="modal-drug-price"> {(this.state.item_open.price*this.state.nums_item_open).toLocaleString('vi-VN')}đ </div>
                         </CardText>     
                         </CardBody>
                     </Card>

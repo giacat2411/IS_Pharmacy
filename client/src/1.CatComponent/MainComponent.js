@@ -9,10 +9,9 @@ import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import Home from './HomeComponent';
 import Customer from './CustomerComponent';
-import BuyDrug from './BuyDrugComponent';
-import ViewCart from './ViewCartComponent';
-import NurseManageMedicine from './NurseManageMedicineComponent';
-import DoctorManageTreatment from './DoctorManagaTreatmentComponent';
+import BuyDrug from './Buy Drug/BuyDrugComponent';
+import ViewCart from './Buy Drug/ViewCartComponent';
+import ManageDrug from './Nurse Manage/Manage Drug/ManageDrug';
 
 // DUNG
 import HeaderDoctor from '../4.DungComponent/Header';
@@ -26,37 +25,9 @@ import Profile from '../2.PhucComponent/profile';
 
 class Main extends Component {
   render() {
-    const HomePage = () => {
-      return(
-          <Home />
-      );
-    }
-
     const ViewMyCart = ({match}) => {
       return(
         <ViewCart cart = {JSON.parse(match.params.cart)} />
-      )
-    }
-
-    const DoctorPage = () => {
-      return(
-          <Doctor />
-      );
-    }
-
-    const Login = () => {
-      return(
-          <LoginPane />
-      );
-    }
-    const Sign = () => {
-      return(
-          <SignPwd />
-      );
-    }
-    const ProfilePage = () =>{
-      return (
-        <Profile/>
       )
     }
     
@@ -66,21 +37,20 @@ class Main extends Component {
         <div>
           <Switch>
               {/*---------------------------------Cat------------------------------------*/}
-              <Route path='/home' component={HomePage} />
+              <Route path='/home' component={Home} />
               <Route path='/buydrug' component={BuyDrug} />
               <Route path='/customer' component={Customer} />
               <Route path='/view_cart/:cart' component={ViewMyCart}/>
-              <Route path='/manage_medicine' component={NurseManageMedicine} />
-              <Route path='/manage_treatment' component={DoctorManageTreatment} />
+              <Route path='/manage_drug' component={ManageDrug} />
 
               {/*---------------------------------Dung------------------------------------*/}
-              <Route path='/doctor' component={DoctorPage} />
+              <Route path='/doctor' component={Doctor} />
 
               {/*---------------------------------Phuc------------------------------------*/}
-              <Route path='/login' component={Login}/>
-              <Route path='/signup' component={Sign}/>
-              <Route path='/forgetpwd' component={Sign}/>
-              <Route path='/profile' component={ProfilePage}/>
+              <Route path='/login' component={LoginPane}/>
+              <Route path='/signup' component={SignPwd}/>
+              <Route path='/forgetpwd' component={SignPwd}/>
+              <Route path='/profile' component={Profile}/>
 
               {/*---------------------------------Chanh------------------------------------*/}
 
