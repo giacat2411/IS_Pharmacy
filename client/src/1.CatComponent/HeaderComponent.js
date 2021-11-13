@@ -12,19 +12,7 @@ import HeaderDefine from './Context';
 // import HeaderDefine from '../2.PhucComponent/Context';
 
 
-const Header =()=> {
-    const ctx = useContext(HeaderDefine);
-    const [formValue, setFormValue] = useState({
-        
-        phone: ctx.phone,
-        fullname: ctx.fullname,
-        pwd: '123456',
-        role:"Guest",
-    });
-    const ProviderValue=useMemo(()=>({formValue,setFormValue}),[formValue,setFormValue]);
-    
-        
-
+const Header = (props)=> {
         return(
             <Navbar dark expand="md">
             <div className="container">
@@ -42,10 +30,9 @@ const Header =()=> {
                             <NavLink className="nav-link"  to='/'><FaInfo /> Liên hệ</NavLink>
                         </NavItem>
                     </Nav>
-                    <HeaderDefine.Provider value={ProviderValue}>
-
+                    {/* <HeaderDefine.Provider value={ProviderValue}> */}
                     <LogButton/>
-                    </HeaderDefine.Provider>
+                    {/* </HeaderDefine.Provider> */}
                 </Collapse>
             </div>
         </Navbar>

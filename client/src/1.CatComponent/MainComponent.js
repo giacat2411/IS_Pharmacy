@@ -29,20 +29,30 @@ import Re_examinationSchedule from '../4.DungComponent/Re-examinationScheduleCom
 import LoginPane from '../2.PhucComponent/loginPaneComponent';
 import Profile from '../2.PhucComponent/profile';
 import SignUp from '../2.PhucComponent/Signup';
-import HeaderDefine from './Context';
+// import HeaderDefine from './Context';
+import { HeaderProvider } from './Context';
 //TODO: Context user with role
 
-//NOT PHUC
+//CHANH
+import ManagerNur from '../3.ChanhComponent/ManagerNur';
 
-class Main extends Component {
-  render() {
-    const ViewMyCart = ({match}) => {
+const Main = (props) => {
+  // const ctx = useContext(HeaderDefine);
+  // const [formValue, setFormValue] = useState({
+      
+  //     phone: ctx.phone,
+  //     fullname: ctx.fullname,
+  //     pwd: '123456',
+  //     role:"Guest",
+  // });
+
+  // const ProviderValue=useMemo(()=>({formValue,setFormValue}),[formValue,setFormValue]);
+  const ViewMyCart = ({match}) => {
       return(
         <ViewCart cart = {JSON.parse(match.params.cart)} />
       )
-    }
-
-    const ViewDetails = ({match}) => {
+  }
+  const ViewDetails = ({match}) => {
       return (
         <ViewOrderDetail orderID = {parseInt(JSON.parse(match.params.orderID))} />
       )
@@ -67,6 +77,7 @@ class Main extends Component {
     
     return (
       // <HeaderDefine.Provider value={ProviderValue}>
+      <HeaderProvider>
       <div>
         <Header/>
         <div>
@@ -96,15 +107,16 @@ class Main extends Component {
               <Route path='/profile' component={Profile}/>
 
               {/*---------------------------------Chanh------------------------------------*/}
-
+              <Route path='/nurse' component={ManagerNur} />
 
               <Redirect to='/home' />
           </Switch>
         </div>
         <Footer />
       </div>
+      </HeaderProvider>
+      // </HeaderDefine.Provider>
     );
-}
 }
 
 export default Main;

@@ -7,9 +7,10 @@ import { NavLink } from 'react-router-dom';
 import { Nav, NavItem, } from 'reactstrap';
 const LogButton = (props) => {
     const user = useContext(HeaderDefine);
-    if (user) {
-        console.log(user);
-        if (user.formValue.role === "Guest")
+    console.log(user.role);
+
+
+    if (user.role === "Guest")
             return (
                 <Nav className="ml-auto" navbar>
                     <NavItem>
@@ -20,7 +21,6 @@ const LogButton = (props) => {
                     </NavItem>
                 </Nav>
             );
-    }
 
     return (
         // <HeaderDefine.Consumer>

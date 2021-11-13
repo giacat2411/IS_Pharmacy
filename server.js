@@ -103,10 +103,17 @@ app.get("/", (req, res) => {
         req.session = { user: {}, count: 0, resave: false }
     } else req.session.count++;
 });
-app.get('/api/get/users', (req, res) => {
 
-    res.json({ user: req.session.user })
+app.get('/api/get/users', (req, res) => {
+    var sql = `SELECT * FROM system_user`
+    connection.query(sql, function(err, results) {
+    
+        res.json({ users: results });
+        
+    });
+    // res.json({ user: req.session.user })
 });
+
 app.post('api/post/regist', (req, res) => {
     console.log(req.session)
     var sql = `INSERT INTO system_user (phone, firstname, lastname, dateofbirth, address, email, pwd) VALUES 
@@ -120,8 +127,8 @@ app.post('api/post/regist', (req, res) => {
 
 app.get('/api/get/phuc', (req, res) => { console.log(req.session) })
 
-app.post('/api/get/login', (req, res) => {
-    var sql = `SELECT * FROM system_user where phone=${req.body.query.phone}`
+app.get('/api/get/login', (req, res) => {
+    var sql = `SELECT * FROM system_user where phone=${req.query.phone}`;
     connection.query(sql, function(err, results) {
         results[0].role="Patient";
         res.json({ users: results });
@@ -302,27 +309,4 @@ app.post('/api/insert/treatment_turns', function(req, res) {
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-const knex = require('knex')({
-    client: 'mysql',
-    connection: {
-        host: '127.0.0.1',
-        port: 4000,
-        user: 'root',
-        password: '123456',
-        database: 'pharmacy'
-    }
 });

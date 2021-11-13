@@ -7,51 +7,51 @@ import HeaderDefine from '../1.CatComponent/Context';
 
 const LoginPane = () => {
     const ctx = useContext(HeaderDefine);
-    const [formValue, setFormValue] = useState({
-        
-        phone: ctx.phone,
-        fullname: ctx.fullname,
-        pwd: '123456',
-        role:"Guest",
-    });
-    const ProviderValue=useMemo(()=>({formValue,setFormValue}),[formValue,setFormValue]);
+
+    const [users, setUsers] = useState();
+    const [init, setInit] = useState(true);
+
+    (() => {
+        if (init === true) {
+            axios.get('/api/get/users')
+                    .then(res => {
+                        const users = res.data.users;
+                        setUsers(users
+                            // {phone:users.users[0].phone,
+                            //     // fullname:"new",
+                            //     // pwd:"123456",
+                            // role:users.users[0].role}
+                        );
+                        console.log(users); setInit(false);
+                        }
+    )}})();
+
+    const [phone, setPhone] = useState();
+    const [pwd, setPwd] = useState();
+
+    // const ProviderValue=useMemo(()=>({formValue,setFormValue}),[formValue,setFormValue]);
     const [isModal, setModal] = useState(false);
 
-    const handleChange = (event) => {
-        let value = event.target.value;
-        let name = event.target.name;
-
-        setFormValue((prevalue) => {
-            return {
-                ...prevalue,   // Spread Operator               
-                [name]: value
-            }
-        })
-    }
     const toggleModal = () => {
         setModal(!isModal);
-
     }
+
+    
+
     const apiLog = () => {
-        axios
-            .post('/api/get/login', { query: formValue }
-            )
-            .then(res => {
-                const users = res.data;
-                setFormValue(
-                    {phone:users.users[0].phone,
-                        fullname:"new",
-                        pwd:"123456",
-                    role:users.users[0].role,
-                })
-            });
         
-            console.log(formValue);
+        console.log(users);
+        users.filter((user) => {
+            if (user.phone.toString() === phone.value.toString()) ctx.setRole('Patient');
+            return false
+        })
+        // if (users.phone.toString() === phone.value.toString()) ctx.setRole('Patient');
+            // console.log(formValue);
     };
     //TODO update context in main
 
     const newPwd = () => {
-        console.log(formValue)
+        // console.log(formValue)
         // axios
         //     .get('/api/post/newpwd', { params: formValue }
         //     )
@@ -61,17 +61,21 @@ const LoginPane = () => {
         //         toggleModal();
         //     });
     };
-    if (formValue.role !== "Guest") {
+    if (ctx.role === "Patient") {
         return (
             <Switch>
                 <Redirect to='/home' />
             </Switch>
         )
+    } else if (ctx.role === "Nurse") {
+            <Switch>
+                <Redirect to='/nurse' />
+            </Switch>
     }
 
     else
         return (
-            <HeaderDefine.Provider value={ProviderValue}>
+            // <HeaderDefine.Provider value={ProviderValue}>
             <div className="center">
                 <Row>
                     <Col xs={0.5}>
@@ -82,9 +86,9 @@ const LoginPane = () => {
                         <form>
                             <h1>Đăng Nhập {isModal}</h1>
                             Số điện thoại
-                            <Input name="phone" onChange={handleChange} required />
+                            <Input name="phone" innerRef={(input) => setPhone(input)} required />
                             Mật khẩu
-                            <Input name="pwd" onChange={handleChange} type="password" required />
+                            <Input name="pwd" innerRef={(input) => setPwd(input)} type="password" required />
                             <Button onClick={toggleModal} className="exception">Quên mật khẩu?</Button>
 
                             <Row align="center">
@@ -96,7 +100,7 @@ const LoginPane = () => {
                     </Col>
                     <Col />
                 </Row>
-                <Modal isOpen={isModal} toggle={toggleModal}>
+                {/* <Modal isOpen={isModal} toggle={toggleModal}>
                     <ModalBody className="modal-drug-item">
                         <h1> Quên mật khẩu </h1>
                         Số điện thoại
@@ -110,9 +114,9 @@ const LoginPane = () => {
                         <Button onClick={newPwd} color="primary">Đổi mật khẩu</Button> <Button onClick={toggleModal}>Hủy</Button>
 
                     </ModalBody>
-                </Modal>
+                </Modal> */}
             </div>
-            </HeaderDefine.Provider>
+            // </HeaderDefine.Provider>
         )
 }
 export default LoginPane;
