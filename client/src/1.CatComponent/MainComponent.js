@@ -17,8 +17,13 @@ import ViewOrder from './Nurse Manage/Manage Order/ViewOrder';
 import ViewOrderDetail from './Nurse Manage/Manage Order/ViewOrderDetail';
 
 // DUNG
-import HeaderDoctor from '../4.DungComponent/Header';
 import Doctor from '../4.DungComponent/DoctorComponent';
+import Appointment from '../4.DungComponent/AppointmentComponent';
+import Fetch from '../4.DungComponent/testfetch';
+import CancelAppointment from '../4.DungComponent/CancelAppointmentComponent';
+import Payment from '../4.DungComponent/PaymentComponent';
+import CreateAnAppointment from '../4.DungComponent/CreateAnAppointmentComponent';
+import Re_examinationSchedule from '../4.DungComponent/Re-examinationScheduleComponent';
 
 //PHUC
 import LoginPane from '../2.PhucComponent/loginPaneComponent';
@@ -39,6 +44,36 @@ class Main extends Component {
         <ViewOrderDetail orderID = {parseInt(JSON.parse(match.params.orderID))} />
       )
     }
+
+    const AppointmentPage = () => {
+      return(
+          <Appointment />
+      );
+    }
+
+    const CancelAppointmentPage = () => {
+      return(
+          <CancelAppointment />
+      );
+    }
+
+    const PaymentPage = ({match}) => {
+      return(
+        <Payment cart = {JSON.parse(match.params.cart)} />
+      )
+    }
+
+    const CreateAnAppointmentPage = () => {
+      return(
+        <CreateAnAppointment />
+      )
+    }
+
+    const Re_examinationSchedulePage = () => {
+      return(
+        <Re_examinationSchedule />
+      )
+    }
     
     return (
       <div>
@@ -56,7 +91,13 @@ class Main extends Component {
               <Route path='/view_order_details/:orderID' component={ViewDetails} />
 
               {/*---------------------------------Dung------------------------------------*/}
-              <Route path='/doctor' component={Doctor} />
+              <Route path='/doctor' component={DoctorPage} />
+              <Route path='/appointment' component={AppointmentPage} />
+              <Route path='/cancelappointment' component={CancelAppointmentPage} />
+              <Route path='/payment/:cart' component={PaymentPage} />
+              <Route path='/createanappointment' component={CreateAnAppointmentPage} />
+              <Route path='/re-examination_schedule' component={Re_examinationSchedulePage} />
+
 
               {/*---------------------------------Phuc------------------------------------*/}
               <Route path='/login' component={LoginPane}/>
