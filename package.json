@@ -13,17 +13,26 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sentry/node": "^6.14.1",
+    "@sentry/react": "^6.14.1",
+    "@sentry/tracing": "^6.14.1",
     "axios": "^0.23.0",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "concurrently": "^6.3.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.17.2",
     "multer": "^1.4.3",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.14",
     "react-calendar": "^3.5.0",
     "react-pro-sidebar": "^0.7.1",
+    "passport": "^0.5.0",
+    "passport-local": "^1.0.0",
+    "session-file-store": "^1.5.0",
     "styled-components": "^5.3.3"
   }
 }

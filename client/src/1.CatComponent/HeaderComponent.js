@@ -1,11 +1,30 @@
-import React, { Component } from 'react';
+import React, { Component,useContext,useState,useMemo } from 'react';
 import { Navbar, NavbarBrand, Nav, NavItem, 
         Collapse, NavbarToggler } from 'reactstrap';
-import { FaHome, FaRegCalendarAlt, FaInfo, FaUserPlus, FaSignInAlt } from "react-icons/fa";
+import { FaHome, FaRegCalendarAlt, FaInfo, FaUserPlus, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
+import axios from 'axios';
 
-class Header extends Component {
-    render(){
+
+import LogButton from './LogButton';
+import HeaderDefine from './Context';
+// import {HeaderDefine, ThingsProvider} from './Context';
+// import HeaderDefine from '../2.PhucComponent/Context';
+
+
+const Header =()=> {
+    const ctx = useContext(HeaderDefine);
+    const [formValue, setFormValue] = useState({
+        
+        phone: ctx.phone,
+        fullname: ctx.fullname,
+        pwd: '123456',
+        role:"Guest",
+    });
+    const ProviderValue=useMemo(()=>({formValue,setFormValue}),[formValue,setFormValue]);
+    
+        
+
         return(
             <Navbar dark expand="md">
             <div className="container">
@@ -23,20 +42,15 @@ class Header extends Component {
                             <NavLink className="nav-link"  to='/'><FaInfo /> Liên hệ</NavLink>
                         </NavItem>
                     </Nav>
+                    <HeaderDefine.Provider value={ProviderValue}>
 
-                    <Nav className="ml-auto" navbar>
-                        <NavItem>
-                            <NavLink className="nav-link" to='/signup'> <FaUserPlus/> Đăng ký </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink className="nav-link" to='/login'> <FaSignInAlt /> Đăng nhập </NavLink>
-                        </NavItem>
-                            </Nav>
+                    <LogButton/>
+                    </HeaderDefine.Provider>
                 </Collapse>
             </div>
         </Navbar>
         );
     }
-}
+
 
 export default Header;

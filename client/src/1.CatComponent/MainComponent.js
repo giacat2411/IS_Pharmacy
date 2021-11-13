@@ -1,7 +1,7 @@
 // IMPORT FROM EXTERNAL
-import React, { Component } from 'react';
+import React, { Component,useState,useContext } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-
+import axios from 'axios';
 // IMPORT DATA
 
 // IMPORT COMPONENTS
@@ -27,8 +27,11 @@ import Re_examinationSchedule from '../4.DungComponent/Re-examinationScheduleCom
 
 //PHUC
 import LoginPane from '../2.PhucComponent/loginPaneComponent';
-import SignPwd from '../2.PhucComponent/forgetpwd';
 import Profile from '../2.PhucComponent/profile';
+import SignUp from '../2.PhucComponent/Signup';
+import HeaderDefine from './Context';
+//TODO: Context user with role
+
 //NOT PHUC
 
 class Main extends Component {
@@ -45,39 +48,27 @@ class Main extends Component {
       )
     }
 
-    const AppointmentPage = () => {
-      return(
-          <Appointment />
-      );
-    }
+    // const ctx = useContext(HeaderDefine);
+    // const [formValue, setFormValue] = useState({
+        
+    //     phone: ctx.phone,
+    //     fullname: ctx.fullname,
+    //     pwd: '123456',
+    //     role:"Guest",
+    // });
+    // const ProviderValue=useMemo(()=>({formValue,setFormValue}),[formValue,setFormValue]);
 
-    const CancelAppointmentPage = () => {
-      return(
-          <CancelAppointment />
-      );
-    }
 
     const PaymentPage = ({match}) => {
       return(
         <Payment cart = {JSON.parse(match.params.cart)} />
       )
     }
-
-    const CreateAnAppointmentPage = () => {
-      return(
-        <CreateAnAppointment />
-      )
-    }
-
-    const Re_examinationSchedulePage = () => {
-      return(
-        <Re_examinationSchedule />
-      )
-    }
     
     return (
+      // <HeaderDefine.Provider value={ProviderValue}>
       <div>
-        <Header />
+        <Header/>
         <div>
           <Switch>
               {/*---------------------------------Cat------------------------------------*/}
@@ -91,18 +82,17 @@ class Main extends Component {
               <Route path='/view_order_details/:orderID' component={ViewDetails} />
 
               {/*---------------------------------Dung------------------------------------*/}
-              <Route path='/doctor' component={DoctorPage} />
-              <Route path='/appointment' component={AppointmentPage} />
-              <Route path='/cancelappointment' component={CancelAppointmentPage} />
+              <Route path='/doctor' component={Doctor} />
+              <Route path='/appointment' component={Appointment} />
+              <Route path='/cancelappointment' component={CancelAppointment} />
               <Route path='/payment/:cart' component={PaymentPage} />
-              <Route path='/createanappointment' component={CreateAnAppointmentPage} />
-              <Route path='/re-examination_schedule' component={Re_examinationSchedulePage} />
+              <Route path='/createanappointment' component={CreateAnAppointment} />
+              <Route path='/re-examination_schedule' component={Re_examinationSchedule} />
 
 
               {/*---------------------------------Phuc------------------------------------*/}
               <Route path='/login' component={LoginPane}/>
-              <Route path='/signup' component={SignPwd}/>
-              <Route path='/forgetpwd' component={SignPwd}/>
+              <Route path='/signup' component={SignUp}/>
               <Route path='/profile' component={Profile}/>
 
               {/*---------------------------------Chanh------------------------------------*/}
@@ -114,7 +104,7 @@ class Main extends Component {
         <Footer />
       </div>
     );
-  }
+}
 }
 
 export default Main;
