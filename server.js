@@ -88,14 +88,11 @@ app.post('api/post/regist', (req, res) => {
 app.get('/api/get/phuc', (req, res) => { console.log(req.session) })
 
 app.post('/api/get/login', (req, res) => {
-
-    //TODO get role, return role with result    
     var sql = `SELECT * FROM system_user where phone=${req.body.query.phone}`
     connection.query(sql, function(err, results) {
-        res.json({ users: {results, role:"Patient"} });
-        //TODO fix session type
+        results[0].role="Patient";
+        res.json({ users: results });
         req.session.user = results[0]
-    //     console.log(req.session)
         
     });
 });

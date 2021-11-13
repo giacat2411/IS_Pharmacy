@@ -1,4 +1,4 @@
-import React, { Component, useContext, useState } from 'react';
+import React, { Component, useContext, useState,useMemo } from 'react';
 import axios from 'axios';
 import { Modal, ModalBody } from 'reactstrap';
 import { Container, Input, Row, Col, Button } from 'reactstrap';
@@ -7,12 +7,14 @@ import HeaderDefine from '../1.CatComponent/Context';
 
 const LoginPane = () => {
     const ctx = useContext(HeaderDefine);
-
     const [formValue, setFormValue] = useState({
-        phone: ctx.user.phone,
-        fullname: ctx.user.fullname,
-        pwd: '123456'
+        
+        phone: ctx.phone,
+        fullname: ctx.fullname,
+        pwd: '123456',
+        role:"Guest",
     });
+    const ProviderValue=useMemo(()=>({formValue,setFormValue}),[formValue,setFormValue]);
     const [isModal, setModal] = useState(false);
 
     const handleChange = (event) => {
@@ -29,8 +31,6 @@ const LoginPane = () => {
     const toggleModal = () => {
         setModal(!isModal);
 
-        console.log({ isModal })
-
     }
     const apiLog = () => {
         axios
@@ -38,9 +38,15 @@ const LoginPane = () => {
             )
             .then(res => {
                 const users = res.data;
-                console.log(users.users)
-                setFormValue(users.users)
+                setFormValue(
+                    {phone:users.users[0].phone,
+                        fullname:"new",
+                        pwd:"123456",
+                    role:users.users[0].role,
+                })
             });
+        
+            console.log(formValue);
     };
     //TODO update context in main
 
@@ -55,7 +61,7 @@ const LoginPane = () => {
         //         toggleModal();
         //     });
     };
-    if (formValue.role === "Guest") {
+    if (formValue.role !== "Guest") {
         return (
             <Switch>
                 <Redirect to='/home' />
@@ -65,6 +71,7 @@ const LoginPane = () => {
 
     else
         return (
+            <HeaderDefine.Provider value={ProviderValue}>
             <div className="center">
                 <Row>
                     <Col xs={0.5}>
@@ -105,6 +112,7 @@ const LoginPane = () => {
                     </ModalBody>
                 </Modal>
             </div>
+            </HeaderDefine.Provider>
         )
 }
 export default LoginPane;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,useContext,useState,useMemo } from 'react';
 import { Navbar, NavbarBrand, Nav, NavItem, 
         Collapse, NavbarToggler } from 'reactstrap';
 import { FaHome, FaRegCalendarAlt, FaInfo, FaUserPlus, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
@@ -7,36 +7,23 @@ import axios from 'axios';
 
 
 import LogButton from './LogButton';
+import HeaderDefine from './Context';
 // import {HeaderDefine, ThingsProvider} from './Context';
 // import HeaderDefine from '../2.PhucComponent/Context';
 
 
-class Header extends Component {
-    constructor(props) {
-        super(props);
-        this.state={
-            //user:HeaderDefine.user,
-
-            // {
-            //     phone: "0",
-            //     firstname:"Guest",
-            //     lastname:"",
-            //     dateofbirth:'01/01/2001', 
-            //     address: "HCM", 
-            //     email:'phuc@gmail.com', 
-            //     pwd:'123456',
-            // }
-        }
-        // this.setState(user.pwd='123456')
-    }
-    // componentDidMount(){
-    //     axios.get('/api/get/users').then(res =>{
-    //         const users = res.data;
-    //        this.setState({ user: users.users});
-    //     //    console.log(this.state.user);
-    //     })
-    // }
-    render(){
+const Header =()=> {
+    const ctx = useContext(HeaderDefine);
+    const [formValue, setFormValue] = useState({
+        
+        phone: ctx.phone,
+        fullname: ctx.fullname,
+        pwd: '123456',
+        role:"Guest",
+    });
+    const ProviderValue=useMemo(()=>({formValue,setFormValue}),[formValue,setFormValue]);
+    
+        
 
         return(
             <Navbar dark expand="md">
@@ -55,12 +42,15 @@ class Header extends Component {
                             <NavLink className="nav-link"  to='/'><FaInfo /> Liên hệ</NavLink>
                         </NavItem>
                     </Nav>
+                    <HeaderDefine.Provider value={ProviderValue}>
+
                     <LogButton/>
+                    </HeaderDefine.Provider>
                 </Collapse>
             </div>
         </Navbar>
         );
     }
-}
+
 
 export default Header;

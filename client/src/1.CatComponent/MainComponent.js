@@ -1,5 +1,5 @@
 // IMPORT FROM EXTERNAL
-import React, { Component } from 'react';
+import React, { Component,useState,useContext } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
 // IMPORT DATA
@@ -21,13 +21,12 @@ import Doctor from '../4.DungComponent/DoctorComponent';
 import LoginPane from '../2.PhucComponent/loginPaneComponent';
 import Profile from '../2.PhucComponent/profile';
 import SignUp from '../2.PhucComponent/Signup';
+import HeaderDefine from './Context';
 //TODO: Context user with role
 
 //NOT PHUC
 
-class Main extends Component {
-  render() {
-
+const Main=()=>{
     const HomePage = () => {
       return(
           <Home />
@@ -45,10 +44,19 @@ class Main extends Component {
           <Doctor />
       );
     }
-
+    // const ctx = useContext(HeaderDefine);
+    // const [formValue, setFormValue] = useState({
+        
+    //     phone: ctx.phone,
+    //     fullname: ctx.fullname,
+    //     pwd: '123456',
+    //     role:"Guest",
+    // });
+    // const ProviderValue=useMemo(()=>({formValue,setFormValue}),[formValue,setFormValue]);
 
     
     return (
+      // <HeaderDefine.Provider value={ProviderValue}>
       <div>
         <Header/>
         <div>
@@ -76,8 +84,8 @@ class Main extends Component {
         </div>
         <Footer />
       </div>
+      // </HeaderDefine.Provider>
     );
-  }
 }
 
 export default Main;
