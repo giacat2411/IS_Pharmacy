@@ -24,8 +24,9 @@ class Appointment extends Component {
             system_users:[],
 
             counter: 0,
-
+            bug: [],
             registered:[]//"08:00:00-08:30:00","09:00:00-09:30:00","10:30:00-11:00:00","13:30:00-14:00:00","14:30:00-15:00:00","15:00:00-15:30:00","15:30:00-16:00:00","16:30:00-17:00:00"
+            
         }
         this.handleClick=this.handleClick.bind(this);
         this.showModal = this.showModal.bind(this);
@@ -123,16 +124,16 @@ class Appointment extends Component {
         event.preventDefault();
         const newItem = {
             id: Math.floor(Math.random() * 10000000), 
-            turn_time: event.target.value.split('-')[0], 
-            health_issue: '', 
-            blood_pressure: '', 
-            heart_beat: '', 
-            therapy: '', 
-            diagnose: '', 
-            start_time: event.target.value.split('-')[0], 
-            end_time: event.target.value.split('-')[1], 
+            turn_time: event.target.value.split(' ').splice(0,4).join(' ')+' '+event.target.value.split(' ').splice(-1,1).join().split('-')[0],
+            health_issue: ' ', 
+            blood_pressure: 1, 
+            heart_beat: 1, 
+            therapy: ' ', 
+            diagnose: ' ', 
+            start_time: event.target.value.split(' ').splice(0,4).join(' ')+' '+event.target.value.split(' ').splice(-1,1).join().split('-')[0], 
+            end_time: event.target.value.split(' ').splice(0,4).join(' ')+' '+event.target.value.split(' ').splice(-1,1).join().split('-')[1],
             patient_phone: this.state.phone, 
-            doctor_phone: 1332423
+            doctor_phone: event.target.name
         };
     
         axios.post('/api/insert/treatment_turns', newItem)
@@ -142,7 +143,7 @@ class Appointment extends Component {
             this.setState({ treatment_turns: news });
         })
         .catch(error => console.log(error));
-        alert("sad");
+        
       };
 
     render(){
@@ -180,7 +181,7 @@ class Appointment extends Component {
                                     Hủy
                                 </button>
                                 
-                                <button type="button" value={x} onClick={(e)=>{this.hideModal(); this.handleInsertSubmit(e)}}>
+                                <button type="button" value={(this.state.treatment_turn.length!==0&&this.state.treatment_turn[0].turn_time.split(' ').splice(0,4).join(' ')||curr.work_day+2+"/Jul/2021")+' '+x} name={curr.doctor_phone} onClick={(e)=>{this.hideModal(); this.handleInsertSubmit(e)}}>
                                     Xác nhận                                   
                                 </button>
                                     
@@ -219,8 +220,7 @@ class Appointment extends Component {
                                 <button type="button" onClick={this.hideModal}>
                                     Hủy
                                 </button>
-                                
-                                <button type="button" onClick={this.hideModal}>
+                                <button type="button" value={(this.state.treatment_turn.length!==0&&this.state.treatment_turn[0].turn_time.split(' ').splice(0,4).join(' ')||curr.work_day+2+"/Jul/2021")+' '+x} name={curr.doctor_phone} onClick={(e)=>{this.hideModal(); this.handleInsertSubmit(e)}}>
                                     Xác nhận                                   
                                 </button>
                                     

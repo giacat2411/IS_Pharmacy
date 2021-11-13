@@ -24,6 +24,7 @@ class CancelAppointment extends Component {
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
       }
     
       showModal = () => {
@@ -66,6 +67,20 @@ class CancelAppointment extends Component {
         this.setState({treatment_turn: this.state.treatment_turns.filter(t=>t.patient_phone==this.state.phone)}); 
 
     };
+
+    handleDelete = (item) => {
+        const newsId = {
+          id: item.id
+        };
+      
+        axios.post('/api/delete/treatment_turns', newsId)
+        .then(res => {
+          this.setState(prevState => ({
+            treatment_turns: prevState.treatment_turns.filter(el => el.id !== item.id )
+          }));
+        })
+        .catch(error => console.log(error));
+      }
 
     render(){
         const showHideClassName = this.state.show ? "modal display-block" : "modal display-none";
@@ -129,7 +144,7 @@ class CancelAppointment extends Component {
                                             Hủy
                                         </button>
                                         
-                                        <button type="button" onClick={this.hideModal}>
+                                        <button type="button" onClick={()=>{this.hideModal(); this.handleDelete(x)}}>
                                             Xác nhận                                   
                                         </button>
                                             

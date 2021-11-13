@@ -31,20 +31,24 @@ class Customer extends Component{
                         </a>
                     </Col>
                     <Col md="6">
-                        <Card className="cat-customer-item-right">
-                            <img className="cat-customer-img" width="67.29px" height="95px" src="/assets/images/make-treat-home.png" alt = "Đặt lịch khám"></img>
-                            <CardBody>
-                            <CardTitle tag="h5" className="cat-customer-text">Đặt lịch khám</CardTitle>
-                            </CardBody>
-                        </Card>
+                        <a href='/appointment'>
+                            <Card className="cat-customer-item-right">
+                                <img className="cat-customer-img" width="67.29px" height="95px" src="/assets/images/make-treat-home.png" alt = "Đặt lịch khám"></img>
+                                <CardBody>
+                                <CardTitle tag="h5" className="cat-customer-text">Đặt lịch khám</CardTitle>
+                                </CardBody>
+                            </Card>
+                        </a>
                     </Col>
                     <Col md="6">
-                        <Card className="cat-customer-item-left">
-                            <img className="cat-customer-img" width="94px" height="95px" src="/assets/images/cancal-treat.png" alt = "Hủy lịch khám"></img>
-                            <CardBody>
-                            <CardTitle tag="h5" className="cat-customer-text">Hủy lịch khám</CardTitle>
-                            </CardBody>
-                        </Card>
+                        <a href='/cancelappointment'>
+                            <Card className="cat-customer-item-left">
+                                <img className="cat-customer-img" width="94px" height="95px" src="/assets/images/cancal-treat.png" alt = "Hủy lịch khám"></img>
+                                <CardBody>
+                                <CardTitle tag="h5" className="cat-customer-text">Hủy lịch khám</CardTitle>
+                                </CardBody>
+                            </Card>
+                        </a>
                     </Col>
                 </Row>
             </Container>

@@ -111,6 +111,16 @@ app.get('/api/get/system_users', (req, res) => {
 
 ///// Dung /////
 
+app.post('/api/delete/treatment_turns', (req, res) => {
+  var sql = "DELETE FROM treatment_turn "
+          + "WHERE id='"+req.body.id+"'";
+          console.log(req);
+  connection.query(sql, function(err, results) {
+    if (err) throw err;
+    res.json({news: results});
+  });
+});
+
 //////////////////////////////
 //          INSERT          //
 //////////////////////////////
@@ -125,7 +135,7 @@ app.get('/api/get/system_users', (req, res) => {
 
 ///// Dung /////
 
-app.post('/api/insert', function(req, res) {
+app.post('/api/insert/treatment_turns', function(req, res) {
   var sql = "INSERT "
           + "INTO treatment_turn(id, turn_time, health_issue, blood_pressure, heart_beat, therapy, diagnose, start_time, end_time, patient_phone, doctor_phone) "
           + "VALUES('"
@@ -140,6 +150,8 @@ app.post('/api/insert', function(req, res) {
           +   req.body.end_time + "','"
           +   req.body.patient_phone + "','"
           +   req.body.doctor_phone+"')";
+  console.log(req);
+
   connection.query(sql, function (err, results) {
     if(err) throw err;
     res.json({news: results});
@@ -147,29 +159,6 @@ app.post('/api/insert', function(req, res) {
 });
 
 
-// app.post('/api/insert/treatment_turns', function(req, res) {
-//   let sql = `INSERT INTO treatment_turn (id, turn_time, health_issue, blood_pressure, heart_beat, therapy, diagnose, start_time, end_time, patient_phone, doctor_phone) VALUES (?)`;
-//   let values = [
-//     req.body.id,
-//     req.body.turn_time,
-//     req.body.health_issue,
-//     req.body.blood_pressure,
-//     req.body.heart_beat,
-//     req.body.therapy,
-//     req.body.diagnose,
-//     req.body.start_time,
-//     req.body.end_time,
-//     req.body.patient_phone,
-//     req.body.doctor_phone
-//   ];
-//   connection.query(sql, [values], function(err, data, fields) {
-//     if (err) throw err;
-//     res.json({
-//       status: 200,
-//       message: "New treatment_turn added successfully"
-//     })
-//   })
-// });
 
 
 app.listen(PORT, () => {

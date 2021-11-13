@@ -469,8 +469,8 @@ background-color: #00000000;
 }
 
 .dung-service-item{
-  height: 20rem;
-  width: 20rem;
+  height: 250px;
+  width: 250px;
   border-radius: 5%;
   align-items: center;
 }

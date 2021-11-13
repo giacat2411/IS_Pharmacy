@@ -93,12 +93,6 @@ class Main extends Component {
         <Re_examinationSchedule />
       )
     }
-
-    const Fet=()=>{
-      return(
-        <Fetch />
-      )
-    }
     
     return (
       <div>
@@ -119,7 +113,6 @@ class Main extends Component {
               <Route path='/payment/:cart' component={PaymentPage} />
               <Route path='/createanappointment' component={CreateAnAppointmentPage} />
               <Route path='/re-examination_schedule' component={Re_examinationSchedulePage} />
-              <Route path='/fetch' component={Fet} />
 
 
               {/*---------------------------------Phuc------------------------------------*/}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Container, Row, Col, Button, Table } from 'reactstrap';
 import Modal from './Modal.js';
 
 class Payment extends Component{
@@ -25,6 +25,7 @@ class Payment extends Component{
     
 
     render(){
+        let dem=0;
         const showHideClassName = this.state.show ? "modal display-block" : "modal display-none";
 
         let total = 0;
@@ -56,6 +57,81 @@ class Payment extends Component{
             </div>
             <Row>
                 <h4>1. Thuốc theo đơn của bác sĩ:</h4>
+                <Table hover>
+                    <thead>
+                        <tr>
+                            <th>
+                                STT
+                            </th>
+                            <th>
+                                Tên thuốc/hàm lượng
+                            </th>
+                            <th>
+                                Đơn vị tính
+                            </th>
+                            <th>
+                                Đơn giá
+                            </th>
+                            <th>
+                                Số lượng
+                            </th>
+                            <th>
+                                Thành tiền
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <th scope="row">
+                            {++dem}
+                        </th>
+                        <td>
+                            Efferalgan 500mg
+                        </td>
+                        <td>
+                            Viên
+                        </td>
+                        <td>
+                            3.000đ
+                        </td>
+                        <td>
+                            5
+                        </td>
+                        <td>
+                            15.000đ              
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            {++dem}
+                        </th>
+                        <td>
+                            Efferalgan 500mg
+                        </td>
+                        <td>
+                            Viên
+                        </td>
+                        <td>
+                            3.000đ
+                        </td>
+                        <td>
+                            5
+                        </td>
+                        <td>
+                            15.000đ              
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" colspan="5">
+                            Tổng cộng
+                        </th>
+                        
+                        <td>
+                            30.000đ              
+                        </td>
+                    </tr>
+                    </tbody>
+                </Table>
             </Row>
             <Row>
                 <h4>2. Thuốc khác:</h4>
