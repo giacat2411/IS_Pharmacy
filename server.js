@@ -127,6 +127,13 @@ app.post('api/post/regist', (req, res) => {
 
 app.get('/api/get/phuc', (req, res) => { console.log(req.session) })
 
+app.get('/api/set/user',(req,res)=>{
+  console.log("success");
+   req.session.user=
+  {phone: req.query.phone, role:req.query.role}
+  console.log(req.session)
+})
+
 app.get('/api/get/login', (req, res) => {
     var sql = `SELECT * FROM system_user where phone=${req.query.phone}`;
     connection.query(sql, function(err, results) {

@@ -1,4 +1,4 @@
-import React, { Component, useContext, useState,useMemo } from 'react';
+import React, { Component, useContext, useState, useMemo } from 'react';
 import axios from 'axios';
 import { Modal, ModalBody } from 'reactstrap';
 import { Container, Input, Row, Col, Button } from 'reactstrap';
@@ -10,21 +10,27 @@ const LoginPane = () => {
 
     const [users, setUsers] = useState();
     const [init, setInit] = useState(true);
-
+    const [doctors, setDoctors] = useState();
     (() => {
         if (init === true) {
-            axios.get('/api/get/users')
-                    .then(res => {
-                        const users = res.data.users;
-                        setUsers(users
-                            // {phone:users.users[0].phone,
-                            //     // fullname:"new",
-                            //     // pwd:"123456",
-                            // role:users.users[0].role}
-                        );
-                        console.log(users); setInit(false);
+            setInit(false);
+            axios.get('/api/get/doctors').then(
+                res => {
+                    const doctors = res.data.doctors;
+                    setDoctors(doctors
+                    );
+                    console.log(doctors); 
+                    return axios.get('/api/get/users')
+                        .then(res => {
+                            const users = res.data.users;
+                            setUsers(users);
                         }
-    )}})();
+                        );
+                }
+            )
+
+        }
+    })();
 
     const [phone, setPhone] = useState();
     const [pwd, setPwd] = useState();
@@ -36,19 +42,27 @@ const LoginPane = () => {
         setModal(!isModal);
     }
 
-    
+
 
     const apiLog = () => {
-        // console.log(users);
-        // users.filter((user) => {
-        //     if (user.phone.toString() === phone.value.toString()) ctx.setRole('Patient');
-        //     return false
-        // })
-        // if (users.phone.toString() === phone.value.toString()) ctx.setRole('Patient');
-            // console.log(formValue);
-        if (phone.value === "1") ctx.setRole('Patient');
-        else if (phone.value === "2") ctx.setRole('Doctor');
-        else if (phone.value === "3") ctx.setRole('Nurse');
+        const login = users.filter((user) => user.phone.toString() === phone.value.toString())
+        if (login)
+        {
+            const doc_role=doctors.filter((doctor) => doctor.phone.toString() === phone.value.toString())
+            if (doc_role)  ctx.setRole("Doctor");
+            else {
+                ctx.setRole('Patient');
+            }
+        }
+        else ctx.setRole("Guest");
+        //ASSIGN SESSION
+        axios.get('/api/set/user', { params: { phone: ctx.phone, role: ctx.role } });
+        //TODO search for Nurse list and assign
+
+
+        // if (phone.value === "1") ctx.setRole('Patient');
+        // else if (phone.value === "2") ctx.setRole('Doctor');
+        // else if (phone.value === "3") ctx.setRole('Nurse');
     };
     const newPwd = () => {
         // console.log(formValue)
@@ -74,9 +88,9 @@ const LoginPane = () => {
             </Switch>
         )
     } else if (ctx.role === "Doctor") {
-        return(    <Switch>
-                <Redirect to='/doctor' />
-            </Switch>)
+        return (<Switch>
+            <Redirect to='/doctor' />
+        </Switch>)
     }
 
     else
