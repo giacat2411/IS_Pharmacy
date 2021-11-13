@@ -39,14 +39,16 @@ const LoginPane = () => {
     
 
     const apiLog = () => {
-        
-        console.log(users);
-        users.filter((user) => {
-            if (user.phone.toString() === phone.value.toString()) ctx.setRole('Patient');
-            return false
-        })
+        // console.log(users);
+        // users.filter((user) => {
+        //     if (user.phone.toString() === phone.value.toString()) ctx.setRole('Patient');
+        //     return false
+        // })
         // if (users.phone.toString() === phone.value.toString()) ctx.setRole('Patient');
             // console.log(formValue);
+        if (phone.value === "1") ctx.setRole('Patient');
+        else if (phone.value === "2") ctx.setRole('Doctor');
+        else if (phone.value === "3") ctx.setRole('Nurse');
     };
     //TODO update context in main
 
@@ -68,9 +70,15 @@ const LoginPane = () => {
             </Switch>
         )
     } else if (ctx.role === "Nurse") {
+        return (
             <Switch>
                 <Redirect to='/nurse' />
             </Switch>
+        )
+    } else if (ctx.role === "Doctor") {
+        return(    <Switch>
+                <Redirect to='/doctor' />
+            </Switch>)
     }
 
     else

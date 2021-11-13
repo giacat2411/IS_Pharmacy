@@ -34,7 +34,7 @@ import { HeaderProvider } from './Context';
 //TODO: Context user with role
 
 //CHANH
-import ManagerNur from '../3.ChanhComponent/ManagerNur';
+import HomeNur from '../3.ChanhComponent/ManagerNur';
 
 const Main = (props) => {
   // const ctx = useContext(HeaderDefine);
@@ -107,7 +107,7 @@ const Main = (props) => {
               <Route path='/profile' component={Profile}/>
 
               {/*---------------------------------Chanh------------------------------------*/}
-              <Route path='/nurse' component={ManagerNur} />
+              <Route path='/nurse' component={HomeNur} />
 
               <Redirect to='/home' />
           </Switch>

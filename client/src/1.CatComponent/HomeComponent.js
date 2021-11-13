@@ -7,21 +7,6 @@ class Home extends Component{
     render(){
         return(
             <Container>
-                <Row> 
-                    <Col> <a href='/customer'> Giao diện khách hàng</a> </Col> 
-                </Row>
-                <Row>
-                    <Col> <a href='/doctor'> Giao diện bác sĩ </a></Col>
-                </Row>
-                <Row>
-                    <Col> <a href='/manage_drug'> Quản lý thuốc </a></Col>
-                </Row>
-                <Row>
-                    <Col> <a href='/view_order'> Xem thông tin đơn thuốc </a></Col>
-                </Row>
-                <Row>
-                    <Col> <a href='/statistic_order'> Thống kê đơn thuốc </a></Col>
-                </Row> 
                 <Row>
                     <Col>
                     <div className="header-content">
