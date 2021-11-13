@@ -11,23 +11,20 @@ const LoginPane = () => {
     const [users, setUsers] = useState();
     const [init, setInit] = useState(true);
     const [doctors, setDoctors] = useState();
+
     (() => {
         if (init === true) {
             setInit(false);
             axios.get('/api/get/doctors').then(
                 res => {
                     const doctors = res.data.doctors;
-                    setDoctors(doctors
-                    );
-                    console.log(doctors); 
-                    return axios.get('/api/get/users')
-                        .then(res => {
-                            const users = res.data.users;
-                            setUsers(users);
-                        }
-                        );
-                }
-            )
+                    setDoctors(doctors);
+                })
+            axios.get('/api/get/users')
+                .then(res => {
+                    const users = res.data.users;
+                    setUsers(users);
+                });
 
         }
     })();
@@ -42,14 +39,14 @@ const LoginPane = () => {
         setModal(!isModal);
     }
 
-
-
     const apiLog = () => {
-        const login = users.filter((user) => user.phone.toString() === phone.value.toString())
-        if (login)
-        {
-            const doc_role=doctors.filter((doctor) => doctor.phone.toString() === phone.value.toString())
-            if (doc_role)  ctx.setRole("Doctor");
+        const login = users.filter((user) => {return user.phone.toString() === phone.value.toString()})
+        console.log(login.length);
+        if (login.length !== 0)
+        { console.log('Hi')
+            const doc_role = doctors.filter((doctor) => {return doctor.phone.toString() === phone.value.toString()})
+            console.log(doc_role);
+            if (doc_role.length !== 0)  ctx.setRole("Doctor");
             else {
                 ctx.setRole('Patient');
             }

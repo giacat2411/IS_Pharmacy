@@ -2,7 +2,7 @@ import '../App.css';
 import { NavLink } from 'react-router-dom';
 import {Nav} from 'reactstrap';
 
-const Modal = ({ handleClose, show, add, children }) => {
+const Modall = ({ handleClose, show, add, children }) => {
   const showHideClassName = show ? "modal display-block" : "modal display-none";
 
   return (
@@ -26,6 +26,6 @@ const Modal = ({ handleClose, show, add, children }) => {
   );
 };
 
-export default Modal;
+export default Modall;
 
 // action="/users/new" method="POST"
