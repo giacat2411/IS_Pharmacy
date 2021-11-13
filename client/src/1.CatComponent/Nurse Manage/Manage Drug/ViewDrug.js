@@ -4,6 +4,7 @@ import { Table, Button } from 'reactstrap';
 import { Form, FormGroup, Input } from 'reactstrap';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { FaSearch } from 'react-icons/fa';
+import { Spinner } from 'reactstrap';
 import axios from 'axios';
 
 import './managedrug.css';
@@ -91,6 +92,10 @@ class ViewDrug extends Component {
                 </tr>
         )}); 
 
+        let not_Found = <span></span>;
+        if (display_drugs.length === 0) not_Found = <div className="not-found-search"> Không tìm thấy kết quả </div>
+        else not_Found = <span></span>;
+
         return (
             <Container>
                     <Row className="manage-drug-heading">
@@ -113,6 +118,7 @@ class ViewDrug extends Component {
                     </Row>
                     <Row>
                         <Col>
+                            {not_Found}
                             <Table responsive hover striped>
                             <thead>
                                 <tr>
@@ -140,6 +146,7 @@ class ViewDrug extends Component {
                                 {display_drugs}
                             </tbody>
                             </Table>
+                            {display_drugs.length === 0 && (() => {return <Spinner className="detail-spinner"> Loading... </Spinner>})()}
                         </Col>
                     </Row>
                     <Modal isOpen={this.state.isModelOpen} toggle={this.onToggleModel} centered>

@@ -67,3 +67,33 @@
   font-size: bold;
   padding-top: 5px;
 }
+
+.detail-spinner {
+  margin-left: 70vh;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.print-bill-button, .print-bill-button:hover, .print-bill-button:not(:hover) {
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  background-color: #62AFFC;
+  color: white;
+  border: 0px;
+  font-size: 12px;
+  margin: auto;
+  margin-top: 8px;
+  float: right;
+  width: fit-content;
+  border: 1px solid #62AFFC;
+  font-weight: 500;
+  text-transform: uppercase;
+  box-shadow: #62AFFC;
+}
+
+.order-inform {
+  margin-bottom: 20px;
+}
+
+.logo-print {
+  margin-top: -6px
+}

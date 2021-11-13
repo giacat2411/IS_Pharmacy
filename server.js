@@ -65,6 +65,26 @@ app.get('/api/get/orders', (req, res) => {
   });
 });
 
+app.get('/api/get/order_in_view', function(req, res){
+  var sql = "select purchase_id as id, concat(lastname, ' ', firstname) as fullname, dateofbirth, address "
+    + "from purchase_medicine join (patient natural join system_user) on (phone = patient_phone) "
+    + "where purchase_id = " + req.query.orderID;
+  console.log(sql);
+  connection.query(sql, function(err, results) {
+    if (err) throw err;
+    res.json({information: results});
+  });
+})
+
+app.get('/api/get/order_details', function(req, res){
+  var sql = "select * from include natural join drug where medicine_id = " + req.query.orderID;
+  console.log(sql);
+  connection.query(sql, function(err, results) {
+    if (err) throw err;
+    res.json({order_details: results});
+  });
+})
+
 ///// Phuc /////
 
 ///// Chanh /////
