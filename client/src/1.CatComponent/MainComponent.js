@@ -34,7 +34,7 @@ import { HeaderProvider } from './Context';
 //TODO: Context user with role
 
 //CHANH
-import HomeNur from '../3.ChanhComponent/ManagerNur';
+import HomeNur from '../3.ChanhComponent/NursingComponent';
 
 const Main = (props) => {
   // const ctx = useContext(HeaderDefine);

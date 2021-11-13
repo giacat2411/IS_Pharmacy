@@ -50,8 +50,6 @@ const LoginPane = () => {
         else if (phone.value === "2") ctx.setRole('Doctor');
         else if (phone.value === "3") ctx.setRole('Nurse');
     };
-    //TODO update context in main
-
     const newPwd = () => {
         // console.log(formValue)
         // axios
@@ -66,7 +64,7 @@ const LoginPane = () => {
     if (ctx.role === "Patient") {
         return (
             <Switch>
-                <Redirect to='/home' />
+                <Redirect to='/customer' />
             </Switch>
         )
     } else if (ctx.role === "Nurse") {

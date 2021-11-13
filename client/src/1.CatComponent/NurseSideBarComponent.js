@@ -38,7 +38,7 @@ class NurseSideBar extends Component {
                             </MenuItem>
                             <MenuItem>
                                 Thống kê doanh thu
-                                <Link to='/statistic_order' />
+                                {/* <Link to='/statistic_order' /> */}
                             </MenuItem>
                         </SubMenu>
                         <SubMenu title="Quản lý lịch khám" icon={<FaHeart />}>

@@ -251,7 +251,7 @@ class Appointment extends Component {
                 </div>
                 <div class='dung-appointment-table'>
                     <Table hover>
-                    <thead>
+                    <thead className="dung-table">
                         <tr>
                             <th>
                                 #

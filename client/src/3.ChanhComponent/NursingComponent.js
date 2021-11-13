@@ -1,59 +1,57 @@
 import React, {Component} from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import { Button } from 'reactstrap';
-import { Card, CardBody} from 'reactstrap';
+import { Card, CardBody, CardTitle, NavLink } from 'reactstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
-class HomeNur extends Component{
+class Customer extends Component{
     render(){
         return(
-            <Container class='dung-doctor'>
-                <div class='dung-title'>
-                    <h1>Chào mừng đến với HealthCare!</h1>
-                    <hr/>
-                </div>
-                <div class="dung-doctor-row1">
-                <Row className="home-service">
-                    <Col>
-                        <Card className="service-item">
-                            <center>
-                            <img className="service-img" width="61.86px" height="85px" vspace="30px" src="/assets/images/buy-home.png" alt = "Quản lý đơn thuốc"></img>
-                            </center>
-                            <CardBody>
-                            <center>
-                            <Button tag="h5">Quản lý đơn thuốc</Button>
-                            </center>
-                            </CardBody>
-                        </Card>                   
-                    </Col>
-                    <Col>
-                        <Card className="service-item">
-                            <center>
-                            <img className="service-img" width="61.86px" height="85px" vspace="30px" src="/assets/images/schedule.png" alt = "Tạo lịch khám"></img>
-                            </center>
-                            <CardBody>
-                            <center>
-                            <Button tag="h5">Tạo lịch khám</Button>
-                            </center>
-                            </CardBody>
-                        </Card>                   
-                    </Col>
-                    <Col>
-                        <Card className="service-item">
-                            <center>
-                            <img className="service-img" width="61.86px" height="85px" vspace="30px" src="/assets/images/make-treat-home.png" alt = "Thống kê lịch khám"></img>
-                            </center>
-                            <CardBody>
-                            <center>
-                            <Button tag="h5">Thống kê lịch khám</Button>
-                            </center>
-                            </CardBody>                           
-                        </Card>                   
+            <Container>
+                <Row>
+                    <Col md="12"> <h1 className="cat-cushome-header">Chào mừng bạn đến với Health Care !</h1>
                     </Col>
                 </Row>
-                </div>
+                <hr />
+                <Row>
+                    <Col md="4">
+                        <LinkContainer to="/manage_drug" >
+                        <NavLink className="cat-customer-item-link">
+                        <Card className="cat-customer-item">
+                            <img className="cat-customer-img" width="91.98px" height="90px" src="/assets/images/view-home.png" alt = "Xem hồ sơ bệnh án"></img>
+                            <CardBody>
+                            <CardTitle tag="h5" className="cat-customer-text">Quản lý thuốc</CardTitle>
+                            </CardBody>
+                        </Card>
+                        </NavLink>
+                        </LinkContainer>
+                    </Col>
+                    <Col md="4">    
+                        <LinkContainer to="/view_order" style={{cursor: 'pointer'}}>
+                        <NavLink className="cat-customer-item-link">
+                        <Card className="cat-customer-item">
+                            <img className="cat-customer-img" width="61.86px" height="85px" src="/assets/images/buy-home.png" alt = "Mua thuốc online"></img>
+                            <CardBody>
+                            <CardTitle tag="h5" className="cat-customer-text">Quản lý đơn thuốc</CardTitle>
+                            </CardBody>
+                        </Card>
+                        </NavLink>
+                        </LinkContainer>
+                    </Col>
+                    <Col md="4">
+                    {/* <LinkContainer to ="/" style={{cursor: 'pointer'}}>
+                        <NavLink className="cat-customer-item-link"> */}
+                            <Card className="cat-customer-item">
+                                <img className="cat-customer-img" width="67.29px" height="95px" src="/assets/images/make-treat-home.png" alt = "Đặt lịch khám"></img>
+                                <CardBody>
+                                <CardTitle tag="h5" className="cat-customer-text">Thống kê lịch khám</CardTitle>
+                                </CardBody>
+                            </Card>
+                    {/* </NavLink>
+                    </LinkContainer> */}
+                    </Col>
+                </Row>
             </Container>
-        );
+        )
     }
 }
-
-export default HomeNur;
+export default Customer;

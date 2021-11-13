@@ -28,7 +28,7 @@ class AppointmentTable extends Component {
         return(
             <Container>
                 <Table hover>
-                    <thead>
+                    <thead className="dung-table">
                         <tr>
                             <th>
                                 #
@@ -50,7 +50,7 @@ class AppointmentTable extends Component {
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="dung-table-body">
                         <tr>
                             <th scope="row">
                                 1

@@ -138,14 +138,14 @@ class BuyDrug extends Component {
                                 <img className="show-category" src='/assets/images/arrow.png' width="17px" height="17px" alt="Chọn"></img>
                             </NavItem>
                             <NavItem>
-                                <Form className="search-bar" onSubmit={e => {e.preventDefault();}}>
+                                <Form className="search-bar-cat" onSubmit={e => {e.preventDefault();}}>
                                     <FormGroup>
                                         <Input id="search" name="search-drugs" placeholder="Tìm sản phẩm thuốc mong muốn"
                                         innerRef={(input) => this.search_item = input} />
                                     </FormGroup>
                                 </Form>
                             </NavItem>
-                            <NavItem className="search-button">
+                            <NavItem className="search-button-cat">
                             <Button color="primary" onClick={this.handleSubmit}>
                                 <FaSearch /> Tìm kiếm
                             </Button>
