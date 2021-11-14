@@ -342,7 +342,8 @@ body {
   font-size: 20px;
   margin: auto;
   margin-bottom: 20px;
-  margin-top: 5px
+  padding-top: 10px;
+  margin-left: 36%
 }
 
 .cart-button:hover {
@@ -684,6 +685,6 @@ div.dung-form-taolich{
 }
 
 #clickhere{
-  margin-bottom: 113px;
-  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
