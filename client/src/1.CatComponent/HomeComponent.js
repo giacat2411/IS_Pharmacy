@@ -7,16 +7,6 @@ class Home extends Component{
     render(){
         return(
             <Container>
-                <Row> 
-                    <Col> <a href='/customer'> Giao diện khách hàng</a> </Col> 
-                </Row>
-                <Row>
-                    <Col> <a href='/doctor'> Giao diện bác sĩ </a></Col>
-                </Row>
-                <Row>
-                    <Col> <a href='/manage_medicine'> Quản lý đơn thuốc </a></Col>
-                </Row>
-
                 <Row>
                     <Col>
                     <div className="header-content">
@@ -66,13 +56,15 @@ class Home extends Component{
                         </Card>
                     </Col>
                     <Col>
-                        <Card className="service-item">
-                        <img className="service-img" width="67.29px" height="95px" src="/assets/images/make-treat-home.png" alt = "Đặt lịch khám"></img>
-                            <CardBody>
-                            <CardTitle tag="h5">Đặt lịch khám</CardTitle>
-                            <CardText className="service-text">Đặt lịch khám và bạn sẽ được gặp những bác sĩ đáng tin cậy và lời khuyên tốt nhất từ chúng tôi</CardText>
-                            </CardBody>
-                        </Card>
+                        <a href='/appointment'>
+                            <Card className="service-item">
+                            <img className="service-img" width="67.29px" height="95px" src="/assets/images/make-treat-home.png" alt = "Đặt lịch khám"></img>
+                                <CardBody>
+                                <CardTitle tag="h5">Đặt lịch khám</CardTitle>
+                                <CardText className="service-text">Đặt lịch khám và bạn sẽ được gặp những bác sĩ đáng tin cậy và lời khuyên tốt nhất từ chúng tôi</CardText>
+                                </CardBody>
+                            </Card>
+                        </a>
                     </Col>
                 </Row>
                 <br />

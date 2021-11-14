@@ -1,16 +1,23 @@
-import React, { Component } from 'react';
+import React, { Component,useContext,useState,useMemo } from 'react';
 import { Navbar, NavbarBrand, Nav, NavItem, 
         Collapse, NavbarToggler } from 'reactstrap';
-import { FaHome, FaRegCalendarAlt, FaInfo, FaUserPlus, FaSignInAlt } from "react-icons/fa";
+import { FaHome, FaRegCalendarAlt, FaInfo, FaUserPlus, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
+import axios from 'axios';
 
-class Header extends Component {
-    render(){
+
+import LogButton from './LogButton';
+import HeaderDefine from './Context';
+// import {HeaderDefine, ThingsProvider} from './Context';
+// import HeaderDefine from '../2.PhucComponent/Context';
+
+
+const Header = (props)=> {
         return(
             <Navbar dark expand="md">
             <div className="container">
                 <NavbarToggler/>
-                <NavbarBrand className="mr-auto" href="/"><img src='assets/images/Logo.png' height="38px" width="38px" alt='HealthCare' /></NavbarBrand>
+                <NavbarBrand className="mr-auto" href="/"><img src='/assets/images/Logo.png' height="38px" width="38px" alt='HealthCare' /></NavbarBrand>
                 <Collapse navbar>
                     <Nav navbar>
                         <NavItem>
@@ -23,20 +30,14 @@ class Header extends Component {
                             <NavLink className="nav-link"  to='/'><FaInfo /> Liên hệ</NavLink>
                         </NavItem>
                     </Nav>
-
-                    <Nav className="ml-auto" navbar>
-                        <NavItem>
-                            <NavLink className="nav-link" to='/signup'> <FaUserPlus/> Đăng ký </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink className="nav-link" to='/login'> <FaSignInAlt /> Đăng nhập </NavLink>
-                        </NavItem>
-                            </Nav>
+                    {/* <HeaderDefine.Provider value={ProviderValue}> */}
+                    <LogButton/>
+                    {/* </HeaderDefine.Provider> */}
                 </Collapse>
             </div>
         </Navbar>
         );
     }
-}
+
 
 export default Header;
