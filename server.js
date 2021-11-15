@@ -97,29 +97,14 @@ app.get('/api/get/order_details', function (req, res) {
 ///// Phuc /////
 
 app.use(cookieParser());
-// var FileStore = require('session-file-store')(session);
-// var MemoryStore = require('memorystore')(session)
-
 app.use(session({
-  resave: true, secret: "key", cookie: { expires: TIMEOUT }, saveUninitialized: false,
-  //  store: new MemoryStore({
-  //   checkPeriod: 86400000 // prune expired entries every 24h
-  // })
-}));
-app.get('/',(req,res)=>{
-  // sess=req.session;
-  // sess.user={phone: '9632222868', role: 'Doctor'};
-  // console.log(req.session)
-})
+  resave: true, secret: "key", cookie: { expires: TIMEOUT }, saveUninitialized: false,}));
 
 app.get('/api/get/users', (req, res) => {
   var sql = `SELECT * FROM system_user`
   connection.query(sql, function (err, results) {
-
     res.json({ users: results });
-
   });
-  // res.json({ user: req.session.user })
 });
 
 app.post('api/post/regist', (req, res) => {
@@ -136,9 +121,7 @@ app.post('api/post/regist', (req, res) => {
 app.get('/api/get/phuc', (req, res) => { console.log(req.session) })
 
 app.get('/api/set/user', (req, res) => {
-  console.log("success");
   req.session.user = { phone: req.query.phone, role: req.query.role };
-  req.session
   console.log(req.session.user)
 })
 app.get('/api/destroy/session', (req, res) => {
@@ -148,10 +131,7 @@ app.get('/api/new/session', (req, res) => {
   req.session.regenerate();
 })
 app.get('/api/get/session', (req, res) => {
-  console.log("GET SESSION");
-
   res.json({ user: req.session.user })
-  console.log(req.session.user)
 
 })
 app.get('/api/get/login', (req, res) => {
@@ -160,7 +140,6 @@ app.get('/api/get/login', (req, res) => {
     results[0].role = "Patient";
     res.json({ users: results });
     req.session.user = results[0]
-
   });
 });
 
