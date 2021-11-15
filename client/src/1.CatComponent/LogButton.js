@@ -1,13 +1,12 @@
 import React, { useContext, useState } from 'react'
 import HeaderDefine from './Context'
-import { FaUserPlus, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
+import { FaUserPlus, FaSignInAlt, FaSignOutAlt, FaSquare } from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
 import { Button, CardText } from 'reactstrap';
 import { Switch, Redirect } from 'react-router';
 
 
 import { Nav, NavItem, } from 'reactstrap';
-import { session } from 'passport';
 import axios from 'axios';
 const LogButton = (props) => {
     const user = useContext(HeaderDefine);
@@ -64,7 +63,7 @@ const LogButton = (props) => {
         // <HeaderDefine.Consumer>
         <Nav className="ml-auto" navbar>
             <NavItem>
-                <NavLink className="nav-link" to='/profile'>Thông tin cá nhân </NavLink>
+                <NavLink className="nav-link" to='/profile'><img src='/assets/images/ava_user.JPG' className="mini-ava"/> {user.name} </NavLink>
                 {/* <img src={user.user.ava} /> {user.user.fullname} */}
             </NavItem>
             <NavItem>

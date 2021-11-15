@@ -11,6 +11,7 @@ const passport = require('passport')
 const initPassport = require('./passport')
 const cookieParser = require('cookie-parser')
 const session = require('express-session');
+var bcrypt = require('bcryptjs');
 
 const TIMEOUT = 1 * 60 * 60;
 
@@ -94,29 +95,83 @@ app.get('/api/get/order_details', function (req, res) {
   });
 })
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ///// Phuc /////
 
 app.use(cookieParser());
 app.use(session({
   resave: true, secret: "key", cookie: { expires: TIMEOUT }, saveUninitialized: false,}));
-
+hashPassword = async (password) => {
+    try {
+        return await bcrypt.hash(password, 1);
+    } catch (error) {
+        console.log(error);
+    }
+    return null;
+};
 app.get('/api/get/users', (req, res) => {
   var sql = `SELECT * FROM system_user`
   connection.query(sql, function (err, results) {
+    // encoded=results.map((user)=>{var temp=user; 
+    //   temp.phone=hashPassword(user.phone);
+    // return temp;});
     res.json({ users: results });
   });
 });
+app.get('/api/get/role',(req,res)=>{
+  const RoleList=["Doctor","Nurse","Patient"]
+  for (let i = 0; i < 3; i++) {
+  sql = `SELECT * FROM ${RoleList[i]} WHERE PHONE = ${req.query.phonenum}`;
+    connection.query(sql, function (err, results) {
+      if (results[0])
+        res.json({role: RoleList[i]});
+    });
+}
 
-app.post('api/post/regist', (req, res) => {
-  console.log(req.session)
-  var sql = `INSERT INTO system_user (phone, firstname, lastname, dateofbirth, address, email, pwd) VALUES 
-        (${req.query.phone}," ${req.query.firstname}","${req.query.lastname}",
-        "${req.query.dateofbirth}","${req.query.address}","${req.query.email}","${req.query.pwd}")`
-  connection.query(sql, function (err, results) {
-    alert("INTO")
-  });
-
+  // sql=`select*from doctor`;
+  // connection.query(sql,function(err,results){
+  //   res.json({asd:"Doctor"})
+  // })
 })
+app.get('/api/get/access',(req,res)=>{
+  sql = `SELECT * FROM system_user WHERE PHONE = ${req.query.phonenum}`;
+    connection.query(sql, function (err, results) {
+        res.json({user: results});
+    });
+  }
+)
+app.get('/api/hash/pwd',(req,res)=>{
+  res.json({phone: hashPassword(req.query.pwd)});
+})
+
 
 app.get('/api/get/phuc', (req, res) => { console.log(req.session) })
 
@@ -142,7 +197,10 @@ app.get('/api/get/login', (req, res) => {
     req.session.user = results[0]
   });
 });
+app.get('/api/encode',(req,res)=>{
+  var input=req.query.input;
 
+})
 app.get('api/get/patientInfo', (req, res) => {
   var sql = `SELECT * FROM patient where phone=${req.query.phone}`
   connection.query(sql, function (err, results) {
@@ -150,6 +208,22 @@ app.get('api/get/patientInfo', (req, res) => {
   });
 }
 )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ///// Chanh /////
 
@@ -202,32 +276,50 @@ app.post('/api/update/drug_quantity', function (req, res) {
 });
 
 ///// Phuc /////
-app.post('api/update/patientInfo', (req, res) => {
+app.post('/api/post/TTSK', (req, res) => {
+  info=req.body.params.info
   var sql = `UPDATE patient
-        SET medical_history=${req.query.medical_history},
-            height=${req.query.height},
-            weight=${req.query.weight},
-            blood_type=${req.query.blood_type}, 
-            medical_background=${req.query.medical_background}
-    WHERE phone=${req.query.phone}`
+        SET medical_history="${info.medical_history}",
+            height=${info.height},
+            weight=${info.weight},
+            blood_type="${info.blood_type}", 
+            medical_background="${info.medical_background}"
+    WHERE phone=${req.body.params.phone}`
+    console.log(sql)
   connection.query(sql, function (err, results) {
-    res.json({ patients: req.query });
+    res.json({msg:"done"})
   });
 }
 )
-app.post('api/post/forgetpwd', (req, res) => {
-  var sql = `UPDATE system_user SET pwd = ${req.query.pwd}
-            WHERE phone=${req.query.phone}`
-  connection.query(sql, (err, results) => {
-    if (err) throw err;
+app.post('/api/post/info',(req,res)=>{
+  var sql=`UPDATE system_user 
+  SET 
+  dateofbirth="${req.body.params.dateofbirth}",
+  firstname="${req.body.params.firstname}",
+  lastname="${req.body.params.lastname}",
+  address="${req.body.params.address}",
+  email="${req.body.params.email}"
+  WHERE phone=${req.body.params.phone};`
+  connection.query(sql,function(err,results){
+    res.json({msg:"update info success"})
   })
-  //Go to ogin
 })
-app.post('api/post/newpwd', (req, res) => {
-  var sql = `UPDATE system_user SET pwd = ${req.query.pwd}
-            WHERE phone=${req.query.phone}`
+app.post('/api/post/pwd',(req,res)=>{
+  param=req.body.params;
+  //encoding bcrypt 
+  var sql=`UPDATE SYSTEM_USER SET  pwd="${req.body.params.newpwd}"
+  WHERE phone=${req.body.params.phone} AND pwd = ${req.body.params.pwd}`
+  connection.query(sql,()=>{
+    res.json({msg:"new pwd successful"})
+  })
+})
+app.post('/api/post/newpwd', (req, res) => {
+  var sql = `UPDATE system_user SET email = ${req.body.params.pwd}
+            WHERE phone=${req.body.params.phone}`
   connection.query(sql, (err, results) => {
     if (err) throw err;
+  console.log(req.body);
+    res.json({msg:"Đổi mật khẩu thành công"})
   })
   //Go to ogin
 })
@@ -282,7 +374,19 @@ app.post('/api/insert/drug', function (req, res) {
 });
 
 ///// Phuc /////
+app.post('/api/insert/regist', (req, res) => {
+  console.log(req.body.params)
+  var sql = `INSERT INTO system_user (phone, firstname, lastname, dateofbirth, address, email) VALUES 
+        (${req.body.params.phone},"${req.body.params.firstname}","${req.body.params.lastname}","${req.body.params.dateofbirth}","${req.body.params.address}","${req.body.params.email}"
+        )` //, pwd    ","${req.body.params.pwd}
+  console.log(sql)
+  connection.query(sql, function (err, results) {
+    //if (err) throw err;
+    res.json({ msg: `Đăng ký thành công!
+    Mời bạn đăng nhập vào tài khoản` });
+  });
 
+})
 ///// Chanh /////
 
 ///// Dung /////

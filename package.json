@@ -18,6 +18,7 @@
     "@sentry/tracing": "^6.14.1",
     "axios": "^0.23.0",
     "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "concurrently": "^6.3.0",
     "cookie-parser": "^1.4.5",
@@ -30,6 +31,7 @@
     "nodemon": "^2.0.15",
     "passport": "^0.5.0",
     "passport-local": "^1.0.0",
+    "react-masonry-component": "^6.3.0",
     "react-router-bootstrap": "^0.25.0",
     "session-file-store": "^1.5.0",
     "styled-components": "^5.3.3"
