@@ -25,6 +25,8 @@ const LoginPane = () => {
                     const users = res.data.users;
                     setUsers(users);
                 });
+            // axios.get('/api/new/session');
+            
 
         }
     })();
@@ -53,8 +55,7 @@ const LoginPane = () => {
         }
         else ctx.setRole("Guest");
         //ASSIGN SESSION
-        axios.get('/api/set/user', { params: { phone: ctx.phone, role: ctx.role } });
-        //TODO search for Nurse list and assign
+         //TODO search for Nurse list and assign
 
 
         // if (phone.value === "1") ctx.setRole('Patient');
@@ -72,25 +73,9 @@ const LoginPane = () => {
         //         toggleModal();
         //     });
     };
-    if (ctx.role === "Patient") {
-        return (
-            <Switch>
-                <Redirect to='/customer' />
-            </Switch>
-        )
-    } else if (ctx.role === "Nurse") {
-        return (
-            <Switch>
-                <Redirect to='/nurse' />
-            </Switch>
-        )
-    } else if (ctx.role === "Doctor") {
-        return (<Switch>
-            <Redirect to='/doctor' />
-        </Switch>)
-    }
-
-    else
+    
+    
+    if(ctx.role==="Guest"){
         return (
             // <HeaderDefine.Provider value={ProviderValue}>
             <div className="center">
@@ -134,6 +119,32 @@ const LoginPane = () => {
                 </Modal> */}
             </div>
             // </HeaderDefine.Provider>
-        )
+        )}
+        else{
+            axios.get('/api/set/user', { params: { phone: ctx.phone, role: ctx.role } });
+            
+        var userSession={phone:ctx.phone,role:ctx.role};
+        console.log(userSession);
+        sessionStorage.clear();
+        sessionStorage.setItem('user',JSON.stringify(userSession));
+            if (ctx.role === "Patient") {
+                return (
+                    <Switch>
+                        <Redirect to='/customer' />
+                    </Switch>
+                )
+            } else if (ctx.role === "Nurse") {
+                return (
+                    <Switch>
+                        <Redirect to='/nurse' />
+                    </Switch>
+                )
+            } else if (ctx.role === "Doctor") {
+                return (<Switch>
+                    <Redirect to='/doctor' />
+                </Switch>)
+            }
+        
+        }
 }
 export default LoginPane;
