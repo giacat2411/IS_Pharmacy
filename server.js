@@ -153,7 +153,13 @@ app.get('api/get/patientInfo',(req,res)=>{
 )
 
 ///// Chanh /////
-
+app.get('/api/get/patient', (req, res) => {
+  var sql = "SELECT * FROM patient";
+  connection.query(sql, function(err, results) {
+    if (err) throw err;
+    res.json({treatment_turns: results});
+  });
+});
 ///// Dung /////
 
 app.get('/api/get/treatment_turns', (req, res) => {
@@ -233,7 +239,29 @@ app.post('api/post/newpwd',(req,res)=>{
     //Go to ogin
 })
 ///// Chanh /////
+app.post('api/update/work_schedule',(req,res)=>{
+  var sql=`UPDATE patient
+      SET work_day=${req.query.work_day},
+          work_session=${req.query.work_session},
+  WHERE phone=${req.query.phone}`
+  connection.query(sql, function(err, results) {
+      res.json({ patients: req.query });
+  });
+}
+)
 
+app.post('api/update/treatment_turn',(req,res)=>{
+  var sql=`UPDATE patient
+      SET turn_time=${req.query.turn_time},
+          start_time=${req.query.start_time},
+          end_time=${req.query.end_time},
+          doctor_phone=${req.query.doctor_phone},
+  WHERE id=${req.query.id}`
+  connection.query(sql, function(err, results) {
+      res.json({ patients: req.query });
+  });
+}
+)
 ///// Dung /////
 
 
@@ -248,7 +276,15 @@ app.post('api/post/newpwd',(req,res)=>{
 ///// Phuc /////
 
 ///// Chanh /////
-
+app.post('/api/delete/work_schedule', (req, res) => {
+  var sql = "DELETE FROM work_schedule "
+          + "WHERE doctor_phone='"+req.body.doctor_phone+"'";
+          console.log(req);
+  connection.query(sql, function(err, results) {
+    if (err) throw err;
+    res.json({news: results});
+  });
+});
 ///// Dung /////
 
 app.post('/api/delete/treatment_turns', (req, res) => {
