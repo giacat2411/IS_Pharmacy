@@ -5,7 +5,6 @@ class SaveSchedule extends Component {
     super();
     this.state = {
 
-      patient:[],
       treatment_turn:[],
       work_schedule:[],         
       system_user:[],

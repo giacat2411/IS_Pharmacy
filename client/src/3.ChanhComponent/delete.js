@@ -1,6 +1,6 @@
 import '../App.css';
-import { NavLink } from 'react-router-dom';
-import {Nav} from 'reactstrap';
+// import { NavLink } from 'react-router-dom';
+// import {Nav} from 'reactstrap';
 
 const Deleted = ({ handleClose, deleted, children }) => {
   const deleteHideClassName = deleted ? "modal display-block" : "modal display-none";
@@ -16,10 +16,9 @@ const Deleted = ({ handleClose, deleted, children }) => {
           Hủy
         </button>
           
-            <button type="button" onClick={handleClose}>
-            Xác nhận
-    
-            </button>
+        <button type="button" onClick={handleClose}>
+          Xác nhận
+        </button>
             
       </section>
     </div>
