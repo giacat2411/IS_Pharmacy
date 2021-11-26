@@ -19,20 +19,18 @@ import ViewOrderDetail from './Nurse Manage/Manage Order/ViewOrderDetail';
 // DUNG
 import Doctor from '../4.DungComponent/DoctorComponent';
 import Appointment from '../4.DungComponent/AppointmentComponent';
-import Fetch from '../4.DungComponent/testfetch';
 import CancelAppointment from '../4.DungComponent/CancelAppointmentComponent';
 import Payment from '../4.DungComponent/PaymentComponent';
 import CreateAnAppointment from '../4.DungComponent/CreateAnAppointmentComponent';
 import Re_examinationSchedule from '../4.DungComponent/Re-examinationScheduleComponent';
+import MedicalRecord from '../4.DungComponent/VIewMedicalRecordComponent';
+import InstantAppointment from '../4.DungComponent/InstantAppointmentComponent';
 
 //PHUC
 import LoginPane from '../2.PhucComponent/loginPaneComponent';
 import Profile from '../2.PhucComponent/profile';
 import SignUp from '../2.PhucComponent/Signup';
-// import HeaderDefine from './Context';
 import { HeaderProvider } from './Context';
-//TODO: Context user with role
-
 //CHANH
 import HomeNur from '../3.ChanhComponent/NursingComponent';
 
@@ -57,17 +55,6 @@ const Main = (props) => {
         <ViewOrderDetail orderID = {parseInt(JSON.parse(match.params.orderID))} />
       )
     }
-
-    // const ctx = useContext(HeaderDefine);
-    // const [formValue, setFormValue] = useState({
-        
-    //     phone: ctx.phone,
-    //     fullname: ctx.fullname,
-    //     pwd: '123456',
-    //     role:"Guest",
-    // });
-    // const ProviderValue=useMemo(()=>({formValue,setFormValue}),[formValue,setFormValue]);
-
 
     const PaymentPage = ({match}) => {
       return(
@@ -98,7 +85,9 @@ const Main = (props) => {
               <Route path='/cancelappointment' component={CancelAppointment} />
               <Route path='/payment/:cart' component={PaymentPage} />
               <Route path='/createanappointment' component={CreateAnAppointment} />
+              <Route path='/view_medical_record' component={MedicalRecord} />
               <Route path='/re-examination_schedule' component={Re_examinationSchedule} />
+              <Route path='/instant_appointment' component={InstantAppointment} />
 
 
               {/*---------------------------------Phuc------------------------------------*/}

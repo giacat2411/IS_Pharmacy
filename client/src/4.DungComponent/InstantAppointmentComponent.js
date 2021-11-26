@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import { Container, Table, Form, FormGroup, Label} from 'reactstrap';
-import { Button } from 'reactstrap';
-import { Input } from 'reactstrap';
+import { Container, Table } from 'reactstrap';
 import axios from 'axios';
 import { FaPencilAlt } from "react-icons/fa";
 import { MdLockClock } from "react-icons/md";
@@ -15,7 +13,8 @@ const toast = ToastServive.new({
     maxCount:8
   });
 
-class Re_examinationSchedule extends Component {
+
+class InstantAppointment extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -34,8 +33,7 @@ class Re_examinationSchedule extends Component {
             
             current_day: (new Date()).toUTCString(),
             thu: 2,
-            curr_thu: 2,
-            showtable: false
+            curr_thu: 2
         }
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -43,10 +41,8 @@ class Re_examinationSchedule extends Component {
         this.handleInsert = this.handleInsert.bind(this);
         this.handleDeleteInsert = this.handleDeleteInsert.bind(this);
         this.onClickSuccess = this.onClickSuccess.bind(this);
-        this.handleChangePhone = this.handleChangePhone.bind(this);
-        this.handleChangeDay = this.handleChangeDay.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
@@ -78,7 +74,7 @@ class Re_examinationSchedule extends Component {
         {
             if(days[i]==currentDay[0])
             {
-                this.setState({thu:i+2, curr_thu: i+3});
+                this.setState({thu:i+2, curr_thu: i+2});
                 break;
             }
         }
@@ -155,26 +151,17 @@ class Re_examinationSchedule extends Component {
         });
     }
 
-
-    handleChangePhone = (event) => {
-        this.setState({phone : event.target.value});
-      };
-
-    handleChangeDay = (event) => {
-        this.setState({current_day : event.target.value});
+    handleChange = (event) => {
+        this.setState({phone: event.target.value});
+        console.log(this.state.phone)
       };
 
     handleSubmit = (event) => {
-
         if(this.state.system_users.filter(x=>x.phone==this.state.phone).length!==0)
         {
-            const id = toast.success('Phone: ' + this.state.phone + '\nDate: '+ this.state.current_day,()=>{
+            const id = toast.success('Phone: ' + this.state.phone,()=>{
             });
             this.setState({showtable: true })
-            this.handleClick();
-            // console.log(this.state.phone)
-            // console.log(this.state.current_day)
-            // console.log(this.state.showtable);
         }
         else
         {
@@ -185,69 +172,9 @@ class Re_examinationSchedule extends Component {
         event.preventDefault();
     };
 
-    handleClick =(event)=>{    
-        const begin = "Mon, 5 Jul 2021";
-        const end = "Sun, 11 Jul 2021";
-
-        let [year, month, day] = String(this.state.current_day).split('-');
-        month = Number(month);
-        day = Number(day);
-        year = Number(year);
-        console.log(this.state.current_day)
-        console.log(month + '_' + day + '_' + year)
-        const thu = Math.floor((day + ((153 * (month + 12 * ((14 - month) / 12) - 3) + 2) / 5) +
-        (365 * (year + 4800 - ((14 - month) / 12))) +
-        ((year + 4800 - ((14 - month) / 12)) / 4) - 
-        ((year + 4800 - ((14 - month) / 12)) / 100) + 
-        ((year + 4800 - ((14 - month) / 12)) / 400)  - 32045) % 7)
-
-        const days = ['Mon,','Tue,','Wed,', 'Thu,','Fri,','Sat,','Sun,'];
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        const current_day = (days[thu] + ' ' + String(day) + ' ' + months[month-1] + ' ' + String(year));
-        this.setState({current_day: current_day})
-
-        let currentDay = current_day.split(' ');
-        // this.setState({current_day: currentDay});
-        
-        // console.log('check')
-        console.log(this.state.current_day+'______')
-        
-        this.setState({curr_thu: thu+2});
-        console.log(thu+2)
-
-
-        let currentDay_thu = (new Date()).toUTCString().split(' ');
-
-        // this.setState({current_day: currentDay});
-        
-        // console.log('check')
-        // console.log(this.state.current_day)
-        for(let i=0;i<days.length;++i)
-        {
-            if(days[i]==currentDay_thu[0])
-            {
-                this.setState({thu:i+2});
-                break;
-            }
-        }
-
-
-        //loc ngay lam viec
-        const new_Work_schedule=this.state.work_schedules.filter(w=>w.work_day==thu+2);//&&(Number(w.turn_time.split(' ').splice(1,1))>=5&&Number(w.turn_time.split(' ').splice(1,1))<=11))
-        //loc luot dieu tri trong ngay
-        let new_Treatment_turn=this.state.treatment_turns.filter(w=>new_Work_schedule.filter(nw=>w.doctor_phone==nw.doctor_phone)).flat()//w=>w.doctor_phone==new_Work_schedule[0].doctor_phone||new_Work_schedule[1]!==undefined&&w.doctor_phone==new_Work_schedule[1].doctor_phone
-        
-        
-        new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]==currentDay[1]&&nw.turn_time.split(' ')[2]==currentDay[2]&&nw.turn_time.split(' ')[3]==currentDay[3]);
- 
-        const new_System_user=this.state.system_users.filter(w=>new_Work_schedule.filter(nw=>w.phone==nw.doctor_phone)).flat();//w=>w.phone==new_Work_schedule[0].doctor_phone||new_Work_schedule[1]!==undefined&&w.phone==new_Work_schedule[1].doctor_phone
-        this.setState({ treatment_turn: new_Treatment_turn, work_schedule: new_Work_schedule, system_user:new_System_user });
-    }
-
 
     render(){
         const showHideClassName = this.state.show ? "modal display-block" : "modal display-none";
-        const showTable = this.state.showtable? "display-block" : "display-none";
         const listMorning=["8:00:00-8:30:00","8:30:00-9:00:00","9:00:00-9:30:00","9:30:00-10:00:00","10:00:00-10:30:00","10:30:00-11:00:00"];
         const listAfternoon=["13:00:00-13:30:00","13:30:00-14:00:00","14:00:00-14:30:00","14:30:00-15:00:00","15:00:00-15:30:00","15:30:00-16:00:00","16:00:00-16:30:00","16:30:00-17:00:00"];
         const S=this.state.work_schedule.filter(turn=>turn.work_session=='S');
@@ -287,9 +214,9 @@ class Re_examinationSchedule extends Component {
                                     
                             </section>
                         </div>
-                        {(+(new Date(this.state.current_day)))>=(+(new Date((new Date()).toUTCString().split(' ').splice(0,4).join(' '))))?
+                        {this.state.curr_thu>=this.state.thu?
                         (
-                            (+(new Date(this.state.current_day)))==(+(new Date((new Date()).toUTCString().split(' ').splice(0,4).join(' '))))?
+                        this.state.curr_thu==this.state.thu?
                         (Number(x.split('-')[0].split(':')[0])<Number((new Date()).toString().split(' ')[4].split(':')[0])||Number(x.split('-')[0].split(':')[0])==Number((new Date()).toString().split(' ')[4].split(':')[0])&&Number(x.split('-')[0].split(':')[1])<Number((new Date()).toString().split(' ')[4].split(':')[1])?
                         (this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]&&t.turn_time.split(' ').splice(0,4).join(' ')==this.state.current_day.split(' ').splice(0,4).join(' ')).length!==0?
                         <FaPencilAlt />: <MdLockClock />):
@@ -342,9 +269,9 @@ class Re_examinationSchedule extends Component {
                                     
                             </section>
                         </div>
-                        {(+(new Date(this.state.current_day)))>=(+(new Date((new Date()).toUTCString().split(' ').splice(0,4).join(' '))))?
+                        {this.state.curr_thu>=this.state.thu?
                         (
-                            (+(new Date(this.state.current_day)))==(+(new Date((new Date()).toUTCString().split(' ').splice(0,4).join(' '))))?
+                        this.state.curr_thu==this.state.thu?
                         (Number(x.split('-')[0].split(':')[0])<Number((new Date()).toString().split(' ')[4].split(':')[0])||Number(x.split('-')[0].split(':')[0])==Number((new Date()).toString().split(' ')[4].split(':')[0])&&Number(x.split('-')[0].split(':')[1])<Number((new Date()).toString().split(' ')[4].split(':')[1])?
                         (this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]&&t.turn_time.split(' ').splice(0,4).join(' ')==this.state.current_day.split(' ').splice(0,4).join(' ')).length!==0?
                         <FaPencilAlt />: <MdLockClock />):
@@ -358,146 +285,62 @@ class Re_examinationSchedule extends Component {
                         ): 
                         (this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]&&t.turn_time.split(' ').splice(0,4).join(' ')==this.state.current_day.split(' ').splice(0,4).join(' ')).length!==0?
                         <FaPencilAlt />: <MdLockClock />)}
+                        {/* {this.state.curr_thu>=this.state.thu?(this.state.curr_thu==this.state.thu?(Number(x.split('-')[0].split(':')[0])<Number((new Date()).toString().split(' ')[4].split(':')[0])&&Number(x.split('-')[0].split(':')[1])<Number((new Date()).toString().split(' ')[4].split(':')[1])?' ':this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]&&t.turn_time.split(' ').splice(0,4).join(' ')==this.state.current_day.split(' ').splice(0,4).join(' ')).length!==0?<FaPencilAlt />:<button class='dung-button-dangky' type="button" value={this.state.current_day.split(' ').splice(0,4).join(' ')+' '+x} name={curr.doctor_phone} onClick={(e)=>{this.showModal(); this.handleInsert(e)}}>Đăng ký</button>):this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]&&t.turn_time.split(' ').splice(0,4).join(' ')==this.state.current_day.split(' ').splice(0,4).join(' ')).length!==0?<FaPencilAlt />:<button class='dung-button-dangky' type="button" value={this.state.current_day.split(' ').splice(0,4).join(' ')+' '+x} name={curr.doctor_phone} onClick={(e)=>{this.showModal(); this.handleInsert(e)}}>Đăng ký</button>):' '} */}
                     </td>
                 </tr>
                 ))
                 ).flat()
-
-
-
-        return (
-            <Container id='dung-re-sched'>
+            
+        
+        return(
+            <Container id='dung-appointment'>
                 <div class='dung-title'> 
-                    <h1>Lịch tái khám</h1>
+                    <h1>Lịch khám tức thời</h1>
                     <hr />
                 </div>
-                <div class='dung-form-taolich'>
-    
-                    <Form onSubmit={this.handleSubmit}>
-                        <FormGroup>
-                            <Label for="examplePhone">
-                            Phone
-                            </Label>
-                            <Input
-                            id="examplephone"
-                            name="phone"
-                            type="number"
-                            onChange={this.handleChangePhone} required
-                            />
-                        </FormGroup>
-    
-                        <FormGroup>
-                            <Label for="exampleDate">
-                            Date
-                            </Label>
-                            <Input
-                            id="exampleDate"
-                            name="current_day"
-                            
-                            
-                            type="date"
-                            onChange={this.handleChangeDay} required
-                            />
-                        </FormGroup>
-                        <Button>
-                            Submit
-                        </Button>
-                    </Form>
+
+                <form onSubmit={this.handleSubmit} className='dung-nhapsdt'>
+                    <label>
+                        Nhập số điện thoại:
+                        <input type="number" value={this.state.value} onChange={this.handleChange} required />
+                    </label>
+                    <input type="submit" value="Submit" />
+                </form>             
+
+                <div class='dung-appointment-table'>
+                    <Table hover>
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Bác sĩ
+                            </th>
+                            <th>
+                                Số điện thoại
+                            </th>
+                            <th>
+                                Ngày/Tháng/Năm
+                            </th>
+                            <th>
+                                Thời gian
+                            </th>
+                            <th>
+                                
+                            </th>
+                        </tr>
+                        
+                    </thead>
+                    <tbody>
+                    {listS}
+                    {listC}
+                    </tbody>
+                </Table>
                 </div>
-
-                <div class={showTable}>
-                    <div class='dung-appointment-table'>
-                        <Table hover>
-                        <thead>
-                            <tr>
-                                <th>
-                                    #
-                                </th>
-                                <th>
-                                    Bác sĩ
-                                </th>
-                                <th>
-                                    Số điện thoại
-                                </th>
-                                <th>
-                                    Ngày/Tháng/Năm
-                                </th>
-                                <th>
-                                    Thời gian
-                                </th>
-                                <th>
-                                    
-                                </th>
-                            </tr>
-                            
-                        </thead>
-                        <tbody>
-                        {listS}
-                        {listC}
-                        </tbody>
-                    </Table>
-                    </div>
-                </div>
-
-
             </Container>
-        );
+        )
     }
 }
 
-export default Re_examinationSchedule;
-
-{/* <div class='dung-button-createappointment'>
-<Button className="dung cart-button"  onClick={this.handleClick}> 
-    SHOW TABLE
-</Button>
-</div> */}
-
-{/* <form onSubmit={handleSubmit}>
-    <label>
-    Số điện thoại:
-    <input type="text" value={''} onChange={handleChange} />
-    </label>
-    <br />
-    <label>
-    Ngày/Tháng/Năm:
-    <input type="text" value={''} onChange={handleChange} />
-    </label>
-    <br />
-    <label>
-    Thời gian:
-    <input type="text" value={''} onChange={handleChange} />
-    </label>
-    <br />
-    <input type="submit" value="Submit" />
-</form> */}
-
-
-
-
-{/* <FormGroup>
-<Label for="exampleSelect">
-Select
-</Label>
-<Input
-id="exampleSelect"
-name="select"
-type="select"
->
-<option>
-    1
-</option>
-<option>
-    2
-</option>
-<option>
-    3
-</option>
-<option>
-    4
-</option>
-<option>
-    5
-</option>
-</Input>
-</FormGroup> */}
+export default InstantAppointment;

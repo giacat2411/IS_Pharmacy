@@ -533,7 +533,11 @@ div#dung-appointment.container{
   height: 25px;
   width: 75px;
 }
-
+.mini-ava{
+  width:30px;
+  height: 30px;
+  border-radius: 5px;
+}
 /* button.btn.btn-outline-primary{
   width: 11%;
   color: #000000;
@@ -644,6 +648,7 @@ button.dung.cart-button.btn.btn-secondary{
   background-color: #FFD700;
   color: #000000;
   margin-bottom: 70px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 
@@ -673,18 +678,68 @@ div.dung-button-createappointment{
 
 div.dung-button-createappointment button{
   border-radius: 0px;
+  position: auto;
 }
 
 div.dung-button-createappointment.aa{
   text-align: center;
   margin-bottom: 70px;
+  position: auto;
 }
 
 div.dung-form-taolich{
-  margin-bottom: 100px;
+  width: 500px;
+  margin: auto;
+  margin-bottom: 40px;
 }
 
 #clickhere{
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin-bottom: 113px;
+  text-align: center;
+}
+
+div#dung-cancelappointment.container{
+  padding-bottom: 10%;
+}
+
+input.dung-input-phone.form-control{
+  width: 240px;
+  text-align: center;
+  margin: 0px 80px 10px 80px;
+}
+
+section.modal-main.instant h5{
+  font-weight: bolder;
+}
+
+section.modal-main.instant{
+  text-align: center;
+  width: 400px;
+  height: 230px;
+}
+
+section.modal-main.instant button{
+  height: 18%;
+  width: 30%;
+  margin: 0 5%;
+  border-radius: 5px;
+  background-color: #FFD700;
+  font-weight: 500;
+  border: none;
+}
+
+div#dung-re-sched.container{
+  margin-bottom: 100px;
+}
+
+div#dung-viewmedicalrecord.container{
+  margin-bottom: 190px;
+}
+
+button.dung.cart-button.benhan.btn.btn-secondary{
+  margin: 19px 0px;
+}
+
+button.dung.cart-button.benhan.nd.btn.btn-secondary{
+  margin-bottom: 0px;
 }

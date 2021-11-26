@@ -1,11 +1,16 @@
 import React, {Component} from 'react';
-import { Container, Row, Col, Table, Nav, NavItem, NavLink, TabContent, TabPane} from 'reactstrap';
-import { Button } from 'reactstrap';
-import { Card, CardText, CardBody, CardTitle} from 'reactstrap';
-import AppointmentTable from './AppointmentTableComponent';
+import { Container, Table } from 'reactstrap';
 import axios from 'axios';
 import { FaPencilAlt } from "react-icons/fa";
+import { MdLockClock } from "react-icons/md";
+import ToastServive from 'react-material-toast';
+import addDays from 'date-fns/addDays';
 
+const toast = ToastServive.new({
+    place:'bottomLeft',
+    duration:2,
+    maxCount:8
+  });
 
 
 class Appointment extends Component {
@@ -23,77 +28,20 @@ class Appointment extends Component {
             work_schedules:[],
             system_users:[],
 
-            counter: 0,
-            bug: [],
-            registered:[]//"08:00:00-08:30:00","09:00:00-09:30:00","10:30:00-11:00:00","13:30:00-14:00:00","14:30:00-15:00:00","15:00:00-15:30:00","15:30:00-16:00:00","16:30:00-17:00:00"
+            registering:{},//"08:00:00-08:30:00","09:00:00-09:30:00","10:30:00-11:00:00","13:30:00-14:00:00","14:30:00-15:00:00","15:00:00-15:30:00","15:30:00-16:00:00","16:30:00-17:00:00"
             
+            current_day: (new Date()).toUTCString(),
+            thu: 2,
+            curr_thu: 2
         }
         this.handleClick=this.handleClick.bind(this);
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
         this.handleInsertSubmit = this.handleInsertSubmit.bind(this);
+        this.handleInsert = this.handleInsert.bind(this);
+        this.handleDeleteInsert = this.handleDeleteInsert.bind(this);
+        this.onClickSuccess = this.onClickSuccess.bind(this);
     }
-
-    showModal = () => {
-        this.setState({ show: true });
-    };
-    
-    hideModal = () => {
-        this.setState({ show: false });
-    };
-
-    handleClick =({target})=>{    
-        const begin = "Mon, 5 Jul 2021";
-        const end = "Sun, 11 Jul 2021";
-        const new_Work_schedule=this.state.work_schedules.filter(w=>w.work_day==target.value);//&&(Number(w.turn_time.split(' ').splice(1,1))>=5&&Number(w.turn_time.split(' ').splice(1,1))<=11))
-        let new_Treatment_turn=this.state.treatment_turns.filter(w=>new_Work_schedule.filter(nw=>w.doctor_phone==nw.doctor_phone)).flat()//w=>w.doctor_phone==new_Work_schedule[0].doctor_phone||new_Work_schedule[1]!==undefined&&w.doctor_phone==new_Work_schedule[1].doctor_phone
-        if(target.value==2)
-        {
-            new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]=='5');
-        }
-        else if(target.value==3)
-        {
-            new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]=='6');
-        }
-        else if(target.value==4)
-        {
-            new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]=='7');
-        }
-        else if(target.value==5)
-        {
-            new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]=='8');
-        }
-        else if(target.value==6)
-        {
-            new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]=='9');
-        }
-        else if(target.value==7)
-        {
-            new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]=='10');
-        }
-        else if(target.value==8)
-        {
-            new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]=='11');
-        }
-        const new_System_user=this.state.system_users.filter(w=>new_Work_schedule.filter(nw=>w.phone==nw.doctor_phone));//w=>w.phone==new_Work_schedule[0].doctor_phone||new_Work_schedule[1]!==undefined&&w.phone==new_Work_schedule[1].doctor_phone
-        this.setState({ counter: 0, treatment_turn: new_Treatment_turn, work_schedule: new_Work_schedule, system_user:new_System_user });
-
-        
-
-         //alert(this.state.work_schedule.map(turn=>turn.doctor_phone))
-         //alert(this.state.treatment_turn.map(turn=>turn.start_time))
-         //alert(new_System_user.map(turn=>turn.firstname))
-
-
-        // const new_Work_schedule=this.state.work_schedules.filter(w=>w.work_day==2);
-        // const new_Treatment_turn=this.state.treatment_turns;
-        // const new_System_user=this.state.system_users.filter(w=>w.phone==new_Work_schedule[0].doctor_phone||w.phone==new_Work_schedule[1].doctor_phone)
-        // this.setState({treatment_turn: new_Treatment_turn, work_schedule: new_Work_schedule, system_user: new_System_user });
-        // alert(this.state.work_schedule.map(turn=>turn.doctor_phone))
-        // alert(this.state.treatment_turn.map(turn=>turn.start_time))
-        // alert(this.state.system_user.map(turn=>(turn.firstname+' '+turn.lastname)))
-    }
-
 
     componentDidMount() {
         axios.get('/api/get/treatment_turns')
@@ -116,11 +64,149 @@ class Appointment extends Component {
         .then(res => {
         const system_users = res.data;
         this.setState({ system_users: system_users.system_users});
+
+
+
+
+
+        let currentDay = (new Date()).toUTCString().split(' ');
+
+        // this.setState({current_day: currentDay});
+        
+        // console.log('check')
+        // console.log(this.state.current_day)
+        const days = ['Mon,','Tue,','Wed,', 'Thu,','Fri,','Sat,','Sun,'];
+        for(let i=0;i<days.length;++i)
+        {
+            if(days[i]==currentDay[0])
+            {
+                this.setState({thu:i+2, curr_thu: i+2});
+                break;
+            }
+        }
+
+
+        const new_Work_schedule=this.state.work_schedules.filter(w=>w.work_day==this.state.thu);//&&(Number(w.turn_time.split(' ').splice(1,1))>=5&&Number(w.turn_time.split(' ').splice(1,1))<=11))
+        //loc luot dieu tri trong ngay
+        let new_Treatment_turn=this.state.treatment_turns.filter(w=>new_Work_schedule.filter(nw=>w.doctor_phone==nw.doctor_phone)).flat()//w=>w.doctor_phone==new_Work_schedule[0].doctor_phone||new_Work_schedule[1]!==undefined&&w.doctor_phone==new_Work_schedule[1].doctor_phone
+        
+        new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]==this.state.current_day.split(' ')[1]&&nw.turn_time.split(' ')[2]==this.state.current_day.split(' ')[2]&&nw.turn_time.split(' ')[3]==this.state.current_day.split(' ')[3]);
+        //bo new_System_user
+        const new_System_user=this.state.system_users.filter(w=>new_Work_schedule.filter(nw=>w.phone==nw.doctor_phone)).flat();//w=>w.phone==new_Work_schedule[0].doctor_phone||new_Work_schedule[1]!==undefined&&w.phone==new_Work_schedule[1].doctor_phone
+        this.setState({ treatment_turn: new_Treatment_turn, work_schedule: new_Work_schedule, system_user:new_System_user });
         })
         .catch(error => console.log(error));
     };
 
-    handleInsertSubmit = (event) => {
+
+    showModal = () => {
+        this.setState({ show: true });
+    };
+    
+    hideModal = () => {
+        this.setState({ show: false });
+    };
+
+    handleClick =(event)=>{    
+        const begin = "Mon, 5 Jul 2021";
+        const end = "Sun, 11 Jul 2021";
+        //loc ngay lam viec
+        const new_Work_schedule=this.state.work_schedules.filter(w=>w.work_day==event.target.value);//&&(Number(w.turn_time.split(' ').splice(1,1))>=5&&Number(w.turn_time.split(' ').splice(1,1))<=11))
+        //loc luot dieu tri trong ngay
+        let new_Treatment_turn=this.state.treatment_turns.filter(w=>new_Work_schedule.filter(nw=>w.doctor_phone==nw.doctor_phone)).flat()//w=>w.doctor_phone==new_Work_schedule[0].doctor_phone||new_Work_schedule[1]!==undefined&&w.doctor_phone==new_Work_schedule[1].doctor_phone
+        
+        const curr = addDays(new Date(), (event.target.value-this.state.thu)).toUTCString()
+        this.setState({current_day: curr})
+        
+        new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]==curr.split(' ')[1]&&nw.turn_time.split(' ')[2]==curr.split(' ')[2]&&nw.turn_time.split(' ')[3]==curr.split(' ')[3]);
+        //alert(new_Treatment_turn.map(x=>x.doctor_phone))
+        //bo new_System_user
+        const new_System_user=this.state.system_users.filter(w=>new_Work_schedule.filter(nw=>w.phone==nw.doctor_phone)).flat();//w=>w.phone==new_Work_schedule[0].doctor_phone||new_Work_schedule[1]!==undefined&&w.phone==new_Work_schedule[1].doctor_phone
+        this.setState({ treatment_turn: new_Treatment_turn, work_schedule: new_Work_schedule, system_user:new_System_user, curr_thu: event.target.value });
+
+        //alert(new_Treatment_turn.map(turn=>turn.start_time))
+        // const days = ['Mon,','Tue,','Wed,', 'Thu,','Fri,','Sat,','Sun,'];
+        // for(let i=0;i<days.length;++i)
+        // {
+        //     if(days[i]==this.state.current_day[0])
+        //     {
+        //         this.setState({thu:i+2});
+        //         break;
+        //     }
+        // }
+        //thu
+        //thang
+        //ngay
+        //nam
+
+        // if(target.value==2)
+        // {
+        //     new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]=='5');
+        // }
+        // else if(target.value==3)
+        // {
+        //     new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]=='6');
+        // }
+        // else if(target.value==4)
+        // {
+        //     new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]=='7');
+        // }
+        // else if(target.value==5)
+        // {
+        //     new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]=='8');
+        // }
+        // else if(target.value==6)
+        // {
+        //     new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]=='9');
+        // }
+        // else if(target.value==7)
+        // {
+        //     new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]=='10');
+        // }
+        // else if(target.value==8)
+        // {
+        //     new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]=='11');
+        // }
+
+
+
+
+
+
+
+        // this.setState({current_day: addDays(new Date(), (target.value-this.state.thu)).toUTCString()})
+        
+        // new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]==this.state.current_day.split(' ')[1]&&nw.turn_time.split(' ')[2]==this.state.current_day.split(' ')[2]&&nw.turn_time.split(' ')[3]==this.state.current_day.split(' ')[3]);
+        // //alert(new_Treatment_turn.map(x=>x.doctor_phone))
+        // //bo new_System_user
+        // const new_System_user=this.state.system_users.filter(w=>new_Work_schedule.filter(nw=>w.phone==nw.doctor_phone)).flat();//w=>w.phone==new_Work_schedule[0].doctor_phone||new_Work_schedule[1]!==undefined&&w.phone==new_Work_schedule[1].doctor_phone
+        // this.setState({ treatment_turn: new_Treatment_turn, work_schedule: new_Work_schedule, system_user:new_System_user });
+
+
+
+
+
+        //  alert(this.state.work_schedule.map(turn=>turn.doctor_phone))
+        //  alert(this.state.treatment_turn.map(turn=>turn.start_time))
+        //  alert(new_System_user.map(turn=>turn.firstname))
+
+
+        // const new_Work_schedule=this.state.work_schedules.filter(w=>w.work_day==2);
+        // const new_Treatment_turn=this.state.treatment_turns;
+        // const new_System_user=this.state.system_users.filter(w=>w.phone==new_Work_schedule[0].doctor_phone||w.phone==new_Work_schedule[1].doctor_phone)
+        // this.setState({treatment_turn: new_Treatment_turn, work_schedule: new_Work_schedule, system_user: new_System_user });
+        // alert(this.state.work_schedule.map(turn=>turn.doctor_phone))
+        // alert(this.state.treatment_turn.map(turn=>turn.start_time))
+         //alert(this.state.system_user.map(turn=>(turn.phone)))
+
+    }
+
+
+
+
+
+
+    handleInsert = (event) =>{
         event.preventDefault();
         const newItem = {
             id: Math.floor(Math.random() * 10000000), 
@@ -135,16 +221,56 @@ class Appointment extends Component {
             patient_phone: this.state.phone, 
             doctor_phone: event.target.name
         };
+
+        this.setState({registering: newItem});
+    }
+
+    handleDeleteInsert = (event) =>{
+        event.preventDefault();
+        this.setState({registering:{}});
+    }
+
+    handleInsertSubmit = (event) => {
+        event.preventDefault();
+
+        // const newItem = {
+        //     id: Math.floor(Math.random() * 10000000), 
+        //     turn_time: event.target.value.split(' ').splice(0,4).join(' ')+' '+event.target.value.split(' ').splice(-1,1).join().split('-')[0],
+        //     health_issue: ' ', 
+        //     blood_pressure: 1, 
+        //     heart_beat: 1, 
+        //     therapy: ' ', 
+        //     diagnose: ' ', 
+        //     start_time: event.target.value.split(' ').splice(0,4).join(' ')+' '+event.target.value.split(' ').splice(-1,1).join().split('-')[0], 
+        //     end_time: event.target.value.split(' ').splice(0,4).join(' ')+' '+event.target.value.split(' ').splice(-1,1).join().split('-')[1],
+        //     patient_phone: this.state.phone, 
+        //     doctor_phone: event.target.name
+        // };
     
-        axios.post('/api/insert/treatment_turns', newItem)
+        axios.post('/api/insert/treatment_turns', this.state.registering)
         .then(res => {
             let news = this.state.treatment_turns;
-            news = [newItem,...news];
+            news = [this.state.registering,...news];
             this.setState({ treatment_turns: news });
+            this.setState({registering:{}});
+
+
+            const new_Work_schedule=this.state.work_schedules.filter(w=>w.work_day==this.state.thu);//&&(Number(w.turn_time.split(' ').splice(1,1))>=5&&Number(w.turn_time.split(' ').splice(1,1))<=11))
+            //loc luot dieu tri trong ngay
+            let new_Treatment_turn=this.state.treatment_turns.filter(w=>new_Work_schedule.filter(nw=>w.doctor_phone==nw.doctor_phone)).flat()//w=>w.doctor_phone==new_Work_schedule[0].doctor_phone||new_Work_schedule[1]!==undefined&&w.doctor_phone==new_Work_schedule[1].doctor_phone
+        
+            new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]==this.state.current_day.split(' ')[1]&&nw.turn_time.split(' ')[2]==this.state.current_day.split(' ')[2]&&nw.turn_time.split(' ')[3]==this.state.current_day.split(' ')[3]);
+            this.setState({treatment_turn: new_Treatment_turn})
         })
         .catch(error => console.log(error));
         
       };
+
+    onClickSuccess = () => {
+        const id = toast.success('Đăng ký thành công!',()=>{
+        });
+    }
+
 
     render(){
         const showHideClassName = this.state.show ? "modal display-block" : "modal display-none";
@@ -165,7 +291,7 @@ class Appointment extends Component {
                         {curr.doctor_phone}
                     </td>
                     <td>
-                        {this.state.treatment_turn.length!==0&&this.state.treatment_turn[0].turn_time.split(' ').splice(1,3).join('/')||curr.work_day+2+"/Jul/2021"}
+                        {this.state.current_day.split(' ').splice(1,3).join('/')}
                     </td>
                     <td>
                         {x}
@@ -177,21 +303,40 @@ class Appointment extends Component {
                                     <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
                                 </div>
                                 <p>Bạn có chắc chắn về sự lựa chọn của mình?</p>
-                                <button type="button" onClick={this.hideModal}>
+                                <button type="button" onClick={(e)=>{this.hideModal(); this.handleDeleteInsert(e)}}>
                                     Hủy
                                 </button>
                                 
-                                <button type="button" value={(this.state.treatment_turn.length!==0&&this.state.treatment_turn[0].turn_time.split(' ').splice(0,4).join(' ')||curr.work_day+2+"/Jul/2021")+' '+x} name={curr.doctor_phone} onClick={(e)=>{this.hideModal(); this.handleInsertSubmit(e)}}>
+                                <button type="button" onClick={(e)=>{this.hideModal(); this.handleInsertSubmit(e); this.onClickSuccess()}}>
                                     Xác nhận                                   
                                 </button>
                                     
                             </section>
-                        </div>       
-                        {this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]).length!==0?<FaPencilAlt />:<button class='dung-button-dangky' type="button" onClick={this.showModal}>Đăng ký</button>}               
+                        </div>
+                        {this.state.curr_thu>=this.state.thu?
+                        (
+                        this.state.curr_thu==this.state.thu?
+                        (Number(x.split('-')[0].split(':')[0])<Number((new Date()).toString().split(' ')[4].split(':')[0])||Number(x.split('-')[0].split(':')[0])==Number((new Date()).toString().split(' ')[4].split(':')[0])&&Number(x.split('-')[0].split(':')[1])<Number((new Date()).toString().split(' ')[4].split(':')[1])?
+                        (this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]&&t.turn_time.split(' ').splice(0,4).join(' ')==this.state.current_day.split(' ').splice(0,4).join(' ')).length!==0?
+                        <FaPencilAlt />: <MdLockClock />):
+                        (this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]&&t.turn_time.split(' ').splice(0,4).join(' ')==this.state.current_day.split(' ').splice(0,4).join(' ')).length!==0?
+                        <FaPencilAlt />:
+                        <button class='dung-button-dangky' type="button" value={this.state.current_day.split(' ').splice(0,4).join(' ')+' '+x} name={curr.doctor_phone} onClick={(e)=>{this.showModal(); this.handleInsert(e)}}>Đăng ký</button>)
+                        ):
+
+                        (this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]&&t.turn_time.split(' ').splice(0,4).join(' ')==this.state.current_day.split(' ').splice(0,4).join(' ')).length!==0?
+                        <FaPencilAlt />:<button class='dung-button-dangky' type="button" value={this.state.current_day.split(' ').splice(0,4).join(' ')+' '+x} name={curr.doctor_phone} onClick={(e)=>{this.showModal(); this.handleInsert(e)}}>Đăng ký</button>)
+                        ): 
+                        (this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]&&t.turn_time.split(' ').splice(0,4).join(' ')==this.state.current_day.split(' ').splice(0,4).join(' ')).length!==0?
+                        <FaPencilAlt />: <MdLockClock />)}
                     </td>
                 </tr>
                 ))
                 ).flat()
+
+
+
+
 
                 const listC=C.map(curr=>listAfternoon.map((x,index)=>(
                     <tr>
@@ -205,7 +350,7 @@ class Appointment extends Component {
                         {curr.doctor_phone}
                     </td>
                     <td>
-                        {this.state.treatment_turn.length!==0&&this.state.treatment_turn[0].turn_time.split(' ').splice(1,3).join('/')||curr.work_day+2+"/Jul/2021"}
+                        {this.state.current_day.split(' ').splice(1,3).join('/')}
                     </td>
                     <td>
                         {x}
@@ -217,16 +362,33 @@ class Appointment extends Component {
                                     <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
                                 </div>
                                 <p>Bạn có chắc chắn về sự lựa chọn của mình?</p>
-                                <button type="button" onClick={this.hideModal}>
+                                <button type="button" onClick={(e)=>{this.hideModal(); this.handleDeleteInsert(e)}}>
                                     Hủy
                                 </button>
-                                <button type="button" value={(this.state.treatment_turn.length!==0&&this.state.treatment_turn[0].turn_time.split(' ').splice(0,4).join(' ')||curr.work_day+2+"/Jul/2021")+' '+x} name={curr.doctor_phone} onClick={(e)=>{this.hideModal(); this.handleInsertSubmit(e)}}>
+                                
+                                <button type="button" onClick={(e)=>{this.hideModal(); this.handleInsertSubmit(e); this.onClickSuccess()}}>
                                     Xác nhận                                   
                                 </button>
                                     
                             </section>
-                        </div>                     
-                        {this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]).length!==0?<FaPencilAlt />:<button class='dung-button-dangky' type="button" onClick={this.showModal}>Đăng ký</button>}               
+                        </div>
+                        {this.state.curr_thu>=this.state.thu?
+                        (
+                        this.state.curr_thu==this.state.thu?
+                        (Number(x.split('-')[0].split(':')[0])<Number((new Date()).toString().split(' ')[4].split(':')[0])||Number(x.split('-')[0].split(':')[0])==Number((new Date()).toString().split(' ')[4].split(':')[0])&&Number(x.split('-')[0].split(':')[1])<Number((new Date()).toString().split(' ')[4].split(':')[1])?
+                        (this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]&&t.turn_time.split(' ').splice(0,4).join(' ')==this.state.current_day.split(' ').splice(0,4).join(' ')).length!==0?
+                        <FaPencilAlt />: <MdLockClock />):
+                        (this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]&&t.turn_time.split(' ').splice(0,4).join(' ')==this.state.current_day.split(' ').splice(0,4).join(' ')).length!==0?
+                        <FaPencilAlt />:
+                        <button class='dung-button-dangky' type="button" value={this.state.current_day.split(' ').splice(0,4).join(' ')+' '+x} name={curr.doctor_phone} onClick={(e)=>{this.showModal(); this.handleInsert(e)}}>Đăng ký</button>)
+                        ):
+
+                        (this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]&&t.turn_time.split(' ').splice(0,4).join(' ')==this.state.current_day.split(' ').splice(0,4).join(' ')).length!==0?
+                        <FaPencilAlt />:<button class='dung-button-dangky' type="button" value={this.state.current_day.split(' ').splice(0,4).join(' ')+' '+x} name={curr.doctor_phone} onClick={(e)=>{this.showModal(); this.handleInsert(e)}}>Đăng ký</button>)
+                        ): 
+                        (this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]&&t.turn_time.split(' ').splice(0,4).join(' ')==this.state.current_day.split(' ').splice(0,4).join(' ')).length!==0?
+                        <FaPencilAlt />: <MdLockClock />)}
+                        {/* {this.state.curr_thu>=this.state.thu?(this.state.curr_thu==this.state.thu?(Number(x.split('-')[0].split(':')[0])<Number((new Date()).toString().split(' ')[4].split(':')[0])&&Number(x.split('-')[0].split(':')[1])<Number((new Date()).toString().split(' ')[4].split(':')[1])?' ':this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]&&t.turn_time.split(' ').splice(0,4).join(' ')==this.state.current_day.split(' ').splice(0,4).join(' ')).length!==0?<FaPencilAlt />:<button class='dung-button-dangky' type="button" value={this.state.current_day.split(' ').splice(0,4).join(' ')+' '+x} name={curr.doctor_phone} onClick={(e)=>{this.showModal(); this.handleInsert(e)}}>Đăng ký</button>):this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]&&t.turn_time.split(' ').splice(0,4).join(' ')==this.state.current_day.split(' ').splice(0,4).join(' ')).length!==0?<FaPencilAlt />:<button class='dung-button-dangky' type="button" value={this.state.current_day.split(' ').splice(0,4).join(' ')+' '+x} name={curr.doctor_phone} onClick={(e)=>{this.showModal(); this.handleInsert(e)}}>Đăng ký</button>):' '} */}
                     </td>
                 </tr>
                 ))
@@ -251,7 +413,7 @@ class Appointment extends Component {
                 </div>
                 <div class='dung-appointment-table'>
                     <Table hover>
-                    <thead className="dung-table">
+                    <thead>
                         <tr>
                             <th>
                                 #
@@ -272,10 +434,12 @@ class Appointment extends Component {
                                 
                             </th>
                         </tr>
+                        
                     </thead>
                     <tbody>
                     {listS}
                     {listC}
+                    {console.log(this.state.current_day)}
                     </tbody>
                 </Table>
                 </div>
@@ -285,6 +449,14 @@ class Appointment extends Component {
 }
 
 export default Appointment;
+
+
+//{listMorning8(490563583,"8:00:00-8:30:00")}
+//{listMorning8(490563583,"8:30:00-9:00:00")}
+// {listMorning8(490563583,"9:00:00-9:30:00")}
+// {listMorning8(490563583,"9:30:00-10:00:00")}
+// {listMorning8(490563583,"10:00:00-10:30:00")}
+// {listMorning8(490563583,"10:30:00-11:00:00")}
 
 //                    <AppointmentTable />
 

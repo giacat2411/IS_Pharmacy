@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Navbar, NavbarBrand, Nav, NavItem, 
-        NavLink, Collapse, NavbarToggler } from 'reactstrap';
-import { FaHome, FaRegCalendarAlt, FaInfo, FaUserPlus, FaSignOutAlt} from "react-icons/fa";
+import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Collapse, NavbarToggler } from 'reactstrap';
+import { FaHome, FaRegCalendarAlt, FaInfo, FaSignOutAlt} from "react-icons/fa";
 
 
 class HeaderDoctor extends Component {
