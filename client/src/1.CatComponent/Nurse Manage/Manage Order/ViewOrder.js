@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Spinner } from 'reactstrap';
-import { Form, FormGroup, Input, Button } from 'reactstrap';
+import { Form, FormGroup, Input, Button, Fade } from 'reactstrap';
 import { Table } from 'reactstrap';
 import { FaSearch } from 'react-icons/fa';
 import Pagination from "pagination-component";
@@ -17,10 +17,67 @@ class ViewOrder extends Component {
             orders: [],
             orders_search: [],
             activePage: 1,
-            nums_page: 1
+            nums_page: 1,
+            sort: 1
         }
         this.onInputOrderID = this.onInputOrderID.bind(this);
         this.changePage = this.changePage.bind(this);
+        this.sortByKey = this.sortByKey.bind(this);
+        this.sortByDay = this.sortByDay.bind(this);
+        this.onInputTime = this.onInputTime.bind(this);
+    }
+
+    onInputTime() {
+        const start_time = this.convertDate2(this.start_time.value);
+        const end_time = this.convertDate2(this.end_time.value);
+
+        const data = this.state.orders.filter(order => {
+            const day = this.convertDate(order.created_date)
+
+            if (this.compareDay(day, start_time) == true && this.compareDay(end_time, day) == true) return true;
+            else return false
+        })
+        this.setState({orders_search: data})
+    }
+
+    compareDay(day1, day2) {
+        day1 = day1.split("/").map(x => parseInt(x));
+        day2 = day2.split("/").map(x => parseInt(x));
+
+        if (parseInt(day1[2]) > parseInt(day2[2])) return true;
+        else if (parseInt(day1[2]) < parseInt(day2[2])) return false;
+        else if (parseInt(day1[1]) > parseInt(day2[1])) return true;
+        else if (parseInt(day1[1]) < parseInt(day2[1])) return false;
+        else if (parseInt(day1[0]) >= parseInt(day2[0])) return true;
+        else return false;
+    }
+
+    convertDate(day) {
+        let date = day.getDate();
+        let month = day.getMonth() + 1;
+        let year = day.getYear() + 1900;
+
+        if (date < 10) date = "0" + date.toString();
+        if (month < 10) month = "0" + month.toString();
+
+        return date + "/" + month + "/" + year;
+    }
+
+    convertDate2(day) {
+        day = day.split('-');
+        return day[2] + "/" + day[1] + "/" + day[0];
+    }
+
+    sortByDay() {
+        this.setState({
+            sort: 2
+        })
+    }
+
+    sortByKey() {
+        this.setState({
+            sort: 1
+        })
     }
 
     componentDidMount() {
@@ -65,17 +122,6 @@ class ViewOrder extends Component {
         }
 
         this.setState({orders_search: search});
-    }
-
-    convertDate(day) {
-        let date = day.getDate();
-        let month = day.getMonth() + 1;
-        let year = day.getYear() + 1900;
-
-        if (date < 10) date = "0" + date.toString();
-        if (month < 10) month = "0" + month.toString();
-
-        return date + "/" + month + "/" + year;
     }
 
     render() {
@@ -139,6 +185,30 @@ class ViewOrder extends Component {
             textAlign: "center",
             borderRadius: "5px"
             };
+        const sortByKey =   <Row>
+                                <Col md="3">
+                                    <Input className="search-box-sort" id="search" name="search-drugs" placeholder="Nhập đơn hàng"
+                                    innerRef={(input) => this.search_item = input} />
+                                </Col>
+                                <Button className="search-button" onClick={this.onInputOrderID}>
+                                <FaSearch /> Tìm <span style={{textTransform: 'lowercase'}}> kiếm </span>
+                            </Button>
+                            </Row>
+        const sortByDay =   <Row>
+                                <Col md="3">
+                                    <Input className="search-box-sort" id="startTime" name="date" placeholder="Bắt đầu" type="date"
+                                        innerRef={(input) => this.start_time = input} />
+                                </Col>
+                                <Col md="3">
+                                    <Input className="search-box-sort" id="endTime" name="date" placeholder="Kết thúc" type="date"
+                                        innerRef={(input) => this.end_time = input} />
+                                </Col>
+                                <Col md="3">
+                                    <Button className="search-statistic-button" style={{marginTop: '0px'}} onClick={this.onInputTime}>
+                                        <FaSearch /> Tìm <span style={{textTransform: 'lowercase'}}> kiếm </span>
+                                    </Button>
+                                </Col>
+                            </Row>
 
         return (
             <>
@@ -146,20 +216,23 @@ class ViewOrder extends Component {
             <Container>
                     <Row className="manage-order-heading">
                         <Col className='manage-order-header'> Danh sách đơn hàng </Col>
-                        <Col> 
-                        <Row>
-                            <Form className="search-bar" onSubmit={e => {e.preventDefault(); this.onInputOrderID()}}>
-                                <FormGroup>
-                                    <Input className="search-box" id="search" name="search-drugs" placeholder="Nhập đơn hàng"
-                                    innerRef={(input) => this.search_item = input} />
-                                </FormGroup>
-                            </Form> 
-                            <Button className="search-button" onClick={this.onInputOrderID}>
-                                <FaSearch /> Tìm <span style={{textTransform: 'lowercase'}}> kiếm </span>
-                            </Button>
-                        </Row>
+                    </Row>
+                    <Row>
+                        <Button className="search-button-sort" onClick={() => this.sortByKey()}>
+                            Tìm theo từ khóa
+                        </Button>
+                        <Button className="search-button-sort"  onClick={() => this.sortByDay()}>
+                            Tìm theo ngày
+                        </Button>
+                    </Row>
+                    
+                    <Row>
+                        <Col>
+                        {this.state.sort === 1 && sortByKey}
+                        {this.state.sort === 2 && sortByDay}
                         </Col>
                     </Row>
+                    
                     <Row>
                         <Col>
                             {not_Found}

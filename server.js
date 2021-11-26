@@ -87,10 +87,20 @@ app.get('/api/get/order_in_view', function(req, res){
 
 app.get('/api/get/order_details', function(req, res){
   var sql = "select * from include natural join drug where medicine_id = " + req.query.orderID;
-  console.log(sql);
   connection.query(sql, function(err, results) {
     if (err) throw err;
     res.json({order_details: results});
+  });
+})
+
+app.get('/api/get/total_value', function(req, res) {
+  var sql = "select created_date, sum(quantity * price) as total "
+            + "from purchase_medicine join medicine on purchase_id = id join include on id = medicine_id "
+            + "natural join drug "
+            + "group by created_date"
+  connection.query(sql, function(err, results) {
+  if (err) throw err;
+          res.json({data_statistic: results});
   });
 })
 

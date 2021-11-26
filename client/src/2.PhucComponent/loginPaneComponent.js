@@ -48,10 +48,10 @@ const LoginPane = () => {
             console.log(doc_role);
             if (doc_role.length !== 0)  ctx.setRole("Doctor");
             else {
-                ctx.setRole('Patient');
+                ctx.setRole('Nurse');
             }
         }
-        else ctx.setRole("Guest");
+        else ctx.setRole("Nurse");
         //ASSIGN SESSION
         axios.get('/api/set/user', { params: { phone: ctx.phone, role: ctx.role } });
         //TODO search for Nurse list and assign

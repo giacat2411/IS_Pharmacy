@@ -12,7 +12,7 @@ import Customer from './CustomerComponent';
 import BuyDrug from './Buy Drug/BuyDrugComponent';
 import ViewCart from './Buy Drug/ViewCartComponent';
 import ManageDrug from './Nurse Manage/Manage Drug/ManageDrug';
-// import StatisticOrder from './Nurse Manage/Manage Order/StatisticOrder';
+import StatisticOrder from './Nurse Manage/Manage Order/StatisticOrder';
 import ViewOrder from './Nurse Manage/Manage Order/ViewOrder';
 import ViewOrderDetail from './Nurse Manage/Manage Order/ViewOrderDetail';
 
@@ -89,7 +89,7 @@ const Main = (props) => {
               <Route path='/view_cart/:cart' component={ViewMyCart}/>
               <Route path='/manage_drug' component={ManageDrug} />
               <Route path='/view_order' component={ViewOrder} />
-              {/* <Route path='/statistic_order' component={StatisticOrder} /> */}
+              <Route path='/statistic_order' component={StatisticOrder} />
               <Route path='/view_order_details/:orderID' component={ViewDetails} />
 
               {/*---------------------------------Dung------------------------------------*/}
