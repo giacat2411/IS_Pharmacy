@@ -52,7 +52,7 @@ const toggleMsg = () => {
     const apiLog = () => {
 
         axios
-            .get('/api/get/access', { params: { phonenum: phone.value } }
+            .get('/api/get/access', { params: { phonenum: phone.value ,userpwd:pwd.value } }
             )
             .then(res => {
                 const user = res.data;
@@ -60,24 +60,24 @@ const toggleMsg = () => {
                     ctx.setPhone(user.user[0].phone);
                     ctx.setName(user.user[0].firstname);
                     axios
-                        .get('/api/get/role', { params: { phonenum: phone.value } }
+                        .get('/api/get/role', { params: { phonenum: phone.value} }
                         )
                         .then(res => {
                             const role = res.data;
-                            ctx.setRole(role.role);
+                            ctx.setRole(role.role);Msg="Đăng nhập thành công"; toggleMsg();
                         });
                 }
                 else {Msg="Sai thông tin tài khoản"; toggleMsg();}
             });
     };
-    const newPwd = () => {
+    const newPwd = () => {toggleModal();
         axios
             .post('/api/post/newpwd', { params: {phone:phone.value,pwd:pwd.value, DOB:DOB.value} }//DOB:DOB.value,
             )
             .then(res => {
                 const msg=res.data;
                 if (msg.msg) {Msg=msg.msg;}
-                else {Msg="Không thể thực hiện thay đổi";}toggleMsg();
+                else {Msg="Không thể thực hiện thay đổi";};toggleMsg();
             });
     };
 
