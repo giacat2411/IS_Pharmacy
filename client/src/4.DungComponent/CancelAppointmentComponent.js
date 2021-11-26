@@ -1,9 +1,16 @@
 import React, {Component} from 'react';
-import { Container, Row, Col, Table, Nav, NavItem, NavLink, TabContent, TabPane} from 'reactstrap';
+import { Container, Row, Col, Table, Nav, NavItem, NavLink, TabContent, TabPane, Toast, ToastHeader, ToastBody} from 'reactstrap';
 import { Button } from 'reactstrap';
 import { Card, CardText, CardBody, CardTitle} from 'reactstrap';
 import Modal from './Modal.js';
 import axios from 'axios';
+import ToastServive from 'react-material-toast';
+
+const toast = ToastServive.new({
+    place:'bottomLeft',
+    duration:2,
+    maxCount:8
+  });
 
 class CancelAppointment extends Component {
     constructor() {
@@ -19,12 +26,17 @@ class CancelAppointment extends Component {
             treatment_turns:[],
             work_schedules:[],
             system_users:[],
-            register:[],
+            registering:[],
+
+
         };
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
-        this.handleClick = this.handleClick.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+
+        this.handleInsert = this.handleInsert.bind(this);
+        this.handleDeleteInsert = this.handleDeleteInsert.bind(this);
+        this.onClickSuccess = this.onClickSuccess.bind(this);
       }
     
       showModal = () => {
@@ -35,16 +47,13 @@ class CancelAppointment extends Component {
         this.setState({ show: false });
       };
 
-      handleClick=()=>{
-        this.setState({treatment_turn: this.state.treatment_turns.filter(t=>t.patient_phone==this.state.phone)}); 
-      }
-
       
       componentDidMount() {
         axios.get('/api/get/treatment_turns')
         .then(res => {
         const treatment_turns = res.data;
         this.setState({ treatment_turns: treatment_turns.treatment_turns});
+        this.setState({treatment_turn: this.state.treatment_turns.filter(t=>t.patient_phone==this.state.phone)}); 
         })
         .catch(error => console.log(error));
 
@@ -63,29 +72,54 @@ class CancelAppointment extends Component {
         this.setState({ system_users: system_users.system_users});
         })
         .catch(error => console.log(error));
-
-        this.setState({treatment_turn: this.state.treatment_turns.filter(t=>t.patient_phone==this.state.phone)}); 
-
     };
 
-    handleDelete = (item) => {
-        const newsId = {
-          id: item.id
-        };
-      
-        axios.post('/api/delete/treatment_turns', newsId)
+    handleDelete = () => {  
+        axios.post('/api/delete/treatment_turns', this.state.registering)
         .then(res => {
           this.setState(prevState => ({
-            treatment_turns: prevState.treatment_turns.filter(el => el.id !== item.id )
+            treatment_turns: prevState.treatment_turns.filter(el => el.id !== this.state.registering.id )
           }));
+          this.setState({treatment_turn: this.state.treatment_turns.filter(t=>t.patient_phone==this.state.phone)});
         })
         .catch(error => console.log(error));
-      }
+    }
+
+    handleInsert = (item) =>{
+        const newsId = {
+            id: item.id
+          };
+
+        this.setState({registering: newsId});
+    }
+
+    handleDeleteInsert = (event) =>{
+        event.preventDefault();
+        this.setState({registering:{}});
+    }
+    
+    onClickSuccess = () => {
+        const id = toast.success('Hủy thành công!',()=>{
+        });
+    }
+    onErrorClick = () => {
+        const id = toast.error('hello world');
+    }
+    onInfoClick = () => {
+        const id = toast.info('hello world');
+    }
+    onWarningClick = () => {
+        const id = toast.warning('hello world');
+    }
+    onRemoveAll = () => {
+        toast.removeAll();
+    }
 
     render(){
         const showHideClassName = this.state.show ? "modal display-block" : "modal display-none";
+        let counter = 0 ;
         return(
-            <Container>
+            <Container id='dung-cancelappointment'>
                 <div class='dung-title'> 
                     <h1>Hủy lịch khám</h1>
                     <hr />
@@ -115,51 +149,57 @@ class CancelAppointment extends Component {
                     </thead>
                     <tbody>
                     {
-                        this.state.treatment_turn.map((x,index)=>(
-                            <tr>
-                            <th scope="row">
-                                {index+1}
-                            </th>
-                            <td>
-                                {this.state.system_users.map(turn=>{if(x.doctor_phone==turn.phone) {return turn.firstname+' '+turn.lastname}})}
-                            </td>
-                            <td>
-                                {x.doctor_phone}
-                            </td>
-                            <td>
-                                {x.turn_time.split(' ').splice(1,3).join('/')}
-                            </td>
-                            <td>
-                                {x.start_time.split(' ').splice(-1,1).join()+'-'+x.end_time.split(' ').splice(-1,1).join()}
-                            </td>
-                            <td>  
-
-                                <div className={showHideClassName}>
-                                    <section className="modal-main">
-                                        <div class='dung-logomini'>
-                                            <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
-                                        </div>
-                                        <p>Bạn có chắc chắn về sự lựa chọn của mình?</p>
-                                        <button type="button" onClick={this.hideModal}>
-                                            Hủy
-                                        </button>
-                                        
-                                        <button type="button" onClick={()=>{this.hideModal(); this.handleDelete(x)}}>
-                                            Xác nhận                                   
-                                        </button>
-                                            
-                                    </section>
-                                </div>               
-                                <button class='dung-button-dangky' type="button" onClick={this.showModal}>Hủy</button>          
-                            </td>
-                        </tr>
-                        ))
+                        this.state.treatment_turn.map((x,index)=>
+                        {
+                            console.log(x.start_time)
+                            console.log((+(new Date(x.start_time)))-(+(new Date())))
+                            if((+(new Date(x.start_time)))-(+(new Date()))>0)
+                            {
+                                return(                        
+                                    <tr>
+                                    <th scope="row">
+                                        {++counter}
+                                    </th>
+                                    <td>
+                                        {this.state.system_users.map(turn=>{if(x.doctor_phone==turn.phone) {return turn.firstname+' '+turn.lastname}})}
+                                    </td>
+                                    <td>
+                                        {x.doctor_phone}
+                                    </td>
+                                    <td>
+                                        {x.turn_time.split(' ').splice(1,3).join('/')}
+                                    </td>
+                                    <td>
+                                        {x.start_time.split(' ').splice(-1,1).join()+'-'+x.end_time.split(' ').splice(-1,1).join()}
+                                    </td>
+                                    <td>  
+        
+                                        <div className={showHideClassName}>
+                                            <section className="modal-main">
+                                                <div class='dung-logomini'>
+                                                    <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
+                                                </div>
+                                                <p>Bạn có chắc chắn về sự lựa chọn của mình?</p>
+                                                <button type="button" onClick={(e)=>{this.hideModal(); this.handleDeleteInsert(e)}}>
+                                                    Hủy
+                                                </button>
+                                                
+                                                <button type="button" onClick={()=>{this.hideModal(); this.handleDelete(); this.onClickSuccess()}}>
+                                                    Xác nhận                                   
+                                                </button>
+                                                    
+                                            </section>
+                                        </div>               
+                                        <button class='dung-button-dangky' type="button" onClick={()=>{this.showModal(); this.handleInsert(x)}}>Hủy</button>          
+                                    </td>
+                                </tr>
+                                )
+                            }
+                        }
+                        )
                     }
                     </tbody>
-                </Table>
-                <div id='clickhere' class='hidden'>
-                    <button class='dung cart-button btn btn-secondary' type="button" onClick={this.handleClick}>Click Here</button>
-                </div>          
+                </Table>        
             </Container>
         )
     }
