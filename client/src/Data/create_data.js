@@ -13,13 +13,13 @@ connection.connect(function(err){
 
 const user = require('./users.json');
 
-var sql = "INSERT INTO SYSTEM_USER(phone, firstname, lastname, dateOfbirth, address, email) VALUES "
+var sql = "INSERT INTO SYSTEM_USER(phone, firstname, lastname, dateOfbirth, address, email,pwd) VALUES "
 
 for (let i = 0; i < user.length; i++) {
     sql += "(" + user[i].phone.toString() + "," + 
         "'" + user[i].firstname.toString() + "'" + "," + "'" + user[i].lastname.toString() + "'" + "," + 
         "'" + user[i].dateOfbirth.toString() + "'" + "," + "'" + user[i].address.toString() +"'" + "," + 
-        "'" + user[i].email.toString() + "'" + ")";
+        "'" + user[i].email.toString() + "'" +"'" + user[i].pwd.toString() + "'" + ")";
     if (i !== user.length - 1) sql += ", ";
 }
 console.log(sql);

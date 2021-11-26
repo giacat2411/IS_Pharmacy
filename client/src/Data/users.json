@@ -5,7 +5,8 @@
         "lastname": "Trần Hữu",
         "dateOfbirth": "1995-11-13",
         "address": "Long An",
-        "email": "quynhtranhuu@gmail.com"
+        "email": "quynhtranhuu@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 713582931,
@@ -13,7 +14,8 @@
         "lastname": "Trần Văn",
         "dateOfbirth": "1999-3-26",
         "address": "Long An",
-        "email": "baotranvan@gmail.com"
+        "email": "baotranvan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 432432078,
@@ -21,7 +23,8 @@
         "lastname": "Trần Hữu",
         "dateOfbirth": "1999-1-16",
         "address": "Nghệ An",
-        "email": "thanhtranhuu@gmail.com"
+        "email": "thanhtranhuu@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 410507654,
@@ -29,7 +32,8 @@
         "lastname": "Trần Văn",
         "dateOfbirth": "1999-6-4",
         "address": "Quảng Bình",
-        "email": "khanhtranvan@gmail.com"
+        "email": "khanhtranvan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 880125734,
@@ -37,7 +41,8 @@
         "lastname": "Nguyễn Trần Hải",
         "dateOfbirth": "1995-8-3",
         "address": "Hồ Chí Minh",
-        "email": "sinhnguyentranhai@gmail.com"
+        "email": "sinhnguyentranhai@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 784219892,
@@ -45,7 +50,8 @@
         "lastname": "Nguyễn Trần Hải",
         "dateOfbirth": "1997-5-8",
         "address": "Thừa Thiên Huế",
-        "email": "linhnguyentranhai@gmail.com"
+        "email": "linhnguyentranhai@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 325793472,
@@ -53,7 +59,8 @@
         "lastname": "Trần Hữu",
         "dateOfbirth": "1996-11-7",
         "address": "Hà Tĩnh",
-        "email": "minhtranhuu@gmail.com"
+        "email": "minhtranhuu@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 954115128,
@@ -61,7 +68,8 @@
         "lastname": "Trần Văn",
         "dateOfbirth": "2000-2-15",
         "address": "Quảng Bình",
-        "email": "thanhtranvan@gmail.com"
+        "email": "thanhtranvan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 718179744,
@@ -69,7 +77,8 @@
         "lastname": "Trần Văn",
         "dateOfbirth": "1997-4-23",
         "address": "Quảng Nam",
-        "email": "chautranvan@gmail.com"
+        "email": "chautranvan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 635550055,
@@ -77,7 +86,8 @@
         "lastname": "Trần Thị",
         "dateOfbirth": "1996-7-8",
         "address": "Quảng Bình",
-        "email": "phongtranthi@gmail.com"
+        "email": "phongtranthi@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 387710120,
@@ -85,7 +95,8 @@
         "lastname": "Nguyễn Duy",
         "dateOfbirth": "1998-1-19",
         "address": "Long An",
-        "email": "vunguyenduy@gmail.com"
+        "email": "vunguyenduy@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 510949524,
@@ -93,7 +104,8 @@
         "lastname": "Trịnh Thiên",
         "dateOfbirth": "1999-6-13",
         "address": "Quảng Trị",
-        "email": "thanhtrinh@gmail.com"
+        "email": "thanhtrinh@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 634933811,
@@ -101,7 +113,8 @@
         "lastname": "Trần Thị",
         "dateOfbirth": "1997-6-8",
         "address": "Hà Nội",
-        "email": "thanhtranthi@gmail.com"
+        "email": "thanhtranthi@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 292417217,
@@ -109,7 +122,8 @@
         "lastname": "Nguyễn Văn",
         "dateOfbirth": "1995-7-12",
         "address": "Thừa Thiên Huế",
-        "email": "hungnguyenvan@gmail.com"
+        "email": "hungnguyenvan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 154245570,
@@ -117,7 +131,8 @@
         "lastname": "Nguyễn Xuân",
         "dateOfbirth": "1999-7-17",
         "address": "Quãng Ngãi",
-        "email": "phongnguyenxuan@gmail.com"
+        "email": "phongnguyenxuan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 840880307,
@@ -125,7 +140,8 @@
         "lastname": "Võ Đình",
         "dateOfbirth": "1997-1-25",
         "address": "Quãng Ngãi",
-        "email": "vuvo@gmail.com"
+        "email": "vuvo@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 943693315,
@@ -133,7 +149,9 @@
         "lastname": "Trần Thị",
         "dateOfbirth": "1996-11-10",
         "address": "Quảng Bình",
-        "email": "chautranthi@gmail.com"
+        "email": "chautranthi@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 169944194,
@@ -141,7 +159,8 @@
         "lastname": "Nguyễn Trần Hải",
         "dateOfbirth": "1998-3-27",
         "address": "Quảng Bình",
-        "email": "thanhnguyentranhai@gmail.com"
+        "email": "thanhnguyentranhai@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 625011158,
@@ -149,7 +168,8 @@
         "lastname": "Trịnh Thiên",
         "dateOfbirth": "2000-9-13",
         "address": "Long An",
-        "email": "khanhtrinh@gmail.com"
+        "email": "khanhtrinh@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 744663127,
@@ -157,7 +177,8 @@
         "lastname": "Nguyễn Duy",
         "dateOfbirth": "1999-7-26",
         "address": "Bình Định",
-        "email": "anhnguyenduy@gmail.com"
+        "email": "anhnguyenduy@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 592408338,
@@ -165,7 +186,8 @@
         "lastname": "Nguyễn Văn",
         "dateOfbirth": "1998-3-23",
         "address": "Hà Tĩnh",
-        "email": "linhnguyenvan@gmail.com"
+        "email": "linhnguyenvan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 876227513,
@@ -173,7 +195,8 @@
         "lastname": "Nguyễn Văn",
         "dateOfbirth": "2000-4-2",
         "address": "Đà Nẵng",
-        "email": "vunguyenvan@gmail.com"
+        "email": "vunguyenvan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 328998459,
@@ -181,7 +204,8 @@
         "lastname": "Nguyễn Văn",
         "dateOfbirth": "2000-4-25",
         "address": "Thừa Thiên Huế",
-        "email": "anhnguyenvan@gmail.com"
+        "email": "anhnguyenvan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 311935483,
@@ -189,7 +213,8 @@
         "lastname": "Trịnh Thiên",
         "dateOfbirth": "2000-1-21",
         "address": "Hà Tĩnh",
-        "email": "baotrinh@gmail.com"
+        "email": "baotrinh@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 368803547,
@@ -197,7 +222,8 @@
         "lastname": "Trần Thị",
         "dateOfbirth": "2000-10-18",
         "address": "Bạc Liêu",
-        "email": "nhattranthi@gmail.com"
+        "email": "nhattranthi@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 376363628,
@@ -205,7 +231,8 @@
         "lastname": "Trần Văn",
         "dateOfbirth": "2000-11-4",
         "address": "Hà Tĩnh",
-        "email": "hungtranvan@gmail.com"
+        "email": "hungtranvan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 486133680,
@@ -213,7 +240,8 @@
         "lastname": "Nguyễn Duy",
         "dateOfbirth": "2000-4-13",
         "address": "Thừa Thiên Huế",
-        "email": "baonguyenduy@gmail.com"
+        "email": "baonguyenduy@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 311024376,
@@ -221,7 +249,8 @@
         "lastname": "Trần Văn",
         "dateOfbirth": "1998-6-2",
         "address": "Đà Nẵng",
-        "email": "anhtranvan@gmail.com"
+        "email": "anhtranvan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 454893123,
@@ -229,7 +258,8 @@
         "lastname": "Trịnh Thiên",
         "dateOfbirth": "1998-4-26",
         "address": "Hà Tĩnh",
-        "email": "dattrinh@gmail.com"
+        "email": "dattrinh@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 484623727,
@@ -237,7 +267,8 @@
         "lastname": "Trần Hữu",
         "dateOfbirth": "1997-11-1",
         "address": "Long An",
-        "email": "khanhtranhuu@gmail.com"
+        "email": "khanhtranhuu@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 935528877,
@@ -245,7 +276,8 @@
         "lastname": "Trần Thị",
         "dateOfbirth": "1997-3-23",
         "address": "Bình Định",
-        "email": "linhtranthi@gmail.com"
+        "email": "linhtranthi@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 614177489,
@@ -253,7 +285,8 @@
         "lastname": "Nguyễn Xuân",
         "dateOfbirth": "1999-6-9",
         "address": "Quảng Nam",
-        "email": "nhatnguyenxuan@gmail.com"
+        "email": "nhatnguyenxuan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 889468611,
@@ -261,7 +294,8 @@
         "lastname": "Nguyễn Xuân",
         "dateOfbirth": "1998-9-13",
         "address": "Hồ Chí Minh",
-        "email": "linhnguyenxuan@gmail.com"
+        "email": "linhnguyenxuan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 486089375,
@@ -269,7 +303,8 @@
         "lastname": "Võ Đình",
         "dateOfbirth": "1996-10-3",
         "address": "Bến Tre",
-        "email": "chauvo@gmail.com"
+        "email": "chauvo@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 194710039,
@@ -277,7 +312,8 @@
         "lastname": "Nguyễn Trần Hải",
         "dateOfbirth": "2000-6-20",
         "address": "Long An",
-        "email": "vunguyentranhai@gmail.com"
+        "email": "vunguyentranhai@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 696380082,
@@ -285,7 +321,8 @@
         "lastname": "Võ Đình",
         "dateOfbirth": "1998-3-18",
         "address": "Hà Nội",
-        "email": "hungvo@gmail.com"
+        "email": "hungvo@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 468136685,
@@ -293,7 +330,8 @@
         "lastname": "Võ Đình",
         "dateOfbirth": "1998-3-7",
         "address": "Long An",
-        "email": "anhvo@gmail.com"
+        "email": "anhvo@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 289418851,
@@ -301,7 +339,8 @@
         "lastname": "Trịnh Thiên",
         "dateOfbirth": "1998-8-27",
         "address": "Quãng Ngãi",
-        "email": "chautrinh@gmail.com"
+        "email": "chautrinh@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 682559567,
@@ -309,7 +348,8 @@
         "lastname": "Nguyễn Văn",
         "dateOfbirth": "1996-5-21",
         "address": "Quãng Ngãi",
-        "email": "datnguyenvan@gmail.com"
+        "email": "datnguyenvan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 873411073,
@@ -317,7 +357,8 @@
         "lastname": "Võ Đình",
         "dateOfbirth": "1996-10-20",
         "address": "Nghệ An",
-        "email": "nhatvo@gmail.com"
+        "email": "nhatvo@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 808454879,
@@ -325,7 +366,8 @@
         "lastname": "Nguyễn Xuân",
         "dateOfbirth": "1995-3-15",
         "address": "Thừa Thiên Huế",
-        "email": "sinhnguyenxuan@gmail.com"
+        "email": "sinhnguyenxuan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 656712896,
@@ -333,7 +375,8 @@
         "lastname": "Trần Thị",
         "dateOfbirth": "1997-11-1",
         "address": "Quảng Bình",
-        "email": "anhtranthi@gmail.com"
+        "email": "anhtranthi@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 970960068,
@@ -341,7 +384,8 @@
         "lastname": "Trần Văn",
         "dateOfbirth": "1995-4-16",
         "address": "Đà Nẵng",
-        "email": "linhtranvan@gmail.com"
+        "email": "linhtranvan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 909984120,
@@ -349,7 +393,8 @@
         "lastname": "Trần Thị",
         "dateOfbirth": "1996-1-3",
         "address": "Long An",
-        "email": "khanhtranthi@gmail.com"
+        "email": "khanhtranthi@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 324198242,
@@ -357,7 +402,8 @@
         "lastname": "Trần Hữu",
         "dateOfbirth": "2000-9-11",
         "address": "Nghệ An",
-        "email": "sinhtranhuu@gmail.com"
+        "email": "sinhtranhuu@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 490563583,
@@ -365,7 +411,8 @@
         "lastname": "Nguyễn Xuân",
         "dateOfbirth": "1999-3-1",
         "address": "Bến Tre",
-        "email": "vunguyenxuan@gmail.com"
+        "email": "vunguyenxuan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 672958460,
@@ -373,7 +420,8 @@
         "lastname": "Nguyễn Xuân",
         "dateOfbirth": "1995-3-23",
         "address": "Hà Nội",
-        "email": "baonguyenxuan@gmail.com"
+        "email": "baonguyenxuan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 195656430,
@@ -381,7 +429,8 @@
         "lastname": "Nguyễn Duy",
         "dateOfbirth": "1995-7-14",
         "address": "Quảng Nam",
-        "email": "nhatnguyenduy@gmail.com"
+        "email": "nhatnguyenduy@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 656349989,
@@ -389,7 +438,8 @@
         "lastname": "Trần Văn",
         "dateOfbirth": "1996-1-13",
         "address": "Bạc Liêu",
-        "email": "nhattranvan@gmail.com"
+        "email": "nhattranvan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 853601180,
@@ -397,7 +447,8 @@
         "lastname": "Trần Thị",
         "dateOfbirth": "1998-8-24",
         "address": "Hà Nội",
-        "email": "vutranthi@gmail.com"
+        "email": "vutranthi@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 568476069,
@@ -405,7 +456,8 @@
         "lastname": "Trịnh Thiên",
         "dateOfbirth": "1996-6-5",
         "address": "Quảng Bình",
-        "email": "duytrinh@gmail.com"
+        "email": "duytrinh@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 225622318,
@@ -413,7 +465,8 @@
         "lastname": "Trần Hữu",
         "dateOfbirth": "1998-9-17",
         "address": "Quảng Bình",
-        "email": "nhattranhuu@gmail.com"
+        "email": "nhattranhuu@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 834531380,
@@ -421,7 +474,8 @@
         "lastname": "Trần Văn",
         "dateOfbirth": "1998-5-6",
         "address": "Quảng Nam",
-        "email": "phongtranvan@gmail.com"
+        "email": "phongtranvan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 937504384,
@@ -429,7 +483,8 @@
         "lastname": "Võ Đình",
         "dateOfbirth": "1997-2-9",
         "address": "Hà Nội",
-        "email": "khanhvo@gmail.com"
+        "email": "khanhvo@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 576696853,
@@ -437,7 +492,8 @@
         "lastname": "Trịnh Thiên",
         "dateOfbirth": "1998-4-24",
         "address": "Hà Nội",
-        "email": "hungtrinh@gmail.com"
+        "email": "hungtrinh@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 278086370,
@@ -445,7 +501,8 @@
         "lastname": "Nguyễn Xuân",
         "dateOfbirth": "2000-8-17",
         "address": "Thừa Thiên Huế",
-        "email": "quynhnguyenxuan@gmail.com"
+        "email": "quynhnguyenxuan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 143296956,
@@ -453,7 +510,8 @@
         "lastname": "Trần Thị",
         "dateOfbirth": "1996-4-25",
         "address": "Bến Tre",
-        "email": "hungtranthi@gmail.com"
+        "email": "hungtranthi@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 893505009,
@@ -461,7 +519,8 @@
         "lastname": "Trịnh Thiên",
         "dateOfbirth": "1998-1-11",
         "address": "Quãng Ngãi",
-        "email": "minhtrinh@gmail.com"
+        "email": "minhtrinh@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 793119975,
@@ -469,7 +528,8 @@
         "lastname": "Nguyễn Duy",
         "dateOfbirth": "1997-9-2",
         "address": "Quảng Trị",
-        "email": "thanhnguyenduy@gmail.com"
+        "email": "thanhnguyenduy@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 358982021,
@@ -477,7 +537,8 @@
         "lastname": "Trần Hữu",
         "dateOfbirth": "1997-11-5",
         "address": "Long An",
-        "email": "dattranhuu@gmail.com"
+        "email": "dattranhuu@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 602117353,
@@ -485,7 +546,8 @@
         "lastname": "Nguyễn Văn",
         "dateOfbirth": "1996-6-8",
         "address": "Hà Tĩnh",
-        "email": "phongnguyenvan@gmail.com"
+        "email": "phongnguyenvan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 751294775,
@@ -493,7 +555,8 @@
         "lastname": "Võ Đình",
         "dateOfbirth": "1998-4-8",
         "address": "Bạc Liêu",
-        "email": "quynhvo@gmail.com"
+        "email": "quynhvo@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 317877795,
@@ -501,7 +564,8 @@
         "lastname": "Nguyễn Văn",
         "dateOfbirth": "1998-11-3",
         "address": "Quảng Bình",
-        "email": "chaunguyenvan@gmail.com"
+        "email": "chaunguyenvan@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 278556533,
@@ -509,7 +573,8 @@
         "lastname": "Nguyễn Duy",
         "dateOfbirth": "1996-9-12",
         "address": "Long An",
-        "email": "hungnguyenduy@gmail.com"
+        "email": "hungnguyenduy@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     },
     {
         "phone": 691620386,
@@ -517,6 +582,7 @@
         "lastname": "Võ Đình",
         "dateOfbirth": "1995-2-25",
         "address": "Đà Nẵng",
-        "email": "minhvo@gmail.com"
+        "email": "minhvo@gmail.com",
+        "pwd": "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq"
     }
 ]
