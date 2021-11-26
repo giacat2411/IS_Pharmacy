@@ -1,7 +1,7 @@
 import './App.css';
 import { Component } from 'react';
-//import Main from './1.CatComponent/MainComponent';
-import ScheduleTable from './3.ChanhComponent/ViewSchedule.js';
+import Main from './1.CatComponent/MainComponent';
+// import ScheduleTable from './3.ChanhComponent/ViewSchedule.js';
 import { BrowserRouter } from 'react-router-dom';
 //import { application } from 'express';
 //import './server'
@@ -10,7 +10,7 @@ class App extends Component {
   return (
     <BrowserRouter>
     <div className="App">
-        <ScheduleTable/>
+        <Main/>
     </div>
     </BrowserRouter>
   );

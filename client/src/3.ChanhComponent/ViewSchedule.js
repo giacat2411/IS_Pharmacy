@@ -4,6 +4,7 @@ import View from './View.js';
 import Deleted from './delete.js';
 import SaveSchedule from './SaveSchedule.js';
 import axios from 'axios';
+import { FaPencilAlt } from "react-icons/fa";
 
 class ScheduleTable extends Component {
     constructor() {
@@ -11,6 +12,18 @@ class ScheduleTable extends Component {
         this.state = {
           show: false,
           deleted:false,
+
+          doctor:[],
+          patient:[],
+          treatment_turn:[],
+          work_schedule:[],         
+          system_user:[],
+
+          doctor:[],
+          patient:[],
+          treatment_turns:[],
+          work_schedules:[],
+          system_users:[],
         };
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -115,6 +128,90 @@ class ScheduleTable extends Component {
     };
 
     render(){
+        // const showHideClassName = this.state.show ? "modal display-block" : "modal display-none";
+        // const listMorning=["8:00:00-8:30:00","8:30:00-9:00:00","9:00:00-9:30:00","9:30:00-10:00:00","10:00:00-10:30:00","10:30:00-11:00:00"];
+        // const listAfternoon=["13:00:00-13:30:00","13:30:00-14:00:00","14:00:00-14:30:00","14:30:00-15:00:00","15:00:00-15:30:00","15:30:00-16:00:00","16:00:00-16:30:00","16:30:00-17:00:00"];
+        // const S=this.state.work_schedule.filter(turn=>turn.work_session=='S');
+        // const C=this.state.work_schedule.filter(turn=>turn.work_session=='C');
+        // let dem=0;
+        // const listS=S.map(curr=>listMorning.map((x,index)=>(
+                //     <tr>
+                //     <th scope="row">
+                //         {++dem}
+                //     </th>
+                //     <td>
+                //         {this.state.system_user.map(turn=>{if(curr.doctor_phone==turn.phone) {return turn.firstname+' '+turn.lastname}})}
+                //     </td>
+                //     <td>
+                //         {curr.doctor_phone}
+                //     </td>
+                //     <td>
+                //         {this.state.treatment_turn.length!==0&&this.state.treatment_turn[0].turn_time.split(' ').splice(1,3).join('/')||curr.work_day+2+"/Jul/2021"}
+                //     </td>
+                //     <td>
+                //         {x}
+                //     </td>
+                //     <td>
+                //         <div className={showHideClassName}>
+                //             <section className="modal-main">
+                //                 <div class='dung-logomini'>
+                //                     <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
+                //                 </div>
+                //                 <p>Bạn có chắc chắn về sự lựa chọn của mình?</p>
+                //                 <button type="button" onClick={this.hideModal}>
+                //                     Hủy
+                //                 </button>
+                                
+                //                 <button type="button" value={(this.state.treatment_turn.length!==0&&this.state.treatment_turn[0].turn_time.split(' ').splice(0,4).join(' ')||curr.work_day+2+"/Jul/2021")+' '+x} name={curr.doctor_phone} onClick={(e)=>{this.hideModal(); this.handleInsertSubmit(e)}}>
+                //                     Xác nhận                                   
+                //                 </button>
+                                    
+                //             </section>
+                //         </div>       
+                //         {this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]).length!==0?<FaPencilAlt />:<button class='dung-button-dangky' type="button" onClick={this.showModal}>Đăng ký</button>}               
+                //     </td>
+                // </tr>
+        //         ))
+        //         ).flat()
+
+        //         const listC=C.map(curr=>listAfternoon.map((x,index)=>(
+        //             <tr>
+        //             <th scope="row">
+        //                 {++dem}
+        //             </th>
+        //             <td>
+        //                 {this.state.system_user.map(turn=>{if(curr.doctor_phone==turn.phone) {return turn.firstname+' '+turn.lastname}})}
+        //             </td>
+        //             <td>
+        //                 {curr.doctor_phone}
+        //             </td>
+        //             <td>
+        //                 {this.state.treatment_turn.length!==0&&this.state.treatment_turn[0].turn_time.split(' ').splice(1,3).join('/')||curr.work_day+2+"/Jul/2021"}
+        //             </td>
+        //             <td>
+        //                 {x}
+        //             </td>
+        //             <td>
+        //                 <div className={showHideClassName}>
+        //                     <section className="modal-main">
+        //                         <div class='dung-logomini'>
+        //                             <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
+        //                         </div>
+        //                         <p>Bạn có chắc chắn về sự lựa chọn của mình?</p>
+        //                         <button type="button" onClick={this.hideModal}>
+        //                             Hủy
+        //                         </button>
+        //                         <button type="button" value={(this.state.treatment_turn.length!==0&&this.state.treatment_turn[0].turn_time.split(' ').splice(0,4).join(' ')||curr.work_day+2+"/Jul/2021")+' '+x} name={curr.doctor_phone} onClick={(e)=>{this.hideModal(); this.handleInsertSubmit(e)}}>
+        //                             Xác nhận                                   
+        //                         </button>
+                                    
+        //                     </section>
+        //                 </div>                     
+        //                 {this.state.treatment_turn.filter(t=> t.doctor_phone==curr.doctor_phone &&t.turn_time.split(' ').splice(-1,1).join()==x.split('-')[0]).length!==0?<FaPencilAlt />:<button class='dung-button-dangky' type="button" onClick={this.showModal}>Đăng ký</button>}               
+        //             </td>
+        //         </tr>
+        //         ))
+            // ).flat()
         return(
             <Container id='dung-appointment'>
                 <div class='dung-title'> 
@@ -156,23 +253,23 @@ class ScheduleTable extends Component {
                         </tr>
                     </thead>
                     <tbody className="dung-table-body">
-                        <tr>
-                            <th scope="row">
-                                1
-                            </th>
-                            <td>
-                                
-                            </td>
-                            <td>
-                                
-                            </td>
-                            <td>
-
-                            </td>
-                            <td>
-                                
-                            </td>
-                            <td>
+                    <tr>
+                    <th scope="row">
+                        {++dem}
+                    </th>
+                    <td>
+                        {this.state.system_user.map(turn=>{if(this.state.doctor.phone==turn.phone) {return turn.firstname+' '+turn.lastname}})}
+                    </td>
+                    <td>
+                        {this.state.treatment_turn.length!==0&&this.state.treatment_turn[0].turn_time.split(' ').splice(1,3).join('/')||curr.work_day+2+"/Jul/2021"}
+                    </td>
+                    <td>
+                        {this.state.treatment_turn.start_time}
+                    </td>
+                    <td>
+                        {this.state.system_user.map(turn=>{if(this.state.patient.phone==turn.phone) {return turn.firstname+' '+turn.lastname}})}
+                    </td>
+                    <td>
                                 <View show={this.state.show} handleClose={this.hideModal}>
                                     <SaveSchedule>
                                     </SaveSchedule>
@@ -181,11 +278,9 @@ class ScheduleTable extends Component {
                                 <Deleted deleted={this.state.deleted} handleClose={this.hideModal}>
                                     <p>Bạn có chắc chắn về sự lựa chọn của mình?</p>
                                 </Deleted> 
-                                <button class='chanh-button-view' type="button" onClick={this.deleteModal}>Hủy lịch</button>           
-                            </td>
-                            
-
-                        </tr>
+                                <button class='chanh-button-view' type="button" onClick={this.deleteModal}>Hủy lịch</button>               
+                    </td>
+                </tr>
                     </tbody>
                 </Table>
                 </div>

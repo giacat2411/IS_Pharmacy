@@ -5,6 +5,7 @@ class SaveSchedule extends Component {
     super();
     this.state = {
 
+      patient:[],
       treatment_turn:[],
       work_schedule:[],         
       system_user:[],
@@ -19,8 +20,7 @@ class SaveSchedule extends Component {
       return(
         <Container>
             Tên bệnh nhân:
-            <div>{this.state.patient.firstname}</div>
-            <div>{this.state.patient.lastname}</div>
+            <div>{this.state.system_user.map(turn=>{if(this.state.patient.phone==turn.phone) {return turn.firstname+' '+turn.lastname}})}</div>
             <br />
             Tiền sử bệnh án:
             <div>{this.state.patient.medical_history}</div>
