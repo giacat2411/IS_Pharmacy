@@ -29,10 +29,7 @@ import Re_examinationSchedule from '../4.DungComponent/Re-examinationScheduleCom
 import LoginPane from '../2.PhucComponent/loginPaneComponent';
 import Profile from '../2.PhucComponent/profile';
 import SignUp from '../2.PhucComponent/Signup';
-// import HeaderDefine from './Context';
 import { HeaderProvider } from './Context';
-//TODO: Context user with role
-
 //CHANH
 import HomeNur from '../3.ChanhComponent/NursingComponent';
 
@@ -57,17 +54,6 @@ const Main = (props) => {
         <ViewOrderDetail orderID = {parseInt(JSON.parse(match.params.orderID))} />
       )
     }
-
-    // const ctx = useContext(HeaderDefine);
-    // const [formValue, setFormValue] = useState({
-        
-    //     phone: ctx.phone,
-    //     fullname: ctx.fullname,
-    //     pwd: '123456',
-    //     role:"Guest",
-    // });
-    // const ProviderValue=useMemo(()=>({formValue,setFormValue}),[formValue,setFormValue]);
-
 
     const PaymentPage = ({match}) => {
       return(
