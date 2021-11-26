@@ -1,6 +1,5 @@
 import '../App.css';
 import { NavLink } from 'react-router-dom';
-import {Nav} from 'reactstrap';
 
 const Modall = ({ handleClose, show, add, children }) => {
   const showHideClassName = show ? "modal display-block" : "modal display-none";

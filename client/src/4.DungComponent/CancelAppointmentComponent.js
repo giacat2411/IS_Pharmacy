@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
-import { Container, Row, Col, Table, Nav, NavItem, NavLink, TabContent, TabPane, Toast, ToastHeader, ToastBody} from 'reactstrap';
-import { Button } from 'reactstrap';
-import { Card, CardText, CardBody, CardTitle} from 'reactstrap';
-import Modal from './Modal.js';
+import { Container, Table } from 'reactstrap';
 import axios from 'axios';
 import ToastServive from 'react-material-toast';
 

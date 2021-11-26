@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
-import { Container, Row, Col, Table, Nav, NavItem, NavLink, TabContent, TabPane} from 'reactstrap';
-import { Button } from 'reactstrap';
-import { Input, Card, CardText, CardBody, CardTitle} from 'reactstrap';
-import AppointmentTable from './AppointmentTableComponent';
+import { Container, Table } from 'reactstrap';
 import axios from 'axios';
 import { FaPencilAlt } from "react-icons/fa";
 import { MdLockClock } from "react-icons/md";
 import ToastServive from 'react-material-toast';
-import addDays from 'date-fns/addDays';
 
 //curr_thu: i+3 
 //current_day: addDays(new Date(), 1).toUTCString(),

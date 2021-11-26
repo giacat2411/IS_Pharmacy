@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import { Button } from 'reactstrap';
-import { Card, CardText, CardBody, CardTitle} from 'reactstrap';
+import { Card, CardBody, CardTitle} from 'reactstrap';
 
 class Doctor extends Component{
     render(){
