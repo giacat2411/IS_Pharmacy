@@ -135,7 +135,7 @@ const toggleMsg = () => {
         )
     }
     else {
-        axios.get('/api/set/user', { params: { phone: ctx.phone, role: ctx.role } });
+        // axios.get('/api/set/user', { params: { phone: ctx.phone, role: ctx.role } });
         var userSession = { phone: ctx.phone, role: ctx.role };
         console.log(userSession);
         sessionStorage.clear();

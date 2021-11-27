@@ -97,20 +97,20 @@ app.get('/api/get/order_in_view', function (req, res) {
 
 app.get('/api/get/order_details', function (req, res) {
   var sql = "select * from include natural join drug where medicine_id = " + req.query.orderID;
-  connection.query(sql, function (err, results) {
+  connection.query(sql, function(err, results) {
     if (err) throw err;
     res.json({ order_details: results });
   });
 })
 
-app.get('/api/get/total_value', function (req, res) {
+app.get('/api/get/total_value', function(req, res) {
   var sql = "select created_date, sum(quantity * price) as total "
-    + "from purchase_medicine join medicine on purchase_id = id join include on id = medicine_id "
-    + "natural join drug "
-    + "group by created_date"
-  connection.query(sql, function (err, results) {
-    if (err) throw err;
-    res.json({ data_statistic: results });
+            + "from purchase_medicine join medicine on purchase_id = id join include on id = medicine_id "
+            + "natural join drug "
+            + "group by created_date"
+  connection.query(sql, function(err, results) {
+  if (err) throw err;
+          res.json({data_statistic: results});
   });
 })
 
@@ -118,7 +118,7 @@ app.get('/api/get/total_value', function (req, res) {
 
 
 app.use(sessions({
-  secret: "key", cookie: { expires: ONEDAY }, user: {}, resave: false, saveUninitialized: true,
+  secret: "key", cookie: { expires: ONEDAY },user:{},  resave: false,saveUninitialized: true,
 }));
 
 app.get('/api/get/users', (req, res) => {
@@ -132,9 +132,8 @@ app.get('/api/get/role', (req, res) => {
   for (let i = 0; i < 3; i++) {
     sql = `SELECT * FROM ${RoleList[i]} WHERE PHONE = ${req.query.phonenum}`;
     connection.query(sql, function (err, results) {
-      if (results[0]) {
-        res.json({ role: RoleList[i] });
-      }
+      if (results[0]){
+        res.json({ role: RoleList[i] });}
     });
   }
 });
@@ -142,25 +141,25 @@ app.get('/api/get/role', (req, res) => {
 app.get('/api/get/access', (req, res) => {
   sql = `SELECT * FROM system_user WHERE PHONE = ${req.query.phonenum}`;
   connection.query(sql, function (err, results) {
-    if (results[0]) {
+    if(results[0]){
       if (bcrypt.compareSync(req.query.userpwd, results[0].pwd)) {
-        session = req.session;
-        session.user = results[0];
-        res.json({ user: results });
-      } else {
-        res.json({ msg: "Wrong login information!" })
-      }
+        session=req.session;
+        session.user=results[0];
+      res.json({ user: results });
     } else {
       res.json({ msg: "Wrong login information!" })
     }
-
+    }else {
+      res.json({ msg: "Wrong login information!" })
+    }
+    
   });
 }
 );
 app.get('/api/get/info', (req, res) => {
   sql = `SELECT * FROM system_user WHERE PHONE = ${req.query.phonenum}`;
   connection.query(sql, function (err, results) {
-    if (results[0]) {
+    if(results[0]){
       res.json({ user: results });
     } else {
       res.json({ msg: "Hồ sơ không tồn tại." })
@@ -175,11 +174,12 @@ app.get('/api/hash/pwd', (req, res) => {
 });
 
 
-app.get('/api/get/phuc', (req, res) => { console.log(session); res.json(session.user) });
+app.get('/api/get/phuc', (req, res) => { console.log(session); res.json(session.user)});
 
-app.get('/api/set/user', (req, res) => {
-  session.user = { phone: req.query.phone, role: req.query.role };
-});
+// app.get('/api/set/user', (req, res) => {
+//   session.user = { phone: req.query.phone, role: req.query.role };
+//   console.log(req.session.user)
+// });
 
 app.get('/api/destroy/session', (req, res) => {
   req.session.destroy();
@@ -191,8 +191,8 @@ app.get('/api/new/session', (req, res) => {
 
 app.get('/api/get/session', (req, res) => {
   console.log(session)
-  if (session)
-    res.json(session.user)
+  if(session)
+  res.json(session.user)
   else res.json(session)
 });
 
@@ -221,9 +221,9 @@ app.get('/api/get/patientInfo', (req, res) => {
 ///// Chanh /////
 app.get('/api/get/patient', (req, res) => {
   var sql = "SELECT * FROM patient";
-  connection.query(sql, function (err, results) {
+  connection.query(sql, function(err, results) {
     if (err) throw err;
-    res.json({ treatment_turns: results });
+    res.json({treatment_turns: results});
   });
 });
 ///// Dung /////
@@ -311,7 +311,7 @@ app.post('/api/post/pwd', (req, res) => {
   connection.query(sql, (err, results) => {
     if (bcrypt.compareSync(req.body.params.pwd, results[0].pwd)) {
       const salt = bcrypt.genSaltSync(10);
-      newpwd = bcrypt.hashSync(req.body.params.password, salt);
+      newpwd = bcrypt.hashSync(req.body.params.password,salt);
       sql = `UPDATE SYSTEM_USER SET  pwd="${newpwd}"
   WHERE phone=${req.body.params.phone} `
       connection.query(sql, () => {
@@ -328,7 +328,7 @@ app.post('/api/post/newpwd', (req, res) => {
     if (Date(results[0].dateofbirth) == Date(req.body.params.dateofbirth)) {
       if (bcrypt.compareSync(req.body.params.pwd, results[0].pwd)) {
         const salt = bcrypt.genSaltSync(10);
-        newpwd = bcrypt.hashSync(req.body.params.pwd, salt);
+        newpwd = bcrypt.hashSync(req.body.params.pwd,salt);
         sql = `UPDATE SYSTEM_USER SET  pwd="${newpwd}"
                 WHERE phone=${req.body.params.phone} `
         connection.query(sql, () => {
@@ -338,9 +338,9 @@ app.post('/api/post/newpwd', (req, res) => {
         res.json({ msg: "Wrong password!" })
       }
 
-    } else {
-      res.json({ msg: "Wrong information!" })
-    }
+    }else {
+        res.json({ msg: "Wrong information!" })
+      }
     // var sql = `UPDATE system_user SET email = ${req.body.params.pwd}
     //         WHERE phone=${req.body.params.phone}`
     // connection.query(sql, (err, results) => {
@@ -349,142 +349,140 @@ app.post('/api/post/newpwd', (req, res) => {
     //   res.json({ msg: "Đổi mật khẩu thành công" })
     // })
     //Go to ogin
-  })
-});
-///// Chanh /////
-app.post('api/update/work_schedule', (req, res) => {
-  var sql = `UPDATE patient
+  })});
+  ///// Chanh /////
+app.post('api/update/work_schedule',(req,res)=>{
+  var sql=`UPDATE patient
       SET work_day=${req.query.work_day},
           work_session=${req.query.work_session},
   WHERE phone=${req.query.phone}`
-  connection.query(sql, function (err, results) {
-    res.json({ patients: req.query });
+  connection.query(sql, function(err, results) {
+      res.json({ patients: req.query });
   });
 }
 )
 
-app.post('api/update/treatment_turn', (req, res) => {
-  var sql = `UPDATE patient
+app.post('api/update/treatment_turn',(req,res)=>{
+  var sql=`UPDATE patient
       SET turn_time=${req.query.turn_time},
           start_time=${req.query.start_time},
           end_time=${req.query.end_time},
           doctor_phone=${req.query.doctor_phone},
   WHERE id=${req.query.id}`
-  connection.query(sql, function (err, results) {
-    res.json({ patients: req.query });
+  connection.query(sql, function(err, results) {
+      res.json({ patients: req.query });
   });
 }
 )
-///// Dung /////
+  ///// Dung /////
 
 
-//////////////////////////////
-//          DELETE          //
-//////////////////////////////
-// Form: /api/delete/...
+  //////////////////////////////
+  //          DELETE          //
+  //////////////////////////////
+  // Form: /api/delete/...
 
 
-///// Cat /////
+  ///// Cat /////
 
-///// Phuc /////
+  ///// Phuc /////
 
-///// Chanh /////
-app.post('/api/delete/work_schedule', (req, res) => {
-  var sql = "DELETE FROM work_schedule "
-    + "WHERE doctor_phone='" + req.body.doctor_phone + "'";
-  console.log(req);
-  connection.query(sql, function (err, results) {
-    if (err) throw err;
-    res.json({ news: results });
+  ///// Chanh /////
+  app.post('/api/delete/work_schedule', (req, res) => {
+    var sql = "DELETE FROM work_schedule "
+            + "WHERE doctor_phone='"+req.body.doctor_phone+"'";
+            console.log(req);
+    connection.query(sql, function(err, results) {
+      if (err) throw err;
+      res.json({news: results});
+    });
   });
-});
-///// Dung /////
+  ///// Dung /////
+  
+  app.post('/api/delete/treatment_turns', (req, res) => {
+    var sql = "DELETE FROM treatment_turn "
+      + "WHERE id='" + req.body.id + "'";
+    console.log(req);
+    connection.query(sql, function (err, results) {
+      if (err) throw err;
+      res.json({ news: results });
+  });});
 
-app.post('/api/delete/treatment_turns', (req, res) => {
-  var sql = "DELETE FROM treatment_turn "
-    + "WHERE id='" + req.body.id + "'";
-  console.log(req);
-  connection.query(sql, function (err, results) {
-    if (err) throw err;
-    res.json({ news: results });
+  //////////////////////////////
+  //          INSERT          //
+  //////////////////////////////
+  // Form: /api/insert/...
+
+
+  ///// Cat /////
+  app.post('/api/insert/drug', function (req, res) {
+    var sql = "INSERT INTO DRUG(drug_name, unit, price, remain) VALUE "
+      + "('" + req.body.drug_name + "',"
+      + "'" + req.body.unit + "',"
+      + req.body.price + ","
+      + req.body.remain + ")"
+
+    console.log(sql);
+    connection.query(sql, function (err, results) {
+      if (err) throw err;
+      res.json({ news: results });
+    });
   });
-});
 
-//////////////////////////////
-//          INSERT          //
-//////////////////////////////
-// Form: /api/insert/...
-
-
-///// Cat /////
-app.post('/api/insert/drug', function (req, res) {
-  var sql = "INSERT INTO DRUG(drug_name, unit, price, remain) VALUE "
-    + "('" + req.body.drug_name + "',"
-    + "'" + req.body.unit + "',"
-    + req.body.price + ","
-    + req.body.remain + ")"
-
-  console.log(sql);
-  connection.query(sql, function (err, results) {
-    if (err) throw err;
-    res.json({ news: results });
-  });
-});
-
-///// Phuc /////
-app.post('/api/insert/regist', (req, res) => {
-  console.log(req.body.params)
-  const salt = bcrypt.genSaltSync(10);
-  storedPwd = bcrypt.hashSync(req.body.params.pwd, salt);
-  bcrypt.genSalt().then(salt => {
-    bcrypt.hash(req.body.params.pwd, salt).then(hash => {
-      storedPwd = hash;
+  ///// Phuc /////
+  app.post('/api/insert/regist', (req, res) => {
+    console.log(req.body.params)
+    const salt = bcrypt.genSaltSync(10);
+    storedPwd=bcrypt.hashSync(req.body.params.pwd, salt);
+    bcrypt.genSalt().then(salt=>{
+      bcrypt.hash(req.body.params.pwd,salt).then(hash=>{
+        storedPwd=hash;
+      })
     })
-  })
-  var sql = `INSERT INTO system_user (phone, firstname, lastname, dateofbirth, address, email,pwd) VALUES 
+    var sql = `INSERT INTO system_user (phone, firstname, lastname, dateofbirth, address, email,pwd) VALUES 
         (${req.body.params.phone},"${req.body.params.firstname}","${req.body.params.lastname}","${req.body.params.dateofbirth}","${req.body.params.address}","${req.body.params.email}","${storedPwd}")`
   connection.query(sql, function (err, results) {
-    if (err) res.json({ msg: "Đăng ký thất bại" });
-    sql2 = `INSERT INTO patient VALUES(${req.body.params.phone},"Không", 150,53,"O+","Không");`
-    connection.query(sql2, function (err, result) {
-      res.json({
+      if (err) res.json({msg:"Đăng ký thất bại"});
+      sql2 = `INSERT INTO patient VALUES(${req.body.params.phone},"Không", 150,53,"O+","Không");`
+      connection.query(sql2, function (err,result){
+res.json({
         msg: `Đăng ký thành công!
     Mời bạn đăng nhập vào tài khoản` });
+      });
+        
     });
 
   });
+  ///// Chanh /////
 
-});
-///// Chanh /////
+  ///// Dung /////
 
-///// Dung /////
+  app.post('/api/insert/treatment_turns', function (req, res) {
+    var sql = "INSERT "
+      + "INTO treatment_turn(id, turn_time, health_issue, blood_pressure, heart_beat, therapy, diagnose, start_time, end_time, patient_phone, doctor_phone) "
+      + "VALUES('"
+      + req.body.id + "','"
+      + req.body.turn_time + "','"
+      + req.body.health_issue + "','"
+      + req.body.blood_pressure + "','"
+      + req.body.heart_beat + "','"
+      + req.body.therap + "','"
+      + req.body.diagnose + "','"
+      + req.body.start_time + "','"
+      + req.body.end_time + "','"
+      + req.body.patient_phone + "','"
+      + req.body.doctor_phone + "')";
+    console.log(req);
 
-app.post('/api/insert/treatment_turns', function (req, res) {
-  var sql = "INSERT "
-    + "INTO treatment_turn(id, turn_time, health_issue, blood_pressure, heart_beat, therapy, diagnose, start_time, end_time, patient_phone, doctor_phone) "
-    + "VALUES('"
-    + req.body.id + "','"
-    + req.body.turn_time + "','"
-    + req.body.health_issue + "','"
-    + req.body.blood_pressure + "','"
-    + req.body.heart_beat + "','"
-    + req.body.therap + "','"
-    + req.body.diagnose + "','"
-    + req.body.start_time + "','"
-    + req.body.end_time + "','"
-    + req.body.patient_phone + "','"
-    + req.body.doctor_phone + "')";
-  console.log(req);
-
-  connection.query(sql, function (err, results) {
-    if (err) throw err;
-    res.json({ news: results });
+    connection.query(sql, function (err, results) {
+      if (err) throw err;
+      res.json({ news: results });
+    });
   });
-});
 
 
-app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});
+  app.listen(PORT, () => {
+    console.log(`Server listening on ${PORT}`);
+  });
 
 
