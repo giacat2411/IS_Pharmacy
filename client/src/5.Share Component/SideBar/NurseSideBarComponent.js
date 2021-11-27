@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarContent, SidebarFooter, SidebarHeader } from 'react-pro-sidebar';
-import { FaGem, FaHeart, FaGithub } from 'react-icons/fa';
+import { FaHeart, FaGithub } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 class NurseSideBar extends Component {
@@ -21,7 +21,7 @@ class NurseSideBar extends Component {
                             color: 'black'
                         }}
                         >
-                        <img style={{'margin-right': '5px', 'margin-top': '-5px'}} height="45.88px" width="45px" src="/assets/images/sub_logo.png" /> 
+                        <img alt="Logo" style={{'margin-right': '5px', 'margin-top': '-5px'}} height="45.88px" width="45px" src="/assets/images/sub_logo.png" /> 
                         <span> Điều dưỡng </span>
                     </div>
                 </SidebarHeader>

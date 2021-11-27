@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { NavLink } from 'reactstrap';
 import { Container, Row, Col } from 'reactstrap';
 import { Card, CardBody, CardTitle} from 'reactstrap';
 import { LinkContainer } from 'react-router-bootstrap'; 
@@ -15,7 +14,7 @@ class Customer extends Component{
                 <hr />
                 <Row>
                     <Col md="6">
-                    <LinkContainer to ="/" style={{cursor: 'pointer'}}>
+                    <LinkContainer to ="/view_medical_record" style={{cursor: 'pointer'}}>
                         {/* <NavLink className="cat-customer-item-link"> */}
                         <Card className="cat-customer-item-right">
                             <img className="cat-customer-img" width="90px" height="90px" src="/assets/images/view-home.png" alt = "Xem hồ sơ bệnh án"></img>

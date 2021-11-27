@@ -1,5 +1,5 @@
 import './note.css'
-import React,{Component} from 'react';
+import React from 'react';
 import Masonry from 'masonry-layout';
 class Note extends React.Component {
     render() {

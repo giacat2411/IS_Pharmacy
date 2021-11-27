@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Spinner } from 'reactstrap';
-import { Form, FormGroup, Input, Button, Fade } from 'reactstrap';
+import { Input, Button } from 'reactstrap';
 import { Table } from 'reactstrap';
 import { FaSearch } from 'react-icons/fa';
 import Pagination from "pagination-component";
-import NurseSideBar from '../../NurseSideBarComponent';
+import NurseSideBar from '../../../5.Share Component/SideBar/NurseSideBarComponent';
 import { Link } from 'react-router-dom';
 import './manage_order.css';
 
@@ -34,7 +34,7 @@ class ViewOrder extends Component {
         const data = this.state.orders.filter(order => {
             const day = this.convertDate(order.created_date)
 
-            if (this.compareDay(day, start_time) == true && this.compareDay(end_time, day) == true) return true;
+            if (this.compareDay(day, start_time) === true && this.compareDay(end_time, day) === true) return true;
             else return false
         })
         this.setState({orders_search: data})

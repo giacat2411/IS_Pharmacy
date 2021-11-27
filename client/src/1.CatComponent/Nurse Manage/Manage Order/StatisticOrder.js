@@ -6,7 +6,7 @@ import { FaSearch } from 'react-icons/fa';
 import { XAxis, YAxis, Tooltip, Legend, Line, LineChart, CartesianGrid } from 'recharts'
 import './manage_order.css';
 import axios from 'axios';
-import NurseSideBar from '../../NurseSideBarComponent';
+import NurseSideBar from '../../../5.Share Component/SideBar/NurseSideBarComponent';
 
 class StatisticOrder extends Component {
     constructor(props) {
@@ -37,7 +37,7 @@ class StatisticOrder extends Component {
 
         const data = this.state.orders_statistic.filter(order => {
             const day = this.convertDate(order.created_date)
-            if (this.compareDay(day, start_time) == true && this.compareDay(end_time, day) == true) return true;
+            if (this.compareDay(day, start_time) === true && this.compareDay(end_time, day) === true) return true;
             else return false
         })
         this.setState({order_filter: data.map(order => {order.created_date = this.convertDate(order.created_date); return order})})

@@ -7,7 +7,7 @@ import { Form, FormGroup, Input, Button } from 'reactstrap';
 import { Modal, ModalBody } from 'reactstrap';
 import { FaShoppingCart, FaSearch } from 'react-icons/fa';
 import axios from 'axios';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 class BuyDrug extends Component {
     constructor(props) {

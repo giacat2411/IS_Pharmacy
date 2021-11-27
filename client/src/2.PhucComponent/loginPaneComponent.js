@@ -1,9 +1,9 @@
-import React, { Component, useContext, useState, useMemo } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { Modal, ModalBody } from 'reactstrap';
-import { Container, Input, Row, Col, Button } from 'reactstrap';
+import { Input, Row, Col, Button } from 'reactstrap';
 import { Redirect, Switch } from 'react-router';
-import HeaderDefine from '../1.CatComponent/Context';
+import HeaderDefine from '../5.Share Component/Context';
 import { NavLink } from 'react-router-dom';
 import { FaUserPlus } from 'react-icons/fa';
 const LoginPane = () => {
@@ -36,7 +36,7 @@ const LoginPane = () => {
 
     const [phone, setPhone] = useState();
     const [pwd, setPwd] = useState();
-    const [repwd, setRePwd] = useState();
+    const [, setRePwd] = useState();
     const [DOB, setDOB] = useState();
     // const ProviderValue=useMemo(()=>({formValue,setFormValue}),[formValue,setFormValue]);
     const [isModal, setModal] = useState(false);
@@ -64,6 +64,8 @@ const toggleMsg = () => {
                         )
                         .then(res => {
                             const role = res.data;
+                            localStorage.setItem('user', phone.value)
+                            localStorage.setItem('role', role)
                             ctx.setRole(role.role);Msg="Đăng nhập thành công"; toggleMsg();
                         });
                 }
@@ -88,7 +90,7 @@ const toggleMsg = () => {
             <div className="center">
                 <Row>
                     <Col xs={0.5}>
-                        <Row><img src='assets/images/pana.svg' xs={0.8}></img></Row>
+                        <Row><img src='assets/images/pana.svg' xs={0.8} alt="pana"></img></Row>
                     </Col>
                     <Col><div>
 

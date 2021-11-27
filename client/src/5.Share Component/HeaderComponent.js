@@ -1,15 +1,9 @@
-import React, { Component,useContext,useState,useMemo } from 'react';
+import React from 'react';
 import { Navbar, NavbarBrand, Nav, NavItem, 
         Collapse, NavbarToggler } from 'reactstrap';
-import { FaHome, FaRegCalendarAlt, FaInfo, FaUserPlus, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
+import { FaHome, FaRegCalendarAlt, FaInfo } from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
-import axios from 'axios';
-
-
-import LogButton from './LogButton';
-import HeaderDefine from './Context';
-// import {HeaderDefine, ThingsProvider} from './Context';
-// import HeaderDefine from '../2.PhucComponent/Context';
+import LogButton from '../2.PhucComponent/LogButton';
 
 
 const Header = (props)=> {

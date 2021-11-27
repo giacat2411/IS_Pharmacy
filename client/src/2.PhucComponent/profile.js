@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Route, NavLink } from 'react-router-dom';
 import { Input, Row, Col, Button, CardHeader, CardBody, CardSubtitle } from 'reactstrap';
-import Home from '../1.CatComponent/HomeComponent';
-import HeaderDefine from '../1.CatComponent/Context';
+import Home from '../5.Share Component/Main UI/HomeComponent';
+import HeaderDefine from '../5.Share Component/Context';
 import { useContext } from 'react';
 import { Card,CardTitle } from 'reactstrap';
 import axios from 'axios';
@@ -16,7 +16,8 @@ const Profile = () => {
     const [health, setHealth] = useState(false);
     const [changePwd, setChangePwd] = useState(false);
     const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
-    var user = {
+
+    let user = {
         phone: ctx.phone,
         firstname: "",
         lastname: "",
@@ -24,7 +25,8 @@ const Profile = () => {
         address: "",
         email: "",
     }
-    var info = {
+
+    let info = {
         height: "1.23",
         weight: "53",
         BMI: 12.6,
@@ -32,12 +34,13 @@ const Profile = () => {
         medical_history: "",
         medical_background: "",
     }
-    axios
-        .get('/api/get/access', { params: { phonenum: ctx.phone } }
+
+    axios.get('/api/get/access', { params: { phonenum: ctx.phone } }
         )
         .then(res => {
             user = res.data.user[0];
         })
+    
 
     const toggleEdit = () => {
         setEdit(!edit);
@@ -48,21 +51,25 @@ const Profile = () => {
     const togglePwd = () => {
         setChangePwd(!changePwd);
     };
+
     const postHealth=()=>{
         axios.post('/api/post/TTSK',{params:{info,phone:ctx.phone}}).then(res=>{
             toggleHealth();
         })
     }
+
     const updateInfo=()=>{
         axios.post('/api/post/info',{params:user}).then(res=>{
             toggleEdit();
         })
     }
+
     const updatePwd=()=>{
         axios.post('/api/post/pwd',{param:{phone:user.phone,pwd:user.pwd, newpwd:user.newpwd}}).then(res=>{
             togglePwd();
         })
     }
+
     const Health = () => {
         if (health) {
             return (
@@ -133,7 +140,7 @@ const Profile = () => {
             <Row>
                 <Col>
                     <div className="center">
-                        <Row><img className="ava" src='assets/images/ava_user.JPG'></img></Row>
+                        <Row><img className="ava" src='assets/images/ava_user.JPG' alt="ava-user"></img></Row>
                         <Row>{user.phone}</Row>
                         <Row>{user.email}</Row>
                         <Row>{user.address}</Row>
@@ -165,6 +172,6 @@ const Profile = () => {
         </div>
     )
 
-     else return       <NotesApp/>
+     else return <NotesApp/>
 }
 export default Profile;

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { NavLink } from 'reactstrap';
 
 class ViewCart extends Component {
     render(){

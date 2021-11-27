@@ -4,7 +4,6 @@ import View from './View.js';
 import Deleted from './delete.js';
 import SaveSchedule from './SaveSchedule.js';
 import axios from 'axios';
-import { FaPencilAlt } from "react-icons/fa";
 
 class ScheduleTable extends Component {
     constructor() {

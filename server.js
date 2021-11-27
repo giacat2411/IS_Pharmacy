@@ -8,13 +8,21 @@ const cookieParser = require('cookie-parser')
 const session = require('express-session');
 var bcrypt = require('bcryptjs');
 
-const TIMEOUT = 1 * 60 * 60;
+const ONEDAY = 24 * 60 * 60 * 10000;
 
-app.use(express.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+// app.use(express.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({
+//   extended: true
+// }));
+
+// SESSION
+app.use(cookieSession({
+  name: 'session',
+  keys: [/* secret keys */],
+
+  maxAge: ONEDAY
+}))
 
 // CONECTION TO MYSQL
 
@@ -102,11 +110,7 @@ app.get('/api/get/total_value', function(req, res) {
 
 ///// Phuc /////
 
-app.use(cookieParser());
-app.use(cookieSession({
-  name: 'session',
-  keys: ['key1', 'key2']
-}));
+
 // app.use(session({
 //   resave: true, secret: "key", cookie: { expires: TIMEOUT }, saveUninitialized: false,
 // }));
@@ -127,23 +131,27 @@ app.get('/api/get/role', (req, res) => {
     });
   }
 });
+
 app.get('/api/get/access', (req, res) => {
   console.log(req.query)
   sql = `SELECT * FROM system_user WHERE PHONE = ${req.query.phonenum}`;
   connection.query(sql, function (err, results) {
-    console.log("FGHJKGH")
-    if (bcrypt.compareSync(req.query.userpwd, results[0].pwd)) {
+    
+    if(results[0]){
+      if (bcrypt.compareSync(req.query.userpwd, results[0].pwd)) {
       // console.log(results[0]);
       req.session.user=results;
       res.json({ user: results });
-    } else {
-      console.log("MNBGGVJ")
-      res.json({ msg: "Wrong login information!" })
+      }
+      else{
+  res.json({ msg: "Không thể đăng nhập." })}
     }
-
+    else
+  res.json({ msg: "Không thể đăng nhập." })
   });
 }
 );
+
 app.get('/api/hash/pwd', (req, res) => {
   res.json({ phone: hashPassword(req.query.pwd) });
 });
@@ -155,16 +163,20 @@ app.get('/api/set/user', (req, res) => {
   req.session.user = { phone: req.query.phone, role: req.query.role };
   console.log(req.session.user)
 });
+
 app.get('/api/destroy/session', (req, res) => {
   req.session.destroy();
 });
+
 app.get('/api/new/session', (req, res) => {
   req.session.regenerate();
 });
+
 app.get('/api/get/session', (req, res) => {
   res.json({ user: req.session.user })
 
 });
+
 app.get('/api/get/login', (req, res) => {
   var sql = `SELECT * FROM system_user where phone=${req.query.phone}`;
   connection.query(sql, function (err, results) {
@@ -173,10 +185,12 @@ app.get('/api/get/login', (req, res) => {
     req.session.user = results[0]
   });
 });
+
 app.get('/api/encode', (req, res) => {
   var input = req.query.input;
 
 })
+
 app.get('api/get/patientInfo', (req, res) => {
   var sql = `SELECT * FROM patient where phone=${req.query.phone}`
   connection.query(sql, function (err, results) {

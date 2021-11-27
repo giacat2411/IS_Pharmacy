@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'reactstrap';
 import { Button } from 'reactstrap';
 import { Table } from 'reactstrap';
 import ReactToPrint from 'react-to-print';
-import NurseSideBar from '../../NurseSideBarComponent';
+import NurseSideBar from '../../../5.Share Component/SideBar/NurseSideBarComponent';
 import { Spinner } from 'reactstrap';
 import './manage_order.css';
 
@@ -88,7 +88,7 @@ class ViewOrderDetail extends Component {
             <div ref={(el) => {this.componentRef = el}}>
             <Container className="order-inform">
                 <Row style={{paddingTop: '10px'}}>
-                    <Col> <img className="logo-print" src="/assets/images/Logo.png" height="50px" width="50px"></img> 
+                    <Col> <img className="logo-print" src="/assets/images/Logo.png" height="50px" width="50px" alt="Logo"></img> 
                         <span > HealthCare </span>
                     </Col>
                 </Row>
