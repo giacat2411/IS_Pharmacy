@@ -5,7 +5,6 @@ const app = express();
 const bodyParser = require('body-parser');
 var cookieSession = require('cookie-session')
 const cookieParser = require('cookie-parser')
-const session = require('express-session');
 var bcrypt = require('bcryptjs');
 
 const ONEDAY = 24 * 60 * 60 * 10000;
@@ -133,21 +132,31 @@ app.get('/api/get/role', (req, res) => {
 });
 
 app.get('/api/get/access', (req, res) => {
-  console.log(req.query)
   sql = `SELECT * FROM system_user WHERE PHONE = ${req.query.phonenum}`;
   connection.query(sql, function (err, results) {
-    
     if(results[0]){
       if (bcrypt.compareSync(req.query.userpwd, results[0].pwd)) {
-      // console.log(results[0]);
       req.session.user=results;
       res.json({ user: results });
-      }
-      else{
-  res.json({ msg: "Không thể đăng nhập." })}
+    } else {
+      res.json({ msg: "Wrong login information!" })
     }
-    else
-  res.json({ msg: "Không thể đăng nhập." })
+    }else {
+      res.json({ msg: "Wrong login information!" })
+    }
+    
+  });
+}
+);
+app.get('/api/get/info', (req, res) => {
+  sql = `SELECT * FROM system_user WHERE PHONE = ${req.query.phonenum}`;
+  connection.query(sql, function (err, results) {
+    if(results[0]){
+      res.json({ user: results });
+    } else {
+      res.json({ msg: "Hồ sơ không tồn tại." })
+    }
+
   });
 }
 );
@@ -190,11 +199,11 @@ app.get('/api/encode', (req, res) => {
   var input = req.query.input;
 
 })
+app.get('/api/get/patientInfo', (req, res) => {
 
-app.get('api/get/patientInfo', (req, res) => {
   var sql = `SELECT * FROM patient where phone=${req.query.phone}`
   connection.query(sql, function (err, results) {
-    res.json({ patients: results });
+    res.json(results);
   });
 }
 )
