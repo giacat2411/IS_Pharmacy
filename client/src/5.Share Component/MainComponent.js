@@ -1,68 +1,61 @@
 // IMPORT FROM EXTERNAL
-import React, { Component,useState,useContext } from 'react';
+import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import axios from 'axios';
+
 // IMPORT DATA
 
 // IMPORT COMPONENTS
+// CAT
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
-import Home from './HomeComponent';
-import Customer from './CustomerComponent';
-import BuyDrug from './Buy Drug/BuyDrugComponent';
-import ViewCart from './Buy Drug/ViewCartComponent';
-import ManageDrug from './Nurse Manage/Manage Drug/ManageDrug';
-// import StatisticOrder from './Nurse Manage/Manage Order/StatisticOrder';
-import ViewOrder from './Nurse Manage/Manage Order/ViewOrder';
-import ViewOrderDetail from './Nurse Manage/Manage Order/ViewOrderDetail';
+import Home from './Main UI/HomeComponent';
+import Customer from './Main UI/CustomerComponent';
+import BuyDrug from '../1.CatComponent/Buy Drug/BuyDrugComponent';
+import ViewCart from '../1.CatComponent/Buy Drug/ViewCartComponent';
+import ManageDrug from '../1.CatComponent/Nurse Manage/Manage Drug/ManageDrug';
+import StatisticOrder from '../1.CatComponent/Nurse Manage/Manage Order/StatisticOrder';
+import ViewOrder from '../1.CatComponent/Nurse Manage/Manage Order/ViewOrder';
+import ViewOrderDetail from '../1.CatComponent/Nurse Manage/Manage Order/ViewOrderDetail';
 
 // DUNG
-import Doctor from '../4.DungComponent/DoctorComponent';
+import Doctor from './Main UI/DoctorComponent';
 import Appointment from '../4.DungComponent/AppointmentComponent';
-import Fetch from '../4.DungComponent/testfetch';
 import CancelAppointment from '../4.DungComponent/CancelAppointmentComponent';
 import Payment from '../4.DungComponent/PaymentComponent';
 import CreateAnAppointment from '../4.DungComponent/CreateAnAppointmentComponent';
 import Re_examinationSchedule from '../4.DungComponent/Re-examinationScheduleComponent';
+import MedicalRecord from '../4.DungComponent/VIewMedicalRecordComponent';
+import InstantAppointment from '../4.DungComponent/InstantAppointmentComponent';
 
 //PHUC
 import LoginPane from '../2.PhucComponent/loginPaneComponent';
 import Profile from '../2.PhucComponent/profile';
 import SignUp from '../2.PhucComponent/Signup';
 import { HeaderProvider } from './Context';
+
 //CHANH
-import HomeNur from '../3.ChanhComponent/NursingComponent';
+import Nurse from './Main UI/NurseComponent';
 
-const Main = (props) => {
-  // const ctx = useContext(HeaderDefine);
-  // const [formValue, setFormValue] = useState({
-      
-  //     phone: ctx.phone,
-  //     fullname: ctx.fullname,
-  //     pwd: '123456',
-  //     role:"Guest",
-  // });
+const Main = () => {
 
-  // const ProviderValue=useMemo(()=>({formValue,setFormValue}),[formValue,setFormValue]);
   const ViewMyCart = ({match}) => {
-      return(
-        <ViewCart cart = {JSON.parse(match.params.cart)} />
-      )
+    return(
+      <ViewCart cart = {JSON.parse(match.params.cart)} />
+    )
   }
   const ViewDetails = ({match}) => {
-      return (
-        <ViewOrderDetail orderID = {parseInt(JSON.parse(match.params.orderID))} />
-      )
-    }
+    return (
+      <ViewOrderDetail orderID = {parseInt(JSON.parse(match.params.orderID))} />
+    )
+  }
 
-    const PaymentPage = ({match}) => {
-      return(
-        <Payment cart = {JSON.parse(match.params.cart)} />
-      )
-    }
+  const PaymentPage = ({match}) => {
+    return(
+      <Payment cart = {JSON.parse(match.params.cart)} />
+    )
+  }
     
     return (
-      // <HeaderDefine.Provider value={ProviderValue}>
       <HeaderProvider>
       <div>
         <Header/>
@@ -75,7 +68,7 @@ const Main = (props) => {
               <Route path='/view_cart/:cart' component={ViewMyCart}/>
               <Route path='/manage_drug' component={ManageDrug} />
               <Route path='/view_order' component={ViewOrder} />
-              {/* <Route path='/statistic_order' component={StatisticOrder} /> */}
+              <Route path='/statistic_order' component={StatisticOrder} />
               <Route path='/view_order_details/:orderID' component={ViewDetails} />
 
               {/*---------------------------------Dung------------------------------------*/}
@@ -84,7 +77,9 @@ const Main = (props) => {
               <Route path='/cancelappointment' component={CancelAppointment} />
               <Route path='/payment/:cart' component={PaymentPage} />
               <Route path='/createanappointment' component={CreateAnAppointment} />
+              <Route path='/view_medical_record' component={MedicalRecord} />
               <Route path='/re-examination_schedule' component={Re_examinationSchedule} />
+              <Route path='/instant_appointment' component={InstantAppointment} />
 
 
               {/*---------------------------------Phuc------------------------------------*/}
@@ -93,7 +88,7 @@ const Main = (props) => {
               <Route path='/profile' component={Profile}/>
 
               {/*---------------------------------Chanh------------------------------------*/}
-              <Route path='/nurse' component={HomeNur} />
+              <Route path='/nurse' component={Nurse} />
 
               <Redirect to='/home' />
           </Switch>
@@ -101,7 +96,6 @@ const Main = (props) => {
         <Footer />
       </div>
       </HeaderProvider>
-      // </HeaderDefine.Provider>
     );
 }
 

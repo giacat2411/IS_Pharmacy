@@ -1,5 +1,5 @@
 
-import {HeaderDefine, ThingsProvider} from './Context';
+import {HeaderDefine, ThingsProvider} from '../5.Share Component/Context';
 
 const InfoContainer = props =>{
     const input = {

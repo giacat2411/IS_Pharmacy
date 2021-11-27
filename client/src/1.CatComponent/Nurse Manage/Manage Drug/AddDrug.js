@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import { Form, FormGroup, Label, Input, Button, FormFeedback } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import './managedrug.css';
 

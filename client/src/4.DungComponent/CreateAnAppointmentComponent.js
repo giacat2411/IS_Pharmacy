@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { Container, Row, Col, Button } from 'reactstrap';
-import Modal from './Modal.js';
+import { Container, Button } from 'reactstrap';
+import { Link } from 'react-router-dom';
+
 
 function CreateAnAppointment() {
     const [show, setShow] = useState(false);
@@ -22,18 +22,18 @@ function CreateAnAppointment() {
                 <hr />
             </div>
             <div class='dung-button-createappointment'>
-                <a href='/appointment'>
+                <Link to='/instant_appointment'>
                     <Button className="dung cart-button"> 
                         Lịch khám tức thời
                     </Button>
-                </a>     
+                </Link>     
             </div>
             <div class='dung-button-createappointment aa'>
-                <a href='/re-examination_schedule'>
+                <Link to='/re-examination_schedule'>
                     <Button className="dung cart-button"> 
                         Lịch tái khám
                     </Button>
-                </a>
+                </Link>
             </div>
         </Container>
     );

@@ -7,13 +7,21 @@ var cookieSession = require('cookie-session')
 const cookieParser = require('cookie-parser')
 var bcrypt = require('bcryptjs');
 
-const TIMEOUT = 1 * 60 * 60;
+const ONEDAY = 24 * 60 * 60 * 10000;
 
-app.use(express.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+// app.use(express.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({
+//   extended: true
+// }));
+
+// SESSION
+app.use(cookieSession({
+  name: 'session',
+  keys: [/* secret keys */],
+
+  maxAge: ONEDAY
+}))
 
 // CONECTION TO MYSQL
 
@@ -82,49 +90,26 @@ app.get('/api/get/order_in_view', function (req, res) {
 
 app.get('/api/get/order_details', function (req, res) {
   var sql = "select * from include natural join drug where medicine_id = " + req.query.orderID;
-  console.log(sql);
-  connection.query(sql, function (err, results) {
+  connection.query(sql, function(err, results) {
     if (err) throw err;
     res.json({ order_details: results });
   });
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+app.get('/api/get/total_value', function(req, res) {
+  var sql = "select created_date, sum(quantity * price) as total "
+            + "from purchase_medicine join medicine on purchase_id = id join include on id = medicine_id "
+            + "natural join drug "
+            + "group by created_date"
+  connection.query(sql, function(err, results) {
+  if (err) throw err;
+          res.json({data_statistic: results});
+  });
+})
 
 ///// Phuc /////
 
-app.use(cookieParser());
-app.use(cookieSession({
-  name: 'session',
-  keys: ['key1', 'key2']
-}));
+
 // app.use(session({
 //   resave: true, secret: "key", cookie: { expires: TIMEOUT }, saveUninitialized: false,
 // }));
@@ -145,6 +130,7 @@ app.get('/api/get/role', (req, res) => {
     });
   }
 });
+
 app.get('/api/get/access', (req, res) => {
   sql = `SELECT * FROM system_user WHERE PHONE = ${req.query.phonenum}`;
   connection.query(sql, function (err, results) {
@@ -170,10 +156,11 @@ app.get('/api/get/info', (req, res) => {
     } else {
       res.json({ msg: "Hồ sơ không tồn tại." })
     }
-    
+
   });
 }
 );
+
 app.get('/api/hash/pwd', (req, res) => {
   res.json({ phone: hashPassword(req.query.pwd) });
 });
@@ -185,16 +172,20 @@ app.get('/api/set/user', (req, res) => {
   req.session.user = { phone: req.query.phone, role: req.query.role };
   console.log(req.session.user)
 });
+
 app.get('/api/destroy/session', (req, res) => {
   req.session.destroy();
 });
+
 app.get('/api/new/session', (req, res) => {
   req.session.regenerate();
 });
+
 app.get('/api/get/session', (req, res) => {
   res.json({ user: req.session.user })
 
 });
+
 app.get('/api/get/login', (req, res) => {
   var sql = `SELECT * FROM system_user where phone=${req.query.phone}`;
   connection.query(sql, function (err, results) {
@@ -203,11 +194,13 @@ app.get('/api/get/login', (req, res) => {
     req.session.user = results[0]
   });
 });
+
 app.get('/api/encode', (req, res) => {
   var input = req.query.input;
 
 })
 app.get('/api/get/patientInfo', (req, res) => {
+
   var sql = `SELECT * FROM patient where phone=${req.query.phone}`
   connection.query(sql, function (err, results) {
     res.json(results);
@@ -215,24 +208,14 @@ app.get('/api/get/patientInfo', (req, res) => {
 }
 )
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ///// Chanh /////
-
+app.get('/api/get/patient', (req, res) => {
+  var sql = "SELECT * FROM patient";
+  connection.query(sql, function(err, results) {
+    if (err) throw err;
+    res.json({treatment_turns: results});
+  });
+});
 ///// Dung /////
 
 app.get('/api/get/treatment_turns', (req, res) => {
@@ -358,7 +341,29 @@ app.post('/api/post/newpwd', (req, res) => {
     //Go to ogin
   })});
   ///// Chanh /////
+app.post('api/update/work_schedule',(req,res)=>{
+  var sql=`UPDATE patient
+      SET work_day=${req.query.work_day},
+          work_session=${req.query.work_session},
+  WHERE phone=${req.query.phone}`
+  connection.query(sql, function(err, results) {
+      res.json({ patients: req.query });
+  });
+}
+)
 
+app.post('api/update/treatment_turn',(req,res)=>{
+  var sql=`UPDATE patient
+      SET turn_time=${req.query.turn_time},
+          start_time=${req.query.start_time},
+          end_time=${req.query.end_time},
+          doctor_phone=${req.query.doctor_phone},
+  WHERE id=${req.query.id}`
+  connection.query(sql, function(err, results) {
+      res.json({ patients: req.query });
+  });
+}
+)
   ///// Dung /////
 
 
@@ -373,9 +378,17 @@ app.post('/api/post/newpwd', (req, res) => {
   ///// Phuc /////
 
   ///// Chanh /////
-
+  app.post('/api/delete/work_schedule', (req, res) => {
+    var sql = "DELETE FROM work_schedule "
+            + "WHERE doctor_phone='"+req.body.doctor_phone+"'";
+            console.log(req);
+    connection.query(sql, function(err, results) {
+      if (err) throw err;
+      res.json({news: results});
+    });
+  });
   ///// Dung /////
-
+  
   app.post('/api/delete/treatment_turns', (req, res) => {
     var sql = "DELETE FROM treatment_turn "
       + "WHERE id='" + req.body.id + "'";
@@ -383,8 +396,7 @@ app.post('/api/post/newpwd', (req, res) => {
     connection.query(sql, function (err, results) {
       if (err) throw err;
       res.json({ news: results });
-    });
-  });
+  });});
 
   //////////////////////////////
   //          INSERT          //

@@ -9,7 +9,7 @@
 
 body {
   font-size: 15px;
-  background-color: #F6F8FB;
+  background-color: #F6F8FB !important;
 }
 
 .header-content {
@@ -342,7 +342,8 @@ body {
   font-size: 20px;
   margin: auto;
   margin-bottom: 20px;
-  margin-top: 5px
+  padding-top: 10px;
+  margin-left: 36%
 }
 
 .cart-button:hover {
@@ -463,6 +464,72 @@ background-color: #00000000;
 /* ---------------------------------------------------------------------------*/
 /* ---------------------------------------------------------------------------*/
 
+.chanh-button-view{
+  background-color: #FFD700;
+  border-radius: 5px;
+  /* padding: 1% 8%; */
+  border: none;
+  height: 25px;
+  width: 95px;
+}
+.chanh-details{
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.details {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width:100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.details-main {
+  position:fixed;
+  background: white;
+  width: 600px;
+  height: 360px;
+  top:40%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 720px) {
+  section.details-main {
+    float: none;
+    width: 380px;
+    height: 210px;
+  }
+}
+
+section.details-main h5{
+  font-weight: bolder;
+}
+
+section.details-body{
+  text-align: left;
+}
+section.details-main{
+  text-align: center;
+}
+
+section.details-main p{
+  padding-bottom: 15px;
+  font-size: 17px;
+  font-weight: bolder;
+}
+
+section.details-main button{
+  height: 8%;
+  width: 30%;
+  margin: 0 5%;
+  border-radius: 5px;
+  background-color: #FFD700;
+  font-weight: 500;
+  border: none;
+}
 
 /* ----------------------------------Dung------------------------------------*/
 /* --------------------------------------------------------------------------*/
@@ -647,6 +714,7 @@ button.dung.cart-button.btn.btn-secondary{
   background-color: #FFD700;
   color: #000000;
   margin-bottom: 70px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 
@@ -676,18 +744,68 @@ div.dung-button-createappointment{
 
 div.dung-button-createappointment button{
   border-radius: 0px;
+  position: auto;
 }
 
 div.dung-button-createappointment.aa{
   text-align: center;
   margin-bottom: 70px;
+  position: auto;
 }
 
 div.dung-form-taolich{
-  margin-bottom: 100px;
+  width: 500px;
+  margin: auto;
+  margin-bottom: 40px;
 }
 
 #clickhere{
   margin-bottom: 113px;
   text-align: center;
+}
+
+div#dung-cancelappointment.container{
+  padding-bottom: 10%;
+}
+
+input.dung-input-phone.form-control{
+  width: 240px;
+  text-align: center;
+  margin: 0px 80px 10px 80px;
+}
+
+section.modal-main.instant h5{
+  font-weight: bolder;
+}
+
+section.modal-main.instant{
+  text-align: center;
+  width: 400px;
+  height: 230px;
+}
+
+section.modal-main.instant button{
+  height: 18%;
+  width: 30%;
+  margin: 0 5%;
+  border-radius: 5px;
+  background-color: #FFD700;
+  font-weight: 500;
+  border: none;
+}
+
+div#dung-re-sched.container{
+  margin-bottom: 100px;
+}
+
+div#dung-viewmedicalrecord.container{
+  margin-bottom: 190px;
+}
+
+button.dung.cart-button.benhan.btn.btn-secondary{
+  margin: 19px 0px;
+}
+
+button.dung.cart-button.benhan.nd.btn.btn-secondary{
+  margin-bottom: 0px;
 }

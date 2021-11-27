@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button, Table } from 'reactstrap';
-import Modall from './Modal.js';
-import {Modal, ModalHeader, ModalBody} from 'reactstrap';
+import {Modal, ModalBody} from 'reactstrap';
 
 class Payment extends Component{
     constructor(props) {

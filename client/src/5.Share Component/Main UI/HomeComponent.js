@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { Button } from 'reactstrap';
 import { Card, CardText, CardBody, CardTitle} from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 class Home extends Component{
     render(){
@@ -38,13 +39,15 @@ class Home extends Component{
                 <br />
                 <Row className="home-service">
                     <Col>
-                        <Card className="service-item">
-                            <img className="service-img" width="91.98px" height="90px" src="/assets/images/view-home.png" alt = "Xem hồ sơ bệnh án"></img>
-                            <CardBody>
-                            <CardTitle tag="h5">Xem hồ sơ bệnh án</CardTitle>
-                            <CardText className="service-text">Nhập ID bệnh án và số điện thoại để xem hồ sơ bệnh án của bạn</CardText>
-                            </CardBody>
-                        </Card>
+                        <Link to='view_medical_record'>
+                            <Card className="service-item">
+                                <img className="service-img" width="91.98px" height="90px" src="/assets/images/view-home.png" alt = "Xem hồ sơ bệnh án"></img>
+                                <CardBody>
+                                <CardTitle tag="h5">Xem hồ sơ bệnh án</CardTitle>
+                                <CardText className="service-text">Nhập ID bệnh án và số điện thoại để xem hồ sơ bệnh án của bạn</CardText>
+                                </CardBody>
+                            </Card>
+                        </Link>
                     </Col>
                     <Col>
                         <Card className="service-item">
@@ -56,7 +59,7 @@ class Home extends Component{
                         </Card>
                     </Col>
                     <Col>
-                        <a href='/appointment'>
+                        <Link to='/appointment'>
                             <Card className="service-item">
                             <img className="service-img" width="67.29px" height="95px" src="/assets/images/make-treat-home.png" alt = "Đặt lịch khám"></img>
                                 <CardBody>
@@ -64,7 +67,7 @@ class Home extends Component{
                                 <CardText className="service-text">Đặt lịch khám và bạn sẽ được gặp những bác sĩ đáng tin cậy và lời khuyên tốt nhất từ chúng tôi</CardText>
                                 </CardBody>
                             </Card>
-                        </a>
+                        </Link>
                     </Col>
                 </Row>
                 <br />

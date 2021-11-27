@@ -1,15 +1,9 @@
-import React, { Component,useContext,useState,useMemo } from 'react';
+import React from 'react';
 import { Navbar, NavbarBrand, Nav, NavItem, 
         Collapse, NavbarToggler } from 'reactstrap';
-import { FaHome, FaRegCalendarAlt, FaInfo, FaUserPlus, FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
+import { FaHome, FaRegCalendarAlt, FaInfo } from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
-import axios from 'axios';
-
-
-import LogButton from './LogButton';
-import HeaderDefine from './Context';
-// import {HeaderDefine, ThingsProvider} from './Context';
-// import HeaderDefine from '../2.PhucComponent/Context';
+import LogButton from '../2.PhucComponent/LogButton';
 
 
 const Header = (props)=> {
@@ -17,7 +11,7 @@ const Header = (props)=> {
             <Navbar dark expand="md">
             <div className="container">
                 <NavbarToggler/>
-                <NavbarBrand className="mr-auto" href="/"><img src='/assets/images/Logo.png' height="38px" width="38px" alt='HealthCare' /></NavbarBrand>
+                <NavbarBrand className="mr-auto"><img src='/assets/images/Logo.png' height="38px" width="38px" alt='HealthCare' /></NavbarBrand>
                 <Collapse navbar>
                     <Nav navbar>
                         <NavItem>

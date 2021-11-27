@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Input, Row, Col,Button, Modal } from 'reactstrap';
+import { Input, Row, Col,Button, Modal } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import { FaSignInAlt } from 'react-icons/fa';
 import axios from 'axios';
@@ -51,7 +51,7 @@ class SignUp extends Component{
         this.setState({lastname:str.split(' ').slice(0, -1).join(' ')})
         this.setState({firstname:str.split(' ').slice(-1).join(' ')})
         console.log(this.state)
-        if (this.state.pwd!=this.state.repwd){
+        if (this.state.pwd !== this.state.repwd){
             alert("Hãy kiểm tra lại mật khẩu!")
         }
         this.apiReg();

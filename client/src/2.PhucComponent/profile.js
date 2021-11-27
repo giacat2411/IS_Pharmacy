@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Route, NavLink } from 'react-router-dom';
 import { Input, Row, Col, Button, CardHeader, CardBody, CardSubtitle } from 'reactstrap';
-import Home from '../1.CatComponent/HomeComponent';
-import HeaderDefine from '../1.CatComponent/Context';
+import Home from '../5.Share Component/Main UI/HomeComponent';
+import HeaderDefine from '../5.Share Component/Context';
 import { useContext } from 'react';
 import { Card, CardTitle } from 'reactstrap';
 import axios from 'axios';
@@ -17,13 +17,16 @@ const Profile = (props) => {
     const [health, setHealth] = useState(false);
     const [changePwd, setChangePwd] = useState(false);
     const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+
     const [user,setUser] =useState( {
         phone: (props.phone) ? props.phone : ctx.phone,
+
         firstname: "",
         lastname: "",
         dateofbirth: "",
         address: "",
         email: "",
+
     })
     const [role,setRole]=useState("Patient");//
     const [info,setInfo] = useState({
@@ -33,6 +36,7 @@ const Profile = (props) => {
         blood_type: "O",
         medical_history: "",
         medical_background: "",
+
     })
     
     useEffect(() => {
@@ -75,6 +79,7 @@ const Profile = (props) => {
                 });
         })}
 
+
     const toggleEdit = () => {
         setEdit(!edit);
     };
@@ -99,6 +104,7 @@ const Profile = (props) => {
             togglePwd();
         })
     }
+
     const Health = () => {
         if (health) {
             return (
@@ -207,7 +213,7 @@ const Profile = (props) => {
     //         return <> Hồ sơ không tồn tại</>}
     else return <NotesApp />
 }
-// }
     return View();
+
 }
 export default Profile;

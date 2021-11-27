@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { NavLink } from 'reactstrap';
 
 class ViewCart extends Component {
     render(){
@@ -35,12 +34,16 @@ class ViewCart extends Component {
                 {list}
             </Row>
             <Row>
+                <Col md = "12">
                 <LinkContainer to = {`/payment/${JSON.stringify(this.props.cart)}`}>
+                
                 <Button className="cart-button"> 
-                    Thanh toán 
+                    <span style={{marginTop: '20px'}}> Thanh toán </span> 
                     <div className="cart-total"> {(total).toLocaleString('vi-VN')}đ </div>
                 </Button>
+                
                 </LinkContainer>
+                </Col>
             </Row>
         </Container>
         )}

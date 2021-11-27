@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import { Button } from 'reactstrap';
-import { Card, CardText, CardBody, CardTitle} from 'reactstrap';
+import { Card, CardBody, CardTitle} from 'reactstrap';
 
 class Doctor extends Component{
     render(){
@@ -16,7 +15,7 @@ class Doctor extends Component{
                         <Col>
                             <Card className="dung-service-item">
                                 <div class="dung-imgfor-doctor">
-                                    <img className="dung-service-img" width="91.98px" height="90px" src="/assets/images/view-home.png" alt = "Xem hồ sơ bệnh án"></img>
+                                    <img className="dung-service-img" width="90px" height="90px" src="/assets/images/view-home.png" alt = "Xem hồ sơ bệnh án"></img>
                                 </div>
                                 <CardBody>
                                 <CardTitle tag="h5">Xem lịch làm việc</CardTitle>
@@ -26,7 +25,7 @@ class Doctor extends Component{
                         <Col>
                             <Card className="dung-service-item">
                                 <div class="dung-imgfor-doctor">
-                                    <img className="dung-service-img" width="61.86px" height="85px" src="/assets/images/make-treat-home.png" alt = "Đặt mua đơn thuốc"></img>
+                                    <img className="dung-service-img" width="65px" height="90px" src="/assets/images/make-treat-home.png" alt = "Đặt mua đơn thuốc"></img>
                                 </div>
                                 <CardBody>
                                 <CardTitle tag="h5">Thống kê lịch khám</CardTitle>
@@ -40,7 +39,7 @@ class Doctor extends Component{
                         <Col>
                             <Card className="dung-service-item">
                                 <div class="dung-imgfor-doctor">
-                                    <img className="dung-service-img" width="91.98px" height="90px" src="/assets/images/quanlydieuduong.png" alt = "Xem hồ sơ bệnh án"></img>
+                                    <img className="dung-service-img" width="65px" height="90px" src="/assets/images/quanlydieuduong.png" alt = "Xem hồ sơ bệnh án"></img>
                                 </div>
                                 <CardBody>
                                 <CardTitle tag="h5">Quản lý điều dưỡng</CardTitle>
@@ -50,7 +49,7 @@ class Doctor extends Component{
                         <Col>
                             <Card className="dung-service-item">
                                 <div class="dung-imgfor-doctor">
-                                    <img className="dung-service-img" width="61.86px" height="85px" src="/assets/images/buy-home.png" alt = "Đặt mua đơn thuốc"></img>
+                                    <img className="dung-service-img" width="65px" height="90px" src="/assets/images/buy-home.png" alt = "Đặt mua đơn thuốc"></img>
                                 </div>
                                 <CardBody>
                                 <CardTitle tag="h5">Quản lý hồ sơ bệnh án</CardTitle>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { Button } from 'reactstrap';
 
-import NurseSideBar from '../../NurseSideBarComponent';
+import NurseSideBar from '../../../5.Share Component/SideBar/NurseSideBarComponent';
 import AddDrug from './AddDrug';
 import ViewDrug from './ViewDrug';
 
