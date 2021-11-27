@@ -9,30 +9,6 @@ import { FaUserPlus } from 'react-icons/fa';
 const LoginPane = () => {
     const ctx = useContext(HeaderDefine);
 
-    // const [users, setUsers] = useState();
-    // const [init, setInit] = useState(true);
-    // const [doctors, setDoctors] = useState();
-
-    // (async() => {
-    //     if (init === true) {
-    //         setInit(false);
-    //         axios.get('/api/get/doctors').then(
-    //             res => {
-    //                 const doctors = res.data.doctors;
-    //                 setDoctors(doctors);
-    //                 console.log("123")
-    //             })
-    //         await  axios.get('/api/get/users')
-    //             .then(res => {
-    //                 const users = res.data.users;
-    //                 setUsers(users);
-    //                 console.log("1235"); return;
-    //             });
-    //         // axios.get('/api/new/session');
-
-
-    //     }
-    // })();
 
     const [phone, setPhone] = useState();
     const [pwd, setPwd] = useState();
@@ -56,7 +32,7 @@ const toggleMsg = () => {
             )
             .then(res => {
                 const user = res.data;
-                if (user.user[0]) {
+                if (user.user) {
                     ctx.setPhone(user.user[0].phone);
                     ctx.setName(user.user[0].firstname);
                     axios

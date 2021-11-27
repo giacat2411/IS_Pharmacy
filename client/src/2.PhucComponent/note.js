@@ -1,6 +1,8 @@
 import './note.css'
-import React from 'react';
+import React,{Component} from 'react';
 import Masonry from 'masonry-layout';
+import { Button, Row } from 'reactstrap';
+import { FaSearch } from 'react-icons/fa';
 class Note extends React.Component {
     render() {
       var style = { backgroundColor: this.props.color };
@@ -116,8 +118,10 @@ class Note extends React.Component {
     
     render () {
       return (
-        <input type="search" className="search-input" placeholder="Search..."
+        <Row >
+        <input type="search"className="search-input" placeholder="Search..."
           onChange={(event) => {this.handleSearch(event)}}/>
+          <Button onClick={this.props.search}><FaSearch/></Button></Row>
       );
     }
   };
@@ -141,15 +145,7 @@ class Note extends React.Component {
     componentDidUpdate() {
       this._updateLocalStorage();
       
-      if (this.state.searchValue !== ''){
-        this.setState({
-          filteredNotes: this.state.notes.filter( note => note.text.toLowerCase().indexOf(this.state.searchValue.toLowerCase()) !== -1 )
-        })
-      } else {
-        this.setState({
-          filteredNotes: this.state.notes
-        })
-      }
+      
     }
   
     handleNoteDelete = (note) => {
@@ -169,12 +165,22 @@ class Note extends React.Component {
     handleSearch = (text) => {
       this.setState({searchValue: text});
     };
-  
+    search=()=>{
+      if (this.state.searchValue !== ''){
+        this.setState({
+          filteredNotes: this.state.notes.filter( note => note.text.toLowerCase().indexOf(this.state.searchValue.toLowerCase()) !== -1 )
+        })
+      } 
+      else {
+        this.setState({
+          filteredNotes: this.state.notes
+        })
+      }
+    }
     render() {
       return (
         <div className="notes-app">
-          <h2 className="app-header">NotesApp</h2>
-          <NoteSearch onSearch={(text) => this.handleSearch(text)} />
+          <NoteSearch onSearch={(text) => this.handleSearch(text)} search={(e)=>this.search()}/>
           <NoteEditor onNoteAdd={this.handleNoteAdd} />
           <NotesGrid notes={this.state.filteredNotes} onNoteDelete={this.handleNoteDelete} />
         </div>

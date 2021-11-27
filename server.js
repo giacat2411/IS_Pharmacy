@@ -1,6 +1,7 @@
 const express = require("express");
 const mysql = require('mysql'); const PORT = process.env.PORT || 4000;
-
+const cors = require('cors');
+app.use(cors());
 const app = express();
 const bodyParser = require('body-parser');
 // var cookieSession = require('cookie-session')
@@ -164,7 +165,6 @@ app.get('/api/get/info', (req, res) => {
     } else {
       res.json({ msg: "Hồ sơ không tồn tại." })
     }
-
   });
 }
 );
@@ -175,11 +175,6 @@ app.get('/api/hash/pwd', (req, res) => {
 
 
 app.get('/api/get/phuc', (req, res) => { console.log(session); res.json(session.user)});
-
-// app.get('/api/set/user', (req, res) => {
-//   session.user = { phone: req.query.phone, role: req.query.role };
-//   console.log(req.session.user)
-// });
 
 app.get('/api/destroy/session', (req, res) => {
   req.session.destroy();
@@ -276,7 +271,7 @@ app.post('/api/update/drug_quantity', function (req, res) {
 
 ///// Phuc /////
 app.post('/api/post/TTSK', (req, res) => {
-  info = req.body.params.info
+  info = req.body.params.tempInfo
   var sql = `UPDATE patient
         SET medical_history="${info.medical_history}",
             height=${info.height},
@@ -311,7 +306,7 @@ app.post('/api/post/pwd', (req, res) => {
   connection.query(sql, (err, results) => {
     if (bcrypt.compareSync(req.body.params.pwd, results[0].pwd)) {
       const salt = bcrypt.genSaltSync(10);
-      newpwd = bcrypt.hashSync(req.body.params.password,salt);
+      newpwd = bcrypt.hashSync(req.body.params.newpwd,salt);
       sql = `UPDATE SYSTEM_USER SET  pwd="${newpwd}"
   WHERE phone=${req.body.params.phone} `
       connection.query(sql, () => {
@@ -350,6 +345,16 @@ app.post('/api/post/newpwd', (req, res) => {
     // })
     //Go to ogin
   })});
+
+
+
+
+  app.post("/photo", upload.single('photo'), (req, res, next) => {
+    return res.json({
+        image: req.file.path
+    });
+});
+
   ///// Chanh /////
 app.post('api/update/work_schedule',(req,res)=>{
   var sql=`UPDATE patient
