@@ -6,9 +6,31 @@ import { Button } from 'reactstrap';
 import { Switch, Redirect } from 'react-router';
 import { Nav, NavItem, } from 'reactstrap';
 
+import { useEffect } from 'react';
+import axios from 'axios';
 const LogButton = (props) => {
     const user = useContext(HeaderDefine);
     // console.log(user.role);
+  const checkData = () => {
+    axios.get('/api/get/session').then(res => {
+      if (res.data) {
+        user.setPhone(res.data.phone);
+        user.setName(res.data.firstname);
+        axios.get('/api/get/role', { params: { phonenum: res.data.phone } }).then(resp => user.setRole(resp.data.role))
+      }
+    }
+    )
+  }
+  useEffect(() => {
+    setTimeout(() => {
+      // if (init) {
+      //     setInit(false);
+      // }
+      checkData();
+    }, 100);
+  }, []);
+
+
     const [swit, setSwit] = useState(<span></span>);
     const logOut = () => {
         user.setPhone("");
