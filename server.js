@@ -1,14 +1,19 @@
+const PORT = process.env.PORT || 4000;
+
 const express = require("express");
-const mysql = require('mysql'); const PORT = process.env.PORT || 4000;
-const cors = require('cors');
-const app = express();
-const bodyParser = require('body-parser');
-// var cookieSession = require('cookie-session')
+
 const cookieParser = require('cookie-parser')
 const sessions = require('express-session');
+const bodyParser = require('body-parser');
+const mysql = require('mysql'); 
+const cors = require('cors');
+
+
+const app = express();
 var bcrypt = require('bcryptjs');
 
 const ONEDAY = 24 * 60 * 60 * 10000;
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -16,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 app.use(cookieParser());
 var session;
+
 // app.use(express.urlencoded({ extended: false }));
 // app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({
@@ -118,7 +124,10 @@ app.get('/api/get/total_value', function(req, res) {
 
 
 app.use(sessions({
-  secret: "key", cookie: { expires: ONEDAY },user:{},  resave: false,saveUninitialized: true,
+  secret: "key", 
+  cookie: { expires: ONEDAY },
+  user:{},  resave: false,
+  saveUninitialized: true,
 }));
 
 app.get('/api/get/users', (req, res) => {

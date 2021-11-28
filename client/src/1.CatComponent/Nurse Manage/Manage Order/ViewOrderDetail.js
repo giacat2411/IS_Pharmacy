@@ -5,9 +5,11 @@ import { Table } from 'reactstrap';
 import ReactToPrint from 'react-to-print';
 import NurseSideBar from '../../../5.Share Component/SideBar/NurseSideBarComponent';
 import { Spinner } from 'reactstrap';
+import { FaAngleLeft } from 'react-icons/fa'
 import './manage_order.css';
 
 import axios from 'axios';
+import { LinkContainer } from 'react-router-bootstrap';
 
 class ViewOrderDetail extends Component {
     constructor(props) {
@@ -85,6 +87,15 @@ class ViewOrderDetail extends Component {
         return (
             <>
             <NurseSideBar/>
+            <Container>
+                <Row>
+                    <Col>
+                        <LinkContainer to="/view_order">
+                        <Button className="back-button"> <FaAngleLeft /> </Button>
+                        </LinkContainer>
+                    </Col>
+                </Row>
+            </Container>
             <div ref={(el) => {this.componentRef = el}}>
             <Container className="order-inform">
                 <Row style={{paddingTop: '10px'}}>

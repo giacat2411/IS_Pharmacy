@@ -11,24 +11,24 @@ import axios from 'axios';
 const LogButton = (props) => {
     const user = useContext(HeaderDefine);
     // console.log(user.role);
-  const checkData = () => {
-    axios.get('/api/get/session').then(res => {
-      if (res.data) {
-        user.setPhone(res.data.phone);
-        user.setName(res.data.firstname);
-        axios.get('/api/get/role', { params: { phonenum: res.data.phone } }).then(resp => user.setRole(resp.data.role))
-      }
+    const checkData = () => {
+        axios.get('/api/get/session').then(res => {
+            if (res.data) {
+                user.setPhone(res.data.phone);
+                user.setName(res.data.firstname);
+                axios.get('/api/get/role', { params: { phonenum: res.data.phone } }).then(resp => user.setRole(resp.data.role))
+            }
+        }
+        )
     }
-    )
-  }
-  useEffect(() => {
-    setTimeout(() => {
-      // if (init) {
-      //     setInit(false);
-      // }
-      checkData();
-    }, 100);
-  }, []);
+    useEffect(() => {
+        setTimeout(() => {
+            // if (init) {
+            //     setInit(false);
+            // }
+            checkData();
+        }, 100);
+    }, []);
 
 
     const [swit, setSwit] = useState(<span></span>);
@@ -60,7 +60,7 @@ const LogButton = (props) => {
         //     }
         // )
     }
-    
+
     if (user.role === "Guest")
         return (
             <>
@@ -83,16 +83,27 @@ const LogButton = (props) => {
         // <HeaderDefine.Consumer>
         <Nav className="ml-auto" navbar>
             <NavItem>
-                <NavLink className="nav-link" to='/profile'><img src={user.img} className="mini-ava" alt="Mini-ava"/> {user.name} </NavLink>
+                <NavLink className="nav-link" to='/profile'>
+                    <img src='/assets/images/ava_user.JPG' className="mini-ava" alt="Mini-ava"
+                        style={{ borderRadius: '55px' }} /> {user.name}
+                </NavLink>
                 {/* <img src={user.user.ava} /> {user.user.fullname} */}
             </NavItem>
             <NavItem>
-                <Button onClick={logOut}>Đăng xuất </Button>
+                <Button
+                    style={{
+                        backgroundColor: '#5B9BF3',
+                        border: '0px',
+                        marginTop: '3px'
+                    }}
+                    onClick={logOut}>
+                    Đăng xuất
+                </Button>
                 {/* <NavLink className="nav-link" to='/home'> <FaSignOutAlt /> Đăng xuất </NavLink> */}
             </NavItem>
-        <Switch>
-            <Redirect to={'/'+user.role}/>
-        </Switch>
+            <Switch>
+                <Redirect to={'/' + user.role} />
+            </Switch>
         </Nav>
         // </HeaderDefine.Consumer>
     );

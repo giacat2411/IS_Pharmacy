@@ -56,7 +56,12 @@ class BuyDrug extends Component {
         const item = this.state.item_open;
         const number = this.state.nums_item_open;
 
+        // console.log(newCart)
+        // console.log(typeof(newCart))
         newCart.push({item, number});
+
+        localStorage.setItem('IS_cart', JSON.stringify(newCart))
+        localStorage.setItem('IS_nums_item_buy', (this.state.nums_item_buy + 1).toString())
         
         this.setState({
             carts: newCart,
@@ -79,6 +84,14 @@ class BuyDrug extends Component {
     }
 
     componentDidMount() {
+        const cart = localStorage.getItem('IS_cart');
+        const nums = localStorage.getItem('IS_nums_item_buy');
+        
+        if (cart !== null) 
+            this.setState({cart: JSON.parse(cart)})
+        if (nums !== null) 
+            this.setState({nums_item_buy: parseInt(nums)})
+
         axios.get('/api/get/drugs')
              .then(res => {
                 const drugs = res.data;
@@ -154,7 +167,7 @@ class BuyDrug extends Component {
 
                         <Nav className="ml-auto" navbar>
                             <NavItem className="cart">
-                            <NavLink className="nav-link" to={`/view_cart/${JSON.stringify(this.state.cart)}`}>
+                            <NavLink className="nav-link" to='/view_cart'>
                             <FaShoppingCart className="buy-cart"/> 
                             <span> Giỏ hàng </span>
                             <span className="buy-cart-item"> {this.state.nums_item_buy} </span>

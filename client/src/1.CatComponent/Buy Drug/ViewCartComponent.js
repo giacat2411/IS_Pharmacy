@@ -5,13 +5,16 @@ import { LinkContainer } from 'react-router-bootstrap';
 class ViewCart extends Component {
     render(){
         let total = 0;
-        const cart = this.props.cart;
+        let cart = JSON.parse(localStorage.getItem('IS_cart'));
+
+        if (cart === null) cart = [];
+        console.log(cart)
         for (let i = 0; i < cart.length; i++) {
             console.log(cart[i].number);
             total += (cart[i].number)*(cart[i].item.price);
         }
 
-        const list = this.props.cart.map(item => {
+        const list = cart.map(item => {
             return(
                 <Col className="cart-item" md="12">
                     <img className="cart-item-img" width="150px" height="150px" src="/assets/images/drug_example.png" alt = "Ảnh thuốc"></img>
@@ -35,7 +38,7 @@ class ViewCart extends Component {
             </Row>
             <Row>
                 <Col md = "12">
-                <LinkContainer to = {`/payment/${JSON.stringify(this.props.cart)}`}>
+                <LinkContainer to = '/payment'>
                 
                 <Button className="cart-button"> 
                     <span style={{marginTop: '20px'}}> Thanh toán </span> 
