@@ -121,8 +121,6 @@ app.get('/api/get/total_value', function(req, res) {
 })
 
 ///// Phuc /////
-
-
 app.use(sessions({
   secret: "key", 
   cookie: { expires: ONEDAY },
@@ -186,6 +184,7 @@ app.get('/api/hash/pwd', (req, res) => {
 app.get('/api/get/phuc', (req, res) => { console.log(session); res.json(session.user)});
 app.get('/api/set/user', (req, res) => {  session.user=req.query; res.json(session.user)});
 app.get('/api/set/role', (req, res) => {  session.user.role=req.query.role; res.json(session.user)});
+app.get('/api/set/path', (req, res) => {  session.user.currPath=req.query.path; res.json(session.user)});
 app.get('/api/destroy/session', (req, res) => {
   req.session.destroy();
 });
