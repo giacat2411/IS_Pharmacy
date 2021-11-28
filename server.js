@@ -208,10 +208,23 @@ app.post('api/post/newpwd',(req,res)=>{
 })
 ///// Chanh /////
 
-app.post('api/uplate/treatment_turns', (req, res) => {
-  console.log(req.body); 
-  res.json("HERE");
+app.post('/api/uplate/treatment_turns', (req, res) => {
+  console.log(req);
+  var sql=`UPDATE treatment_turn
+        SET doctor_phone=${req.query.doctor_phone},
+            start_time=${req.query.start_time},
+            end_time=${req.query.end_time}
+    WHERE id=${req.query.id}`
+    console.log(sql); 
+    connection.query(sql, function (err, results) {
+      res.json({ msg: "done" })
+    });
 })
+// lát tự check file signup + profile của this, xem cách truyền param, truyền y chang vậy. v lên API update/info. truy vấn y chang v
+// req.body.params.phone gì gì đó
+// t đi sửa mấy lỗi kia đã
+//DATA bị sai, truy vấn bằng req.qurey.... là sai. giờ phải console.log cái req. tìm vị trí của cai1 doctor phone ->>> truyền lại data
+//Làm dùm thử 
 ///// Dung /////
 
 
