@@ -1,5 +1,5 @@
 // IMPORT FROM EXTERNAL
-import React from 'react';
+import React, { useContext } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 // IMPORT DATA
@@ -37,24 +37,14 @@ import { HeaderProvider } from './Context';
 import Nurse from './Main UI/NurseComponent';
 
 const Main = () => {
-
-  const ViewMyCart = ({match}) => {
-    return(
-      <ViewCart cart = {JSON.parse(match.params.cart)} />
-    )
-  }
   const ViewDetails = ({match}) => {
     return (
       <ViewOrderDetail orderID = {parseInt(JSON.parse(match.params.orderID))} />
     )
   }
 
-  const PaymentPage = ({match}) => {
-    return(
-      <Payment cart = {JSON.parse(match.params.cart)} />
-    )
-  }
-    
+  let ctx = undefined;
+
     return (
       <HeaderProvider>
       <div>
@@ -65,7 +55,7 @@ const Main = () => {
               <Route path='/home' component={Home} />
               <Route path='/buydrug' component={BuyDrug} />
               <Route path='/customer' component={Customer} />
-              <Route path='/view_cart/:cart' component={ViewMyCart}/>
+              <Route path='/view_cart' component={ViewCart}/>
               <Route path='/manage_drug' component={ManageDrug} />
               <Route path='/view_order' component={ViewOrder} />
               <Route path='/statistic_order' component={StatisticOrder} />
@@ -75,7 +65,7 @@ const Main = () => {
               <Route path='/doctor' component={Doctor} />
               <Route path='/appointment' component={Appointment} />
               <Route path='/cancelappointment' component={CancelAppointment} />
-              <Route path='/payment/:cart' component={PaymentPage} />
+              <Route path='/payment/' component={Payment} />
               <Route path='/createanappointment' component={CreateAnAppointment} />
               <Route path='/view_medical_record' component={MedicalRecord} />
               <Route path='/re-examination_schedule' component={Re_examinationSchedule} />
@@ -89,8 +79,9 @@ const Main = () => {
 
               {/*---------------------------------Chanh------------------------------------*/}
               <Route path='/nurse' component={Nurse} />
-
+              
               <Redirect to='/home' />
+  
           </Switch>
         </div>
         <Footer />

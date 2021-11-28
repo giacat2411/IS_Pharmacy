@@ -167,3 +167,19 @@
   border-radius: 0px;
   box-shadow: none;
 }
+
+.back-button, .back-button:hover, .back-button:not(:hover) {
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  background-color: #62AFFC;
+  color: white;
+  font-size: 15px;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #62AFFC;
+  text-transform: capitalize;
+  padding: 0px 0px 0px 0px;
+  border-radius: 10px;
+  box-shadow: none;
+  margin: 5px 0px 0px 8px;
+  float: right;
+}

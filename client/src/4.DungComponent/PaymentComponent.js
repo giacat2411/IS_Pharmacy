@@ -32,14 +32,14 @@ class Payment extends Component{
         const showHideClassName = this.state.show ? "modal display-block" : "modal display-none";
 
         let total = 0;
-        const cart = this.props.cart;
+        const cart = JSON.parse(localStorage.getItem('IS_cart'));
         console.log(cart);
         for (let i = 0; i < cart.length; i++) {
             console.log(cart[i].number);
             total += (cart[i].number)*(cart[i].item.price);
         }
-        console.log(this.props.cart[0]);
-        const list = this.props.cart.map(detail => {
+
+        const list = cart.map(detail => {
             return(
                 <tr>
                 <th scope="row" style={{textAlign: 'center'}}>
