@@ -10,10 +10,9 @@ import storage from './firebase';
     const [file,setFile]=useState();
     const updateInfo =async () => {
         await subReg();
+        if(file){
         var snapshot = await storage.ref(`/images/${temp.phone}`).put(file);
         snapshot.ref.getDownloadURL().then(url=>{
-                // console.log(url);
-                // console.log(temp.img);
                 var newValue=temp;
                 newValue.img=url;
                 setTemp(newValue);
@@ -30,7 +29,14 @@ import storage from './firebase';
                     if(res.data.msg)props.msgCall(res.data.msg);
                     props.setUser(temp);
                 })
-        })
+        })}
+        else{
+            axios.post('/api/post/info', { params: temp }).then(res => {
+                    props.toggleEdit();
+                    if(res.data.msg)props.msgCall(res.data.msg);
+                    props.setUser(temp);
+                })
+        }
        
     }
     const [temp,setTemp]=useState(props.info);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Route, NavLink } from 'react-router-dom';
-import { Input, Row, Col, Button, CardHeader, CardBody, CardSubtitle } from 'reactstrap';
+import { Input, Row, Col, Button, CardHeader, CardBody, CardSubtitle, Container } from 'reactstrap';
 import Home from '../5.Share Component/Main UI/HomeComponent';
 import HeaderDefine from '../5.Share Component/Context';
 import { useContext } from 'react';
@@ -27,7 +27,7 @@ const Profile = (props) => {
         dateofbirth: "",
         address: "",
         email: "",
-        img:"",
+        img: "",
     })
     const [role, setRole] = useState("Patient");//
     const [info, setInfo] = useState({
@@ -39,16 +39,16 @@ const Profile = (props) => {
         medical_background: "",
 
     })
-    const [msg,setMsg]=useState("");
-const [isMsg,setIsMsg]=useState(false);
+    const [msg, setMsg] = useState("");
+    const [isMsg, setIsMsg] = useState(false);
     useEffect(() => {
         setTimeout(() => {
             checkData();
         }, 1000);
     }, []);
-    const showMsg=(msg)=>{
-setMsg(msg);
-setIsMsg(true);
+    const showMsg = (msg) => {
+        setMsg(msg);
+        setIsMsg(true);
 
     }
     const checkData = async () => {
@@ -84,7 +84,7 @@ setIsMsg(true);
                     });
             })
     }
-    const toggleMsg=()=>{
+    const toggleMsg = () => {
         setIsMsg(!isMsg);
     }
     const toggleEdit = () => {
@@ -96,63 +96,104 @@ setIsMsg(true);
     const togglePwd = () => {
         setChangePwd(!changePwd);
     };
+
     const accessright = () => {
         if (role === "Patient") return 1;
         if (user.phone === ctx.phone) return 2;
         return 0;
     }
+
     const Health = () => {
-            return (<>
-                <Row>
-                    <Col>
-                        <Row>Chiều cao: {info.height}</Row>
-                        <Row>Cân nặng: {info.weight}</Row>
-                        <Row>Chỉ số BMI: {info.BMI}</Row>
-                        <Row>Nhóm máu: {info.blood} </Row>
-                        <Row>Tiền sử: {info.medical_history} </Row>
-                        <Row>Bệnh lý nền: {info.medical_background}</Row>
-                        <Row classname="additional"> *Thông tin từ ngày {date(current)}</Row>
-                        <Button onClick={toggleHealth}> Cập nhật tình trạng sức khỏe </Button>
-                    </Col>
-                    <Button classname="center_screen">Xem các lượt khám bệnh </Button>
-                </Row></>
-            )
+        return (<>
+            <Row>
+                <Col>
+                    <Row>
+                        Chiều cao: {info.height}
+                        </Row>
+                    <Row>
+                        Cân nặng: {info.weight}
+                        </Row>
+                    <Row>
+                        Chỉ số BMI: {info.BMI}
+                        </Row>
+                    <Row>
+                        Nhóm máu: {info.blood} 
+                        </Row>
+                    <Row>
+                        Tiền sử: {info.medical_history}
+                         </Row>
+                    <Row>
+                        Bệnh lý nền: {info.medical_background}
+                        </Row>
+                    <Row classname="additional"> 
+                    Thông tin từ ngày {date(current)}
+                    </Row>
+                    <Button onClick={toggleHealth}> 
+                    Cập nhật tình trạng sức khỏe </Button>
+                </Col>
+                <Button classname="center_screen">Xem các lượt khám bệnh </Button>
+            </Row></>
+        )
     }
-    const setAllImg=(newUser)=>{
+    const setAllImg = (newUser) => {
         ctx.setImg(newUser.img);
         setUser(newUser);
     }
+
     const View = () => {
         if (accessright)
             return (
-                <div >
-                    <Row>
-                        <Col>
-                            <div className="center">
-                                <Row><img className="ava" src={user.img}></img></Row>
-                                <Row>{user.phone}</Row>
-                                <Row>{user.email}</Row>
-                                <Row>{user.address}</Row>
-                                <Row><Button color="secondary" onClick={toggleEdit}> Điều chỉnh thông tin</Button></Row>
-                                <Row><Button color="secondary" onClick={togglePwd}> Thay đổi mật khẩu</Button></Row>
-                                <Route path="changePwd" component={Home} />
-                            </div>
+                <Container >
+                    <Row style={{ marginTop: '20px', marginBottom: '20px' }}>
+                        <Col md="4">
+                            <Col>
+                                <div className="center">
+                                    <Row><img className="ava" src={user.img}></img></Row>
+                                    <Row>{user.phone}</Row>
+                                    <Row>{user.email}</Row>
+                                    <Row>{user.address}</Row>
+                                    <Row>
+                                        <Button style={{ backgroundColor: '#62AFFC', border: '0px', marginBottom: '15px', marginTop: '10px' }} onClick={toggleEdit}>
+                                            Điều chỉnh thông tin
+                                        </Button>
+                                    </Row>
+                                    <Row>
+                                        <Button style={{ backgroundColor: '#62AFFC', border: '0px' }} onClick={togglePwd}>
+                                            Thay đổi mật khẩu
+                                        </Button>
+                                    </Row>
+                                    <Route path="changePwd" component={Home} />
+                                </div>
+                            </Col>
                         </Col>
-                        <Col>
-                            <h1> Người dùng: {user.lastname + " " + user.firstname}</h1>
-                            <Row>Ngày sinh: {date(user.dateofbirth)} </Row>
-                            {accessright() == 1 ?
-                                <Health />
-                                : <NotesApp />}
+                        <Col md="8">
+                            <Row>
+                                <Col md="12" style={{ textAlign: 'center', fontSize: '30px', fontWeight: 'bold' }}> Thông tin cá nhân</Col>
+                            </Row>
+                            <Col>
+                                <Row>
+                                    <Col>
+                                        Người dùng: {user.lastname + " " + user.firstname}
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        Ngày sinh: {date(user.dateofbirth)}
+                                    </Col>
+                                </Row>
+                                {accessright() == 1 ?
+                                    <Health />
+                                    : <NotesApp />}
+                            </Col>
                         </Col>
                     </Row>
-                    <Modal isOpen={edit} toggle={toggleEdit}><EditInfo info={user} toggleEdit={toggleEdit}msgCall={showMsg} setUser={setAllImg}/>
+                    <Modal isOpen={edit} toggle={toggleEdit}><EditInfo info={user} toggleEdit={toggleEdit} msgCall={showMsg} setUser={setAllImg} />
                     </Modal>
-                    <Modal isOpen={changePwd} toggle={togglePwd}><UpdatePwd togglePwd={togglePwd} phone={user.phone}msgCall={showMsg}/>
-                    </Modal><Modal isOpen={health} toggle={toggleHealth}><EditHealth health={info} phone={user.phone} toggleHealth={toggleHealth} msgCall={showMsg}/>
+                    <Modal isOpen={changePwd} toggle={togglePwd}><UpdatePwd togglePwd={togglePwd} phone={user.phone} msgCall={showMsg} />
+                    </Modal><Modal isOpen={health} toggle={toggleHealth}><EditHealth health={info} phone={user.phone} toggleHealth={toggleHealth} msgCall={showMsg} />
                     </Modal>
-                    <Modal  isOpen={isMsg} toggle={toggleMsg}  > <Card>{msg}</Card> </Modal>
-                </div>
+                    <Modal isOpen={isMsg} toggle={toggleMsg}  > <Card>{msg}</Card> </Modal>
+                </Container>
             )
         else {
             return <> Hồ sơ không tồn tại</>
