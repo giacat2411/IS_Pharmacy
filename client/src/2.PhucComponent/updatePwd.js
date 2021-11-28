@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
-import { Route, NavLink } from 'react-router-dom';
-import { Input, Row, Col, Button, CardHeader, CardBody, CardSubtitle } from 'reactstrap';
-import Home from '../5.Share Component/Main UI/HomeComponent';
-import HeaderDefine from '../5.Share Component/Context';
-import { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
+import { Input, Row, Col, Button, CardHeader, CardBody, CardSubtitle, Container } from 'reactstrap';
 import { Card, CardTitle } from 'reactstrap';
 import axios from 'axios';
 import { FaEdit } from 'react-icons/fa';
-import { Modal } from 'reactstrap';
-import NotesApp from './note';
-import { useEffect } from 'react';
 
 const UpdatePwd=(props)=>{
 
@@ -37,8 +31,24 @@ return <Card>
     <CardTitle>Nhập lại mật khẩu </CardTitle> <Input name="repwd" type="password" onChange={(e)=>setRepwd(e.target.value)}></Input>
         {(repwd===pwd)? "Mật khẩu chưa trùng khớp":"" }
 </CardBody>
-<CardSubtitle><Button onClick={(e)=>changePwd()}>Xác nhận</Button>
-    <Button onClick={props.togglePwd}>Hủy bỏ</Button></CardSubtitle>
+<CardSubtitle>
+<Container>
+        <Row>
+            <Col>
+            <Button className="center_screen" onClick={(e)=>changePwd()} style={{ backgroundColor: '#62AFFC', marginTop: '10px', border: '0px'}}>
+                Xác nhận
+            </Button>
+            </Col>
+            <Col>
+            <NavLink className="nav-link" to='/profile' onClick={props.togglePwd} style={{marginTop: '-8px'}}>
+                <Button style={{ backgroundColor: '#62AFFC', marginTop: '10px', border: '0px' }}>
+                    Hủy bỏ
+                </Button>
+            </NavLink>
+            </Col>
+        </Row>
+        </Container>
+    </CardSubtitle>
 </Card>
 
 

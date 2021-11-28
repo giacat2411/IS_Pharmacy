@@ -121,7 +121,7 @@ class Note extends React.Component {
         <Row >
         <input type="search"className="search-input" placeholder="Search..."
           onChange={(event) => {this.handleSearch(event)}}/>
-          <Button onClick={this.props.search}><FaSearch/></Button></Row>
+          <Button style={{ backgroundColor: '#62AFFC', marginTop: '10px', border: '0px' }} onClick={this.props.search}><FaSearch/></Button></Row>
       );
     }
   };
