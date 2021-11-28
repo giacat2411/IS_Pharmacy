@@ -13,10 +13,14 @@ const LogButton = (props) => {
     // console.log(user.role);
     const checkData = () => {
         axios.get('/api/get/session').then(res => {
+            console.log("done get session")
+            console.log(res.data);
             if (res.data) {
                 user.setPhone(res.data.phone);
-                user.setName(res.data.firstname);
-                axios.get('/api/get/role', { params: { phonenum: res.data.phone } }).then(resp => user.setRole(resp.data.role))
+                user.setName(res.data.name);
+                user.setRole(res.data.role);
+                user.setImg(res.data.img);
+                // axios.get('/api/get/role', { params: { phonenum: res.data.phone } }).then(resp => user.setRole(resp.data.role))
             }
         }
         )
@@ -33,33 +37,34 @@ const LogButton = (props) => {
 
     const [swit, setSwit] = useState(<span></span>);
     const logOut = () => {
+        console.log("OUT")
         user.setPhone("");
         user.setRole("Guest");
-        sessionStorage.setItem('user', JSON.stringify({ phone: '', role: 'Guest' }));
+        // sessionStorage.setItem('user', JSON.stringify({ phone: '', role: 'Guest' }));
         setSwit(<Switch> <Redirect to='/home' /> </Switch>)
         // axios.get('/api/destroy/session')
     }
-    if (user.role === "Guest") {
-        var tempUser = sessionStorage.getItem('user');
-        if (tempUser) {
-            var userSession = JSON.parse(tempUser)
-            if (userSession.role !== "Guest") {
-                user.setRole(userSession.role);
-                user.setPhone(userSession.phone);
-            }
-        }
-        else sessionStorage.setItem('user', JSON.stringify({ phone: '', role: "Guest" }));
-        // axios.get('/api/get/session').then(
-        //     res=>{
-        //         const value=res.data;
-        //         if(value.user){
-        //             user.setPhone(value.user.phone);
-        //             user.setRole(value.user.role);
-        //         }
-        //         // console.log(m);
-        //     }
-        // )
-    }
+    // if (user.role === "Guest") {
+    //     // var tempUser = sessionStorage.getItem('user');
+    //     // if (tempUser) {
+    //     //     var userSession = JSON.parse(tempUser)
+    //     //     if (userSession.role !== "Guest") {
+    //     //         user.setRole(userSession.role);
+    //     //         user.setPhone(userSession.phone);
+    //     //     }
+    //     // }
+    //     // else sessionStorage.setItem('user', JSON.stringify({ phone: '', role: "Guest" }));
+    //     // axios.get('/api/get/session').then(
+    //     //     res=>{
+    //     //         const value=res.data;
+    //     //         if(value.user){
+    //     //             user.setPhone(value.user.phone);
+    //     //             user.setRole(value.user.role);
+    //     //         }
+    //     //         // console.log(m);
+    //     //     }
+    //     // )
+    // }
 
     if (user.role === "Guest")
         return (
@@ -78,7 +83,6 @@ const LogButton = (props) => {
                 </Switch>
             </>
         );
-
     return (
         // <HeaderDefine.Consumer>
         <Nav className="ml-auto" navbar>
@@ -102,7 +106,7 @@ const LogButton = (props) => {
                 {/* <NavLink className="nav-link" to='/home'> <FaSignOutAlt /> Đăng xuất </NavLink> */}
             </NavItem>
             <Switch>
-                <Redirect to={'/' + user.role.toString()} />
+                <Redirect to={'/' + user.role} />
             </Switch>
         </Nav>
         // </HeaderDefine.Consumer>

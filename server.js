@@ -154,6 +154,7 @@ app.get('/api/get/access', (req, res) => {
       if (bcrypt.compareSync(req.query.userpwd, results[0].pwd)) {
         session=req.session;
         session.user=results[0];
+        console.log(session.user)
       res.json({ user: results });
     } else {
       res.json({ msg: "Wrong login information!" })
@@ -169,7 +170,7 @@ app.get('/api/get/info', (req, res) => {
   sql = `SELECT * FROM system_user WHERE PHONE = ${req.query.phonenum}`;
   connection.query(sql, function (err, results) {
     if(results[0]){
-      res.json({ user: results });
+      res.json({ user: results[0] });
     } else {
       res.json({ msg: "Hồ sơ không tồn tại." })
     }
@@ -183,7 +184,7 @@ app.get('/api/hash/pwd', (req, res) => {
 
 
 app.get('/api/get/phuc', (req, res) => { console.log(session); res.json(session.user)});
-app.get('/api/set/user', (req, res) => {  session.user=req.query.user; res.json(session.user)});
+app.get('/api/set/user', (req, res) => {  session.user=req.query; res.json(session.user)});
 app.get('/api/set/role', (req, res) => {  session.user.role=req.query.role; res.json(session.user)});
 app.get('/api/destroy/session', (req, res) => {
   req.session.destroy();

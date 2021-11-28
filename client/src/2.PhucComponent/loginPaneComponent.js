@@ -25,24 +25,26 @@ const LoginPane = (props) => {
     }
 
     const apiLog = () => {
-
         axios
             .get('/api/get/access', { params: { phonenum: phone.value, userpwd: pwd.value } }
             )
             .then(res => {
+                console.log("over access")
+                console.log(res.data);
                 const user = res.data;
                 if (user.user) {
                     ctx.setPhone(user.user[0].phone);
                     ctx.setName(user.user[0].firstname);
                     ctx.setImg(user.user[0].img);
+                    console.log(ctx);
                     axios
                         .get('/api/get/role', { params: { phonenum: phone.value } }
                         )
                         .then(res => {
-                            const role = res.data;
-                            localStorage.setItem('user', phone.value)
-                            localStorage.setItem('role', role)
-                            ctx.setRole(role.role);
+
+                            // localStorage.setItem('user', phone.value)
+                            // localStorage.setItem('role', role)
+                            ctx.setRole(res.data.role);
                             // props.setRole(role.role)
                             Msg = "Đăng nhập thành công"; toggleMsg();
                         });
@@ -137,10 +139,13 @@ const LoginPane = (props) => {
     }
     else {
         // axios.get('/api/set/user', { params: { phone: ctx.phone, role: ctx.role } });
-        var userSession = { phone: ctx.phone, role: ctx.role };
-        console.log(userSession);
-        sessionStorage.clear();
-        sessionStorage.setItem('user', JSON.stringify(userSession));
+        // var userSession = { phone: ctx.phone, role: ctx.role };
+        // console.log(userSession);
+        // sessionStorage.clear();
+        // sessionStorage.setItem('user', JSON.stringify(userSession));
+        console.log(ctx);
+        axios.get('/api/set/user',{params:{phone:ctx.phone,name:ctx.name,role:ctx.role, img:ctx.img}});
+        
         if (ctx.role === "Patient") {
             return (
                 <Switch>

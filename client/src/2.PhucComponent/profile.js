@@ -52,12 +52,16 @@ const Profile = (props) => {
 
     }
     const checkData = async () => {
+        console.log("AKJLD")
+
+
+        console.log(user.phone)
+        console.log(ctx.phone)
         await axios
             .get('api/get/info', { params: { phonenum: user.phone } }
             )
             .then(res => {
-                // console.log(res.data.user[0]);
-                setUser(res.data.user[0]);
+                setUser(res.data.user);
                 axios.get('/api/get/role', { params: { phonenum: user.phone } }
                 )
                     .then(res => {
@@ -108,44 +112,30 @@ const Profile = (props) => {
             <Row>
                 <Col>
                     <Row>
-                        <Col>
                         Chiều cao: {info.height}
-                        </Col>
-                    </Row>
+                        </Row>
                     <Row>
-                    <Col>
                         Cân nặng: {info.weight}
-                    </Col>
-                    </Row>
+                        </Row>
                     <Row>
-                        <Col>
                         Chỉ số BMI: {info.BMI}
-                        </Col>
-                    </Row>
+                        </Row>
                     <Row>
-                        <Col>
-                        Nhóm máu: {info.blood}
-                        </Col>
-                    </Row>
+                        Nhóm máu: {info.blood} 
+                        </Row>
                     <Row>
-                        <Col>
                         Tiền sử: {info.medical_history}
-                        </Col>
-                    </Row>
+                         </Row>
                     <Row>
-                        <Col>
                         Bệnh lý nền: {info.medical_background}
-                        </Col>
+                        </Row>
+                    <Row classname="additional"> 
+                    Thông tin từ ngày {date(current)}
                     </Row>
-                    <Row classname="additional">
-                        <Col>
-                        Thông tin từ ngày {date(current)}
-                        </Col>
-                    </Row>
-                    <Button onClick={toggleHealth} style={{backgroundColor: '#62AFFC', marginTop: '10px', border: '0px'}}>
-                        Cập nhật tình trạng sức khỏe </Button>
+                    <Button onClick={toggleHealth}> 
+                    Cập nhật tình trạng sức khỏe </Button>
                 </Col>
-                <Button classname="center_screen" style={{backgroundColor: '#62AFFC', marginTop: '10px', border: '0px', height: '40px', marginTop: '50px'}}>Xem các lượt khám bệnh </Button>
+                <Button classname="center_screen">Xem các lượt khám bệnh </Button>
             </Row></>
         )
     }
@@ -204,7 +194,8 @@ const Profile = (props) => {
                     <Modal isOpen={edit} toggle={toggleEdit}><EditInfo info={user} toggleEdit={toggleEdit} msgCall={showMsg} setUser={setAllImg} />
                     </Modal>
                     <Modal isOpen={changePwd} toggle={togglePwd}><UpdatePwd togglePwd={togglePwd} phone={user.phone} msgCall={showMsg} />
-                    </Modal><Modal isOpen={health} toggle={toggleHealth}><EditHealth health={info} phone={user.phone} toggleHealth={toggleHealth} msgCall={showMsg} />
+                    </Modal>
+                    <Modal isOpen={health} toggle={toggleHealth}><EditHealth health={info} phone={user.phone} toggleHealth={toggleHealth} msgCall={showMsg} />
                     </Modal>
                     <Modal isOpen={isMsg} toggle={toggleMsg}  > <Card>{msg}</Card> </Modal>
                 </Container>

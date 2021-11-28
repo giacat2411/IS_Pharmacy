@@ -32,19 +32,37 @@ import LoginPane from '../2.PhucComponent/loginPaneComponent';
 import Profile from '../2.PhucComponent/profile';
 import SignUp from '../2.PhucComponent/Signup';
 import { HeaderProvider } from './Context';
-
+import PathCtx, { PathProvider } from './Path';
 //CHANH
 import Nurse from './Main UI/NurseComponent';
 
+
+
+const CustomerPath=['/buydrug','/customer','/view_cart','/view_order','/view_order_details/:orderID','/payment/','/view_medical_record'];
+const DoctorPath=['/statistic_order','/view_order','/view_order_details/:orderID',
+'/doctor','/view_medical_record'];//   '/appointment','/cancelappointment' ,'/createanappointment','/re-examination_schedule','/instant_appointment'
+const NurserPath=['/manage_drug','/nurse'];
+const GlobalPath=['/','/home','/login','/signup','/profile'];
+
+const reload=(role, currPath)=>{
+  if (currPath in GlobalPath) return currPath;
+  if(role=='Doctor'){
+    if (currPath in [DoctorPath]) return currPath;
+  }
+  else if (role=='Nurse'){
+    if(currPath in NurserPath)return currPath;
+  }
+  else if(role=='Customer'){
+    if(currPath in CustomerPath)return currPath;
+  }
+  else return '/';
+}
 const Main = () => {
   const ViewDetails = ({match}) => {
     return (
       <ViewOrderDetail orderID = {parseInt(JSON.parse(match.params.orderID))} />
     )
   }
-
-  let ctx = undefined;
-
     return (
       <HeaderProvider>
       <div>
@@ -71,7 +89,6 @@ const Main = () => {
               <Route path='/re-examination_schedule' component={Re_examinationSchedule} />
               <Route path='/instant_appointment' component={InstantAppointment} />
 
-
               {/*---------------------------------Phuc------------------------------------*/}
               <Route path='/login' component={LoginPane}/>
               <Route path='/signup' component={SignUp}/>
@@ -80,6 +97,7 @@ const Main = () => {
               {/*---------------------------------Chanh------------------------------------*/}
               <Route path='/nurse' component={Nurse} />
               
+
               <Redirect to='/home' />
   
           </Switch>

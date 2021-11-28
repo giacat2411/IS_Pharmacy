@@ -31,17 +31,20 @@ const EditInfo = (props) => {
                     props.toggleEdit();
                     if (res.data.msg) props.msgCall(res.data.msg);
                     props.setUser(temp);
+                    axios.get('/api/set/user',{params:temp});
                 })
             })
         }
         else {
             axios.post('/api/post/info', { params: temp }).then(res => {
-                props.toggleEdit();
-                if (res.data.msg) props.msgCall(res.data.msg);
-                props.setUser(temp);
-            })
+                    props.toggleEdit();
+                    if(res.data.msg)props.msgCall(res.data.msg);
+                    props.setUser(temp);
+                    axios.get('/api/set/user',{params:temp});
+                })
         }
-
+        
+       
     }
     const [temp, setTemp] = useState(props.info);
     const handleChange = (evt) => {

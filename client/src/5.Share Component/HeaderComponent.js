@@ -16,7 +16,7 @@ const Header = (props)=> {
                 <Collapse navbar>
                     <Nav navbar>
                         <NavItem>
-                            <NavLink className="nav-link"  to={`/${ctx.role.toString()}`}><FaHome /> Trang chủ</NavLink>
+                            <NavLink className="nav-link"  to={`/${ctx.role}`}><FaHome /> Trang chủ</NavLink>
                         </NavItem>
                         <NavItem>
                             <NavLink className="nav-link" to='/'><FaRegCalendarAlt /> Lịch làm việc</NavLink>
