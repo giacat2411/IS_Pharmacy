@@ -118,6 +118,10 @@ setIsMsg(true);
                 </Row></>
             )
     }
+    const setAllImg=(newUser)=>{
+        ctx.setImg(newUser.img);
+        setUser(newUser);
+    }
     const View = () => {
         if (accessright)
             return (
@@ -142,7 +146,7 @@ setIsMsg(true);
                                 : <NotesApp />}
                         </Col>
                     </Row>
-                    <Modal isOpen={edit} toggle={toggleEdit}><EditInfo info={user} toggleEdit={toggleEdit}msgCall={showMsg} setUser={setUser}/>
+                    <Modal isOpen={edit} toggle={toggleEdit}><EditInfo info={user} toggleEdit={toggleEdit}msgCall={showMsg} setUser={setAllImg}/>
                     </Modal>
                     <Modal isOpen={changePwd} toggle={togglePwd}><UpdatePwd togglePwd={togglePwd} phone={user.phone}msgCall={showMsg}/>
                     </Modal><Modal isOpen={health} toggle={toggleHealth}><EditHealth health={info} phone={user.phone} toggleHealth={toggleHealth} msgCall={showMsg}/>
