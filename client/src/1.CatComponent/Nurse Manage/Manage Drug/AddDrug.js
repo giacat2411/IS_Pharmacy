@@ -82,7 +82,7 @@ class AddDrug extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label> Số lượng </Label>
-                            <Input placeholder="Nhập số lượng" 
+                            <Input placeholder="Nhập số lượng" type="number"
                                     innerRef={(input) => this.quantity = input}/>
                         </FormGroup>
                         </Form>

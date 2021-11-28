@@ -53,6 +53,22 @@ body {
   text-align: center;
 }
 
+.back-button-2, .back-button-2:hover, .back-button-2:not(:hover) {
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  background-color: #62AFFC;
+  color: white;
+  font-size: 15px;
+  width: 50px;
+  height: 30px;
+  border: 1px solid #62AFFC;
+  text-transform: capitalize;
+  padding: 0px 0px 0px 0px;
+  border-radius: 10px;
+  box-shadow: none;
+  margin: 5px 0px -10px 8px;
+  float: left;
+}
+
 .service-content{
   font-weight: bold;
   font-size: 25px;

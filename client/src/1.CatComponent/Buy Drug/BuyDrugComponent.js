@@ -61,7 +61,6 @@ class BuyDrug extends Component {
         newCart.push({item, number});
 
         localStorage.setItem('IS_cart', JSON.stringify(newCart))
-        localStorage.setItem('IS_nums_item_buy', (this.state.nums_item_buy + 1).toString())
         
         this.setState({
             carts: newCart,
@@ -85,12 +84,11 @@ class BuyDrug extends Component {
 
     componentDidMount() {
         const cart = localStorage.getItem('IS_cart');
-        const nums = localStorage.getItem('IS_nums_item_buy');
         
-        if (cart !== null) 
+        if (cart !== null)  {
             this.setState({cart: JSON.parse(cart)})
-        if (nums !== null) 
-            this.setState({nums_item_buy: parseInt(nums)})
+            this.setState({nums_item_buy: JSON.parse(cart).length})
+        }
 
         axios.get('/api/get/drugs')
              .then(res => {

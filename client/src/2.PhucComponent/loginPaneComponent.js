@@ -90,7 +90,8 @@ const LoginPane = (props) => {
                                     backgroundColor: '#F6F8FB',
                                     color: '#007BFF',
                                     border: '0px',
-                                    boxShadow: 'none !important'
+                                    boxShadow: 'none !important',
+                                    marginTop: '6px'
                                 }}>
                                 Quên mật khẩu?
                             </Button>
