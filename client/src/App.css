@@ -462,7 +462,16 @@ background-color: #00000000;
 /* ---------------------------------------------------------------------------*/
 /* ---------------------------------------------------------------------------*/
 /* ---------------------------------------------------------------------------*/
+.chanh-uplate{
+  background-color: #FFD700;
+  border-radius: 5px;
+  font-size: 20px;
 
+  border: none;
+  height: 40px;
+  width: 140px;
+  text-align: center;
+}
 .chanh-button-view{
   background-color: #FFD700;
   border-radius: 5px;
@@ -487,8 +496,8 @@ background-color: #00000000;
 .details-main {
   position:fixed;
   background: white;
-  width: 600px;
-  height: 360px;
+  width: 500px;
+  height: 320px;
   top:40%;
   left:50%;
   transform: translate(-50%,-50%);

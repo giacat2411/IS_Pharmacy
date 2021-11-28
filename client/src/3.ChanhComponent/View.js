@@ -1,8 +1,8 @@
 import '../App.css';
-//import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 //import {Nav} from 'reactstrap';
 
-const View = ({ handleClose, show, children }) => {
+const View = ({  show, children }) => {
   const showHideClassName = show ? "modal display-block" : "modal display-none";
 
   return (
@@ -11,16 +11,7 @@ const View = ({ handleClose, show, children }) => {
         <div class='chanh-details'>
             <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
         </div>
-        <section className="details-body">{children}</section>
-
-        
-        <button type="button" onClick={handleClose}>
-          Hủy
-        </button>
-          
-        <button type="button" onClick={handleClose}>
-            Lưu thay đổi
-        </button>
+        <section className="details-body">{children}</section>   
       </section>
     </div>
   );
