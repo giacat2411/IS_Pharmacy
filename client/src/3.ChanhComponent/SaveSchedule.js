@@ -6,7 +6,7 @@ class SaveSchedule extends Component {
   constructor() {
     super();
     this.state = {
-      show:false,
+      show:Boolean,
 
       name:'Tran Duy Chanh',
       phoneNumber:'0900000000',
@@ -40,6 +40,14 @@ class SaveSchedule extends Component {
     });
   }
   Submit=()=>{
+    const str = this.state.phoneNumber;
+      this.setState({ doctor_phone: str.split(' ').slice(-1,1).join(' ') })
+    const arr = this.state.phoneNumber;
+      this.setState({ doctor_phone: arr.split(' ').slice(1,3).join(' ') })
+    const aar = this.state.phoneNumber;
+      this.setState({ doctor_phone: aar.split(' ').slice(1,3).join(' ') })
+    console.log(this.state)
+
     axios.post('/api/uplate/treatment_turns',{
       params:this.state
   })
