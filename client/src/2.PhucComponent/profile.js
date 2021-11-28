@@ -27,6 +27,7 @@ const Profile = (props) => {
         dateofbirth: "",
         address: "",
         email: "",
+        img:"",
     })
     const [role, setRole] = useState("Patient");//
     const [info, setInfo] = useState({
@@ -124,7 +125,7 @@ setIsMsg(true);
                     <Row>
                         <Col>
                             <div className="center">
-                                <Row><img className="ava" src='assets/images/ava_user.JPG'></img></Row>
+                                <Row><img className="ava" src={user.img}></img></Row>
                                 <Row>{user.phone}</Row>
                                 <Row>{user.email}</Row>
                                 <Row>{user.address}</Row>
@@ -141,7 +142,7 @@ setIsMsg(true);
                                 : <NotesApp />}
                         </Col>
                     </Row>
-                    <Modal isOpen={edit} toggle={toggleEdit}><EditInfo info={user} toggleEdit={toggleEdit}msgCall={showMsg}/>
+                    <Modal isOpen={edit} toggle={toggleEdit}><EditInfo info={user} toggleEdit={toggleEdit}msgCall={showMsg} setUser={setUser}/>
                     </Modal>
                     <Modal isOpen={changePwd} toggle={togglePwd}><UpdatePwd togglePwd={togglePwd} phone={user.phone}msgCall={showMsg}/>
                     </Modal><Modal isOpen={health} toggle={toggleHealth}><EditHealth health={info} phone={user.phone} toggleHealth={toggleHealth} msgCall={showMsg}/>

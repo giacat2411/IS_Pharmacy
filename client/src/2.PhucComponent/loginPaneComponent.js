@@ -35,6 +35,7 @@ const toggleMsg = () => {
                 if (user.user) {
                     ctx.setPhone(user.user[0].phone);
                     ctx.setName(user.user[0].firstname);
+                    ctx.setImg(user.user[0].img);
                     axios
                         .get('/api/get/role', { params: { phonenum: phone.value} }
                         )

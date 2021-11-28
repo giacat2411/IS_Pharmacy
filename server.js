@@ -287,17 +287,19 @@ app.post('/api/post/TTSK', (req, res) => {
 app.post('/api/post/info', (req, res) => {
   var sql = `UPDATE system_user 
   SET 
-  dateofbirth="${req.body.params.dateofbirth}",
+  
   firstname="${req.body.params.firstname}",
   lastname="${req.body.params.lastname}",
   address="${req.body.params.address}",
-  email="${req.body.params.email}"
+  email="${req.body.params.email}",
+  img="${req.body.params.img}"
   WHERE phone=${req.body.params.phone};`
+  console.log(sql);
   connection.query(sql, function (err, results) {
     res.json({ msg: "update info success" })
   })
 });
-
+// dateofbirth="${req.body.params.dateofbirth}",
 app.post('/api/post/pwd', (req, res) => {
   param = req.body.params;
   //encoding bcrypt 

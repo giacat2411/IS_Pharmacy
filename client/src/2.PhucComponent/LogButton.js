@@ -83,7 +83,7 @@ const LogButton = (props) => {
         // <HeaderDefine.Consumer>
         <Nav className="ml-auto" navbar>
             <NavItem>
-                <NavLink className="nav-link" to='/profile'><img src='/assets/images/ava_user.JPG' className="mini-ava" alt="Mini-ava"/> {user.name} </NavLink>
+                <NavLink className="nav-link" to='/profile'><img src={user.img} className="mini-ava" alt="Mini-ava"/> {user.name} </NavLink>
                 {/* <img src={user.user.ava} /> {user.user.fullname} */}
             </NavItem>
             <NavItem>

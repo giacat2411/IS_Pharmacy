@@ -603,6 +603,8 @@ div#dung-appointment.container{
   width:30px;
   height: 30px;
   border-radius: 5px;
+  border-width: 3px;
+  border-color: #000000;
 }
 /* button.btn.btn-outline-primary{
   width: 11%;
