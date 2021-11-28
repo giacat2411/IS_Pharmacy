@@ -183,7 +183,8 @@ app.get('/api/hash/pwd', (req, res) => {
 
 
 app.get('/api/get/phuc', (req, res) => { console.log(session); res.json(session.user)});
-
+app.get('/api/set/user', (req, res) => {  session.user=req.query.user; res.json(session.user)});
+app.get('/api/set/role', (req, res) => {  session.user.role=req.query.role; res.json(session.user)});
 app.get('/api/destroy/session', (req, res) => {
   req.session.destroy();
 });
@@ -208,10 +209,6 @@ app.get('/api/get/login', (req, res) => {
   });
 });
 
-app.get('/api/encode', (req, res) => {
-  var input = req.query.input;
-
-})
 app.get('/api/get/patientInfo', (req, res) => {
 
   var sql = `SELECT * FROM patient where phone=${req.query.phone}`

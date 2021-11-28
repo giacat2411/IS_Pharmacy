@@ -83,8 +83,8 @@ const LogButton = (props) => {
         // <HeaderDefine.Consumer>
         <Nav className="ml-auto" navbar>
             <NavItem>
-                <NavLink className="nav-link" to='/profile'>
-                    <img src='/assets/images/ava_user.JPG' className="mini-ava" alt="Mini-ava"
+                <NavLink className="nav-link" to='/profile'> 
+                    <img src={user.img} className="mini-ava" alt="Mini-ava"
                         style={{ borderRadius: '55px' }} /> {user.name}
                 </NavLink>
                 {/* <img src={user.user.ava} /> {user.user.fullname} */}
@@ -102,7 +102,7 @@ const LogButton = (props) => {
                 {/* <NavLink className="nav-link" to='/home'> <FaSignOutAlt /> Đăng xuất </NavLink> */}
             </NavItem>
             <Switch>
-                <Redirect to={'/' + user.role} />
+                <Redirect to={'/' + user.role.toString()} />
             </Switch>
         </Nav>
         // </HeaderDefine.Consumer>
