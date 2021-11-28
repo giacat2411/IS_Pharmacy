@@ -1,7 +1,6 @@
 const express = require("express");
 const mysql = require('mysql'); const PORT = process.env.PORT || 4000;
 const cors = require('cors');
-app.use(cors());
 const app = express();
 const bodyParser = require('body-parser');
 // var cookieSession = require('cookie-session')
@@ -346,14 +345,6 @@ app.post('/api/post/newpwd', (req, res) => {
     //Go to ogin
   })});
 
-
-
-
-  app.post("/photo", upload.single('photo'), (req, res, next) => {
-    return res.json({
-        image: req.file.path
-    });
-});
 
   ///// Chanh /////
 app.post('api/update/work_schedule',(req,res)=>{

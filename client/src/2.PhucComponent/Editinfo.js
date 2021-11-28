@@ -60,31 +60,3 @@ return <Card>
 
 }
 export default EditInfo;
-
-const Uploader = () => {
-    const props = {
-        name: 'photo',
-        multiple: false,
-        action: 'http://localhost:4000/photo',
-        onChange(info) {
-            const { status } = info.file;
-            if (status !== 'uploading') {
-                console.log(info.file, info.fileList);
-            }
-
-            if (status === 'done') {
-                message.success(`${info.file.name} file uploaded successfully.`);
-            } else if (status === 'error') {
-                message.error(`${info.file.name} file upload failed.`);
-            }
-        },
-    };
-
-    return (
-        <Container>
-            <Dragger {...props}>
-            Upload Your Photo here
-            </Dragger>
-        </Container>
-    )
-}
