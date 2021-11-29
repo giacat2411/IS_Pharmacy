@@ -144,7 +144,10 @@ const LoginPane = (props) => {
         // sessionStorage.setItem('user', JSON.stringify(userSession));
         // console.log(ctx);
         // axios.get('/api/set/user',{params:{phone:ctx.phone,name:ctx.name,role:ctx.role, img:ctx.img}});
-
+        
+        // <Switch>
+        //     <Redirect to='/home' />
+        // </Switch>
         if (ctx.role === "Patient") {
             return (
                 <Switch>

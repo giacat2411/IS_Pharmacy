@@ -78,7 +78,7 @@ class Main extends Component {
   }
 
   updatePage(page) {
-    this.setState({ redirect_page: page })
+    this.setState({redirect_page: page})
   }
 
   render() {
@@ -87,7 +87,7 @@ class Main extends Component {
         <ViewOrderDetail orderID={parseInt(JSON.parse(match.params.orderID))} />
       )
     }
-
+    
     const Login = () => {
       return (
         <LoginPane updatePage={this.updatePage} />
@@ -95,57 +95,43 @@ class Main extends Component {
     }
 
     const role = this.state.redirect_page === 'home' ? 0 :
-      this.state.redirect_page === 'Patient' ? 1 :
-        this.state.redirect_page === 'Nurse' ? 2 : 3
-
-    const patient = ((role) => {
-      return role === 1 && <>
-        <Route path='/buydrug' component={BuyDrug} />
-        <Route path='/patient' component={Patient} />
-        <Route path='/view_cart' component={ViewCart} />
-        <Route path='/view_order_details/:orderID' component={ViewDetails} />
-        <Route path='/appointment' component={Appointment} />
-        <Route path='/cancelappointment' component={CancelAppointment} />
-        <Route path='/payment/' component={Payment} />
-      </>
-    })(role)
-
-    const nurse = ((role) => {
-      return role === 2 && <>
-        <Route path='/nurse' component={Nurse} />
-        <Route path='/manage_drug' component={ManageDrug} />
-        <Route path='/view_order' component={ViewOrder} />
-        <Route path='/statistic_order' component={StatisticOrder} />
-        <Route path='/createanappointment' component={CreateAnAppointment} />
-      </>
-    })(role)
-
-    const doctor = ((role) => {
-      return role === 3 && <>
-        <Route path='/doctor' component={Doctor} />
-      </>
-    })(role)
-
+                this.state.redirect_page === 'Patient' ? 1 :
+                this.state.redirect_page === 'Nurse' ? 2 : 3
+                
+    console.log(this.state.redirect_page)
     return (
       <HeaderProvider>
         <div>
-          <Header updatePage={this.updatePage} />
+          <Header updatePage={this.updatePage}/>
           <div>
             <Switch>
+              {/*---------------------------------Cat------------------------------------*/}
               <Route exact path='/home' component={Home} />
+              <Route path='/buydrug' component={BuyDrug} />
+              <Route path='/patient' component={Patient} />
+              <Route path='/view_cart' component={ViewCart} />
+              <Route path='/manage_drug' component={ManageDrug} />
+              <Route path='/view_order' component={ViewOrder} />
+              <Route path='/statistic_order' component={StatisticOrder} />
+              <Route path='/view_order_details/:orderID' component={ViewDetails} />
 
-              <Route path='/login' component={Login} />
-              <Route path='/signup' component={SignUp} />
-              <Route path='/profile' component={Profile} />
-
+              {/*---------------------------------Dung------------------------------------*/}
+              <Route path='/doctor' component={Doctor} />
+              <Route path='/appointment' component={Appointment} />
+              <Route path='/cancelappointment' component={CancelAppointment} />
+              <Route path='/payment' component={Payment} />
+              <Route path='/createanappointment' component={CreateAnAppointment} />
               <Route path='/view_medical_record' component={MedicalRecord} />
               <Route path='/re-examination_schedule' component={Re_examinationSchedule} />
               <Route path='/instant_appointment' component={InstantAppointment} />
 
+              {/*---------------------------------Phuc------------------------------------*/}
+              <Route path='/login' component={Login} />
+              <Route path='/signup' component={SignUp} />
+              <Route path='/profile' component={Profile} />
 
-              {patient}
-              {doctor}
-              {nurse}
+              {/*---------------------------------Chanh------------------------------------*/}
+              <Route path='/nurse' component={Nurse} />
 
               <Redirect to={`/${this.state.redirect_page}`} />
             </Switch>

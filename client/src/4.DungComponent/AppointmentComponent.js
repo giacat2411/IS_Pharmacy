@@ -5,6 +5,7 @@ import { FaPencilAlt } from "react-icons/fa";
 import { MdLockClock } from "react-icons/md";
 import ToastServive from 'react-material-toast';
 import addDays from 'date-fns/addDays';
+import HeaderDefine from '../5.Share Component/Context';
 
 const toast = ToastServive.new({
     place:'bottomLeft',
@@ -17,7 +18,7 @@ class Appointment extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            phone: 943693315,
+            phone: '',
             show: false,
 
             treatment_turn:[],
@@ -44,6 +45,7 @@ class Appointment extends Component {
     }
 
     componentDidMount() {
+        this.setState({phone: this.context.phone})
         axios.get('/api/get/treatment_turns')
         .then(res => {
         const treatment_turns = res.data;
@@ -447,6 +449,7 @@ class Appointment extends Component {
         )
     }
 }
+Appointment.contextType = HeaderDefine;
 
 export default Appointment;
 

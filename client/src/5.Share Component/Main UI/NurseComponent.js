@@ -43,7 +43,7 @@ class Nurse extends Component{
                             <Card className="cat-customer-item">
                                 <img className="cat-customer-img" width="67.29px" height="95px" src="/assets/images/make-treat-home.png" alt = "Đặt lịch khám"></img>
                                 <CardBody>
-                                <CardTitle tag="h5" className="cat-customer-text">Thống kê lịch khám</CardTitle>
+                                <CardTitle tag="h5" className="cat-customer-text">Quản lý lịch khám</CardTitle>
                                 </CardBody>
                             </Card>
                     {/* </NavLink>

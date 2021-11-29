@@ -4,6 +4,7 @@ import axios from 'axios';
 import { FaPencilAlt } from "react-icons/fa";
 import { MdLockClock } from "react-icons/md";
 import ToastServive from 'react-material-toast';
+import HeaderDefine from '../5.Share Component/Context'
 
 //curr_thu: i+3 
 //current_day: addDays(new Date(), 1).toUTCString(),
@@ -18,7 +19,7 @@ class InstantAppointment extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            phone: 943693315,
+            phone: '',
             show: false,
 
             treatment_turn:[],
@@ -46,6 +47,7 @@ class InstantAppointment extends Component {
     }
 
     componentDidMount() {
+        this.setState({phone: this.context.phone})
         axios.get('/api/get/treatment_turns')
         .then(res => {
         const treatment_turns = res.data;
@@ -342,5 +344,7 @@ class InstantAppointment extends Component {
         )
     }
 }
+
+InstantAppointment.contextType = HeaderDefine;
 
 export default InstantAppointment;

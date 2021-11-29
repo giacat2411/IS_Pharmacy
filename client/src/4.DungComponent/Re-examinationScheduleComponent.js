@@ -6,6 +6,7 @@ import axios from 'axios';
 import { FaPencilAlt } from "react-icons/fa";
 import { MdLockClock } from "react-icons/md";
 import ToastServive from 'react-material-toast';
+import HeaderDefine from '../5.Share Component/Context';
 
 //curr_thu: i+3 
 //current_day: addDays(new Date(), 1).toUTCString(),
@@ -19,7 +20,7 @@ class Re_examinationSchedule extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            phone: 943693315,
+            phone: '',
             show: false,
 
             treatment_turn:[],
@@ -50,6 +51,7 @@ class Re_examinationSchedule extends Component {
     }
 
     componentDidMount() {
+        this.setState({phone: this.context.phone})
         axios.get('/api/get/treatment_turns')
         .then(res => {
         const treatment_turns = res.data;
@@ -444,7 +446,7 @@ class Re_examinationSchedule extends Component {
         );
     }
 }
-
+Re_examinationSchedule.contextType = HeaderDefine;
 export default Re_examinationSchedule;
 
 {/* <div class='dung-button-createappointment'>
