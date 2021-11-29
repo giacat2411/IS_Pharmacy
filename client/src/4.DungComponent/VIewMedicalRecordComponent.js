@@ -106,7 +106,7 @@ class MedicalRecord extends Component {
                                         Thông tin cá nhân
                                     </Button>
                                 </Link>
-                                <Link to='/'>
+                                <Link to='/medical_record'>
                                     <Button className="dung cart-button benhan nd"> 
                                         Bệnh án
                                     </Button>

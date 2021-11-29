@@ -822,3 +822,16 @@ button.dung.cart-button.benhan.btn.btn-secondary{
 button.dung.cart-button.benhan.nd.btn.btn-secondary{
   margin-bottom: 0px;
 }
+
+.dung-tachdiv{
+  margin: 50px 200px;
+  background-color: white;
+}
+
+.dung-benhnhan{
+  text-align: center;
+}
+
+.dung-thongtin{
+  margin-left: 70px;
+}
