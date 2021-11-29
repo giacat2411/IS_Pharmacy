@@ -31,7 +31,7 @@ class InstantAppointment extends Component {
 
             registering:{},//"08:00:00-08:30:00","09:00:00-09:30:00","10:30:00-11:00:00","13:30:00-14:00:00","14:30:00-15:00:00","15:00:00-15:30:00","15:30:00-16:00:00","16:30:00-17:00:00"
             
-            current_day: (new Date()).toUTCString(),
+            current_day: (new Date((+(new Date()))+3600000*7)).toUTCString(),
             thu: 2,
             curr_thu: 2
         }
@@ -43,6 +43,7 @@ class InstantAppointment extends Component {
         this.onClickSuccess = this.onClickSuccess.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.randomId = this.randomId.bind(this);
     }
 
     componentDidMount() {
@@ -67,7 +68,7 @@ class InstantAppointment extends Component {
         const system_users = res.data;
         this.setState({ system_users: system_users.system_users});
 
-        let currentDay = (new Date()).toUTCString().split(' ');
+        let currentDay = (new Date((+(new Date()))+3600000*7)).toUTCString().split(' ');
 
         const days = ['Mon,','Tue,','Wed,', 'Thu,','Fri,','Sat,','Sun,'];
         for(let i=0;i<days.length;++i)
@@ -100,10 +101,15 @@ class InstantAppointment extends Component {
         this.setState({ show: false });
     };
 
+    randomId = () =>{
+        const id = Math.floor(Math.random() * 10000000);
+        return this.state.treatment_turns.filter(t=> t.id == id).length == 0? id: this.randomId();
+    }
+
     handleInsert = (event) =>{
         event.preventDefault();
         const newItem = {
-            id: Math.floor(Math.random() * 10000000), 
+            id: this.randomId(), 
             turn_time: event.target.value.split(' ').splice(0,4).join(' ')+' '+event.target.value.split(' ').splice(-1,1).join().split('-')[0],
             health_issue: ' ', 
             blood_pressure: 1, 
@@ -186,7 +192,7 @@ class InstantAppointment extends Component {
                         {++dem}
                     </th>
                     <td>
-                        {this.state.system_user.map(turn=>{if(curr.doctor_phone==turn.phone) {return turn.firstname+' '+turn.lastname}})}
+                        {this.state.system_user.map(turn=>{if(curr.doctor_phone==turn.phone) {return turn.lastname+' '+turn.firstname}})}
                     </td>
                     <td>
                         {curr.doctor_phone}
@@ -241,7 +247,7 @@ class InstantAppointment extends Component {
                         {++dem}
                     </th>
                     <td>
-                        {this.state.system_user.map(turn=>{if(curr.doctor_phone==turn.phone) {return turn.firstname+' '+turn.lastname}})}
+                        {this.state.system_user.map(turn=>{if(curr.doctor_phone==turn.phone) {return turn.lastname+' '+turn.firstname}})}
                     </td>
                     <td>
                         {curr.doctor_phone}

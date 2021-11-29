@@ -158,7 +158,7 @@ class CancelAppointment extends Component {
                                         {++counter}
                                     </th>
                                     <td>
-                                        {this.state.system_users.map(turn=>{if(x.doctor_phone==turn.phone) {return turn.firstname+' '+turn.lastname}})}
+                                        {this.state.system_users.map(turn=>{if(x.doctor_phone==turn.phone) {return turn.lastname+' '+turn.firstname}})}
                                     </td>
                                     <td>
                                         {x.doctor_phone}

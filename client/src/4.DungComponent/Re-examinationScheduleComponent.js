@@ -47,6 +47,7 @@ class Re_examinationSchedule extends Component {
         this.handleChangeDay = this.handleChangeDay.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.randomId = this.randomId.bind(this);
     }
 
     componentDidMount() {
@@ -104,10 +105,15 @@ class Re_examinationSchedule extends Component {
         this.setState({ show: false });
     };
 
+    randomId = () =>{
+        const id = Math.floor(Math.random() * 10000000);
+        return this.state.treatment_turns.filter(t=> t.id == id).length == 0? id: this.randomId();
+    }
+
     handleInsert = (event) =>{
         event.preventDefault();
         const newItem = {
-            id: Math.floor(Math.random() * 10000000), 
+            id: this.randomId(), 
             turn_time: event.target.value.split(' ').splice(0,4).join(' ')+' '+event.target.value.split(' ').splice(-1,1).join().split('-')[0],
             health_issue: ' ', 
             blood_pressure: 1, 
@@ -259,7 +265,7 @@ class Re_examinationSchedule extends Component {
                         {++dem}
                     </th>
                     <td>
-                        {this.state.system_user.map(turn=>{if(curr.doctor_phone==turn.phone) {return turn.firstname+' '+turn.lastname}})}
+                        {this.state.system_user.map(turn=>{if(curr.doctor_phone==turn.phone) {return turn.lastname+' '+turn.firstname}})}
                     </td>
                     <td>
                         {curr.doctor_phone}
@@ -314,7 +320,7 @@ class Re_examinationSchedule extends Component {
                         {++dem}
                     </th>
                     <td>
-                        {this.state.system_user.map(turn=>{if(curr.doctor_phone==turn.phone) {return turn.firstname+' '+turn.lastname}})}
+                        {this.state.system_user.map(turn=>{if(curr.doctor_phone==turn.phone) {return turn.lastname+' '+turn.firstname}})}
                     </td>
                     <td>
                         {curr.doctor_phone}
