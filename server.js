@@ -197,10 +197,11 @@ app.post('/api/new/nurse', (req, res) => {
 
 app.post('/api/delete/HR',(req,res)=>{
   var input=req.body.params;
-  sql=`DELETE FROM  ${input.role} WHERE phone=${input.phone};`
+  sql=`UPDATE ${input.role}  SET activate = false WHERE phone=${input.phone};`
+  
   console.log(sql)
   connection.query(sql,function(err,results){
-      res.json({ msg: "Xóa thành công." })    
+      res.json({ msg: "Ẩn thành công." })    
   })
 })
 app.get('/api/get/info', (req, res) => {
