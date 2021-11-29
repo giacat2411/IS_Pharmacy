@@ -6,6 +6,7 @@ import { Redirect, Switch } from 'react-router';
 import HeaderDefine from '../5.Share Component/Context';
 import { NavLink } from 'react-router-dom';
 import { FaUserPlus } from 'react-icons/fa';
+
 const LoginPane = (props) => {
     const ctx = useContext(HeaderDefine);
 
@@ -13,21 +14,21 @@ const LoginPane = (props) => {
     const [pwd, setPwd] = useState();
     const [, setRePwd] = useState();
     const [DOB, setDOB] = useState();
-    // const ProviderValue=useMemo(()=>({formValue,setFormValue}),[formValue,setFormValue]);
     const [isModal, setModal] = useState(false);
     const [isMsg, setMsg] = useState(false);
+
     var Msg = "";
     const toggleModal = () => {
         setModal(!isModal);
     }
+
     const toggleMsg = () => {
         setMsg(!isMsg);
     }
 
     const apiLog = () => {
-        axios
-            .get('/api/get/access', { params: { phonenum: phone.value, userpwd: pwd.value } }
-            )
+        axios.get('/api/get/access', { params: { phonenum: phone.value, userpwd: pwd.value } }
+        )
             .then(res => {
                 console.log("over access")
                 console.log(res.data);
@@ -41,11 +42,9 @@ const LoginPane = (props) => {
                         .get('/api/get/role', { params: { phonenum: phone.value } }
                         )
                         .then(res => {
-
-                            // localStorage.setItem('user', phone.value)
-                            // localStorage.setItem('role', role)
                             ctx.setRole(res.data.role);
-                            // props.setRole(role.role)
+                            axios.post('/api/set/role', { role: res.data.role })
+                            props.updatePage(res.data.role.toString())
                             Msg = "Đăng nhập thành công"; toggleMsg();
                         });
                 }
@@ -99,15 +98,15 @@ const LoginPane = (props) => {
                             </Button>
                         </Row>
                         <Row align="center">
-                            <Col md={{size: 6, offset: 3}}>
-                            <Button onClick={apiLog} color="primary" >Đăng nhập</Button>
+                            <Col md={{ size: 6, offset: 3 }}>
+                                <Button onClick={apiLog} color="primary" >Đăng nhập</Button>
                             </Col>
                         </Row>
                         <Row style={{ marginTop: '15px' }}>
                             <Col md="12" style={{ textAlign: 'center' }}>
                                 <span style={{ fontStyle: 'italic' }}> Chưa có tài khoản? </span> &nbsp;
                                 <NavLink to='/signup' style={{ paddingTop: '0px' }} style={{ color: '#007BFF', cursor: 'pointer' }}>
-                                    Đăng ký
+                                    <FaUserPlus style={{ marginTop: '-3px' }} /> Đăng ký
                                 </NavLink>
                             </Col>
                         </Row>
@@ -143,13 +142,13 @@ const LoginPane = (props) => {
         // console.log(userSession);
         // sessionStorage.clear();
         // sessionStorage.setItem('user', JSON.stringify(userSession));
-        console.log(ctx);
-        axios.get('/api/set/user',{params:{phone:ctx.phone,name:ctx.name,role:ctx.role, img:ctx.img}});
-        
+        // console.log(ctx);
+        // axios.get('/api/set/user',{params:{phone:ctx.phone,name:ctx.name,role:ctx.role, img:ctx.img}});
+
         if (ctx.role === "Patient") {
             return (
                 <Switch>
-                    <Redirect to='/customer' />
+                    <Redirect to='/patient' />
                 </Switch>
             )
         } else if (ctx.role === "Nurse") {

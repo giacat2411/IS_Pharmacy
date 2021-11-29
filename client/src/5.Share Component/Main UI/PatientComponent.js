@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'reactstrap';
 import { Card, CardBody, CardTitle} from 'reactstrap';
 import { LinkContainer } from 'react-router-bootstrap'; 
 
-class Customer extends Component{
+class Patient extends Component{
     render(){
         return(
             <Container>
@@ -66,4 +66,4 @@ class Customer extends Component{
         )
     }
 }
-export default Customer;
+export default Patient;

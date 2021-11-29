@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Button, Table } from 'reactstrap';
+import { Container, Row, Col, Button, Table, ModalFooter } from 'reactstrap';
 import {Modal, ModalBody} from 'reactstrap';
 
 class Payment extends Component{
@@ -221,7 +221,10 @@ class Payment extends Component{
                             <img style={{marginLeft: '70px'}}width="300px" height="300px" src={`https://momosv3.apimienphi.com/api/QRCode?phone=0971083236&amount=${total}& note=${total.toLocaleString('vi-VN')}đ`}></img>
                             </Col> </Row> </Container>
                         </ModalBody>
-                    </Modal>
+                        <ModalFooter>
+                            <Button style={{ backgroundColor: '#62AFFC', marginTop: '10px', border: '0px', float: 'left' }}> Đã thanh toán </Button>
+                        </ModalFooter>
+                </Modal>
             </Row>
 
         </Container>

@@ -112,30 +112,56 @@ const Profile = (props) => {
             <Row>
                 <Col>
                     <Row>
-                        Chiều cao: {info.height}
-                        </Row>
-                    <Row>
-                        Cân nặng: {info.weight}
-                        </Row>
-                    <Row>
-                        Chỉ số BMI: {info.BMI}
-                        </Row>
-                    <Row>
-                        Nhóm máu: {info.blood} 
-                        </Row>
-                    <Row>
-                        Tiền sử: {info.medical_history}
-                         </Row>
-                    <Row>
-                        Bệnh lý nền: {info.medical_background}
-                        </Row>
-                    <Row classname="additional"> 
-                    Thông tin từ ngày {date(current)}
+                        <Col>
+                            Chiều cao: {info.height}
+                        </Col>
                     </Row>
-                    <Button onClick={toggleHealth}> 
-                    Cập nhật tình trạng sức khỏe </Button>
+                    <Row>
+                        <Col>
+                            Cân nặng: {info.weight}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            Chỉ số BMI: {info.BMI}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            Nhóm máu: {info.blood}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            Tiền sử: {info.medical_history}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            Bệnh lý nền: {info.medical_background}
+                        </Col>
+                    </Row>
+                    <Row classname="additional">
+                        <Col>
+                            Thông tin từ ngày {date(current)}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Button onClick={toggleHealth}
+                                style={{ backgroundColor: '#62AFFC', border: '0px', marginTop: '10px' }}>
+                                Cập nhật tình trạng sức khỏe </Button>
+                        </Col>
+                    </Row>
                 </Col>
-                <Button classname="center_screen">Xem các lượt khám bệnh </Button>
+                <Button classname="center_screen"
+                    style={{
+                        backgroundColor: '#62AFFC',
+                        border: '0px',
+                        height: '40px',
+                        marginTop: '50px'
+                    }}>
+                    Xem các lượt khám bệnh </Button>
             </Row></>
         )
     }

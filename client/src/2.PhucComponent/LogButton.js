@@ -5,19 +5,20 @@ import { NavLink } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import { Switch, Redirect } from 'react-router';
 import { Nav, NavItem, } from 'reactstrap';
-
 import { useEffect } from 'react';
 import axios from 'axios';
+
 const LogButton = (props) => {
     const user = useContext(HeaderDefine);
-    // console.log(user.role);
+
+    console.log(user);
     const checkData = () => {
         axios.get('/api/get/session').then(res => {
             console.log("done get session")
             console.log(res.data);
             if (res.data) {
                 user.setPhone(res.data.phone);
-                user.setName(res.data.name);
+                user.setName(res.data.firstname);
                 user.setRole(res.data.role);
                 user.setImg(res.data.img);
                 // axios.get('/api/get/role', { params: { phonenum: res.data.phone } }).then(resp => user.setRole(resp.data.role))
@@ -27,23 +28,22 @@ const LogButton = (props) => {
     }
     useEffect(() => {
         setTimeout(() => {
-            // if (init) {
-            //     setInit(false);
-            // }
             checkData();
-        }, 100);
+        }, 1000);
     }, []);
 
 
     const [swit, setSwit] = useState(<span></span>);
-    const logOut = () => {
+    const logOut = async () => {
         console.log("OUT")
         user.setPhone("");
         user.setRole("Guest");
-        // sessionStorage.setItem('user', JSON.stringify({ phone: '', role: 'Guest' }));
         setSwit(<Switch> <Redirect to='/home' /> </Switch>)
-        // axios.get('/api/destroy/session')
+
+        await axios.get('/api/destroy/session');
+        // sessionStorage.setItem('user', JSON.stringify({ phone: '', role: 'Guest' }));
     }
+
     // if (user.role === "Guest") {
     //     // var tempUser = sessionStorage.getItem('user');
     //     // if (tempUser) {
@@ -65,6 +65,7 @@ const LogButton = (props) => {
     //     //     }
     //     // )
     // }
+    // console.log(user.role)
 
     if (user.role === "Guest")
         return (
@@ -78,16 +79,16 @@ const LogButton = (props) => {
                         <NavLink className="nav-link" to='/login'> <FaSignInAlt /> Đăng nhập </NavLink>
                     </NavItem>
                 </Nav>
-                <Switch>
+                {/* <Switch>
                     <Redirect to='/home' />
-                </Switch>
+                </Switch> */}
             </>
         );
     return (
         // <HeaderDefine.Consumer>
         <Nav className="ml-auto" navbar>
             <NavItem>
-                <NavLink className="nav-link" to='/profile'> 
+                <NavLink className="nav-link" to='/profile'>
                     <img src={user.img} className="mini-ava" alt="Mini-ava"
                         style={{ borderRadius: '55px' }} /> {user.name}
                 </NavLink>
@@ -105,9 +106,9 @@ const LogButton = (props) => {
                 </Button>
                 {/* <NavLink className="nav-link" to='/home'> <FaSignOutAlt /> Đăng xuất </NavLink> */}
             </NavItem>
-            <Switch>
+            {/* <Switch>
                 <Redirect to={'/' + user.role} />
-            </Switch>
+            </Switch> */}
         </Nav>
         // </HeaderDefine.Consumer>
     );

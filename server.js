@@ -12,29 +12,70 @@ const cors = require('cors');
 const app = express();
 var bcrypt = require('bcryptjs');
 
-const ONEDAY = 24 * 60 * 60 * 10000;
+
+////////////////////////////////////////////////////////////
+////                  SESSION MANAGEMENT                  //
+////////////////////////////////////////////////////////////
+const ONEDAY = 24 * 60 * 60 * 1000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-//serving public file
 app.use(express.static(__dirname));
 app.use(cookieParser());
+
 var session;
 
-// app.use(express.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({
-//   extended: true
-// }));
+app.use(sessions({
+  secret: "key", 
+  cookie: { expires: ONEDAY },
+  user:{},  resave: false,
+  saveUninitialized: true,
+}));
 
-// SESSION
-// app.use(cookieSession({
-//   name: 'session',
-//   keys: [/* secret keys */],
+// app.get('/api/new/session', (req, res) => {
+//   req.session.regenerate();
+//   console.log(req.session)
+// });
 
-//   maxAge: ONEDAY
-// }))
+app.get('/api/get/session', (req, res) => {
+  console.log(req.session)
+  if(session)
+  res.json(session.user)
+  else res.json(session)
+});
+
+app.get('/api/destroy/session', (req, res) => {
+  console.log('SESSION DESTROYED !')
+  req.session.destroy();
+  session = undefined;
+});
+
+app.get('/api/get/access', (req, res) => {
+  sql = `SELECT * FROM system_user WHERE PHONE = ${req.query.phonenum}`;
+  connection.query(sql, function (err, results) {
+    if(results[0]){
+      if (bcrypt.compareSync(req.query.userpwd, results[0].pwd)) {
+        session=req.session;
+        session.user=results[0];
+        console.log(session.user)
+      res.json({ user: results });
+    } else {
+      res.json({ msg: "Wrong login information!" })
+    }
+    } else {
+      res.json({ msg: "Wrong login information!" })
+    }
+    
+  });
+}
+);
+
+app.get('/api/set/user', (req, res) => {  session.user=req.query; res.json(session.user)});
+app.post('/api/set/role', (req, res) => { session.user.role=req.body.role; });
+// 
+///////////////////////////////////////////////////////////
+//                      END SESSION                      //
+///////////////////////////////////////////////////////////
 
 // CONECTION TO MYSQL
 
@@ -43,15 +84,6 @@ const connection = mysql.createConnection({
   user: 'root',
   password: '123456',
   database: 'pharmacy'
-});
-
-////////////////////////////
-//          TEST          //
-////////////////////////////
-
-app.get("/api/tests", (req, res) => {
-  console.log("success");
-  res.json({ message: "Hello from server!" });
 });
 
 ///////////////////////////
@@ -122,14 +154,6 @@ app.get('/api/get/total_value', function(req, res) {
 
 ///// Phuc /////
 
-
-app.use(sessions({
-  secret: "key", 
-  cookie: { expires: ONEDAY },
-  user:{},  resave: false,
-  saveUninitialized: true,
-}));
-
 app.get('/api/get/users', (req, res) => {
   var sql = `SELECT * FROM system_user`
   connection.query(sql, function (err, results) {
@@ -147,25 +171,6 @@ app.get('/api/get/role', (req, res) => {
   }
 });
 
-app.get('/api/get/access', (req, res) => {
-  sql = `SELECT * FROM system_user WHERE PHONE = ${req.query.phonenum}`;
-  connection.query(sql, function (err, results) {
-    if(results[0]){
-      if (bcrypt.compareSync(req.query.userpwd, results[0].pwd)) {
-        session=req.session;
-        session.user=results[0];
-        console.log(session.user)
-      res.json({ user: results });
-    } else {
-      res.json({ msg: "Wrong login information!" })
-    }
-    }else {
-      res.json({ msg: "Wrong login information!" })
-    }
-    
-  });
-}
-);
 app.get('/api/get/info', (req, res) => {
   sql = `SELECT * FROM system_user WHERE PHONE = ${req.query.phonenum}`;
   connection.query(sql, function (err, results) {
@@ -183,23 +188,8 @@ app.get('/api/hash/pwd', (req, res) => {
 });
 
 
-app.get('/api/get/phuc', (req, res) => { console.log(session); res.json(session.user)});
-app.get('/api/set/user', (req, res) => {  session.user=req.query; res.json(session.user)});
-app.get('/api/set/role', (req, res) => {  session.user.role=req.query.role; res.json(session.user)});
-app.get('/api/destroy/session', (req, res) => {
-  req.session.destroy();
-});
+// app.get('/api/get/phuc', (req, res) => { console.log(session); res.json(session.user)});
 
-app.get('/api/new/session', (req, res) => {
-  req.session.regenerate();
-});
-
-app.get('/api/get/session', (req, res) => {
-  console.log(session)
-  if(session)
-  res.json(session.user)
-  else res.json(session)
-});
 
 app.get('/api/get/login', (req, res) => {
   var sql = `SELECT * FROM system_user where phone=${req.query.phone}`;
