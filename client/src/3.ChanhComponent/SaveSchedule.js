@@ -33,7 +33,7 @@ class SaveSchedule extends Component {
   hideModal = () => {
     this.setState({ show: false });
   };
-  handleAdd=({evt})=> {
+  handleAdd=(evt)=> {
     const value = evt.target.value;
     this.setState({
       [evt.target.name]: value
@@ -82,10 +82,13 @@ class SaveSchedule extends Component {
               <input type='time' defaultValue={'15:30:00'} onChange={this.handleAdd} required/>
           </label>
           <br />
-          <Button  onClick={this.hideModal}> Hủy </Button>
-          <Button onClick={this.Submit} type='submit' color="primary"> <NavLink className="detail-name" to='/Save'>Lưu thay đổi</NavLink></Button>
+          <Button onClick={this.Submit} type='submit' color="primary"> <NavLink className="detail-main" to='/Save'>Lưu thay đổi</NavLink></Button>
           </Container>
         )
     }
 }
 export default SaveSchedule;
+
+
+
+

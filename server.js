@@ -209,15 +209,16 @@ app.post('api/post/newpwd',(req,res)=>{
 ///// Chanh /////
 
 app.post('/api/uplate/treatment_turns', (req, res) => {
-  console.log(req);
+  input = req.body.params;
   var sql=`UPDATE treatment_turn
-        SET doctor_phone=${req.query.doctor_phone},
-            start_time=${req.query.start_time},
-            end_time=${req.query.end_time}
-    WHERE id=${req.query.id}`
+        SET doctor_phone=${input.phone},
+            start_time=${input.time_start},
+            end_time=${input.time_end}
+    WHERE id=${input.id};`
     console.log(sql); 
     connection.query(sql, function (err, results) {
-      res.json({ msg: "done" })
+      if(err) res.json({msg:"error"});
+      res.json({ msg: "Điều chỉnh thành công." })
     });
 })
 // lát tự check file signup + profile của this, xem cách truyền param, truyền y chang vậy. v lên API update/info. truy vấn y chang v
