@@ -78,9 +78,10 @@ experience_year: this.state.newexp}})
 axios.post('/api/new/nurse',{params: {phone:this.state.newphone}})
     }
     delete=(phone,role)=>{
-        if(role==="DOCTOR") this.setState({doctor:this.state.doctor.filter(row=>row.phone!==phone)})
-        else this.setState({nurse:this.state.nurse.filter(row=>row.phone!==phone)})
         axios.post('/api/delete/HR',{params:{phone: phone,role:role}});
+        if(role==="DOCTOR") this.setState({doctor:this.state.doctor.filter(row=>row.activate===true)})
+        else this.setState({nurse:this.state.nurse.filter(row=>row.activate===true)})
+        
     }
     render(){
         
@@ -119,13 +120,13 @@ axios.post('/api/new/nurse',{params: {phone:this.state.newphone}})
                     <td>
                         {row.experience_year}
                     </td>
-                    <td> <button class='chanh-button-view' type="button" onClick={(e)=>this.delete(row.phone,"DOCTOR")}>X</button>               
+                    <td> <button class='chanh-button-view' type="button" onClick={(e)=>{row.activate=false; this.delete(row.phone,"DOCTOR")}}>X</button>               
                     </td>
                 </tr>
                         ); } )  }                               
                     </tbody>
                 </Table>
-                <button class='chanh-button-view' type="button" onClick={(e)=>this.toggleDoctor()}>X</button>               
+                <button class='chanh-button-view' type="button" onClick={(e)=>this.toggleDoctor()}>Thêm một bác sỹ</button>               
                     
                 </div>
 
@@ -141,7 +142,7 @@ axios.post('/api/new/nurse',{params: {phone:this.state.newphone}})
                     </thead>
                     <tbody className="dung-table-body">
                     
-                        {this.state.nurse.map(nurse=> <tr> <td> {nurse.phone}</td><td> <button class='chanh-button-view' type="button" onClick={(e)=>this.delete(nurse.phone,"NURSE")}>X</button>               
+                        {this.state.nurse.map(nurse=> <tr> <td> {nurse.phone}</td><td> <button class='chanh-button-view' type="button" onClick={(e)=>{nurse.activate=false; this.delete(nurse.phone,"NURSE")}}>X</button>               
                     </td></tr>)}
                         {/* <View show={this.state.show} handleClose={this.hideModal}>
                                     <SaveSchedule>
@@ -155,6 +156,8 @@ axios.post('/api/new/nurse',{params: {phone:this.state.newphone}})
                     </tbody>
                 </Table>
                 </div>
+                <button class='chanh-button-view' type="button" onClick={(e)=>this.toggleNurse()}>Thêm một điều dưỡng</button>               
+                
 
 
                 <Modal isOpen={this.state.modalDoctor}toggle={this.toggleDoctor}>
