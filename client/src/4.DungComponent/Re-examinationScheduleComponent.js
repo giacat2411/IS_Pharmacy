@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Table, Form, FormGroup, Label } from 'reactstrap';
+import { Container, Table, Form, FormGroup, Label, Row, Col } from 'reactstrap';
 import { Button } from 'reactstrap';
 import { Input } from 'reactstrap';
 import axios from 'axios';
@@ -8,6 +8,7 @@ import { MdLockClock } from "react-icons/md";
 import ToastServive from 'react-material-toast';
 import HeaderDefine from '../5.Share Component/Context';
 import { Switch, Redirect } from 'react-router';
+import NurseSideBar from '../5.Share Component/SideBar/NurseSideBarComponent';
 
 //curr_thu: i+3 
 //current_day: addDays(new Date(), 1).toUTCString(),
@@ -370,81 +371,91 @@ class Re_examinationSchedule extends Component {
 
         if (this.context.role !== "Nurse") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
-            <Container id='dung-re-sched'>
-                <div class='dung-title'>
-                    <h1>Lịch tái khám</h1>
-                    <hr />
-                </div>
-                <div class='dung-form-taolich'>
+            <>
+                <NurseSideBar />
+                <Container id='dung-re-sched'>
+                    <Row>
+                        <Col class='dung-title' style={{ textAlign: 'center' }}>
+                            <h1>Lịch tái khám</h1>
+                            <hr />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={{ size: 4, offset: 4 }} class='dung-form-taolich'>
 
-                    <Form onSubmit={this.handleSubmit}>
-                        <FormGroup>
-                            <Label for="examplePhone">
-                                Phone
-                            </Label>
-                            <Input
-                                id="examplephone"
-                                name="phone"
-                                type="number"
-                                onChange={this.handleChangePhone} required
-                            />
-                        </FormGroup>
+                            <Form onSubmit={this.handleSubmit}>
+                                <FormGroup>
+                                    <Label for="examplePhone">
+                                        Phone
+                                    </Label>
+                                    <Input
+                                        id="examplephone"
+                                        name="phone"
+                                        type="number"
+                                        onChange={this.handleChangePhone} required
+                                    />
+                                </FormGroup>
 
-                        <FormGroup>
-                            <Label for="exampleDate">
-                                Date
-                            </Label>
-                            <Input
-                                id="exampleDate"
-                                name="current_day"
-
-
-                                type="date"
-                                onChange={this.handleChangeDay} required
-                            />
-                        </FormGroup>
-                        <Button>
-                            Submit
-                        </Button>
-                    </Form>
-                </div>
-
-                <div class={showTable}>
-                    <div class='dung-appointment-table'>
-                        <Table hover>
-                            <thead>
-                                <tr>
-                                    <th>
-                                        #
-                                    </th>
-                                    <th>
-                                        Bác sĩ
-                                    </th>
-                                    <th>
-                                        Số điện thoại
-                                    </th>
-                                    <th>
-                                        Ngày/Tháng/Năm
-                                    </th>
-                                    <th>
-                                        Thời gian
-                                    </th>
-                                    <th>
-
-                                    </th>
-                                </tr>
-
-                            </thead>
-                            <tbody>
-                                {listS}
-                                {listC}
-                            </tbody>
-                        </Table>
-                    </div>
-                </div>
+                                <FormGroup>
+                                    <Label for="exampleDate">
+                                        Date
+                                    </Label>
+                                    <Input
+                                        id="exampleDate"
+                                        name="current_day"
 
 
-            </Container>
+                                        type="date"
+                                        onChange={this.handleChangeDay} required
+                                    />
+                                </FormGroup>
+                                <Button>
+                                    Submit
+                                </Button>
+                            </Form>
+                        </Col>
+                    </Row>
+                    <Row style={{marginTop: '15px'}}>
+                        <Col>
+                            <div class={showTable}>
+                                <div class='dung-appointment-table'>
+                                    <Table hover>
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    #
+                                                </th>
+                                                <th>
+                                                    Bác sĩ
+                                                </th>
+                                                <th>
+                                                    Số điện thoại
+                                                </th>
+                                                <th>
+                                                    Ngày/Tháng/Năm
+                                                </th>
+                                                <th>
+                                                    Thời gian
+                                                </th>
+                                                <th>
+
+                                                </th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            {listS}
+                                            {listC}
+                                        </tbody>
+                                    </Table>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+
+
+                </Container>
+            </>
         );
     }
 }

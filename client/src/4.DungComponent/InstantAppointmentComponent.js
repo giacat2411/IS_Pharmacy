@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Container, Table } from 'reactstrap';
+import { Container, Table, Row, Col } from 'reactstrap';
 import axios from 'axios';
 import { FaPencilAlt } from "react-icons/fa";
 import { MdLockClock } from "react-icons/md";
 import ToastServive from 'react-material-toast';
 import HeaderDefine from '../5.Share Component/Context'
 import { Switch, Redirect } from 'react-router';
+import NurseSideBar from '../5.Share Component/SideBar/NurseSideBarComponent';
 
 //curr_thu: i+3 
 //current_day: addDays(new Date(), 1).toUTCString(),
@@ -299,21 +300,31 @@ class InstantAppointment extends Component {
         if (this.context.role !== "Nurse") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
 
         return (
+            <>
+            <NurseSideBar style={{marginRight: '50px'}}/>
             <Container id='dung-appointment'>
-                <div class='dung-title'>
+                <Row>
+                    <Col class='dung-title' style={{textAlign: 'center'}}>
                     <h1>Lịch khám tức thời</h1>
                     <hr />
-                </div>
+                    </Col>
+                </Row>
 
+                <Row>
+                    <Col>
                 <form onSubmit={this.handleSubmit} className='dung-nhapsdt'>
                     <label>
-                        Nhập số điện thoại:
+                        Nhập số điện thoại: &nbsp;
                         <input type="number" value={this.state.value} onChange={this.handleChange} required />
                     </label>
                     <input type="submit" value="Submit" />
                 </form>
+                </Col>
+                </Row>
 
-                <div class='dung-appointment-table'>
+                <Row>
+                <Col>
+                    <div className='dung-appointment-table'>
                     <Table hover>
                         <thead>
                             <tr>
@@ -343,8 +354,11 @@ class InstantAppointment extends Component {
                             {listC}
                         </tbody>
                     </Table>
-                </div>
+                    </div>
+                </Col>
+                </Row>
             </Container>
+            </>
         )
     }
 }
