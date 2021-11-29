@@ -8,6 +8,7 @@ import { Modal, ModalBody } from 'reactstrap';
 import { FaShoppingCart, FaSearch } from 'react-icons/fa';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
+import HeaderDefine from '../../5.Share Component/Context';
 
 class BuyDrug extends Component {
     constructor(props) {
@@ -131,7 +132,8 @@ class BuyDrug extends Component {
                 </Col>
               )
           });
-
+          if (this.context.role !== "Patient") 
+          return <Switch> <Redirect to="/" /> </Switch>
           return(
               <>
                 <Navbar dark expand="md">
@@ -206,4 +208,5 @@ class BuyDrug extends Component {
       }
 }
 
+BuyDrug.contextType = HeaderDefine;
 export default BuyDrug;

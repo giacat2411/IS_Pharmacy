@@ -33,6 +33,8 @@ import Profile from '../2.PhucComponent/profile';
 import SignUp from '../2.PhucComponent/Signup';
 import { HeaderProvider } from './Context';
 import PathCtx, { PathProvider } from './Path';
+import HR from '../2.PhucComponent/HR';
+
 //CHANH
 import Nurse from './Main UI/NurseComponent';
 import axios from 'axios';
@@ -96,8 +98,7 @@ class Main extends Component {
 
     const role = this.state.redirect_page === 'home' ? 0 :
                 this.state.redirect_page === 'Patient' ? 1 :
-                this.state.redirect_page === 'Nurse' ? 2 : 3
-                
+                this.state.redirect_page === 'Nurse' ? 2 : 3       
     console.log(this.state.redirect_page)
     return (
       <HeaderProvider>
@@ -129,6 +130,7 @@ class Main extends Component {
               <Route path='/login' component={Login} />
               <Route path='/signup' component={SignUp} />
               <Route path='/profile' component={Profile} />
+              <Route path='/HR' component={HR} />
 
               {/*---------------------------------Chanh------------------------------------*/}
               <Route path='/nurse' component={Nurse} />
