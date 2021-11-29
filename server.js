@@ -38,7 +38,7 @@ app.use(sessions({
 // });
 
 app.get('/api/get/session', (req, res) => {
-  console.log(req.session)
+  // console.log(req.session)
   if(session)
   res.json(session.user)
   else res.json(session)
@@ -57,7 +57,7 @@ app.get('/api/get/access', (req, res) => {
       if (bcrypt.compareSync(req.query.userpwd, results[0].pwd)) {
         session=req.session;
         session.user=results[0];
-        console.log(session.user)
+        // console.log(session.user)
       res.json({ user: results });
     } else {
       res.json({ msg: "Wrong login information!" })
@@ -171,8 +171,40 @@ app.get('/api/get/role', (req, res) => {
   }
 });
 
+app.get('/api/get/nurse', (req, res) => {
+    var sql2 = `SELECT * FROM NURSE`;
+    connection.query(sql2, function (err, results) {
+      if (results[0]){
+        res.json({nurse:results})}
+    });
+});
+app.post('/api/new/doctor', (req, res) => {
+  var input=req.body.params;
+  sql=`INSERT INTO DOCTOR VALUES ${input.phone},${input.specialism},${input.experience_year}`
+  connection.query(sql,function(err,results){
+      res.json({ msg: "Thêm thành công." })    
+  })
+});
+
+
+app.post('/api/new/nurse', (req, res) => {
+  var input=req.body.params;
+  sql=`INSERT INTO NURSE VALUES ${input.phone};`
+  connection.query(sql,function(err,results){
+      res.json({ msg: "Thêm thành công." })    
+  })
+});
+
+app.post('/api/delete/HR',(req,res)=>{
+  var input=req.body.params;
+  sql=`DELETE FROM  ${input.role} WHERE phone=${input.phone};`
+  console.log(sql)
+  connection.query(sql,function(err,results){
+      res.json({ msg: "Xóa thành công." })    
+  })
+})
 app.get('/api/get/info', (req, res) => {
-  sql = `SELECT * FROM system_user WHERE PHONE = ${req.query.phonenum}`;
+  sql = `SELECT * FROM system_user WHERE PHONE = ${req.query.phonenum};`;
   connection.query(sql, function (err, results) {
     if(results[0]){
       res.json({ user: results[0] });
