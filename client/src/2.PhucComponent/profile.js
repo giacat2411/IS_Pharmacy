@@ -27,8 +27,9 @@ const Profile = (props) => {
         dateofbirth: "",
         address: "",
         email: "",
-        img: "",
+        img: "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png",
     })
+    const grant = user.phone === ctx.phone ? false : true;
     const [role, setRole] = useState("Patient");//
     const [info, setInfo] = useState({
         height: "1.23",
@@ -148,7 +149,7 @@ const Profile = (props) => {
                     </Row>
                     <Row>
                         <Col>
-                            <Button onClick={toggleHealth}
+                            <Button disabled={grant} onClick={toggleHealth}
                                 style={{ backgroundColor: '#62AFFC', border: '0px', marginTop: '10px' }}>
                                 Cập nhật tình trạng sức khỏe </Button>
                         </Col>
@@ -183,12 +184,12 @@ const Profile = (props) => {
                                     <Row>{user.email}</Row>
                                     <Row>{user.address}</Row>
                                     <Row>
-                                        <Button style={{ backgroundColor: '#62AFFC', border: '0px', marginBottom: '15px', marginTop: '10px' }} onClick={toggleEdit}>
+                                        <Button disabled={grant} style={{ backgroundColor: '#62AFFC', border: '0px', marginBottom: '15px', marginTop: '10px' }} onClick={toggleEdit}>
                                             Điều chỉnh thông tin
                                         </Button>
                                     </Row>
                                     <Row>
-                                        <Button style={{ backgroundColor: '#62AFFC', border: '0px' }} onClick={togglePwd}>
+                                        <Button disabled={grant} style={{ backgroundColor: '#62AFFC', border: '0px' }} onClick={togglePwd}>
                                             Thay đổi mật khẩu
                                         </Button>
                                     </Row>

@@ -756,17 +756,12 @@ input#zalopay{
 }
 
 
-div.dung-button-createappointment{
-  text-align: center;
-}
-
 div.dung-button-createappointment button{
   border-radius: 0px;
   position: auto;
 }
 
 div.dung-button-createappointment.aa{
-  text-align: center;
   margin-bottom: 70px;
   position: auto;
 }

@@ -100,7 +100,7 @@ class MedicalRecord extends Component {
                         </div>
 
                         <div className={showTable}>
-                            <div class='dung-button-createappointment'>
+                            <div class='dung-button-createappointment' style={{textAlign: 'center'}}>
                                 <Link to={`/profile/${JSON.stringify(this.state.phone)}`}>
                                     <Button className="dung cart-button benhan"> 
                                         Thông tin cá nhân
