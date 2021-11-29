@@ -31,7 +31,7 @@ class Appointment extends Component {
 
             registering:{},//"08:00:00-08:30:00","09:00:00-09:30:00","10:30:00-11:00:00","13:30:00-14:00:00","14:30:00-15:00:00","15:00:00-15:30:00","15:30:00-16:00:00","16:30:00-17:00:00"
             
-            current_day: (new Date()).toUTCString(),
+            current_day: (new Date((+(new Date()))+3600000*7)).toUTCString(),
             thu: 2,
             curr_thu: 2
         }
@@ -42,6 +42,7 @@ class Appointment extends Component {
         this.handleInsert = this.handleInsert.bind(this);
         this.handleDeleteInsert = this.handleDeleteInsert.bind(this);
         this.onClickSuccess = this.onClickSuccess.bind(this);
+        this.randomId = this.randomId.bind(this);
     }
 
     componentDidMount() {
@@ -71,7 +72,7 @@ class Appointment extends Component {
 
 
 
-        let currentDay = (new Date()).toUTCString().split(' ');
+        let currentDay = (new Date((+(new Date()))+3600000*7)).toUTCString().split(' ');
 
         // this.setState({current_day: currentDay});
         
@@ -117,7 +118,7 @@ class Appointment extends Component {
         //loc luot dieu tri trong ngay
         let new_Treatment_turn=this.state.treatment_turns.filter(w=>new_Work_schedule.filter(nw=>w.doctor_phone==nw.doctor_phone)).flat()//w=>w.doctor_phone==new_Work_schedule[0].doctor_phone||new_Work_schedule[1]!==undefined&&w.doctor_phone==new_Work_schedule[1].doctor_phone
         
-        const curr = addDays(new Date(), (event.target.value-this.state.thu)).toUTCString()
+        const curr = addDays(new Date((new Date((+(new Date()))+3600000*7))), (event.target.value-this.state.thu)).toUTCString()
         this.setState({current_day: curr})
         
         new_Treatment_turn=new_Treatment_turn.filter(nw=> nw.turn_time.split(' ')[1]==curr.split(' ')[1]&&nw.turn_time.split(' ')[2]==curr.split(' ')[2]&&nw.turn_time.split(' ')[3]==curr.split(' ')[3]);
@@ -203,15 +204,15 @@ class Appointment extends Component {
 
     }
 
-
-
-
-
+    randomId = () =>{
+        const id = Math.floor(Math.random() * 10000000);
+        return this.state.treatment_turns.filter(t=> t.id == id).length == 0? id: this.randomId();
+    }
 
     handleInsert = (event) =>{
         event.preventDefault();
         const newItem = {
-            id: Math.floor(Math.random() * 10000000), 
+            id: this.randomId(), 
             turn_time: event.target.value.split(' ').splice(0,4).join(' ')+' '+event.target.value.split(' ').splice(-1,1).join().split('-')[0],
             health_issue: ' ', 
             blood_pressure: 1, 
@@ -287,7 +288,7 @@ class Appointment extends Component {
                         {++dem}
                     </th>
                     <td>
-                        {this.state.system_user.map(turn=>{if(curr.doctor_phone==turn.phone) {return turn.firstname+' '+turn.lastname}})}
+                        {this.state.system_user.map(turn=>{if(curr.doctor_phone==turn.phone) {return turn.lastname+' '+turn.firstname}})}
                     </td>
                     <td>
                         {curr.doctor_phone}
@@ -346,7 +347,7 @@ class Appointment extends Component {
                         {++dem}
                     </th>
                     <td>
-                        {this.state.system_user.map(turn=>{if(curr.doctor_phone==turn.phone) {return turn.firstname+' '+turn.lastname}})}
+                        {this.state.system_user.map(turn=>{if(curr.doctor_phone==turn.phone) {return turn.lastname+' '+turn.firstname}})}
                     </td>
                     <td>
                         {curr.doctor_phone}
