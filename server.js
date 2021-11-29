@@ -180,16 +180,21 @@ app.get('/api/get/nurse', (req, res) => {
 });
 app.post('/api/new/doctor', (req, res) => {
   var input=req.body.params;
-  sql=`INSERT INTO DOCTOR VALUES ${input.phone},${input.specialism},${input.experience_year}`
+  sql=`DELETE FROM PATIENT WHERE phone=${input.phone};`
+  sql2=`INSERT INTO DOCTOR VALUES (${input.phone},"${input.specialism}",${input.experience_year},1);`
+  
   connection.query(sql,function(err,results){
-      res.json({ msg: "Thêm thành công." })    
+    if(!err) connection.query(sql2,(err,results)=>{
+    res.json({ msg: "Thêm thành công." })  
+
+    })    
   })
 });
 
 
 app.post('/api/new/nurse', (req, res) => {
   var input=req.body.params;
-  sql=`INSERT INTO NURSE VALUES ${input.phone};`
+  sql=`INSERT INTO NURSE VALUES ${input.phone},1;`
   connection.query(sql,function(err,results){
       res.json({ msg: "Thêm thành công." })    
   })
@@ -197,7 +202,7 @@ app.post('/api/new/nurse', (req, res) => {
 
 app.post('/api/delete/HR',(req,res)=>{
   var input=req.body.params;
-  sql=`UPDATE ${input.role}  SET activate = false WHERE phone=${input.phone};`
+  sql=`UPDATE ${input.role}  SET activate = 0 WHERE phone=${input.phone};`
   
   console.log(sql)
   connection.query(sql,function(err,results){
