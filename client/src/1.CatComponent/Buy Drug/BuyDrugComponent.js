@@ -7,7 +7,7 @@ import { Form, FormGroup, Input, Button } from 'reactstrap';
 import { Modal, ModalBody } from 'reactstrap';
 import { FaShoppingCart, FaSearch } from 'react-icons/fa';
 import axios from 'axios';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Switch, Redirect } from 'react-router-dom';
 import HeaderDefine from '../../5.Share Component/Context';
 
 class BuyDrug extends Component {
@@ -132,8 +132,9 @@ class BuyDrug extends Component {
                 </Col>
               )
           });
+          console.log(this.context.role)
           if (this.context.role !== "Patient") 
-          return <Switch> <Redirect to="/" /> </Switch>
+          return <Switch> <Redirect to={`/${this.context.role.toString()}`} /> </Switch>
           return(
               <>
                 <Navbar dark expand="md">
