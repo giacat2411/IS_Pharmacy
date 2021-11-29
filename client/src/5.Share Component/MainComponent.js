@@ -26,6 +26,7 @@ import CreateAnAppointment from '../4.DungComponent/CreateAnAppointmentComponent
 import Re_examinationSchedule from '../4.DungComponent/Re-examinationScheduleComponent';
 import MedicalRecord from '../4.DungComponent/VIewMedicalRecordComponent';
 import InstantAppointment from '../4.DungComponent/InstantAppointmentComponent';
+import ViewMedicalRecord from '../4.DungComponent/MedicalRecordComponent';
 
 //PHUC
 import LoginPane from '../2.PhucComponent/loginPaneComponent';
@@ -125,6 +126,7 @@ class Main extends Component {
               <Route path='/view_medical_record' component={MedicalRecord} />
               <Route path='/re-examination_schedule' component={Re_examinationSchedule} />
               <Route path='/instant_appointment' component={InstantAppointment} />
+              <Route path='/medical_record' component={ViewMedicalRecord} />
 
               {/*---------------------------------Phuc------------------------------------*/}
               <Route path='/login' component={Login} />
