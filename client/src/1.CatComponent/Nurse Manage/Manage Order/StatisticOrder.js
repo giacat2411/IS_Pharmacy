@@ -7,6 +7,8 @@ import { XAxis, YAxis, Tooltip, Legend, Line, LineChart, CartesianGrid } from 'r
 import './manage_order.css';
 import axios from 'axios';
 import NurseSideBar from '../../../5.Share Component/SideBar/NurseSideBarComponent';
+import HeaderDefine from '../../../5.Share Component/Context';
+import { Switch, Redirect } from 'react-router-dom';
 
 class StatisticOrder extends Component {
     constructor(props) {
@@ -26,9 +28,9 @@ class StatisticOrder extends Component {
                     newOrder.created_date = new Date(order.created_date);
                     return newOrder;
                 })
-                this.setState({orders_statistic: orders});
+                this.setState({ orders_statistic: orders });
             })
-        .catch(error => console.log(error));
+            .catch(error => console.log(error));
     }
 
     onInputTime() {
@@ -40,7 +42,7 @@ class StatisticOrder extends Component {
             if (this.compareDay(day, start_time) === true && this.compareDay(end_time, day) === true) return true;
             else return false
         })
-        this.setState({order_filter: data.map(order => {order.created_date = this.convertDate(order.created_date); return order})})
+        this.setState({ order_filter: data.map(order => { order.created_date = this.convertDate(order.created_date); return order }) })
     }
 
     compareDay(day1, day2) {
@@ -75,17 +77,18 @@ class StatisticOrder extends Component {
         const orders_statistic = this.state.order_filter.map((order) => {
             return (
                 <tr>
-                <th scope="row">
-                    {this.state.order_filter.indexOf(order) + 1}
-                </th>
-                <td>
-                    {order.created_date}
-                </td>
-                <td>
-                    {(order.total).toLocaleString('vi-VN')}đ
-                </td>
+                    <th scope="row">
+                        {this.state.order_filter.indexOf(order) + 1}
+                    </th>
+                    <td>
+                        {order.created_date}
+                    </td>
+                    <td>
+                        {(order.total).toLocaleString('vi-VN')}đ
+                    </td>
                 </tr>
-        )}); 
+            )
+        });
 
         let total_money = 0;
         this.state.order_filter.map(order => {
@@ -94,68 +97,68 @@ class StatisticOrder extends Component {
         })
 
         const DataFormater = (number) => {
-            return (number.toString().toLocaleString('vi-VN')+'đ')
-          }
-
+            return (number.toString().toLocaleString('vi-VN') + 'đ')
+        }
+        if (this.context.role !== "Nurse") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <>
-            <NurseSideBar />
-            <Container>
+                <NurseSideBar />
+                <Container>
                     <Row className="statistic-order-heading">
                         <Col md="4" className='statistic-order-header'> Thống kê đơn hàng </Col>
                         <Col md="8">
-                        <Row>
-                            <Col md="4">
-                                <Input className="search-box" id="startTime" name="date" placeholder="Bắt đầu" type="date"
-                                    innerRef={(input) => this.start_time = input} />
-                            </Col>
-                            <Col md="4">
-                                <Input className="search-box" id="endTime" name="date" placeholder="Kết thúc" type="date"
-                                    innerRef={(input) => this.end_time = input} />
-                            </Col>
-                            <Col md="4">
-                                <Button className="search-statistic-button" style={{marginTop: '0px'}} onClick={this.onInputTime}>
-                                    <FaSearch /> Tìm <span style={{textTransform: 'lowercase'}}> kiếm </span>
-                                </Button>
-                            </Col>
-                        </Row>
+                            <Row>
+                                <Col md="4">
+                                    <Input className="search-box" id="startTime" name="date" placeholder="Bắt đầu" type="date"
+                                        innerRef={(input) => this.start_time = input} />
+                                </Col>
+                                <Col md="4">
+                                    <Input className="search-box" id="endTime" name="date" placeholder="Kết thúc" type="date"
+                                        innerRef={(input) => this.end_time = input} />
+                                </Col>
+                                <Col md="4">
+                                    <Button className="search-statistic-button" style={{ marginTop: '0px' }} onClick={this.onInputTime}>
+                                        <FaSearch /> Tìm <span style={{ textTransform: 'lowercase' }}> kiếm </span>
+                                    </Button>
+                                </Col>
+                            </Row>
                         </Col>
                     </Row>
-                    <Row> 
+                    <Row>
                         <Col className="total-money"> Tổng doanh thu: {total_money.toLocaleString('vi-VN')}đ </Col>
                     </Row>
-                    
-                    <Row className="total-money-chart">                
+
+                    <Row className="total-money-chart">
                         <LineChart width={730} height={250} data={this.state.order_filter}
                             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="created_date" />
-                            <YAxis tickFormatter={DataFormater}/>
+                            <YAxis tickFormatter={DataFormater} />
                             <Tooltip />
                             <Legend />
                             <Line type="monotone" dataKey="total" stroke="#8884d8" />
                         </LineChart>
-                        
+
                     </Row>
                     <Row>
-                    <Col>
-                        <Table responsive hover striped>
-                            <thead>
-                                <tr>
-                                <th>
-                                    #
-                                </th>
-                                <th>
-                                    Ngày 
-                                </th>
-                                <th>
-                                    Tổng tiền
-                                </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {orders_statistic}
-                            </tbody>
+                        <Col>
+                            <Table responsive hover striped>
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                        <th>
+                                            Ngày
+                                        </th>
+                                        <th>
+                                            Tổng tiền
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {orders_statistic}
+                                </tbody>
                             </Table>
                         </Col>
                     </Row>
@@ -164,5 +167,5 @@ class StatisticOrder extends Component {
         );
     }
 }
-
+StatisticOrder.contextType = HeaderDefine;
 export default StatisticOrder;

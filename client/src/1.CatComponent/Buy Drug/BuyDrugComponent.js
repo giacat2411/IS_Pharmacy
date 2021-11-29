@@ -132,7 +132,6 @@ class BuyDrug extends Component {
                 </Col>
               )
           });
-          console.log(this.context.role)
           if (this.context.role !== "Patient") 
           return <Switch> <Redirect to={`/${this.context.role.toString()}`} /> </Switch>
           return(

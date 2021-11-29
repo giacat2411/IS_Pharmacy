@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { FaAngleLeft } from 'react-icons/fa';
-
+import { Redirect, Switch } from 'react-router-dom';
+import HeaderDefine from '../../5.Share Component/Context'; 
 
 class ViewCart extends Component {
     constructor(props) {
@@ -50,6 +51,7 @@ class ViewCart extends Component {
                 </Col>
             );
         })
+        if (this.context.role !== "Patient") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <>
             <Container>
@@ -88,4 +90,5 @@ class ViewCart extends Component {
     }
 }
 
+ViewCart.contextType = HeaderDefine;
 export default ViewCart;

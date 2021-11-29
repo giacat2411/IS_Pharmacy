@@ -3,6 +3,7 @@ import { Container, Table } from 'reactstrap';
 import axios from 'axios';
 import ToastServive from 'react-material-toast';
 import HeaderDefine from '../5.Share Component/Context';
+import { Switch, Redirect } from 'react-router';
 
 const toast = ToastServive.new({
     place: 'bottomLeft',
@@ -117,6 +118,7 @@ class CancelAppointment extends Component {
     render() {
         const showHideClassName = this.state.show ? "modal display-block" : "modal display-none";
         let counter = 0;
+        if (this.context.role !== "Patient") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <Container id='dung-cancelappointment'>
                 <div class='dung-title'>

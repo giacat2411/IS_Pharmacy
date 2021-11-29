@@ -6,6 +6,7 @@ import { MdLockClock } from "react-icons/md";
 import ToastServive from 'react-material-toast';
 import addDays from 'date-fns/addDays';
 import HeaderDefine from '../5.Share Component/Context';
+import { Switch, Redirect } from 'react-router';
 
 const toast = ToastServive.new({
     place:'bottomLeft',
@@ -397,7 +398,7 @@ class Appointment extends Component {
                 ))
                 ).flat()
             
-        
+        if (this.context.role !== "Patient") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return(
             <Container id='dung-appointment'>
                 <div class='dung-title'> 

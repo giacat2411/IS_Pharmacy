@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button, Table, ModalFooter } from 'reactstrap';
 import {Modal, ModalBody} from 'reactstrap';
+import { Switch, Redirect } from 'react-router-dom'
+import HeaderDefine from '../5.Share Component/Context';
 
 class Payment extends Component{
     constructor(props) {
@@ -63,6 +65,7 @@ class Payment extends Component{
                 </tr>
             );
         })
+        if (this.context.role !== "Patient") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return(
         <Container>
             <Row>
@@ -230,7 +233,7 @@ class Payment extends Component{
         </Container>
         )}
 }
-
+Payment.contextType = HeaderDefine
 export default Payment;
 
 {/* <input class='dung-button-vi' type="checkbox" onClick={this.showModal}>Ví Momo</input>    

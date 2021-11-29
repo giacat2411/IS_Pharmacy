@@ -7,9 +7,11 @@ import NurseSideBar from '../../../5.Share Component/SideBar/NurseSideBarCompone
 import { Spinner } from 'reactstrap';
 import { FaAngleLeft } from 'react-icons/fa'
 import './manage_order.css';
+import { Switch, Redirect } from 'react-router';
 
 import axios from 'axios';
 import { LinkContainer } from 'react-router-bootstrap';
+import HeaderDefine from '../../../5.Share Component/Context';
 
 class ViewOrderDetail extends Component {
     constructor(props) {
@@ -83,7 +85,7 @@ class ViewOrderDetail extends Component {
         
 
         const pageStyle = {};
-
+        if (this.context.role !== "Nurse") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <>
             <NurseSideBar/>
@@ -179,5 +181,5 @@ class ViewOrderDetail extends Component {
         )
     }
 }
-
+ViewOrderDetail.contextType = HeaderDefine
 export default ViewOrderDetail;

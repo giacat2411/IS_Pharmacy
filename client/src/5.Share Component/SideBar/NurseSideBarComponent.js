@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarContent, SidebarFooter, SidebarHeader } from 'react-pro-sidebar';
 import { FaHeart, FaGithub } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
 
 class NurseSideBar extends Component {
     render(){
@@ -42,8 +43,11 @@ class NurseSideBar extends Component {
                             </MenuItem>
                         </SubMenu>
                         <SubMenu title="Quản lý lịch khám" icon={<FaHeart />}>
-                            <MenuItem>Tạo lịch khám</MenuItem>
+                            <MenuItem>Tạo lịch khám
+                                <Link to='/createanappointment' />
+                            </MenuItem>
                             <MenuItem>Thống kê lịch khám</MenuItem>
+                                <Link to='/createanappointment' />
                         </SubMenu>
                     </Menu>
                 </SidebarContent>

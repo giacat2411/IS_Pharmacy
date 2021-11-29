@@ -6,8 +6,10 @@ import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { FaSearch } from 'react-icons/fa';
 import { Spinner } from 'reactstrap';
 import axios from 'axios';
+import { Switch, Redirect } from 'react-router';
 
 import './managedrug.css';
+import HeaderDefine from '../../../5.Share Component/Context';
 
 class ViewDrug extends Component {
     constructor(props) {
@@ -95,7 +97,8 @@ class ViewDrug extends Component {
         let not_Found = <span></span>;
         if (display_drugs.length === 0) not_Found = <div className="not-found-search"> Không tìm thấy kết quả </div>
         else not_Found = <span></span>;
-
+        
+        if (this.context.role !== "Nurse") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <Container>
                     <Row className="manage-drug-heading">
@@ -207,5 +210,5 @@ class ViewDrug extends Component {
         )
     }
 }
-
+ViewDrug.contextType = HeaderDefine
 export default ViewDrug;
