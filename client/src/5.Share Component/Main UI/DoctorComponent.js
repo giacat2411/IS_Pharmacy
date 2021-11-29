@@ -14,7 +14,7 @@ class Doctor extends Component{
                 <hr />
                 <Row>
                     <Col md="6">
-                    <LinkContainer to ="/view_medical_record" style={{cursor: 'pointer'}}>
+                    <LinkContainer to ="/" style={{cursor: 'pointer'}}>
                         {/* <NavLink className="cat-customer-item-link"> */}
                         <Card className="cat-customer-item-right">
                             <img className="cat-customer-img" width="90px" height="90px" src="/assets/images/view-home.png" alt = "Xem hồ sơ bệnh án"></img>
@@ -26,7 +26,7 @@ class Doctor extends Component{
                     </LinkContainer>    
                     </Col>
                     <Col md="6">    
-                    <LinkContainer to ="/buydrug" style={{cursor: 'pointer'}}>
+                    <LinkContainer to ="/" style={{cursor: 'pointer'}}>
                         {/* <NavLink className="cat-customer-item-link"> */}
                         <Card className="cat-customer-item-left">
                             <img className="cat-customer-img" width="65px" height="90px" src="/assets/images/make-treat-home.png" alt = "Mua thuốc online"></img>
@@ -38,7 +38,7 @@ class Doctor extends Component{
                         </LinkContainer>
                     </Col>
                     <Col md="6">
-                    <LinkContainer to ="/appointment" style={{cursor: 'pointer'}}>
+                    <LinkContainer to ="/HR" style={{cursor: 'pointer'}}>
                         {/* <NavLink className="cat-customer-item-link"> */}
                             <Card className="cat-customer-item-right">
                                 <img className="cat-customer-img" width="65px" height="90px" src="/assets/images/quanlydieuduong.png" alt = "Đặt lịch khám"></img>
@@ -50,7 +50,7 @@ class Doctor extends Component{
                         </LinkContainer>
                     </Col>
                     <Col md="6">
-                        <LinkContainer to ="/cancelappointment" style={{cursor: 'pointer'}}>
+                        <LinkContainer to ="/" style={{cursor: 'pointer'}}>
                         {/* <NavLink className="cat-customer-item-link"> */}
                             <Card className="cat-customer-item-left">
                                 <img className="cat-customer-img" width="65px" height="90px" src="/assets/images/buy-home.png" alt = "Hủy lịch khám"></img>

@@ -3,7 +3,7 @@ import { Container, PaginationLink, PaginationItem, Pagination } from 'reactstra
 import axios from 'axios';
 import ToastServive from 'react-material-toast';
 import HeaderDefine from '../5.Share Component/Context'
-import { spacing } from 'react-select/dist/declarations/src/theme';
+// import { spacing } from 'react-select/dist/declarations/src/theme';
 
 //curr_thu: i+3 
 //current_day: addDays(new Date(), 1).toUTCString(),
@@ -18,7 +18,7 @@ class ViewMedicalRecord extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            phone: 943693315,
+            phone: this.props.phone,
             treatment_turn:[],
             system_user:[],
             treatment_turns:[],

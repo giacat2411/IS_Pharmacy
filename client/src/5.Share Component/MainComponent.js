@@ -90,6 +90,12 @@ class Main extends Component {
         <ViewOrderDetail orderID={parseInt(JSON.parse(match.params.orderID))} />
       )
     }
+
+    const Info = ({match}) => {
+      return (
+        <Profile phone = {parseInt(JSON.parse(match.params.phone))}/>
+      )
+    }
     
     const Login = () => {
       return (
@@ -131,7 +137,7 @@ class Main extends Component {
               {/*---------------------------------Phuc------------------------------------*/}
               <Route path='/login' component={Login} />
               <Route path='/signup' component={SignUp} />
-              <Route path='/profile' component={Profile} />
+              <Route path='/profile/:phone' component={Info} />
               <Route path='/HR' component={HR} />
 
               {/*---------------------------------Chanh------------------------------------*/}

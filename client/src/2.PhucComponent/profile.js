@@ -21,7 +21,7 @@ const Profile = (props) => {
     const [changePwd, setChangePwd] = useState(false);
     const date = (curr) => { return `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`; }
     const [user, setUser] = useState({
-        phone: (props.phone) ? props.phone : ctx.phone,
+        phone: props.phone,
         firstname: "",
         lastname: "",
         dateofbirth: "",
@@ -29,8 +29,43 @@ const Profile = (props) => {
         email: "",
         img: "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png",
     })
-    const grant = user.phone === ctx.phone ? false : true;
-    const [role, setRole] = useState("Patient");//
+    
+    useEffect(async () => {
+        await axios.get('/api/get/info', { params: { phonenum: props.phone } })
+        axios.get('/api/get/info', { params: { phonenum: props.phone } }).then(res => {
+            setUser(res.data.user);
+            console.log("Hole")
+            axios.get('/api/get/role', { params: { phonenum: props.phone } }
+            )
+                .then(res => {
+                    const roleData = res.data.role;
+                    if (roleData !== "Patient") {
+                        if (user.phone != ctx.phone) {
+                            setRole("Guest")
+                        }
+                        else setRole(roleData);
+                    }
+                    else {
+                        setRole("Patient");
+                        console.log(role)
+                        axios.get('/api/get/patientInfo', { params: { phone: props.phone } }).then(
+                            res => {
+                                const health = res.data;
+                                if (health) {
+                                    setInfo(health[0]);
+                                }
+                                console.log(info)
+                            }
+                        )
+                    }
+                });
+        })
+    }, [props.phone]);
+
+    console.log(ctx)
+    console.log(user)
+    const grant = user === undefined ? false : user.phone === ctx.phone ? false : true;
+    const [role, setRole] = useState("Patient");
     const [info, setInfo] = useState({
         height: "1.23",
         weight: "53",
@@ -42,53 +77,24 @@ const Profile = (props) => {
     })
     const [msg, setMsg] = useState("");
     const [isMsg, setIsMsg] = useState(false);
-    useEffect(() => {
-        setTimeout(() => {
-            checkData();
-        }, 1000);
-    }, []);
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         checkData();
+    //     }, 1000);
+    // }, []);
     const showMsg = (msg) => {
         setMsg(msg);
         setIsMsg(true);
 
     }
-    const checkData = async () => {
-        console.log("AKJLD")
+    // (async () => {
+    //     console.log("AKJLD")
 
 
-        console.log(user.phone)
-        console.log(ctx.phone)
-        await axios
-            .get('api/get/info', { params: { phonenum: user.phone } }
-            )
-            .then(res => {
-                setUser(res.data.user);
-                axios.get('/api/get/role', { params: { phonenum: user.phone } }
-                )
-                    .then(res => {
-                        const roleData = res.data.role;
-                        if (roleData !== "Patient") {
-                            if (user.phone != ctx.phone) {
-                                setRole("Guest")
-                            }
-                            else setRole(roleData);
-                        }
-                        else {
-                            setRole("Patient");
-                            console.log(role)
-                            axios.get('/api/get/patientInfo', { params: { phone: user.phone } }).then(
-                                res => {
-                                    const health = res.data;
-                                    if (health) {
-                                        setInfo(health[0]);
-                                    }
-                                    console.log(info)
-                                }
-                            )
-                        }
-                    });
-            })
-    }
+    //     console.log(user.phone)
+    //     console.log(ctx.phone)
+
+    // })()
     const toggleMsg = () => {
         setIsMsg(!isMsg);
     }

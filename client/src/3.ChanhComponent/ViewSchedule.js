@@ -254,13 +254,13 @@ class ScheduleTable extends Component {
                     <tbody className="dung-table-body">
                     <tr>
                     <th scope="row">
-                        {++dem}
+                        {/* {++dem} */}
                     </th>
                     <td>
                         {this.state.system_user.map(turn=>{if(this.state.doctor.phone==turn.phone) {return turn.firstname+' '+turn.lastname}})}
                     </td>
                     <td>
-                        {this.state.treatment_turn.length!==0&&this.state.treatment_turn[0].turn_time.split(' ').splice(1,3).join('/')||curr.work_day+2+"/Jul/2021"}
+                        {/* {this.state.treatment_turn.length!==0&&this.state.treatment_turn[0].turn_time.split(' ').splice(1,3).join('/')||curr.work_day+2+"/Jul/2021"} */}
                     </td>
                     <td>
                         {this.state.treatment_turn.start_time}
