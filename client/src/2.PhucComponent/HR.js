@@ -17,6 +17,8 @@ class HR extends Component {
             newphone: "",
             newspec: "",
             newexp: "",
+            newfirstname:"",
+            newlastname:"",
             modalDoctor: false,
             modalNurse: false,
         };
@@ -32,7 +34,6 @@ class HR extends Component {
       showModal = () => {
         this.setState({ show: true });
     };
-
     hideModal = () => {
         this.setState({ show: false, deleted: false, });
     };
@@ -50,14 +51,14 @@ class HR extends Component {
     }
     componentDidMount() {
 
-        axios.get('/api/get/doctors')
+        axios.get('/api/get/doctors-info')
             .then(res => {
                 this.setState({ doctor: res.data.doctors });
                 console.log(this.state.doctor);
             })
             .catch(error => console.log(error));
 
-        axios.get('/api/get/nurse')
+        axios.get('/api/get/nurse-info')
             .then(res => {
                 this.setState({ nurse: res.data.nurse });
             })
@@ -68,7 +69,7 @@ class HR extends Component {
     };
 
     setDoctor=()=>{
-axios.post('/api/new/doctor',{params: {phone:this.state.newphone,specialism: this.state.newspec,
+axios.post('/api/new/doctor',{params: {firstname:this.state.newfirstname,lastname:this.state.newlastname, phone:this.state.newphone,specialism: this.state.newspec,
 experience_year: this.state.newexp}})
 var doc=this.state.doctor.push({phone:this.state.newphone, specialism:this.state.newspec,experience_year:this.state.newexp,activate:1});
         this.toggleDoctor();
@@ -76,8 +77,15 @@ var doc=this.state.doctor.push({phone:this.state.newphone, specialism:this.state
     }
     setNurse = () => {
         this.toggleNurse();
-        axios.post('/api/new/nurse', { params: { phone: this.state.newphone } })
+        axios.post('/api/new/nurse', { params: { firstname:this.state.newfirstname,lastname:this.state.newlastname, phone: this.state.newphone } })
     }
+    subReg=()=>{const str = this.state.newfirstname;
+        this.setState({ newlastname: str.split(' ').slice(0, -1).join(' ') })
+        this.setState({ newfirstname: str.split(' ').slice(-1).join(' ') })
+}
+    
+
+
     delete=(phone,role)=>{
         axios.post('/api/delete/HR',{params:{phone: phone,role:role}});
         if(role==="DOCTOR") this.setState({doctor:this.state.doctor.filter(row=>row.activate===1)});
@@ -114,7 +122,7 @@ var doc=this.state.doctor.push({phone:this.state.newphone, specialism:this.state
                             return(
                             <tr>
                     <td>
-                        {row.phone}
+                        {row.firstname+" "+row.lastname}
                     </td>
                     <td>
                         {row.specialism}
@@ -132,6 +140,8 @@ var doc=this.state.doctor.push({phone:this.state.newphone, specialism:this.state
                     
                 <Modal isOpen={this.state.modalDoctor}toggle={(e)=>this.toggleDoctor()}>
                     <CardHeader>Thêm bác sỹ </CardHeader>
+                    Họ và tên
+                 <Input name="name" onChange={(e)=>{this.setState({newname:e.target.value})}} required />  
                 Số điện thoại
                 <Input name="phone" onChange={(e)=>{this.setState({newphone:e.target.value})}} required />
                 Chuyên ngành
@@ -139,9 +149,6 @@ var doc=this.state.doctor.push({phone:this.state.newphone, specialism:this.state
                 Kinh nghiệm
                 <Input name="exp" onChange={(e)=>{this.setState({newexp:e.target.value})}} required />
                         
-                {/* <Input name="phone" innerRef={(input) => this.setState({newphone:input})} required />
-                <Input name="text" innerRef={(input) => this.setState({newspec:input})} required />
-                <Input name="number" innerRef={(input) => this.setState({newexp:input})} required /> */}
                  <button class='chanh-button-view' type="button" onClick={(e)=>this.setDoctor()}>Xác nhận</button> 
                 </Modal>
                 </div>
@@ -158,7 +165,7 @@ var doc=this.state.doctor.push({phone:this.state.newphone, specialism:this.state
                     </thead>
                     <tbody className="dung-table-body">
                     
-                        {this.state.nurse.map(nurse=> <tr> <td> {nurse.phone}</td><td> <button class='chanh-button-view' type="button" onClick={(e)=>{nurse.activate=false; this.delete(nurse.phone,"NURSE")}}>X</button>               
+                        {this.state.nurse.map(nurse=> <tr> <td> {nurse.firstname+" "+nurse.lastname}</td><td> <button class='chanh-button-view' type="button" onClick={(e)=>{nurse.activate=false; this.delete(nurse.phone,"NURSE")}}>X</button>               
                     </td></tr>)}
                                 
                     </tbody>
@@ -167,8 +174,11 @@ var doc=this.state.doctor.push({phone:this.state.newphone, specialism:this.state
                 <button class='chanh-button-view' type="button" onClick={(e)=>this.toggleNurse()}>Thêm điều dưỡng</button>               
                 
                 <Modal isOpen={this.state.modalNurse}toggle={(e)=>this.toggleNurse()}>
-                    <input type='phone' onChange={(event)=>this.setState({newphone:event.target.value})} >Số điện thoại</input>
-                <button class='chanh-button-view' type="button" onClick={(e)=>this.setNurse()}>Thêm một bác sỹ</button> 
+                Họ và tên
+                 <Input name="name" onChange={(e)=>{this.setState({newfirstname:e.target.value})}} required />  
+                Số điện thoại
+                <Input name="phone" onChange={(e)=>{this.setState({newphone:e.target.value})}} required />
+                 <button class='chanh-button-view' type="button" onClick={(e)=>this.setNurse()}>Thêm một điều dưỡng</button> 
                 </Modal>
             </Container>
         )

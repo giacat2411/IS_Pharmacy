@@ -35,11 +35,12 @@ import SignUp from '../2.PhucComponent/Signup';
 import { HeaderProvider } from './Context';
 import PathCtx, { PathProvider } from './Path';
 import HR from '../2.PhucComponent/HR';
+import PrescribeDetail from '../1.CatComponent/Nurse Manage/Manage Order/PrescibeMed';
+
 
 //CHANH
 import Nurse from './Main UI/NurseComponent';
 import axios from 'axios';
-
 
 
 // const CustomerPath = ['/buydrug', '/customer', '/view_cart', '/view_order', '/view_order_details/:orderID', '/payment/', '/view_medical_record'];
@@ -139,6 +140,8 @@ class Main extends Component {
               <Route path='/signup' component={SignUp} />
               <Route path='/profile/:phone' component={Info} />
               <Route path='/HR' component={HR} />
+              <Route path='/prescribe-med' component={PrescribeDetail} />
+              {/* <Route path='/myorder'component={MyListOrder}/> */}
 
               {/*---------------------------------Chanh------------------------------------*/}
               <Route path='/nurse' component={Nurse} />

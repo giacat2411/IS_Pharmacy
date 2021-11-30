@@ -13,13 +13,15 @@ import axios from 'axios';
 import { LinkContainer } from 'react-router-bootstrap';
 import HeaderDefine from '../../../5.Share Component/Context';
 
-class ViewOrderDetail extends Component {
+class PrescribeDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
             orderDetailsOpen: [],
-            orderOpen: {id: "", fullname: "", dateofbirth: "", address: "", phone:""}
+            userInfo:{fullname: "", dateofbirth: "", address: "", phone:this.props.phone},
+            treatmentInfo: {id: "",name:""}, 
         }
+        console.log(this.props);
     }
 
     componentDidMount() {
@@ -31,13 +33,15 @@ class ViewOrderDetail extends Component {
                     })
                 .catch(error => console.log(error));
 
-        axios.get('/api/get/order_in_view', {params: {orderID: orderID}})
-            .then(res => {
-                    const information = res.data.information;
-                        this.setState({orderOpen: information[0]});
-                        console.log(this.state.orderOpen);
-                    })
-                .catch(error => console.log(error));
+        axios.get('/api/get/prescribe-doctor',{params: {orderID: orderID}}).then(res=>{
+            this.setState({treatmentInfo:res.data})
+        })
+        axios.get('/api/get/info',{params:{phone:this.state.userInfo.phone}}).then(
+            res=>{
+                this.setState({userInfo:res.data})
+            }
+        )
+        
     }
 
     convertDate(day) {
@@ -85,8 +89,7 @@ class ViewOrderDetail extends Component {
         
 
         const pageStyle = {};
-        // Nurse -> ở, 
-        if (this.context.role !== "Nurse"&&this.context.phone!==this.state.orderOpen.phone) return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
+        if (this.context.role !== "Nurse"&&this.context.phone!==this.state.userInfo.phone) return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <>
             { (this.context.role === "Nurse")?<NurseSideBar/>:<div/>}
@@ -108,7 +111,7 @@ class ViewOrderDetail extends Component {
                 </Row>
                 <Row>
                     <Col md = "12" style= {{textAlign: 'right'}}>
-                        Mã đơn thuốc: {this.state.orderOpen.id}
+                        Mã đơn thuốc: {this.state.userInfo.id}
                     </Col>
                 </Row>
                 <Row>
@@ -118,10 +121,10 @@ class ViewOrderDetail extends Component {
                 </Row>
                 <Row>
                     <Col md="6"> 
-                        Tên bệnh nhân: <span style={{fontWeight: 'bold'}}>{this.state.orderOpen.fullname}</span>
+                        Tên bệnh nhân: <span style={{fontWeight: 'bold'}}>{this.state.userInfo.fullname}</span>
                     </Col>
                     <Col md="3">
-                        Tuổi: {this.countAge(new Date(this.state.orderOpen.dateofbirth))}
+                        Tuổi: {this.countAge(new Date(this.state.userInfo.dateofbirth))}
                     </Col>
                     <Col md="3" style = {{textAlign: 'right'}}>
                         Giới tính: Nam
@@ -129,7 +132,7 @@ class ViewOrderDetail extends Component {
                 </Row>
                 <Row style={{margin: '5px 0px 5px 0px'}}>
                     <Col>
-                    Địa chỉ: {this.state.orderOpen.address}
+                    Địa chỉ: {this.state.userInfo.address}
                     </Col>
                 </Row>
             </Container>
@@ -167,6 +170,9 @@ class ViewOrderDetail extends Component {
                     </Col>
                 </Row>
             </Container>
+            <Container>
+                <thead> Bác sỹ kê đơn: {this.state.treatmentInfo.doctor}</thead>
+            </Container>
             </div>
             <Container>
                 <Row>
@@ -182,5 +188,5 @@ class ViewOrderDetail extends Component {
         )
     }
 }
-ViewOrderDetail.contextType = HeaderDefine
-export default ViewOrderDetail;
+PrescribeDetail.contextType = HeaderDefine
+export default PrescribeDetail;

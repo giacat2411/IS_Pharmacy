@@ -10,26 +10,23 @@ import axios from 'axios';
 
 const LogButton = (props) => {
     const user = useContext(HeaderDefine);
-
     console.log(user);
-    const checkData = () => {
-        axios.get('/api/get/session').then(res => {
-            console.log("done get session")
-            console.log(res.data);
-            if (res.data) {
-                user.setPhone(res.data.phone);
-                user.setName(res.data.firstname);
-                user.setRole(res.data.role);
-                user.setImg(res.data.img);
-                // axios.get('/api/get/role', { params: { phonenum: res.data.phone } }).then(resp => user.setRole(resp.data.role))
-            }
-        }
-        )
-    }
     useEffect(() => {
-        setTimeout(() => {
-            checkData();
-        }, 1000);
+        async function checkData () {
+            await axios.get('/api/get/session').then(res => {
+                console.log("done get session")
+                console.log(res.data);
+                if (res.data) {
+                    user.setPhone(res.data.phone);
+                    user.setName(res.data.firstname);
+                    user.setRole(res.data.role);
+                    user.setImg(res.data.img);
+                    // axios.get('/api/get/role', { params: { phonenum: res.data.phone } }).then(resp => user.setRole(resp.data.role))
+                }
+            }
+            )
+        };
+        checkData();
     }, []);
 
 

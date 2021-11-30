@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 import UpdatePwd from './updatePwd';
 import EditHealth from './editHealth';
 import EditInfo from './Editinfo';
+import { Link } from 'react-router-dom';
 const Profile = (props) => {
     const current = new Date();
     const ctx = useContext(HeaderDefine);
@@ -29,37 +30,41 @@ const Profile = (props) => {
         email: "",
         img: "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png",
     })
-    
-    useEffect(async () => {
-        await axios.get('/api/get/info', { params: { phonenum: props.phone } })
-        axios.get('/api/get/info', { params: { phonenum: props.phone } }).then(res => {
-            setUser(res.data.user);
-            console.log("Hole")
-            axios.get('/api/get/role', { params: { phonenum: props.phone } }
-            )
-                .then(res => {
-                    const roleData = res.data.role;
-                    if (roleData !== "Patient") {
-                        if (user.phone != ctx.phone) {
-                            setRole("Guest")
-                        }
-                        else setRole(roleData);
-                    }
-                    else {
-                        setRole("Patient");
-                        console.log(role)
-                        axios.get('/api/get/patientInfo', { params: { phone: props.phone } }).then(
-                            res => {
-                                const health = res.data;
-                                if (health) {
-                                    setInfo(health[0]);
-                                }
-                                console.log(info)
+
+    useEffect(() => {
+        async function fetchData() {
+            await axios.get('/api/get/info', { params: { phonenum: props.phone } })
+            axios.get('/api/get/info', { params: { phonenum: props.phone } }).then(res => {
+                setUser(res.data.user);
+                console.log("Hole")
+                axios.get('/api/get/role', { params: { phonenum: props.phone } }
+                )
+                    .then(res => {
+                        const roleData = res.data.role;
+                        if (roleData !== "Patient") {
+                            if (user.phone != ctx.phone) {
+                                setRole("Guest")
                             }
-                        )
-                    }
-                });
-        })
+                            else setRole(roleData);
+                        }
+                        else {
+                            setRole("Patient");
+                            console.log(role)
+                            axios.get('/api/get/patientInfo', { params: { phone: props.phone } }).then(
+                                res => {
+                                    const health = res.data;
+                                    if (health) {
+                                        setInfo(health[0]);
+                                    }
+                                    console.log(info)
+                                }
+                            )
+                        }
+                    });
+            })
+        }
+
+        fetchData();
     }, [props.phone]);
 
     console.log(ctx)
@@ -161,14 +166,24 @@ const Profile = (props) => {
                         </Col>
                     </Row>
                 </Col>
-                <Button classname="center_screen"
-                    style={{
-                        backgroundColor: '#62AFFC',
-                        border: '0px',
-                        height: '40px',
-                        marginTop: '50px'
-                    }}>
-                    Xem các lượt khám bệnh </Button>
+
+
+                <NavLink to='/view_order'>
+                    <Button classname="center_screen"
+                        style={{
+                            backgroundColor: '#62AFFC',
+                            border: '0px',
+                            height: '40px',
+                            marginTop: '50px'
+                        }}>
+                        Xem đơn thuốc </Button>
+                </NavLink>
+
+                <Link to={`/medical_record/${JSON.stringify(user.phone)}`}>
+                    <Button className="dung cart-button benhan nd" onClick={(e) => { localStorage.setItem("med_phone", user.phone); console.log("set") }}>
+                        Bệnh án
+                    </Button>
+                </Link>
             </Row></>
         )
     }

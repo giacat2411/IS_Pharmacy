@@ -82,17 +82,19 @@ class ViewOrder extends Component {
         })
     }
 
-    componentDidMount() {
-        axios.get('/api/get/orders')
-            .then(res => {
-                const orders = res.data.orders.map(order => {
+   async componentDidMount() {
+        const resOrders= (this.context.role==="Nurse")?await
+        axios.get('/api/get/orders').catch(error => console.log(error)):await axios.get('/api/get/myorders',{params:{phone:this.context.phone}}).catch(error => console.log(error));
+        
+        if(resOrders)console.log(resOrders);
+        const orders=resOrders.data.orders.map(order => {
                     const newOrder = order;
                     newOrder.created_date = new Date(order.created_date);
                     return newOrder;
-                })
+                });
+                
                 this.setState({ orders: orders, orders_search: orders, orderOpen: orders[0] });
-            })
-            .catch(error => console.log(error));
+        
     }
 
     changePage(page) {
@@ -209,10 +211,10 @@ class ViewOrder extends Component {
                 </Button>
             </Col>
         </Row>
-        if (this.context.role !== "Nurse") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
+        if (this.context.role === "Doctor") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <>
-                <NurseSideBar />
+                {   (this.context.role === "Nurse")? <NurseSideBar />:<div/>}
                 <Container>
                     <Row className="manage-order-heading">
                         <Col className='manage-order-header'> Danh sách đơn hàng </Col>

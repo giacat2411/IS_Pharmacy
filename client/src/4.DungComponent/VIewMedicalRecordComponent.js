@@ -107,7 +107,7 @@ class MedicalRecord extends Component {
                                     </Button>
                                 </Link>
                                 <Link to={`/medical_record/${JSON.stringify(this.state.phone)}`}>
-                                    <Button className="dung cart-button benhan nd"> 
+                                    <Button className="dung cart-button benhan nd" onClick={(e)=>{localStorage.setItem("med_phone",this.state.phone);console.log("set")}}> 
                                         Bệnh án
                                     </Button>
                                 </Link>

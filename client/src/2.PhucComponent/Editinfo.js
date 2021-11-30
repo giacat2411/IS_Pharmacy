@@ -31,20 +31,18 @@ const EditInfo = (props) => {
                     props.toggleEdit();
                     if (res.data.msg) props.msgCall(res.data.msg);
                     props.setUser(temp);
-                    axios.get('/api/set/user',{params:temp});
+                    axios.get('/api/set/user', { params: temp });
                 })
             })
         }
         else {
             axios.post('/api/post/info', { params: temp }).then(res => {
-                    props.toggleEdit();
-                    if(res.data.msg)props.msgCall(res.data.msg);
-                    props.setUser(temp);
-                    axios.get('/api/set/user',{params:temp});
-                })
+                props.toggleEdit();
+                if (res.data.msg) props.msgCall(res.data.msg);
+                props.setUser(temp);
+                axios.get('/api/set/user', { params: temp });
+            })
         }
-        
-       
     }
     const [temp, setTemp] = useState(props.info);
     const handleChange = (evt) => {
@@ -85,31 +83,13 @@ const EditInfo = (props) => {
                         </Button>
                     </Col>
                     <Col>
-                        <NavLink className="nav-link" to='/profile' onClick={props.toggleEdit} style={{ marginTop: '-8px' }}>
-                            <Button style={{ backgroundColor: '#62AFFC', marginTop: '10px', border: '0px' }}>
-                                Hủy bỏ
-                            </Button>
-                        </NavLink>
+                        <Button onClick={props.toggleEdit} style={{ backgroundColor: '#62AFFC', marginTop: '10px', border: '0px' }}>
+                            Hủy bỏ
+                        </Button>
                     </Col>
                 </Row>
             </Container>
         </CardSubtitle>
-
-
-
-
     </Card>
-
-
-
-
-
-
-
-
-
-
-
-
 }
 export default EditInfo;

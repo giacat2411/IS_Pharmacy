@@ -47,6 +47,7 @@ app.get('/api/get/session', (req, res) => {
 app.get('/api/destroy/session', (req, res) => {
   console.log('SESSION DESTROYED !')
   req.session.destroy();
+  // req.session.regenerate();
   session = undefined;
 });
 
@@ -99,6 +100,20 @@ app.get('/api/get/doctors', (req, res) => {
     res.json({ doctors: results });
   });
 });
+app.get('/api/get/doctors-info', (req, res) => {
+  var sql = "SELECT * FROM DOCTOR JOIN SYSTEM_USER ON PHONE";
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ doctors: results });
+  });
+});
+app.get('/api/get/nurse-info', (req, res) => {
+  var sql = "SELECT * FROM NURSE JOIN SYSTEM_USER ON PHONE";
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ doctors: results });
+  });
+});
 
 app.get('/api/get/drugs', (req, res) => {
   var sql = "SELECT * FROM DRUG";
@@ -121,15 +136,39 @@ app.get('/api/get/orders', (req, res) => {
     res.json({ orders: results });
   });
 });
-
+app.get('/api/get/myorders', (req, res) => {
+  var sql = "select id, created_date, patient_phone, concat(lastname,' ', firstname) as full_name,"
+    + " sum(include.quantity * drug.price) as total"
+    + " from  (medicine join purchase_medicine on id = purchase_id)"
+    + " join system_user on (patient_phone = phone) join include on (purchase_id = medicine_id)"
+    + " natural join drug"+" where patient_phone= "+req.query.phone
+    + " group by id, created_date, patient_phone, firstname, lastname;";
+    console.log(sql)
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ orders: results });
+  });
+});
 app.get('/api/get/order_in_view', function (req, res) {
-  var sql = "select purchase_id as id, concat(lastname, ' ', firstname) as fullname, dateofbirth, address "
+  var sql = "select purchase_id as id, concat(lastname, ' ', firstname) as fullname, dateofbirth, address, phone "
     + "from purchase_medicine join (patient natural join system_user) on (phone = patient_phone) "
     + "where purchase_id = " + req.query.orderID;
   console.log(sql);
   connection.query(sql, function (err, results) {
     if (err) throw err;
     res.json({ information: results });
+  });
+})
+
+app.get('/api/get/prescribe-info', function (req, res) {
+  var sql = `select prescribe_id, doctor_phone from prescriptive_medicine join treatment_turn on (id=treatment_id) where prescribe_id= req.query.orderID;`
+  console.log(sql);
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    var sql2=`select concat(lastname, ' ', firstname) as fullname from system user where phone=${results[0].doctor_phone}`
+    connection.query(sql2,(err,result)=>{if (err) throw err;
+    res.json({ id: results[0].id, doctor:result[0].fullname });
+    })
   });
 })
 
@@ -157,6 +196,7 @@ app.get('/api/get/total_value', function(req, res) {
 app.get('/api/get/users', (req, res) => {
   var sql = `SELECT * FROM system_user`
   connection.query(sql, function (err, results) {
+    if (err) throw err;
     res.json({ users: results });
   });
 });
@@ -165,8 +205,10 @@ app.get('/api/get/role', (req, res) => {
   for (let i = 0; i < 3; i++) {
     sql = `SELECT * FROM ${RoleList[i]} WHERE PHONE = ${req.query.phonenum}`;
     connection.query(sql, function (err, results) {
+      if (err) throw err;
       if (results[0]){
-        res.json({ role: RoleList[i] });}
+        res.json({ role: RoleList[i] });
+      session.user.role=RoleList[i];}
     });
   }
 });
@@ -180,8 +222,8 @@ app.get('/api/get/nurse', (req, res) => {
 });
 app.post('/api/new/doctor', (req, res) => {
   var input=req.body.params;
-  sql=`DELETE FROM PATIENT WHERE phone=${input.phone};`
-  sql2=`INSERT INTO DOCTOR VALUES (${input.phone},"${input.specialism}",${input.experience_year},1);`
+  sql=`INSERT INTO SYSTEM_USER(phone, firstname, lastname, dateOfbirth, address, email,pwd) VALUES ("${input.phone}","${input.firstname}","${input.lastname}","1999-3-26","","", "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq")`
+ sql2=`INSERT INTO DOCTOR VALUES (${input.phone},"${input.specialism}",${input.experience_year},1);`
   
   connection.query(sql,function(err,results){
     if(!err) connection.query(sql2,(err,results)=>{
@@ -194,25 +236,32 @@ app.post('/api/new/doctor', (req, res) => {
 
 app.post('/api/new/nurse', (req, res) => {
   var input=req.body.params;
-  sql=`INSERT INTO NURSE VALUES ${input.phone},1;`
+  sql=`INSERT INTO SYSTEM_USER(phone, firstname, lastname, dateOfbirth, address, email,pwd) VALUES ("${input.phone}","${input.firstname}","${input.lastname}","1999-3-26","","", "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq")`
+ 
+  sql2=`INSERT INTO NURSE VALUES (${input.phone},"",1);`
   connection.query(sql,function(err,results){
-      res.json({ msg: "Thêm thành công." })    
-  })
+    if (err) throw err;
+    connection.query(sql2,(err,results)=>{
+      res.json({ msg: "Thêm thành công." });   } 
+  )
+})
 });
 
 app.post('/api/delete/HR',(req,res)=>{
   var input=req.body.params;
   sql=`UPDATE ${input.role}  SET activate = 0 WHERE phone=${input.phone};`
-  
   console.log(sql)
   connection.query(sql,function(err,results){
+    if (err) throw err;
       res.json({ msg: "Ẩn thành công." })    
   })
 })
 app.get('/api/get/info', (req, res) => {
   sql = `SELECT * FROM system_user WHERE PHONE = ${req.query.phonenum};`;
+  console.log(sql);
   connection.query(sql, function (err, results) {
-    if(results[0]){
+    
+    if(results){
       res.json({ user: results[0] });
     } else {
       res.json({ msg: "Hồ sơ không tồn tại." })
@@ -246,7 +295,13 @@ app.get('/api/get/patientInfo', (req, res) => {
   });
 }
 )
-
+app.get('/api/get/mytreatment',(req,res)=>{
+  var sql = `SELECT * FROM treatment_turn left join prescriptive_medicine on id=treatment_id   where patient_phone=${req.query.phone}`;
+  console.log(sql)
+  connection.query(sql, function (err, results) {
+    res.json(results);
+  });
+})
 ///// Chanh /////
 app.get('/api/get/patient', (req, res) => {
   var sql = "SELECT * FROM patient";

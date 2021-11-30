@@ -43,7 +43,7 @@ const LoginPane = (props) => {
                         )
                         .then(res => {
                             ctx.setRole(res.data.role);
-                            axios.post('/api/set/role', { role: res.data.role })
+                            // axios.post('/api/set/role', { role: res.data.role })
                             props.updatePage(res.data.role.toString())
                             Msg = "Đăng nhập thành công"; toggleMsg();
                         });
