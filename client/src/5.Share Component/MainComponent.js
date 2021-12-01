@@ -41,6 +41,9 @@ import PrescribeDetail from '../1.CatComponent/Nurse Manage/Manage Order/Prescib
 //CHANH
 import Nurse from './Main UI/NurseComponent';
 import axios from 'axios';
+import SaveSchedule from '../3.ChanhComponent/SaveSchedule';
+import View from '../3.ChanhComponent/View';
+import ScheduleTable from '../3.ChanhComponent/ViewSchedule';
 
 
 // const CustomerPath = ['/buydrug', '/customer', '/view_cart', '/view_order', '/view_order_details/:orderID', '/payment/', '/view_medical_record'];
@@ -145,7 +148,9 @@ class Main extends Component {
 
               {/*---------------------------------Chanh------------------------------------*/}
               <Route path='/nurse' component={Nurse} />
-
+<Route path='/saveSchedule' component={SaveSchedule} />
+<Route path='/view' component={View} />
+<Route path='/scheduleTable' component={ScheduleTable} />
               <Redirect to={`/${this.state.redirect_page}`} />
             </Switch>
           </div>

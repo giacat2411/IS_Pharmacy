@@ -17,7 +17,7 @@ function CreateAnAppointment() {
         setShow(false);
     };
     console.log(ctx)
-    // if (ctx.role !== "Nurse") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
+    if (ctx.role !== "Nurse") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
     return (
         <>
             <NurseSideBar />

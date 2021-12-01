@@ -14,7 +14,7 @@ class Doctor extends Component{
                 <hr />
                 <Row>
                     <Col md="6">
-                    <LinkContainer to ="/" style={{cursor: 'pointer'}}>
+                    <LinkContainer to ="/scheduleTable" style={{cursor: 'pointer'}}>
                         {/* <NavLink className="cat-customer-item-link"> */}
                         <Card className="cat-customer-item-right">
                             <img className="cat-customer-img" width="90px" height="90px" src="/assets/images/view-home.png" alt = "Xem hồ sơ bệnh án"></img>
@@ -60,6 +60,18 @@ class Doctor extends Component{
                             </Card>
                             {/* </NavLink> */}
                         </LinkContainer>
+                    </Col>
+                    <Col md="6">
+                    <LinkContainer to ="/view_medical_record" style={{cursor: 'pointer'}}>
+                        {/* <NavLink className="cat-customer-item-link"> */}
+                        <Card className="cat-customer-item-right">
+                            <img className="cat-customer-img" width="90px" height="90px" src="/assets/images/view-home.png" alt = "Xem hồ sơ bệnh án"></img>
+                            <CardBody>
+                            <CardTitle tag="h5" className="cat-customer-text">Tra cứu bệnh án</CardTitle>
+                            </CardBody>
+                        </Card>
+                    {/* </NavLink> */}
+                    </LinkContainer>    
                     </Col>
                 </Row>
             </Container>

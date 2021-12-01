@@ -14,11 +14,8 @@ class HR extends Component {
         this.state = {
             doctor: [],
             nurse: [],
-            newphone: "",
-            newspec: "",
-            newexp: "",
-            newfirstname:"",
-            newlastname:"",
+            newdoc:{},
+            newnurse:{},
             modalDoctor: false,
             modalNurse: false,
         };
@@ -60,7 +57,8 @@ class HR extends Component {
 
         axios.get('/api/get/nurse-info')
             .then(res => {
-                this.setState({ nurse: res.data.nurse });
+
+                this.setState({ nurse: res.data.nurses });
             })
             .catch(error => console.log(error));
     };
@@ -69,15 +67,15 @@ class HR extends Component {
     };
 
     setDoctor=()=>{
-axios.post('/api/new/doctor',{params: {firstname:this.state.newfirstname,lastname:this.state.newlastname, phone:this.state.newphone,specialism: this.state.newspec,
-experience_year: this.state.newexp}})
-var doc=this.state.doctor.push({phone:this.state.newphone, specialism:this.state.newspec,experience_year:this.state.newexp,activate:1});
+axios.post('/api/new/doctor',{params: this.state.newdoc}).catch(error => console.log(error));
+
+// var doc=this.state.doctor.push({phone:this.state.newphone, specialism:this.state.newspec,experience_year:this.state.newexp,activate:1});
         this.toggleDoctor();
 
     }
     setNurse = () => {
         this.toggleNurse();
-        axios.post('/api/new/nurse', { params: { firstname:this.state.newfirstname,lastname:this.state.newlastname, phone: this.state.newphone } })
+        axios.post('/api/new/nurse', { params: this.state.newnurse }).catch(error => console.log(error));
     }
     subReg=()=>{const str = this.state.newfirstname;
         this.setState({ newlastname: str.split(' ').slice(0, -1).join(' ') })
@@ -141,13 +139,13 @@ var doc=this.state.doctor.push({phone:this.state.newphone, specialism:this.state
                 <Modal isOpen={this.state.modalDoctor}toggle={(e)=>this.toggleDoctor()}>
                     <CardHeader>Thêm bác sỹ </CardHeader>
                     Họ và tên
-                 <Input name="name" onChange={(e)=>{this.setState({newname:e.target.value})}} required />  
+                 <Input name="name" onChange={(e)=>{this.state.newdoc.name=e.target.value}} required />  
                 Số điện thoại
-                <Input name="phone" onChange={(e)=>{this.setState({newphone:e.target.value})}} required />
+                <Input name="phone" onChange={(e)=>{this.state.newdoc.phone=e.target.value}} required />
                 Chuyên ngành
-                <Input name="spec" onChange={(e)=>{this.setState({newspec:e.target.value})}} required />
+                <Input name="spec" onChange={(e)=>{this.state.newdoc.spec=e.target.value}} required />
                 Kinh nghiệm
-                <Input name="exp" onChange={(e)=>{this.setState({newexp:e.target.value})}} required />
+                <Input name="exp" type="number" onChange={(e)=>{this.state.newdoc.exp=e.target.value}} required />
                         
                  <button class='chanh-button-view' type="button" onClick={(e)=>this.setDoctor()}>Xác nhận</button> 
                 </Modal>
@@ -175,9 +173,9 @@ var doc=this.state.doctor.push({phone:this.state.newphone, specialism:this.state
                 
                 <Modal isOpen={this.state.modalNurse}toggle={(e)=>this.toggleNurse()}>
                 Họ và tên
-                 <Input name="name" onChange={(e)=>{this.setState({newfirstname:e.target.value})}} required />  
+                 <Input name="name" onChange={(e)=>{this.state.newnurse.name=e.target.value}} required />  
                 Số điện thoại
-                <Input name="phone" onChange={(e)=>{this.setState({newphone:e.target.value})}} required />
+                <Input name="phone" onChange={(e)=>{this.state.newnurse.phone=e.target.value}} required />
                  <button class='chanh-button-view' type="button" onClick={(e)=>this.setNurse()}>Thêm một điều dưỡng</button> 
                 </Modal>
             </Container>

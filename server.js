@@ -11,7 +11,8 @@ const cors = require('cors');
 
 const app = express();
 var bcrypt = require('bcryptjs');
-
+const curr = new Date();
+// {this.state.current_day.split(' ').splice(1,3).join('/')}
 
 ////////////////////////////////////////////////////////////
 ////                  SESSION MANAGEMENT                  //
@@ -46,7 +47,7 @@ app.get('/api/get/session', (req, res) => {
 
 app.get('/api/destroy/session', (req, res) => {
   console.log('SESSION DESTROYED !')
-  req.session.destroy();
+  // req.session.destroy();
   // req.session.regenerate();
   session = undefined;
 });
@@ -101,17 +102,17 @@ app.get('/api/get/doctors', (req, res) => {
   });
 });
 app.get('/api/get/doctors-info', (req, res) => {
-  var sql = "SELECT * FROM DOCTOR JOIN SYSTEM_USER ON PHONE";
+  var sql = "select * from doctor natural join system_user ;";
   connection.query(sql, function (err, results) {
     if (err) throw err;
     res.json({ doctors: results });
   });
 });
 app.get('/api/get/nurse-info', (req, res) => {
-  var sql = "SELECT * FROM NURSE JOIN SYSTEM_USER ON PHONE";
+  var sql ="  SELECT * FROM nurse JOIN system_user ON nurse.phone=system_user.phone;";
   connection.query(sql, function (err, results) {
     if (err) throw err;
-    res.json({ doctors: results });
+    res.json({ nurses: results });
   });
 });
 
@@ -222,9 +223,12 @@ app.get('/api/get/nurse', (req, res) => {
 });
 app.post('/api/new/doctor', (req, res) => {
   var input=req.body.params;
-  sql=`INSERT INTO SYSTEM_USER(phone, firstname, lastname, dateOfbirth, address, email,pwd) VALUES ("${input.phone}","${input.firstname}","${input.lastname}","1999-3-26","","", "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq")`
- sql2=`INSERT INTO DOCTOR VALUES (${input.phone},"${input.specialism}",${input.experience_year},1);`
-  
+  sql=`INSERT INTO SYSTEM_USER(phone, firstname, lastname, dateOfbirth, address, email,pwd,img) 
+  VALUES ("${input.phone}","${input.name.split(' ').slice(0, -1).join(' ')}","${input.name.split(' ').slice( -1).join(' ')}","1999-3-26","","", 
+  "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq",
+  "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png")`
+  sql2=`INSERT INTO DOCTOR VALUES ("${input.phone}","${input.spec}",${input.exp},1);`
+  console.log(sql+'\n'+sql2)
   connection.query(sql,function(err,results){
     if(!err) connection.query(sql2,(err,results)=>{
     res.json({ msg: "Thêm thành công." })  
@@ -236,9 +240,12 @@ app.post('/api/new/doctor', (req, res) => {
 
 app.post('/api/new/nurse', (req, res) => {
   var input=req.body.params;
-  sql=`INSERT INTO SYSTEM_USER(phone, firstname, lastname, dateOfbirth, address, email,pwd) VALUES ("${input.phone}","${input.firstname}","${input.lastname}","1999-3-26","","", "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq")`
- 
-  sql2=`INSERT INTO NURSE VALUES (${input.phone},"",1);`
+  sql=`INSERT INTO SYSTEM_USER(phone, firstname, lastname, dateOfbirth, address, email,pwd,img)
+   VALUES ("${input.phone}","${input.name.split(' ').slice(0, -1).join(' ')}","${input.name.split(' ').slice( -1).join(' ')}",
+   "1999-3-26","","", "$2a$10$07ROfkTeWSniyKIUZ.4YC.YpmY5Wwnk/lJ0B.aqjnmbrfSVxJ2DIq",
+   "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png")`
+  sql2=`INSERT INTO NURSE VALUES ("${input.phone}",null,1);`
+  console.log(sql+'\n'+sql2)
   connection.query(sql,function(err,results){
     if (err) throw err;
     connection.query(sql2,(err,results)=>{
@@ -321,7 +328,7 @@ app.get('/api/get/treatment_turns', (req, res) => {
 });
 
 app.get('/api/get/work_schedules', (req, res) => {
-  var sql = "SELECT * FROM work_schedule";
+  var sql = "SELECT * FROM work_schedule JOIN SYSTEM_USER ON DOCTOR_PHONE=PHONE";
   connection.query(sql, function (err, results) {
     if (err) throw err;
     res.json({ work_schedules: results });
@@ -440,16 +447,38 @@ app.post('/api/post/newpwd', (req, res) => {
 
   ///// Chanh /////
 app.post('api/update/work_schedule',(req,res)=>{
-  var sql=`UPDATE patient
-      SET work_day=${req.query.work_day},
-          work_session=${req.query.work_session},
-  WHERE phone=${req.query.phone}`
+  input=req.body.params;
+  var sql=`UPDATE work_schedule
+      SET work_day=${input.work_day},
+          work_session=${input.work_session},
+  WHERE phone=${input.phone}`
+  connection.query(sql, function(err, results) {
+      res.json({ patients: input });
+  });
+}
+)
+app.post('/api/set/end-schedule',(req,res)=>{
+  var input=req.body.params;
+  var sql=`UPDATE work_schedule
+      SET end_day='${  (curr).toISOString().split('T')[0]}'
+  WHERE doctor_phone=${input.phone} and  work_day=${input.work_day}
+        and  work_session="${input.work_session}";`
+        console.log(sql)
   connection.query(sql, function(err, results) {
       res.json({ patients: req.query });
   });
 }
 )
-
+app.post('/api/insert/schedule',(req,res)=>{
+  var input=req.body.params;
+  var sql=`insert into work_schedule 
+  values(${input.phone},${input.day},"${input.session}","${curr.toISOString().split('T')[0]}",null)`
+  console.log(sql)
+  connection.query(sql, function(err, results) {
+      res.json({ patients: req.query });
+  });
+}
+)
 app.post('api/update/treatment_turn',(req,res)=>{
   var sql=`UPDATE patient
       SET turn_time=${req.query.turn_time},
@@ -474,6 +503,17 @@ app.post('api/update/treatment_turn',(req,res)=>{
   ///// Cat /////
 
   ///// Phuc /////
+
+app.post('/api/update/work_schedule', (req, res) => {
+  input=req.body.params;
+  var sql = `UPDATE work_schedule SET doctor_phone=${input.doctor_phone}, day = ${input.day}, session=${input.session}
+  WHERE doctor_phone=${input.oldphone} and day=${input.oldday} and session =${input.oldsession}
+  `;
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ work_schedules: results });
+  });
+});
 
   ///// Chanh /////
   app.post('/api/delete/work_schedule', (req, res) => {

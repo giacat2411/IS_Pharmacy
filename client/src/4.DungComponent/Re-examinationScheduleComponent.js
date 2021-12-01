@@ -280,6 +280,17 @@ class Re_examinationSchedule extends Component {
                             <div class='dung-logomini'>
                                 <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
                             </div>
+                            Tình trạng sức khỏe
+
+                            Vấn đề gặp phải:
+                            <Input name="health-issue" onChange={(e)=>{this.state.registering.health_issue=e.target.value}} required />  
+      Huyết áp:
+                <Input name="blood_pressure" onChange={(e)=>{this.state.registering.blood_pressure=e.target.value}} required />  
+      Nhịp tim:
+      <Input name="heartbeat" onChange={(e)=>{this.state.registering.heart_beat=e.target.value}} required />  
+      
+
+
                             <p>Bạn có chắc chắn về sự lựa chọn của mình?</p>
                             <button type="button" onClick={(e) => { this.hideModal(); this.handleDeleteInsert(e) }}>
                                 Hủy
