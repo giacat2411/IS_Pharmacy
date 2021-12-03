@@ -1,4 +1,4 @@
-Chỉnh database: 
+﻿Chỉnh database: 
     ALTER table work_schedule
 	add start_day date,
     add end_day date;

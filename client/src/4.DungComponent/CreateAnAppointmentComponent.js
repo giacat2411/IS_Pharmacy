@@ -23,7 +23,7 @@ function CreateAnAppointment() {
             <NurseSideBar />
             <Container>
                 <Row>
-                    <Col class='dung-title' style={{ textAlign: 'center' }}>
+                    <Col>
                         <h1>&nbsp;&nbsp;&nbsp; Tạo lịch khám</h1>
                         <hr />
                     </Col>

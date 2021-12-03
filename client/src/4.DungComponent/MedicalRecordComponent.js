@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Container, PaginationLink, PaginationItem, Pagination, Modal } from 'reactstrap';
+import { Container, Row, Col, Modal } from 'reactstrap';
 import axios from 'axios';
 import ToastServive from 'react-material-toast';
 
 import { Link } from 'react-router-dom';
 import { Input, Button } from 'reactstrap';
 import HeaderDefine from '../5.Share Component/Context';
-import concurrently from 'concurrently';
+
 // import HeaderDefine from '../5.Share Component/Context'
 // import { spacing } from 'react-select/dist/declarations/src/theme';
 
@@ -23,7 +23,7 @@ class ViewMedicalRecord extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            phone: localStorage.getItem("med_phone"),// this.props.phone,
+            phone: this.props.phone,// this.props.phone,
             treatment_turn: [{}],
             system_user: {},
             treatment_curr: {},
@@ -72,10 +72,12 @@ class ViewMedicalRecord extends Component {
 
         return (
             <Container id='dung-benhan'>
-                <div class='dung-title'>
+                <Row style={{textAlign: 'center'}}>
+                <Col class='dung-title'>
                     <h1>Bệnh án</h1>
                     <hr />
-                </div>
+                </Col>
+                </Row>
 
                 <div class=''>
                     {

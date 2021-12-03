@@ -27,8 +27,8 @@ import CancelAppointment from '../4.DungComponent/CancelAppointmentComponent';
 import CreateAnAppointment from '../4.DungComponent/CreateAnAppointmentComponent';
 import Re_examinationSchedule from '../4.DungComponent/Re-examinationScheduleComponent';
 import MedicalRecord from '../4.DungComponent/VIewMedicalRecordComponent';
-import InstantAppointment from '../4.DungComponent/InstantAppointmentComponent';
 import ViewMedicalRecord from '../4.DungComponent/MedicalRecordComponent';
+import InstantAppointment from '../4.DungComponent/InstantAppointmentComponent';
 
 //PHUC
 import LoginPane from '../2.PhucComponent/loginPaneComponent';
@@ -87,7 +87,7 @@ class Main extends Component {
   }
 
   updatePage(page) {
-    this.setState({redirect_page: page})
+    this.setState({ redirect_page: page })
   }
 
   render() {
@@ -97,26 +97,30 @@ class Main extends Component {
       )
     }
 
-    const Info = ({match}) => {
+    const Info = ({ match }) => {
       return (
-        <Profile phone = {parseInt(JSON.parse(match.params.phone))}/>
+        <Profile phone={parseInt(JSON.parse(match.params.phone))} />
       )
     }
-    
+
     const Login = () => {
       return (
         <LoginPane updatePage={this.updatePage} />
       )
     }
 
+    const Record = ({match}) => {
+      return <ViewMedicalRecord phone={parseInt(JSON.parse(match.params.phone))} />
+    }
+
     const role = this.state.redirect_page === 'home' ? 0 :
-                this.state.redirect_page === 'Patient' ? 1 :
-                this.state.redirect_page === 'Nurse' ? 2 : 3       
+      this.state.redirect_page === 'Patient' ? 1 :
+        this.state.redirect_page === 'Nurse' ? 2 : 3
     console.log(this.state.redirect_page)
     return (
       <HeaderProvider>
         <div>
-          <Header updatePage={this.updatePage}/>
+          <Header updatePage={this.updatePage} />
           <div>
             <Switch>
               {/*---------------------------------Cat------------------------------------*/}
@@ -139,7 +143,7 @@ class Main extends Component {
               <Route path='/view_medical_record' component={MedicalRecord} />
               <Route path='/re-examination_schedule' component={Re_examinationSchedule} />
               <Route path='/instant_appointment' component={InstantAppointment} />
-              <Route path='/medical_record' component={ViewMedicalRecord} />
+              <Route path='/medical_record/:phone' component={Record} />
 
               {/*---------------------------------Phuc------------------------------------*/}
               <Route path='/login' component={Login} />
@@ -151,9 +155,10 @@ class Main extends Component {
 
               {/*---------------------------------Chanh------------------------------------*/}
               <Route path='/nurse' component={Nurse} />
-<Route path='/saveSchedule' component={SaveSchedule} />
-<Route path='/view' component={View} />
-<Route path='/scheduleTable' component={ScheduleTable} />
+              <Route path='/saveSchedule' component={SaveSchedule} />
+              <Route path='/view' component={View} />
+              <Route path='/scheduleTable' component={ScheduleTable} />
+              
               <Redirect to={`/${this.state.redirect_page}`} />
             </Switch>
           </div>

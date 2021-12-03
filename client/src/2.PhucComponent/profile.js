@@ -122,7 +122,7 @@ const Profile = (props) => {
     const Health = () => {
         return (<>
             <Row>
-                <Col>
+                <Col md="6">
                     <Row>
                         <Col>
                             Chiều cao: {info.height}
@@ -167,23 +167,38 @@ const Profile = (props) => {
                     </Row>
                 </Col>
 
-
+                <Col md="6">
+                <Row>
+                <Col>
                 <NavLink to='/view_order'>
-                    <Button classname="center_screen"
+                    <Button classname="center_screen" disabled={grant} 
                         style={{
                             backgroundColor: '#62AFFC',
                             border: '0px',
                             height: '40px',
-                            marginTop: '50px'
+                            marginTop: '50px',
+                            width: '140px'
                         }}>
                         Xem đơn thuốc </Button>
                 </NavLink>
-
+                </Col>
+                <Col>
                 <Link to={`/medical_record/${JSON.stringify(user.phone)}`}>
-                    <Button className="dung cart-button benhan nd" onClick={(e) => { localStorage.setItem("med_phone", user.phone); console.log("set") }}>
+                    <Button disabled={grant} 
+                    onClick={(e) => { localStorage.setItem("med_phone", user.phone); console.log("set") }}
+                    style={{
+                        backgroundColor: '#62AFFC',
+                        border: '0px',
+                        height: '40px',
+                        marginTop: '50px',
+                        width: '140px'
+                    }}>
                         Bệnh án
                     </Button>
                 </Link>
+                </Col>
+                </Row>
+                </Col>
             </Row></>
         )
     }

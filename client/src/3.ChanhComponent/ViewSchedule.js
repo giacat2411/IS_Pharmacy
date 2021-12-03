@@ -7,7 +7,9 @@ import ToastServive from 'react-material-toast';
 import addDays from 'date-fns/addDays';
 import HeaderDefine from '../5.Share Component/Context';
 import { Switch, Redirect } from 'react-router';
-import { Input, Modal } from 'reactstrap';
+import { Input, Modal, Row, Col } from 'reactstrap';
+import DoctorSideBar from '../5.Share Component/SideBar/DoctorSideBarComponent';
+
 const toast = ToastServive.new({
     place: 'bottomLeft',
     duration: 2,
@@ -157,13 +159,18 @@ class ScheduleTable extends Component {
         // if (this.context.role !== "Doctor") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         
         return (
+            <>
+            <DoctorSideBar />
             <Container id='dung-appointment'>
-                <div class='dung-title'>
+                <Row>
+                    <Col class='dung-title' style={{ textAlign: 'center' }}>
                     <h1>Lịch làm việc</h1>
                     <hr />
-                </div>
+                    </Col>
+                </Row>
 
-                <div class='dung-thu'>
+                <Row style={{textAlign: 'center'}}>
+                <Col class='dung-thu'>
                     <button class='dung-button-thu' value={2} onClick={this.handleClick}>Monday</button>
                     <button class='dung-button-thu' value={3} onClick={this.handleClick}>Tuesday</button>
                     <button class='dung-button-thu' value={4} onClick={this.handleClick}>Wednesday</button>
@@ -171,8 +178,10 @@ class ScheduleTable extends Component {
                     <button class='dung-button-thu' value={6} onClick={this.handleClick}>Friday</button>
                     <button class='dung-button-thu' value={7} onClick={this.handleClick}>Saturday</button>
                     <button class='dung-button-thu' value={8} onClick={this.handleClick}>Sunday</button>
-                </div>
-                <div class='dung-appointment-table'>
+                </Col>
+                </Row>
+                <Row>
+                <Col class='dung-appointment-table'>
                     <Table hover>
                         <thead>
                             <tr>
@@ -217,8 +226,10 @@ class ScheduleTable extends Component {
                         <button class='chanh-button-view' type="button" onClick={(e) => this.addSche()}>Thêm</button>
                         <button class='chanh-button-view' type="button" onClick={(e) => this.toggleAdd()}>Hủy</button>
                     </Modal>
-                </div>
+                </Col>
+                </Row>
             </Container>
+        </>
         )
     }
 }
