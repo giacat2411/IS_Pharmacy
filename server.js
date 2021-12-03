@@ -289,7 +289,7 @@ app.get('/api/get/order_in_view', function (req, res) {
 })
 
 app.get('/api/get/prescribe-info', function (req, res) {
-  var sql = `select prescribe_id, doctor_phone from prescriptive_medicine join treatment_turn on (id=treatment_id) where prescribe_id= req.query.orderID;`
+  var sql = `select prescribe_id, doctor_phone from prescriptive_medicine join treatment_turn on (id=treatment_id) where prescribe_id= ${req.query.orderID};`
   console.log(sql);
   connection.query(sql, function (err, results) {
     if (err) throw err;
@@ -303,6 +303,7 @@ app.get('/api/get/prescribe-info', function (req, res) {
 
 app.get('/api/get/order_details', function (req, res) {
   var sql = "select * from include natural join drug where medicine_id = " + req.query.orderID;
+  console.log(sql);
   connection.query(sql, function (err, results) {
     if (err) throw err;
     res.json({ order_details: results });
@@ -434,7 +435,9 @@ app.get('/api/get/patientInfo', (req, res) => {
 }
 )
 app.get('/api/get/mytreatment', (req, res) => {
-  var sql = `SELECT * FROM treatment_turn left join prescriptive_medicine on id=treatment_id   where patient_phone=${req.query.phone}`;
+  var sql = `SELECT treatment_turn.*, prescriptive_medicine.*, concat(lastname, ' ', firstname) as fullname
+  FROM treatment_turn left join prescriptive_medicine on id = treatment_id
+      join system_user on doctor_phone = phone where patient_phone=${req.query.phone}`;
   console.log(sql)
   connection.query(sql, function (err, results) {
     res.json(results);

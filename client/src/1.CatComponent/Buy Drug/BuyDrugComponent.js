@@ -165,7 +165,7 @@ class BuyDrug extends Component {
                             </NavItem>
                         </Nav>
 
-                        <Nav className="ml-auto" navbar>
+                        <Nav className="ms-auto" navbar style={{marginTop: '-15px'}}>
                             <NavItem className="cart">
                             <NavLink className="nav-link" to='/view_cart'>
                             <FaShoppingCart className="buy-cart"/> 

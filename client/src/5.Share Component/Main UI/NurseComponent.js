@@ -14,7 +14,7 @@ class Nurse extends Component{
                 <hr />
                 <Row>
                     <Col md="6">
-                        <LinkContainer to="/manage_drug" >
+                        <LinkContainer to="/manage_drug" style={{cursor: 'pointer'}}>
                         <Card className="cat-customer-item-right">
                             <img className="cat-customer-img" width="91.98px" height="90px" src="/assets/images/view-home.png" alt = "Xem hồ sơ bệnh án"></img>
                             <CardBody>
@@ -38,7 +38,7 @@ class Nurse extends Component{
                             <Card className="cat-customer-item-right">
                                 <img className="cat-customer-img" width="67.29px" height="95px" src="/assets/images/schedule.png" alt = "Đặt lịch khám"></img>
                                 <CardBody>
-                                <CardTitle tag="h5" className="cat-customer-text">Tạo lịch khám</CardTitle>
+                                <CardTitle tag="h5" className="cat-customer-text">Tạo lượt điều trị</CardTitle>
                                 </CardBody>
                             </Card>
                     </LinkContainer>
@@ -48,7 +48,7 @@ class Nurse extends Component{
                             <Card className="cat-customer-item-left">
                                 <img className="cat-customer-img" width="67.29px" height="95px" src="/assets/images/make-treat-home.png" alt = "Đặt lịch khám"></img>
                                 <CardBody>
-                                <CardTitle tag="h5" className="cat-customer-text">Quản lý lịch khám</CardTitle>
+                                <CardTitle tag="h5" className="cat-customer-text">Thống kê lượt điều trị</CardTitle>
                                 </CardBody>
                             </Card>
                     </LinkContainer>

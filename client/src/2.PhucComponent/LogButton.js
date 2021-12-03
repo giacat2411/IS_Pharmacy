@@ -68,12 +68,12 @@ const LogButton = (props) => {
         return (
             <>
                 {swit}
-                <Nav className="ml-auto" navbar>
+                <Nav className="ms-auto" navbar>
                     <NavItem>
-                        <NavLink className="nav-link" to='/signup'> <FaUserPlus /> Đăng ký </NavLink>
+                        <NavLink className="nav-link" to='/signup' style={{color: 'black'}} > <FaUserPlus /> Đăng ký </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink className="nav-link" to='/login'> <FaSignInAlt /> Đăng nhập </NavLink>
+                        <NavLink className="nav-link" to='/login' style={{color: 'black'}} > <FaSignInAlt /> Đăng nhập </NavLink>
                     </NavItem>
                 </Nav>
                 {/* <Switch>
@@ -83,15 +83,15 @@ const LogButton = (props) => {
         );
     return (
         // <HeaderDefine.Consumer>
-        <Nav className="ml-auto" navbar>
-            <NavItem>
+        <Nav className="ms-auto" navbar>
+            <NavItem style={{color: 'black'}} >
                 <NavLink className="nav-link" to={`/profile/${JSON.stringify(user.phone)}`}>
                     <img src={user.img} className="mini-ava" alt="Mini-ava"
                         style={{ borderRadius: '55px' }} /> {user.name}
                 </NavLink>
                 {/* <img src={user.user.ava} /> {user.user.fullname} */}
             </NavItem>
-            <NavItem>
+            <NavItem style={{color: 'black'}} >
                 <Button
                     style={{
                         backgroundColor: '#5B9BF3',

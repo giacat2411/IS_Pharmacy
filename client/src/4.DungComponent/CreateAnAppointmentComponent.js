@@ -4,6 +4,7 @@ import { Container, Button, Row, Col } from 'reactstrap';
 import { Link, Switch, Redirect } from 'react-router-dom';
 import HeaderDefine from '../5.Share Component/Context';
 import NurseSideBar from '../5.Share Component/SideBar/NurseSideBarComponent';
+import { LinkContainer } from 'react-router-bootstrap';
 
 function CreateAnAppointment() {
     const ctx = useContext(HeaderDefine);
@@ -23,30 +24,30 @@ function CreateAnAppointment() {
             <NurseSideBar />
             <Container>
                 <Row>
-                    <Col>
-                        <h1>&nbsp;&nbsp;&nbsp; Tạo lịch khám</h1>
+                    <Col style={{textAlign: 'center'}}>
+                        <h1>&nbsp;&nbsp;&nbsp; Tạo lượt điều trị</h1>
                         <hr />
                     </Col>
                 </Row>
                 <Row>
                     <Col>
                 <div class='dung-button-createappointment'>
-                    <Link to='/instant_appointment'>
+                    <LinkContainer to='/instant_appointment'>
                         <Button className="dung cart-button">
-                            Lịch khám tức thời
+                            Tức thời
                         </Button>
-                    </Link>
+                    </LinkContainer>
                 </div>
                 </Col>
                 </Row>
                 <Row>
                     <Col>
                 <div class='dung-button-createappointment aa'>
-                    <Link to='/re-examination_schedule'>
+                    <LinkContainer to='/re-examination_schedule'>
                         <Button className="dung cart-button">
-                            Lịch tái khám
+                            Tái khám
                         </Button>
-                    </Link>
+                    </LinkContainer>
                 </div>
                 </Col>
                 </Row>

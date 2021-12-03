@@ -218,7 +218,7 @@ class ViewOrder extends Component {
                 {   (this.context.role === "Nurse")? <NurseSideBar />:<div/>}
                 <Container>
                     <Row className="manage-order-heading">
-                        <Col className='manage-order-header'> Danh sách đơn hàng </Col>
+                        <Col className='manage-order-header'> Danh sách đơn thuốc </Col>
                     </Row>
                     <Row>
                         <Button className="search-button-sort" onClick={() => this.sortByKey()}>
@@ -249,7 +249,7 @@ class ViewOrder extends Component {
                                             Tên khách hàng
                                         </th>
                                         <th>
-                                            Mã đơn hàng
+                                            Mã đơn thuốc
                                         </th>
                                         <th>
                                             Ngày tạo đơn

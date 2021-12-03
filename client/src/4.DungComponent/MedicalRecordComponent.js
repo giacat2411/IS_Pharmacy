@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Modal } from 'reactstrap';
+import { Container, Row, Col, Modal, Table, ModalBody, Badge, Spinner } from 'reactstrap';
 import axios from 'axios';
 import ToastServive from 'react-material-toast';
 
@@ -7,11 +7,6 @@ import { Link } from 'react-router-dom';
 import { Input, Button } from 'reactstrap';
 import HeaderDefine from '../5.Share Component/Context';
 
-// import HeaderDefine from '../5.Share Component/Context'
-// import { spacing } from 'react-select/dist/declarations/src/theme';
-
-//curr_thu: i+3 
-//current_day: addDays(new Date(), 1).toUTCString(),
 const toast = ToastServive.new({
     place: 'bottomLeft',
     duration: 2,
@@ -27,15 +22,28 @@ class ViewMedicalRecord extends Component {
             treatment_turn: [{}],
             system_user: {},
             treatment_curr: {},
-            edit: false,
+            is_open: false,
+            orderDetailsOpen: []
             // treatment_turns:[],
             // system_users:[],
         }
+        this.toggleOpen = this.toggleOpen.bind(this);
+    }
 
+    async toggleOpen(treatment, flag) {
+        let res = []
+        console.log(treatment);
+
+        if (flag) {
+            this.setState({ treatment_curr: treatment })
+            if (treatment.prescribe_id !== null) {
+                res = await axios.get('/api/get/order_details', { params: { orderID: treatment.prescribe_id } })
+                this.setState({ orderDetailsOpen: res.data.order_details })
+            }
+        }
+        this.setState({ is_open: !this.state.is_open })
     }
-    toggleEdit() {
-        this.setState({ edit: !this.state.edit })
-    }
+
     componentDidMount() {
         axios.get('/api/get/mytreatment', { params: { phone: this.state.phone } }).then(
             res => { this.setState({ treatment_turn: res.data }); console.log(this.state.treatment_turn) }
@@ -69,86 +77,251 @@ class ViewMedicalRecord extends Component {
 
 
     render() {
-
+        const treatment_turn = this.state.treatment_turn.map((x) => {
+            if ((+(new Date(x.start_time))) < (+(new Date()))) {
+                const date = new Date(x.turn_time)
+                console.log(date.getMinutes())
+                return (
+                    <tr>
+                        <th scope="row">
+                            {this.state.treatment_turn.indexOf(x) + 1}
+                        </th>
+                        <td>
+                            {x.id}
+                        </td>
+                        <td>
+                            {date.getHours() + ":" +
+                                (() => date.getMinutes() === 0 ? "00" : date.getMinutes())()
+                                + " " + date.getDate() + "/" + (parseInt(date.getMonth()) + 1).toString()
+                                + "/" + date.getFullYear()}
+                        </td>
+                        <td>
+                            {x.fullname}
+                        </td>
+                        <td>
+                            {x.doctor_phone}
+                        </td>
+                        <td>
+                            {/* <Link to={`/view_medical_detail/${x.id}`}> */}
+                            <Button style={{
+                                backgroundColor: '#62AFFC',
+                                marginTop: '-4px',
+                                border: '0px',
+                                color: 'white',
+                                borderRadius: '10px',
+                                height: '30px',
+                                paddingTop: '2px'
+                            }} disabled={this.context.phone !== x.patient_phone}
+                                onClick={() => this.toggleOpen(x, true)}>
+                                Xem
+                            </Button>
+                            {/* </Link> */}
+                        </td>
+                    </tr>
+                )
+            }
+        }
+        )
         return (
             <Container id='dung-benhan'>
-                <Row style={{textAlign: 'center'}}>
-                <Col class='dung-title'>
-                    <h1>Bệnh án</h1>
-                    <hr />
-                </Col>
+                <Row style={{ textAlign: 'center', marginTop: '50px', marginBottom: '50px' }}>
+                    <Col class='dung-title'>
+                        <h1>Các lượt điều trị</h1>
+                        <hr />
+                    </Col>
                 </Row>
 
-                <div class=''>
-                    {
-                        this.state.treatment_turn.map((x, index) => {
-                            if ((+(new Date(x.start_time))) < (+(new Date()))) {
-                                return (
-                                    <div class='dung-tachdiv'>
-                                        <h2>ID: {x.id}</h2>
-                                        <h4 class='dung-benhnhan'>Bệnh nhân: {this.state.system_user.lastname + this.state.system_user.firstname}</h4>
-                                        <div class='dung-thongtin'>
-                                            <p>Ngày sinh: {this.state.system_user.dateofbirth}</p>
-                                            <p>Lịch hẹn: {x.turn_time}</p>
-                                            <p>Vấn đề sức khỏe: {x.health_issue}</p>
-                                            <p>Huyết áp: {x.blood_pressure}</p>
-                                            <p>Nhịp tim: {x.heart_beat}</p>
-                                            <p>Chẩn đoán: {x.diagnose}</p>
-                                            <p>Phương pháp điều trị: {x.therapy}</p>
-                                            <p>Thời điểm bắt đầu {x.start_time}</p>
-                                            <p>Thời điểm kết thúc:{x.end_time}</p>
-                                            <p>Bác sĩ khám bệnh: {x.doctor_phone}</p>
-                                            <Link to={`/prescribe-med/${JSON.stringify(x.prescribe_id)}/${JSON.stringify(this.state.system_user.phone)}`}>
-                                                <Button className='order-button' >
-                                                    Đơn thuốc đã kê: {x.prescribe_id}
-                                                </Button>
-                                            </Link>
+                <Row style={{ marginBottom: '98px', marginTop: '91px' }}>
+                    <Col>
+                        <Table hover >
+                            <thead>
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        ID
+                                    </th>
+                                    <th>
+                                        Ngày khám
+                                    </th>
+                                    <th>
+                                        Bác sĩ phụ trách
+                                    </th>
+                                    <th>
+                                        Số điện thoại
+                                    </th>
+                                    <th>
 
-                                        </div>
-                                        {(this.context.phone === x.doctor_phone) ?
-                                            <Button onClick={(e) => {
-                                                this.toggleEdit(); this.setState({ treatment_curr: x });
-                                                if (x.start_time === "") this.state.treatment_curr.start_time = new Date();
-                                            }}      >
-                                                Chỉnh sửa bệnh án </Button> : <div />}
-                                    </div>
-                                )
-                            }
-                        }
-                        )
-                    }
-                </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {treatment_turn}
+                            </tbody>
+                        </Table>
+                    </Col>
+                </Row>
 
+                <Modal isOpen={this.state.is_open} toggle={this.toggleOpen} fullscreen>
+                    <ModalBody style={{ overflowY: 'auto' }}>
+                        <Container>
+                            <Row>
+                                <Col md="11">
+                                    <img src="/assets/images/Logo.png" alt="Logo" width="50px" height="50px"></img>
+                                </Col>
+                                <Col md="1" style={{ float: 'right' }}>
+                                    <Button style={{
+                                        backgroundColor: '#62AFFC',
+                                        border: '0px',
+                                        height: '30px',
+                                        marginTop: '10px',
+                                        width: '30px',
+                                        padding: '0'
+                                    }}
+                                        onClick={() => this.toggleOpen("", false)}> X </Button>
+                                </Col>
+                            </Row>
+                            <Row style={{ textAlign: 'center' }}>
+                                <Col>
+                                    <span style={{ fontSize: '25px', fontWeight: 'bold' }}>
+                                        Thông tin lượt điều trị
+                                    </span>
+                                </Col>
+                            </Row>
+                            <Row style={{ marginBottom: '10px' }}>
+                                <Col>
+                                    <span style={{ fontWeight: 'bold' }}>
+                                        Mã điều trị:&nbsp;
+                                    </span>
+                                    {this.state.treatment_curr.id}</Col>
+                            </Row>
 
-                <Modal isOpen={this.state.edit} toggle={this.toggleEdit}  >
+                            <Row style={{ marginBottom: '10px' }}>
+                                <Col>
+                                    <span style={{ fontWeight: 'bold' }}> Bác sĩ khám bệnh: </span> {this.state.treatment_curr.fullname}
+                                </Col>
+                            </Row>
+                            <Row style={{ marginBottom: '10px' }}>
 
-                    <h2>ID: {this.state.treatment_curr.id}</h2>
-                    <h4 class='dung-benhnhan'>Bệnh nhân: {this.state.system_user.lastname + this.state.system_user.firstname}</h4>
-                    <div class='dung-thongtin'>
-                        <p>Ngày sinh: {this.state.system_user.dateofbirth}</p>
-                        <p>Lịch hẹn: {this.state.treatment_curr.turn_time}</p>
-                        <p>Vấn đề sức khỏe: {this.state.treatment_curr.health_issue}</p>
-                        <p>Huyết áp: {this.state.treatment_curr.blood_pressure}</p>
-                        <p>Nhịp tim: {this.state.treatment_curr.heart_beat}</p>
-                        <Input defaultValue={this.state.treatment_curr.diagnose} onChange={(e) => { this.state.treatment_curr.diagnose = e.target.value }} placeholder="Chẩn đoán" />
-                        <Input defaultValue={this.state.treatment_curr.therapy} onChange={(e) => { this.state.treatment_curr.therapy = e.target.value }} placeholder="Điều trị" />
-                        <p>Phương pháp điều trị: {this.state.treatment_curr.therapy}</p>
-                        <p>Thời điểm bắt đầu {this.state.treatment_curr.start_time}</p>
-                        <p>Thời điểm kết thúc:{this.state.treatment_curr.end_time}</p>
-                        <p>Bác sĩ khám bệnh: {this.state.treatment_curr.doctor_phone}</p>
-                        <Link to={`/prescribe-med/${JSON.stringify(this.state.treatment_curr.prescribe_id)}/${JSON.stringify(this.state.system_user.phone)}`}>
-                            <Button className='order-button' >
-                                Đơn thuốc đã kê: {this.state.treatment_curr.prescribe_id}
-                            </Button>
-                        </Link>
+                                <Col >
+                                    <span style={{ fontWeight: 'bold' }}> Bệnh nhân: </span> {this.state.system_user.lastname + " " + this.state.system_user.firstname}
+                                </Col>
+                                <Col>
+                                    <span style={{ fontWeight: 'bold' }}> Ngày sinh: </span> {this.state.system_user.dateofbirth}
+                                </Col>
+                            </Row>
+                            <Row style={{ marginBottom: '10px' }}>
+                                <Col>
+                                    <span style={{ fontWeight: 'bold' }}> Lịch hẹn: </span> {this.state.treatment_curr.turn_time}
+                                </Col>
+                            </Row>
+                            <Row style={{ marginBottom: '10px' }}>
+                                <Col>
+                                    <span style={{ fontWeight: 'bold' }}>Vấn đề sức khỏe: </span> {this.state.treatment_curr.health_issue}
+                                </Col>
+                            </Row>
+                            <Row style={{ marginBottom: '10px' }}>
+                                <Col>
+                                    <span style={{ fontWeight: 'bold' }}> Huyết áp: </span> {this.state.treatment_curr.blood_pressure}
+                                </Col>
+                                <Col>
+                                    <span style={{ fontWeight: 'bold' }}> Nhịp tim: </span> {this.state.treatment_curr.heart_beat}
 
-                    </div>
-                    <Button >Thêm đơn thuốc</Button>
+                                    {/* <Input defaultValue={this.state.treatment_curr.diagnose} onChange={(e) => { this.state.treatment_curr.diagnose = e.target.value }} placeholder="Chẩn đoán" />
+                                <Input defaultValue={this.state.treatment_curr.therapy} onChange={(e) => { this.state.treatment_curr.therapy = e.target.value }} placeholder="Điều trị" /> */}
+                                </Col>
+                            </Row>
+                            <Row style={{ marginBottom: '10px' }}>
+                                <Col>
+                                    <span style={{ fontWeight: 'bold' }}> Phương pháp điều trị: </span>{this.state.treatment_curr.therapy}
+                                </Col>
+                            </Row>
+                            <Row style={{ marginBottom: '10px' }}>
+                                <Col>
+                                    <span style={{ fontWeight: 'bold' }}> Thời điểm bắt đầu: </span>{this.state.treatment_curr.start_time}
+                                </Col>
+                                <Col>
+                                    <span style={{ fontWeight: 'bold' }}>Thời điểm kết thúc: </span>{this.state.treatment_curr.end_time}
+                                </Col>
+                            </Row>
+                            <Row style={{ marginBottom: '20px' }}>
+                                <Col md="12" style={{ textAlign: 'center' }}>
+                                    {(() => {
+                                        if (this.state.treatment_curr.prescribe_id === null)
+                                            return <Badge color="primary" style={{ fontSize: '15px' }}> Không có đơn thuốc kèm theo </Badge>
+                                        else {
+                                            const details = this.state.orderDetailsOpen.map(detail => {
+                                                return (
+                                                    <tr>
+                                                        <th scope="row" style={{ textAlign: 'center' }}>
+                                                            {this.state.orderDetailsOpen.indexOf(detail) + 1}
+                                                        </th>
+                                                        <td>
+                                                            {detail.drug_name}
+                                                        </td>
+                                                        <td style={{ textAlign: 'center' }}>
+                                                            {detail.unit}
+                                                        </td>
+                                                        <td style={{ textAlign: 'center' }}>
+                                                            {(detail.price).toLocaleString('vi-VN')}đ
+                                                        </td>
+                                                        <td style={{ textAlign: 'center' }}>
+                                                            {detail.quantity}
+                                                        </td>
+                                                        <td style={{ textAlign: 'right' }}>
+                                                            {(detail.price * detail.quantity).toLocaleString('vi-VN')}đ
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            });
+                                            return <><Badge color="primary" style={{ fontSize: '15px', marginBottom: '20px' }}> Đơn thuốc kèm theo </Badge> 
+                                            <Table responsive hover striped bordered>
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            #
+                                                        </th>
+                                                        <th>
+                                                            Tên thuốc
+                                                        </th>
+                                                        <th style={{ textAlign: 'center' }}>
+                                                            Đơn vị tính
+                                                        </th>
+                                                        <th style={{ textAlign: 'center' }}>
+                                                            Đơn giá
+                                                        </th>
+                                                        <th style={{ textAlign: 'center' }}>
+                                                            Số lượng
+                                                        </th>
+                                                        <th style={{ textAlign: 'right' }}>
+                                                            Thành tiền
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {(() => { if (this.state.orderDetailsOpen.length === 0) return <Spinner className="detail-spinner"> Loading... </Spinner> })()}
+                                                    {details}
+                                                </tbody>
+                                            </Table></>
+                                        }
+                                    })()}
+                                </Col>
+                            </Row>
+                            {/* <Link to={`/prescribe-med/${JSON.stringify(this.state.treatment_curr.prescribe_id)}/${JSON.stringify(this.state.system_user.phone)}`}>
+                                    <Button className='order-button' >
+                                        Đơn thuốc đã kê: {this.state.treatment_curr.prescribe_id}
+                                    </Button>
+                                </Link> */}
+
+                        </Container>
+                    </ModalBody>
+                    {/* <Button >Thêm đơn thuốc</Button>
                     <Button onClick={(e) => {
                         if (this.state.treatment_curr.end_time === "") this.state.treatment_curr.end_time = new Date();
                         //submit gọi
                         this.toggleEdit();
-                    }}           >Xác nhận </Button>
+                    }}           >Xác nhận </Button> */}
 
                 </Modal>
             </Container>

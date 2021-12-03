@@ -12,6 +12,18 @@ body {
   background-color: #F6F8FB !important;
 }
 
+body.modal-open {
+  height: 100vh;
+  overflow-y: hidden;
+}
+
+.navbar-header {
+  background-color: #D8EDFD !important;
+  color: black;
+  z-index: 19;
+  width: 100%;
+}
+
 .header-content {
   font-size: 35px;
   font-weight: bold;

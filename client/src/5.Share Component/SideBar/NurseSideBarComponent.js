@@ -42,7 +42,7 @@ class NurseSideBar extends Component {
                                 <Link to='/statistic_order' />
                             </MenuItem>
                         </SubMenu>
-                        <MenuItem icon={<FaHeart />}>Tạo lịch khám
+                        <MenuItem icon={<FaHeart />}>Tạo lượt điều trị
                             <Link to='/createanappointment' />
                         </MenuItem>
                         <MenuItem icon={<FaHeart />}>Thống kê lượt điều trị

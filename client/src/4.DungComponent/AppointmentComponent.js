@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Table } from 'reactstrap';
+import { Container, Table, Row, Col } from 'reactstrap';
 import axios from 'axios';
 import { FaPencilAlt } from "react-icons/fa";
 import { MdLockClock } from "react-icons/md";
@@ -399,10 +399,12 @@ class Appointment extends Component {
         if (this.context.role !== "Patient") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <Container id='dung-appointment'>
-                <div class='dung-title'>
+                <Row>
+                <Col class='dung-title' style={{textAlign: 'center'}}>
                     <h1>Đặt lịch khám</h1>
                     <hr />
-                </div>
+                </Col>
+                </Row>
 
                 <div class='dung-thu'>
                     <button class='dung-button-thu' value={2} onClick={this.handleClick}>Monday</button>

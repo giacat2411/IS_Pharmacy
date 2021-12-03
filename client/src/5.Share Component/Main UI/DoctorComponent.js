@@ -31,7 +31,7 @@ class Doctor extends Component{
                         <Card className="cat-customer-item-left">
                             <img className="cat-customer-img" width="65px" height="90px" src="/assets/images/make-treat-home.png" alt = "Mua thuốc online"></img>
                             <CardBody>
-                            <CardTitle tag="h5" className="cat-customer-text">Thống kê lịch khám</CardTitle>
+                            <CardTitle tag="h5" className="cat-customer-text">Thống kê lượt điều trị</CardTitle>
                             </CardBody>
                         </Card>
                         {/* </NavLink> */}
@@ -43,19 +43,7 @@ class Doctor extends Component{
                             <Card className="cat-customer-item-right">
                                 <img className="cat-customer-img" width="65px" height="90px" src="/assets/images/quanlydieuduong.png" alt = "Đặt lịch khám"></img>
                                 <CardBody>
-                                <CardTitle tag="h5" className="cat-customer-text">Quản lý điều dưỡng</CardTitle>
-                                </CardBody>
-                            </Card>
-                            {/* </NavLink> */}
-                        </LinkContainer>
-                    </Col>
-                    <Col md="6">
-                        <LinkContainer to ="/" style={{cursor: 'pointer'}}>
-                        {/* <NavLink className="cat-customer-item-link"> */}
-                            <Card className="cat-customer-item-left">
-                                <img className="cat-customer-img" width="65px" height="90px" src="/assets/images/buy-home.png" alt = "Hủy lịch khám"></img>
-                                <CardBody>
-                                <CardTitle tag="h5" className="cat-customer-text">Quản lý lượt điều trị</CardTitle>
+                                <CardTitle tag="h5" className="cat-customer-text">Quản lý nhân sự</CardTitle>
                                 </CardBody>
                             </Card>
                             {/* </NavLink> */}
@@ -64,7 +52,7 @@ class Doctor extends Component{
                     <Col md="6">
                     <LinkContainer to ="/view_medical_record" style={{cursor: 'pointer'}}>
                         {/* <NavLink className="cat-customer-item-link"> */}
-                        <Card className="cat-customer-item-right">
+                        <Card className="cat-customer-item-left">
                             <img className="cat-customer-img" width="90px" height="90px" src="/assets/images/view-home.png" alt = "Xem hồ sơ bệnh án"></img>
                             <CardBody>
                             <CardTitle tag="h5" className="cat-customer-text">Tra cứu bệnh án</CardTitle>

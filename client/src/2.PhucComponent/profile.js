@@ -184,7 +184,7 @@ const Profile = (props) => {
                 </Col>
                 <Col>
                 <Link to={`/medical_record/${JSON.stringify(user.phone)}`}>
-                    <Button disabled={grant} 
+                    <Button 
                     onClick={(e) => { localStorage.setItem("med_phone", user.phone); console.log("set") }}
                     style={{
                         backgroundColor: '#62AFFC',
@@ -193,7 +193,7 @@ const Profile = (props) => {
                         marginTop: '50px',
                         width: '140px'
                     }}>
-                        Bệnh án
+                        Lượt điều trị
                     </Button>
                 </Link>
                 </Col>
