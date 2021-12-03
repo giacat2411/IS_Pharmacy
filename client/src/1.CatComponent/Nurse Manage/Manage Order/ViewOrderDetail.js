@@ -84,9 +84,9 @@ class ViewOrderDetail extends Component {
         
         
 
-        const pageStyle = {};
+        const pageStyle = {};   
         // Nurse -> ở, 
-        if (this.context.role !== "Nurse"&&this.context.phone!==this.state.orderOpen.phone) return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
+        if (this.context.role !== "Nurse" && this.context.role !== "Patient") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <>
             { (this.context.role === "Nurse")?<NurseSideBar/>:<div/>}
@@ -127,7 +127,7 @@ class ViewOrderDetail extends Component {
                         Giới tính: Nam
                     </Col>
                 </Row>
-                <Row style={{margin: '5px 0px 5px 0px'}}>
+                <Row style={{marginTop: '5px'}}>
                     <Col>
                     Địa chỉ: {this.state.orderOpen.address}
                     </Col>
@@ -168,7 +168,7 @@ class ViewOrderDetail extends Component {
                 </Row>
             </Container>
             </div>
-            <Container>
+            <Container style={{marginBottom: '20px'}}>
                 <Row>
                     <Col md="12">
                         <ReactToPrint 

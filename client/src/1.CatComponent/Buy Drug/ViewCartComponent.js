@@ -9,7 +9,7 @@ class ViewCart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cart: JSON.parse(localStorage.getItem('IS_cart'))
+            cart: JSON.parse(localStorage.getItem('IS_cart')) === null ? [] : JSON.parse(localStorage.getItem('IS_cart'))
         }
         this.deleteDrug = this.deleteDrug.bind(this);
     }
@@ -31,6 +31,8 @@ class ViewCart extends Component {
         for (let i = 0; i < this.state.cart.length; i++) {
             total += (this.state.cart[i].number) * (this.state.cart[i].item.price);
         }
+        localStorage.setItem('IS_total_cart', total.toString())
+        
         const empty = <Col style={{textAlign: 'center', fontSize: '20px', marginBottom: '20px'}}> Giỏ hàng trống ! </Col>
         const list = this.state.cart.map(item => {
             return (

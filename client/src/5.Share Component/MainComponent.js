@@ -16,12 +16,14 @@ import ManageDrug from '../1.CatComponent/Nurse Manage/Manage Drug/ManageDrug';
 import StatisticOrder from '../1.CatComponent/Nurse Manage/Manage Order/StatisticOrder';
 import ViewOrder from '../1.CatComponent/Nurse Manage/Manage Order/ViewOrder';
 import ViewOrderDetail from '../1.CatComponent/Nurse Manage/Manage Order/ViewOrderDetail';
+import Payment from '../1.CatComponent/Buy Drug/PaymentComponent';
+import PaymentMoMo from '../1.CatComponent/Buy Drug/PaymentMoMoComponent';
 
 // DUNG
 import Doctor from './Main UI/DoctorComponent';
 import Appointment from '../4.DungComponent/AppointmentComponent';
 import CancelAppointment from '../4.DungComponent/CancelAppointmentComponent';
-import Payment from '../4.DungComponent/PaymentComponent';
+// import Payment from '../4.DungComponent/PaymentComponent';
 import CreateAnAppointment from '../4.DungComponent/CreateAnAppointmentComponent';
 import Re_examinationSchedule from '../4.DungComponent/Re-examinationScheduleComponent';
 import MedicalRecord from '../4.DungComponent/VIewMedicalRecordComponent';
@@ -126,12 +128,13 @@ class Main extends Component {
               <Route path='/view_order' component={ViewOrder} />
               <Route path='/statistic_order' component={StatisticOrder} />
               <Route path='/view_order_details/:orderID' component={ViewDetails} />
+              <Route path='/payment' component={Payment} />
+              <Route path='/payment_momo' component={PaymentMoMo} />
 
               {/*---------------------------------Dung------------------------------------*/}
               <Route path='/doctor' component={Doctor} />
               <Route path='/appointment' component={Appointment} />
               <Route path='/cancelappointment' component={CancelAppointment} />
-              <Route path='/payment' component={Payment} />
               <Route path='/createanappointment' component={CreateAnAppointment} />
               <Route path='/view_medical_record' component={MedicalRecord} />
               <Route path='/re-examination_schedule' component={Re_examinationSchedule} />
