@@ -4,24 +4,34 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { FaAngleLeft } from 'react-icons/fa';
 import { Redirect, Switch } from 'react-router-dom';
 import HeaderDefine from '../../5.Share Component/Context'; 
+import axios from 'axios';
 
-class ViewCart extends Component {
+class ViewPrescribe extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cart: JSON.parse(localStorage.getItem('IS_cart')) === null ? [] : JSON.parse(localStorage.getItem('IS_cart'))
+            treatment_id: this.props.treatment_id,
+            cart: JSON.parse(localStorage.getItem('IS_prescribe')) === null ? [] : JSON.parse(localStorage.getItem('IS_prescribe'))
         }
         this.deleteDrug = this.deleteDrug.bind(this);
+        this.onPrescribe = this.onPrescribe.bind(this);
+    }
+
+    onPrescribe() {
+        axios.post('/api/insert/prescribe_medicine', {treatment_id: this.state.treatment_id, cart: this.state.cart})
+        localStorage.removeItem('IS_prescribe');
+        alert('Thêm đơn thuốc thành công')
     }
 
     deleteDrug(item) {
         const index = this.state.cart.indexOf(item);
         const newCart = this.state.cart.filter(drug => { return this.state.cart.indexOf(drug) !== index })
-        localStorage.setItem('IS_cart', JSON.stringify(newCart))
+        localStorage.setItem('IS_prescribe', JSON.stringify(newCart))
         this.setState({cart: newCart});
     }
 
     render() {
+        console.log(this.state);
         let total = 0;
         console.log(this.state.cart);
 
@@ -31,9 +41,8 @@ class ViewCart extends Component {
         for (let i = 0; i < this.state.cart.length; i++) {
             total += (this.state.cart[i].number) * (this.state.cart[i].item.price);
         }
-        localStorage.setItem('IS_total_cart', total.toString())
         
-        const empty = <Col style={{textAlign: 'center', fontSize: '20px', marginBottom: '20px'}}> Giỏ hàng trống ! </Col>
+        const empty = <Col style={{textAlign: 'center', fontSize: '20px', marginBottom: '20px'}}> Đơn thuốc trống ! </Col>
         const list = this.state.cart.map(item => {
             return (
                 <Col className="cart-item" md="12">
@@ -53,13 +62,13 @@ class ViewCart extends Component {
                 </Col>
             );
         })
-        if (this.context.role !== "Patient") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
+        if (this.context.role !== "Doctor") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <>
             <Container>
                 <Row>
                     <Col>
-                        <LinkContainer to="/buydrug">
+                        <LinkContainer to={`/prescribe/${this.state.treatment_id}`}>
                         <Button className="back-button-2"> <FaAngleLeft /> </Button>
                         </LinkContainer>
                     </Col>
@@ -67,7 +76,7 @@ class ViewCart extends Component {
             </Container>
             <Container>
                 <Row>
-                    <Col md="12" className="cart-header"> Giỏ hàng của tôi </Col>
+                    <Col md="12" className="cart-header"> Đơn thuốc </Col>
                 </Row>
                 <Row>
                     {this.state.cart.length === 0 && empty}
@@ -76,11 +85,10 @@ class ViewCart extends Component {
                 <Row>
                     {this.state.cart.length !== 0 &&
                     <Col md="12">
-                        <LinkContainer to='/payment'>
-
-                            <Button className="cart-button">
-                                <span style={{ marginTop: '20px' }}> Thanh toán </span>
-                                <div className="cart-total" style={{marginTop: '-2px'}}> {(total).toLocaleString('vi-VN')}đ </div>
+                        <LinkContainer to='/view_medical_record' style={{backgroundColor: '#62AFFC'}}>
+                            <Button className="cart-button" onClick={this.onPrescribe}>
+                                <span style={{ marginTop: '20px' }}> Kê đơn </span>
+                                <div className="cart-total" style={{marginTop: '-3px'}}> {(total).toLocaleString('vi-VN')}đ </div>
                             </Button>
 
                         </LinkContainer>
@@ -92,5 +100,5 @@ class ViewCart extends Component {
     }
 }
 
-ViewCart.contextType = HeaderDefine;
-export default ViewCart;
+ViewPrescribe.contextType = HeaderDefine;
+export default ViewPrescribe;

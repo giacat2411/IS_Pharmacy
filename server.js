@@ -321,6 +321,14 @@ app.get('/api/get/total_value', function (req, res) {
   });
 })
 
+app.get('/api/get/payment', function (req, res) {
+  var sql = "SELECT * FROM PAYMENT WHERE MEDICINE_ID = " + req.query.medicine_id;
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ payment: results });
+  });
+})
+
 ///// Phuc /////
 
 app.get('/api/get/users', (req, res) => {
@@ -498,6 +506,20 @@ app.post('/api/update/drug_quantity', function (req, res) {
     res.json({ news: results });
   });
 });
+
+app.post('/api/update/treatment_turn_doctor', function (req, res) {
+  var sql = "UPDATE TREATMENT_TURN SET "
+    + "blood_pressure = " + req.body.blood_pressure + ", "
+    + "heart_beat = " + req.body.heart_beat + ", "
+    + "diagnose = '" + req.body.diagnose + "', "
+    + "therapy = '" + req.body.therapy + "' "
+    + "WHERE id = " + req.body.treatment_id + "; ";
+  console.log(sql);
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ news: results });
+  });
+})
 
 ///// Phuc /////
 app.post('/api/post/TTSK', (req, res) => {
@@ -679,6 +701,49 @@ app.post('/api/delete/treatment_turns', (req, res) => {
 
 
 ///// Cat /////
+app.post('/api/insert/prescribe_medicine', function (req, res) {
+  var id = Math.floor(Math.random() * Math.pow(10, 12));
+  const date = (new Date()).toISOString().split('T')[0];
+
+  var sql = "INSERT INTO MEDICINE(id, created_date) VALUE (" + id + ",'" + date + "');"
+  console.log(sql);
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+  });
+
+  sql = "INSERT INTO PRESCRIPTIVE_MEDICINE(prescribe_id, treatment_id) VALUE"
+        + " (" + id + ", " + req.body.treatment_id + ");"
+  console.log(sql);
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+  });
+
+  sql = "INSERT INTO INCLUDE(medicine_id, drug_name, quantity) VALUES";
+
+
+  for (let i = 0; i < req.body.cart.length; i++) {
+    sql += "( " + id + ",'" + req.body.cart[i].item.drug_name + "', " + req.body.cart[i].number + ") "
+    if (i !== req.body.cart.length - 1) sql += ", ";
+  }
+
+  console.log(sql);
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+  });
+})
+
+app.post('/api/insert/momo_payment', function (req, res) {
+  var id = Math.floor(Math.random() * Math.pow(10, 12));
+  const date = (new Date()).toISOString().split('T')[0]
+  var sql = "INSERT PAYMENT(id, method, created_date, medicine_id) VALUE"
+          + "( " + id + ", 'MoMo doanh nghiệp', '" + date + "', " + req.body.medicine_id + ")"
+  console.log(sql); 
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ news: results });
+  });
+})
+
 app.post('/api/insert/drug', function (req, res) {
   var sql = "INSERT INTO DRUG(drug_name, unit, price, remain) VALUE "
     + "('" + req.body.drug_name + "',"

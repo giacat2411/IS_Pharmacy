@@ -27,18 +27,15 @@ class DoctorSideBar extends Component {
                 </SidebarHeader>
                 <SidebarContent>
                     <Menu iconShape="square">
+                        <MenuItem icon={<FaHeart />}>Tra cứu lượt điều trị
+                            <Link to="/view_medical_record" />
+                        </MenuItem>
+                        <MenuItem icon={<FaHeart />}>Thống kê lượt điều trị</MenuItem>
                         <MenuItem icon={<FaHeart />}>Quản lý lịch làm việc
                             <Link to="/scheduleTable" />
                         </MenuItem>
-
-                        <MenuItem icon={<FaHeart />}>Thống kê lượt điều trị</MenuItem>
-
                         <MenuItem icon={<FaHeart />}>Quản lý nhân sự
                             <Link to="/HR" />
-                        </MenuItem>
-
-                        <MenuItem icon={<FaHeart />}>Tra cứu bệnh án
-                        <Link to="/view_medical_record"/>
                         </MenuItem>
                     </Menu>
                 </SidebarContent>

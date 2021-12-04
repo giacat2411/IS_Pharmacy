@@ -60,7 +60,7 @@ class ScheduleTable extends Component {
             }
         }
     }
-    componentDidUpdate(){
+    componentDidUpdate() {
         axios.get('/api/get/work_schedules')
             .then(res => {
                 const work_schedules = res.data;
@@ -148,8 +148,8 @@ class ScheduleTable extends Component {
                     </Modal>
                     {/* </div> */}
                     {this.state.curr_thu >= this.state.thu ?
-                        <FaPencilAlt /> : <MdLockClock />}
-                    <Button onClick={(e) => this.setEnd(x)}>Xóa lịch này</Button>
+                        <FaPencilAlt /> : <MdLockClock />} &nbsp;
+                    <Button color='danger' onClick={(e) => this.setEnd(x)}>Xóa lịch này</Button>
                 </td>
             </tr>
         )
@@ -157,64 +157,75 @@ class ScheduleTable extends Component {
     };
     render() {
         // if (this.context.role !== "Doctor") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
-        
+
         return (
             <>
-            <DoctorSideBar />
-            <Container id='dung-appointment'>
-                <Row>
-                    <Col class='dung-title' style={{ textAlign: 'center' }}>
-                    <h1>Lịch làm việc</h1>
-                    <hr />
-                    </Col>
-                </Row>
+                <DoctorSideBar />
+                <Container id='dung-appointment'>
+                    <Row>
+                        <Col class='dung-title' style={{ textAlign: 'center' }}>
+                            <h1>Lịch làm việc</h1>
+                            <hr />
+                        </Col>
+                    </Row>
 
-                <Row style={{textAlign: 'center'}}>
-                <Col class='dung-thu'>
-                    <button class='dung-button-thu' value={2} onClick={this.handleClick}>Monday</button>
-                    <button class='dung-button-thu' value={3} onClick={this.handleClick}>Tuesday</button>
-                    <button class='dung-button-thu' value={4} onClick={this.handleClick}>Wednesday</button>
-                    <button class='dung-button-thu' value={5} onClick={this.handleClick}>Thursday</button>
-                    <button class='dung-button-thu' value={6} onClick={this.handleClick}>Friday</button>
-                    <button class='dung-button-thu' value={7} onClick={this.handleClick}>Saturday</button>
-                    <button class='dung-button-thu' value={8} onClick={this.handleClick}>Sunday</button>
-                </Col>
-                </Row>
-                <Row>
-                <Col class='dung-appointment-table'>
-                    <Table hover>
-                        <thead>
-                            <tr>
-                                <th>
-                                    #
-                                </th>
-                                <th>
-                                    Bác sĩ
-                                </th>
-                                <th>
-                                    Số điện thoại
-                                </th>
-                                <th>
-                                    Ngày/Tháng/Năm
-                                </th>
-                                <th>
-                                    Buổi
-                                </th>
-                                <th>
+                    <Row style={{ textAlign: 'center' }}>
+                        <Col class='dung-thu'>
+                            <button class='dung-button-thu' value={2} onClick={this.handleClick}>Monday</button>
+                            <button class='dung-button-thu' value={3} onClick={this.handleClick}>Tuesday</button>
+                            <button class='dung-button-thu' value={4} onClick={this.handleClick}>Wednesday</button>
+                            <button class='dung-button-thu' value={5} onClick={this.handleClick}>Thursday</button>
+                            <button class='dung-button-thu' value={6} onClick={this.handleClick}>Friday</button>
+                            <button class='dung-button-thu' value={7} onClick={this.handleClick}>Saturday</button>
+                            <button class='dung-button-thu' value={8} onClick={this.handleClick}>Sunday</button>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col class='dung-appointment-table'>
+                            <Table hover>
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                        <th>
+                                            Bác sĩ
+                                        </th>
+                                        <th>
+                                            Số điện thoại
+                                        </th>
+                                        <th>
+                                            Ngày/Tháng/Năm
+                                        </th>
+                                        <th>
+                                            Buổi
+                                        </th>
+                                        <th>
 
-                                </th>
-                            </tr>
+                                        </th>
+                                    </tr>
 
-                        </thead>
-                        <tbody>
-                            {this.listWork().flat()}
-                            {console.log(this.state.current_day)}
-                        </tbody>
-                    </Table>
+                                </thead>
+                                <tbody>
+                                    {this.listWork().flat()}
+                                    {console.log(this.state.current_day)}
+                                </tbody>
+                            </Table>
+                            <Row style={{textAlign: 'center'}}>
+                                <Col>
+                                    <Button class='chanh-button-view'
+                                        onClick={(e) => this.toggleAdd()}
+                                        style={{
+                                            backgroundColor: '#62AFFC',
+                                            border: '0px'
+                                        }}>
+                                        Thêm bác sỹ trực
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </Col>
 
-
-
-                    <button class='chanh-button-view' type="button" onClick={(e) => this.toggleAdd()}>Thêm bác sỹ trực</button>
+                    </Row>
                     <Modal isOpen={this.state.add} toggle={(e) => this.toggleAdd()}>
                         Số điện thoại
                         <Input name="phone" onChange={(e) => { this.temp.phone = e.target.value }} required />
@@ -226,10 +237,8 @@ class ScheduleTable extends Component {
                         <button class='chanh-button-view' type="button" onClick={(e) => this.addSche()}>Thêm</button>
                         <button class='chanh-button-view' type="button" onClick={(e) => this.toggleAdd()}>Hủy</button>
                     </Modal>
-                </Col>
-                </Row>
-            </Container>
-        </>
+                </Container>
+            </>
         )
     }
 }

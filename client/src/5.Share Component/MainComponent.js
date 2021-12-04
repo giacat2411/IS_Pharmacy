@@ -19,6 +19,8 @@ import ViewOrderDetail from '../1.CatComponent/Nurse Manage/Manage Order/ViewOrd
 import Payment from '../1.CatComponent/Buy Drug/PaymentComponent';
 import PaymentMoMo from '../1.CatComponent/Buy Drug/PaymentMoMoComponent';
 import ViewMedicalDetail from '../4.DungComponent/ViewMedicalDetail';
+import Prescribe from '../1.CatComponent/Doctor/PrescribeComponent';
+import ViewPrescribe from '../1.CatComponent/Doctor/ViewPrescribeMedicine';
 
 // DUNG
 import Doctor from './Main UI/DoctorComponent';
@@ -92,6 +94,18 @@ class Main extends Component {
   }
 
   render() {
+    const Prescribe_Medicine = ({match}) => {
+      return (
+        <Prescribe treatment_id = {parseInt(JSON.parse(match.params.id))} />
+      )
+    }
+
+    const View_Prescribe = ({match}) => {
+      return (
+        <ViewPrescribe treatment_id = {parseInt(JSON.parse(match.params.id))} />
+      )
+    }
+
     const MedicalDetail = ({match}) => {
       return (
         <ViewMedicalDetail medicalID = {parseInt(JSON.parse(match.params.id))} />
@@ -141,6 +155,8 @@ class Main extends Component {
               <Route path='/payment' component={Payment} />
               <Route path='/payment_momo' component={PaymentMoMo} />
               <Route path="/view_medical_detail/:id" component={MedicalDetail} />
+              <Route path="/prescribe/:id" component={Prescribe_Medicine} />
+              <Route path="/view_prescribe/:id" component={View_Prescribe} />
 
               {/*---------------------------------Dung------------------------------------*/}
               <Route path='/doctor' component={Doctor} />

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Table } from 'reactstrap';
+import { Container, Table, Row, Col } from 'reactstrap';
 import axios from 'axios';
 import ToastServive from 'react-material-toast';
 import HeaderDefine from '../5.Share Component/Context';
@@ -121,10 +121,12 @@ class CancelAppointment extends Component {
         if (this.context.role !== "Patient") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <Container id='dung-cancelappointment'>
-                <div class='dung-title'>
+                <Row>
+                <Col style={{textAlign: 'center'}} class='dung-title'>
                     <h1>Hủy lịch khám</h1>
                     <hr />
-                </div>
+                </Col>
+                </Row>
                 <Table hover>
                     <thead>
                         <tr>

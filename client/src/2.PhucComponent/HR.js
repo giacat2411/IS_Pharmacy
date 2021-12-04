@@ -151,7 +151,16 @@ class HR extends Component {
                         <Col md="12">
                             <button class='chanh-button-view' type="button"
                                 onClick={this.toggleDoctor}
-                                style={{ width: '140px', height: '40px', marginTop: '30px', marginBottom: '30px' }}>
+                                style={{
+                                    width: '140px',
+                                    height: '40px',
+                                    marginTop: '30px',
+                                    marginBottom: '30px',
+                                    backgroundColor: '#62AFFC',
+                                    border: '0px',
+                                    color: 'white',
+                                    fontWeight: 'bold'
+                                }}>
                                 Thêm bác sỹ
                             </button>
                         </Col>
@@ -217,7 +226,16 @@ class HR extends Component {
                             <button
                                 class='chanh-button-view'
                                 type="button" onClick={(e) => this.toggleNurse()}
-                                style={{ width: '140px', height: '40px', marginTop: '30px', marginBottom: '30px' }}>
+                                style={{
+                                    width: '140px',
+                                    height: '40px',
+                                    marginTop: '30px',
+                                    marginBottom: '30px',
+                                    backgroundColor: '#62AFFC',
+                                    border: '0px',
+                                    color: 'white',
+                                    fontWeight: 'bold'
+                                }}>
                                 Thêm điều dưỡng
                             </button>
                         </Col>
@@ -237,13 +255,13 @@ class HR extends Component {
                             </Row>
                             <Row style={{ textAlign: 'center' }}>
                                 <Col>
-                                    <button 
-                                    class='chanh-button-view' 
-                                    type="button" 
-                                    onClick={(e) => this.setNurse()}
-                                    style={{width: '140px', height: '40px', marginTop: '20px', marginBottom: '20px'}}>
+                                    <button
+                                        class='chanh-button-view'
+                                        type="button"
+                                        onClick={(e) => this.setNurse()}
+                                        style={{ width: '140px', height: '40px', marginTop: '20px', marginBottom: '20px' }}>
                                         Thêm điều dưỡng
-                                        </button>
+                                    </button>
                                 </Col>
                             </Row>
                         </Container>

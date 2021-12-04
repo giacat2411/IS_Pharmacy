@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Modal, Table, ModalBody, Badge, Spinner } from 'reactstrap';
+import { Container, Row, Col, Modal, Table, ModalBody, Badge, Spinner, ModalHeader, FormGroup, ModalFooter } from 'reactstrap';
 import axios from 'axios';
 import ToastServive from 'react-material-toast';
 
 import { Link } from 'react-router-dom';
-import { Input, Button } from 'reactstrap';
+import { Input, Button, Form, Label } from 'reactstrap';
 import HeaderDefine from '../5.Share Component/Context';
+import { LinkContainer } from 'react-router-bootstrap';
 
 const toast = ToastServive.new({
     place: 'bottomLeft',
@@ -23,22 +24,72 @@ class ViewMedicalRecord extends Component {
             system_user: {},
             treatment_curr: {},
             is_open: false,
-            orderDetailsOpen: []
+            orderDetailsOpen: [],
+            is_edit: false,
+            payment_detail: []
             // treatment_turns:[],
             // system_users:[],
         }
         this.toggleOpen = this.toggleOpen.bind(this);
+        this.toggleEdit = this.toggleEdit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.onSubmitPayment = this.onSubmitPayment.bind(this);
+    }
+
+    onSubmitPayment() {
+        let total = 0;
+        this.state.orderDetailsOpen.map(detail => total += detail.quantity * detail.price)
+        axios.post('/api/insert/momo_payment', {medicine_id: this.state.treatment_curr.prescribe_id})
+        axios.post('/payment_momo', { total: total.toString() })
+            .then(res => {
+                window.location.href = res.data.payUrl
+            });
+    }
+
+    async handleSubmit(e) {
+        e.preventDefault();
+        const treatment = {
+            treatment_id: this.state.treatment_curr.id,
+            blood_pressure: this.blood_pressure.value,
+            heart_beat: this.heart_beat.value,
+            diagnose: this.diagnose.value,
+            therapy: this.therapy.value
+        }
+        const idx = this.state.treatment_turn.indexOf(this.state.treatment_curr);
+        const new_treat = {
+            ...this.state.treatment_curr,
+            blood_pressure: this.blood_pressure.value,
+            heart_beat: this.heart_beat.value,
+            diagnose: this.diagnose.value,
+            therapy: this.therapy.value
+        }
+        this.setState({ treatment_curr: new_treat });
+        this.state.treatment_turn[idx] = new_treat;
+
+        alert('Chỉnh sửa thành công');
+        this.toggleEdit();
+        // console.log(treatment);
+        await axios.post('/api/update/treatment_turn_doctor', treatment)
+    }
+
+    toggleEdit() {
+        this.setState({ is_edit: !this.state.is_edit });
     }
 
     async toggleOpen(treatment, flag) {
-        let res = []
-        console.log(treatment);
+        let res = [];
+        let payment = [];
+        // console.log(treatment);
 
         if (flag) {
             this.setState({ treatment_curr: treatment })
             if (treatment.prescribe_id !== null) {
                 res = await axios.get('/api/get/order_details', { params: { orderID: treatment.prescribe_id } })
                 this.setState({ orderDetailsOpen: res.data.order_details })
+                console.log(res.data.order_details)
+                payment = await axios.get('/api/get/payment', { params: { medicine_id: treatment.prescribe_id } })
+                console.log(payment)
+                this.setState({ payment_detail: payment.data.payment })
             }
         }
         this.setState({ is_open: !this.state.is_open })
@@ -50,37 +101,14 @@ class ViewMedicalRecord extends Component {
         )
             .catch(error => console.log(error));
 
-        // await  axios.get('/api/get/treatment_turns')
-        // .then(res => {
-        // const treatment_turns = res.data;
-        // this.setState({ treatment_turns: treatment_turns.treatment_turns});
-        // })
-        // .catch(error => console.log(error));
-
-
         axios.get('/api/get/info', { params: { phonenum: this.state.phone } }).then(res => this.setState({ system_user: res.data.user }))
             .catch(error => console.log(error));
-
-        // axios.get('/api/get/system_users')
-        // .then(res => {
-        // const system_users = res.data;
-        // this.setState({ system_users: system_users.system_users});
-
-        // let new_Treatment_turn=this.state.treatment_turns.filter(x=> x.patient_phone==this.state.phone);
-
-        // const new_System_user=this.state.system_users.filter(x=> x.phone == this.state.phone);
-        // this.setState({ treatment_turn: new_Treatment_turn, system_user:new_System_user });
-        // })
-        // .catch(error => console.log(error));
     };
-
-
-
     render() {
         const treatment_turn = this.state.treatment_turn.map((x) => {
             if ((+(new Date(x.start_time))) < (+(new Date()))) {
                 const date = new Date(x.turn_time)
-                console.log(date.getMinutes())
+                // console.log(date.getMinutes())
                 return (
                     <tr>
                         <th scope="row">
@@ -111,7 +139,7 @@ class ViewMedicalRecord extends Component {
                                 borderRadius: '10px',
                                 height: '30px',
                                 paddingTop: '2px'
-                            }} disabled={this.context.phone !== x.patient_phone}
+                            }} disabled={!(this.context.phone === x.patient_phone || this.context.role === "Doctor")}
                                 onClick={() => this.toggleOpen(x, true)}>
                                 Xem
                             </Button>
@@ -218,6 +246,14 @@ class ViewMedicalRecord extends Component {
                             </Row>
                             <Row style={{ marginBottom: '10px' }}>
                                 <Col>
+                                    <span style={{ fontWeight: 'bold' }}> Thời điểm bắt đầu: </span>{this.state.treatment_curr.start_time}
+                                </Col>
+                                <Col>
+                                    <span style={{ fontWeight: 'bold' }}>Thời điểm kết thúc: </span>{this.state.treatment_curr.end_time}
+                                </Col>
+                            </Row>
+                            <Row style={{ marginBottom: '10px' }}>
+                                <Col>
                                     <span style={{ fontWeight: 'bold' }}>Vấn đề sức khỏe: </span> {this.state.treatment_curr.health_issue}
                                 </Col>
                             </Row>
@@ -234,15 +270,43 @@ class ViewMedicalRecord extends Component {
                             </Row>
                             <Row style={{ marginBottom: '10px' }}>
                                 <Col>
+                                    <span style={{ fontWeight: 'bold' }}> Chẩn đoán: </span>{this.state.treatment_curr.diagnose}
+                                </Col>
+                            </Row>
+                            <Row style={{ marginBottom: '10px' }}>
+                                <Col>
                                     <span style={{ fontWeight: 'bold' }}> Phương pháp điều trị: </span>{this.state.treatment_curr.therapy}
                                 </Col>
                             </Row>
                             <Row style={{ marginBottom: '10px' }}>
                                 <Col>
-                                    <span style={{ fontWeight: 'bold' }}> Thời điểm bắt đầu: </span>{this.state.treatment_curr.start_time}
+                                    <Button
+                                        hidden={this.context.role === "Patient" || this.state.treatment_curr.doctor_phone !== this.context.phone}
+                                        style={{
+                                            backgroundColor: '#62AFFC',
+                                            border: '0px',
+                                            width: '100px'
+                                        }}
+                                        onClick={() => this.toggleEdit()}>
+                                        Hiệu chỉnh
+                                    </Button>
                                 </Col>
+                            </Row>
+                            <Row style={{ marginBottom: '10px' }}>
                                 <Col>
-                                    <span style={{ fontWeight: 'bold' }}>Thời điểm kết thúc: </span>{this.state.treatment_curr.end_time}
+                                    <LinkContainer to={`/prescribe/${this.state.treatment_curr.id}`}
+                                     style={{ backgroundColor: '#62AFFC', border: '0px', width: '100px' }}>
+                                    <Button
+                                        hidden={this.context.role === "Patient" || this.state.treatment_curr.doctor_phone !== this.context.phone}
+                                        disabled={this.state.treatment_curr.prescribe_id != null}
+                                        style={{
+                                            backgroundColor: '#62AFFC',
+                                            border: '0px',
+                                            width: '100px'
+                                        }}>
+                                        Kê đơn
+                                    </Button>
+                                    </LinkContainer>
                                 </Col>
                             </Row>
                             <Row style={{ marginBottom: '20px' }}>
@@ -251,7 +315,9 @@ class ViewMedicalRecord extends Component {
                                         if (this.state.treatment_curr.prescribe_id === null)
                                             return <Badge color="primary" style={{ fontSize: '15px' }}> Không có đơn thuốc kèm theo </Badge>
                                         else {
+                                            let total = 0
                                             const details = this.state.orderDetailsOpen.map(detail => {
+                                                total += detail.price * detail.quantity
                                                 return (
                                                     <tr>
                                                         <th scope="row" style={{ textAlign: 'center' }}>
@@ -275,37 +341,65 @@ class ViewMedicalRecord extends Component {
                                                     </tr>
                                                 );
                                             });
-                                            return <><Badge color="primary" style={{ fontSize: '15px', marginBottom: '20px' }}> Đơn thuốc kèm theo </Badge> 
-                                            <Table responsive hover striped bordered>
-                                                <thead>
-                                                    <tr>
-                                                        <th>
-                                                            #
-                                                        </th>
-                                                        <th>
-                                                            Tên thuốc
-                                                        </th>
-                                                        <th style={{ textAlign: 'center' }}>
-                                                            Đơn vị tính
-                                                        </th>
-                                                        <th style={{ textAlign: 'center' }}>
-                                                            Đơn giá
-                                                        </th>
-                                                        <th style={{ textAlign: 'center' }}>
-                                                            Số lượng
-                                                        </th>
-                                                        <th style={{ textAlign: 'right' }}>
-                                                            Thành tiền
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {(() => { if (this.state.orderDetailsOpen.length === 0) return <Spinner className="detail-spinner"> Loading... </Spinner> })()}
-                                                    {details}
-                                                </tbody>
-                                            </Table></>
+
+                                            const payment = (() => {
+                                                if (this.state.payment_detail.length === 0) return <Badge color="danger" style={{ fontSize: '15px', marginBottom: '20px' }}> Chưa thanh toán </Badge>
+                                                else return <Badge color="success" style={{ fontSize: '15px', marginBottom: '20px' }}> Đã thanh toán </Badge>
+                                            })()
+                                            return <><Badge color="primary" style={{ fontSize: '15px', marginBottom: '20px', marginRight: '10px' }}> Đơn thuốc kèm theo </Badge>
+                                                {payment}
+                                                <Table responsive hover striped bordered>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                #
+                                                            </th>
+                                                            <th>
+                                                                Tên thuốc
+                                                            </th>
+                                                            <th style={{ textAlign: 'center' }}>
+                                                                Đơn vị tính
+                                                            </th>
+                                                            <th style={{ textAlign: 'center' }}>
+                                                                Đơn giá
+                                                            </th>
+                                                            <th style={{ textAlign: 'center' }}>
+                                                                Số lượng
+                                                            </th>
+                                                            <th style={{ textAlign: 'right' }}>
+                                                                Thành tiền
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {(() => { if (this.state.orderDetailsOpen.length === 0) return <Spinner className="detail-spinner"> Loading... </Spinner> })()}
+                                                        {details}
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th colSpan="5" style={{ textAlign: 'center' }}>
+                                                                Tổng cộng
+                                                            </th>
+                                                            <th style={{ textAlign: 'right' }}>
+                                                                {total.toLocaleString('vi-VN')}đ
+                                                            </th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </Table></>
                                         }
                                     })()}
+                                </Col>
+                            </Row>
+                            <Row style={{ textAlign: 'right' }}>
+                                <Col>
+                                    <Button style={{
+                                        backgroundColor: '#62AFFC',
+                                        border: '0px'
+                                    }} hidden={this.context.role === "Doctor" || this.state.treatment_curr.prescribe_id === null}
+                                        disabled={this.state.payment_detail.length !== 0}
+                                        onClick={this.onSubmitPayment}>
+                                        <span style={{fontWeight: 'bold'}}> Thanh toán </span>
+                                    </Button>
                                 </Col>
                             </Row>
                             {/* <Link to={`/prescribe-med/${JSON.stringify(this.state.treatment_curr.prescribe_id)}/${JSON.stringify(this.state.system_user.phone)}`}>
@@ -323,6 +417,98 @@ class ViewMedicalRecord extends Component {
                         this.toggleEdit();
                     }}           >Xác nhận </Button> */}
 
+                </Modal>
+                <Modal isOpen={this.state.is_edit} toggle={this.toggleEdit}>
+                    <ModalHeader> Lượt điều trị cho bệnh nhân </ModalHeader>
+                    <ModalBody>
+                        <Container>
+                            <Row>
+                                <Col>
+                                    <Form onSubmit={this.handleSubmit}>
+                                        <FormGroup row>
+                                            <Label
+                                                for="exampleEmail"
+                                                sm={3}
+                                            >
+                                                Huyết áp
+                                            </Label>
+                                            <Col sm={9}>
+                                                <Input innerRef={input => this.blood_pressure = input}
+                                                    required
+                                                    id="exampleEmail"
+                                                    name="email"
+                                                    placeholder=""
+                                                    type="number"
+                                                />
+                                            </Col>
+                                        </FormGroup>
+                                        <FormGroup row>
+                                            <Label
+                                                for="examplePassword"
+                                                sm={3}
+                                            >
+                                                Nhịp tim
+                                            </Label>
+                                            <Col sm={9}>
+                                                <Input innerRef={input => this.heart_beat = input}
+                                                    required
+                                                    id="examplePassword"
+                                                    name="password"
+                                                    placeholder=""
+                                                    type="number"
+                                                />
+                                            </Col>
+                                        </FormGroup>
+                                        <FormGroup row>
+                                            <Label
+                                                for="examplePassword"
+                                                sm={3}
+                                            >
+                                                Chẩn đoán
+                                            </Label>
+                                            <Col sm={9}>
+                                                <Input innerRef={input => this.diagnose = input}
+                                                    required
+                                                    id="examplePassword"
+                                                    name="password"
+                                                    placeholder=""
+                                                    type="textarea"
+                                                />
+                                            </Col>
+                                        </FormGroup>
+                                        <FormGroup row>
+                                            <Label
+                                                for="examplePassword"
+                                                sm={3}
+                                            >
+                                                Phương pháp điều trị
+                                            </Label>
+                                            <Col sm={9}>
+                                                <Input innerRef={input => this.therapy = input}
+                                                    required
+                                                    id="examplePassword"
+                                                    name="password"
+                                                    placeholder=""
+                                                    type="textarea"
+                                                />
+                                            </Col>
+                                        </FormGroup>
+                                        <Row style={{ textAlign: 'right' }}>
+                                            <Col>
+                                                <Button
+                                                    style={{
+                                                        backgroundColor: '#62AFFC',
+                                                        border: '0px'
+                                                    }}>
+                                                    Submit
+                                                </Button>
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </ModalBody>
                 </Modal>
             </Container>
         )
