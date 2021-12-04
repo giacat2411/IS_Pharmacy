@@ -46,7 +46,7 @@ class NurseSideBar extends Component {
                             <Link to='/createanappointment' />
                         </MenuItem>
                         <MenuItem icon={<FaHeart />}>Thống kê lượt điều trị
-                            <Link to='/' />
+                            <Link to='/statistic_treatment' />
                         </MenuItem>
                     </Menu>
                 </SidebarContent>

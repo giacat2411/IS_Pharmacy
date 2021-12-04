@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Container, DropdownMenu, Table } from 'reactstrap';
+import { Button, Container, ModalBody, Table, ModalHeader, ModalFooter } from 'reactstrap';
+import { FormGroup, Label } from 'reactstrap';
 import axios from 'axios';
-import { FaPencilAlt } from "react-icons/fa";
-import { MdLockClock } from "react-icons/md";
 import ToastServive from 'react-material-toast';
 import addDays from 'date-fns/addDays';
 import HeaderDefine from '../5.Share Component/Context';
@@ -22,6 +21,7 @@ class ScheduleTable extends Component {
         this.state = {
             phone: '',
             show: false,
+            doctors_phone: [],
 
             work_schedule: [],
             work_schedules: [],
@@ -47,8 +47,9 @@ class ScheduleTable extends Component {
         axios.get('/api/get/work_schedules')
             .then(res => {
                 const work_schedules = res.data;
-                this.setState({ work_schedules: work_schedules.work_schedules });
-                this.setState({ work_schedule: work_schedules.work_schedules });
+                console.log(work_schedules);
+                this.setState({ work_schedules: work_schedules.work_schedules.filter(x => { return x.end_day === null }) });
+                this.setState({ work_schedule: work_schedules.work_schedules.filter(x => { return x.end_day === null }) });
             })
             .catch(error => console.log(error));
         let currentDay = (new Date((+(new Date())) + 3600000 * 7)).toUTCString().split(' ');
@@ -59,15 +60,23 @@ class ScheduleTable extends Component {
                 break;
             }
         }
-    }
-    componentDidUpdate() {
-        axios.get('/api/get/work_schedules')
+
+        axios.get('/api/get/doctors')
             .then(res => {
-                const work_schedules = res.data;
-                this.setState({ work_schedules: work_schedules.work_schedules });
+                const system_users = res.data.doctors.map(x => { return x.phone });
+                this.setState({ doctors_phone: system_users });
+                console.log(system_users)
             })
             .catch(error => console.log(error));
     }
+    // componentDidUpdate() {
+    //     axios.get('/api/get/work_schedules')
+    //         .then(res => {
+    //             const work_schedules = res.data;
+    //             this.setState({ work_schedules: work_schedules.work_schedules });
+    //         })
+    //         .catch(error => console.log(error));
+    // }
     // showModal = () => {
     //     this.setState({ show: true });
     // };
@@ -115,11 +124,40 @@ class ScheduleTable extends Component {
     //     });
     // };
     setEnd = (x) => {
+        const newSchedules = this.state.work_schedules.filter(y => { return this.state.work_schedules.indexOf(x) !== this.state.work_schedules.indexOf(y) })
+
+        const newSchedule = this.state.work_schedule.filter(y => { return this.state.work_schedule.indexOf(x) !== this.state.work_schedule.indexOf(y) })
+
+        this.setState({ work_schedules: newSchedules, work_schedule: newSchedule })
         axios.post('/api/set/end-schedule', { params: x })
+
+        alert("Xóa thành công");
     }
+
     addSche() {
-        axios.post('/api/insert/schedule', { params: this.temp })
-        this.toggleAdd();
+        console.log(this.state.doctors_phone)
+        if (!this.state.doctors_phone.includes(this.temp.phone.toString()))
+            toast.error('Không tồn tại bác sĩ');
+        else if (this.state.work_schedules.filter(x => {
+            return (x.doctor_phone === this.temp.phone.toString()
+                && x.work_day === this.temp.day.toString()
+                && x.work_session === this.temp.session.toString())
+        }).length !== 0)
+            toast.error('Đã tồn tại lịch làm việc');
+        else {
+            axios.post('/api/insert/schedule', { params: this.temp })
+            axios.get('/api/get/work_schedules')
+            .then(res => {
+                const work_schedules = res.data;
+                console.log(work_schedules);
+                this.setState({ work_schedules: work_schedules.work_schedules.filter(x => { return x.end_day === null }) });
+                this.setState({ work_schedule: work_schedules.work_schedules.filter(x => { return x.end_day === null }) });
+            })
+            .catch(error => console.log(error));
+            this.toggleAdd();
+        }
+
+        
     }
 
     listWork = () => {
@@ -137,18 +175,16 @@ class ScheduleTable extends Component {
                     {x.doctor_phone}
                 </td>
                 <td>
-                    {this.state.current_day.split(' ').splice(1, 3).join('/')}
+                    {(new Date(this.state.current_day)).toISOString().split('T')[0].split("-").reverse().join("/")}
                 </td>
                 <td>
-                    {x.session}
+                    {x.work_session}
                 </td>
                 <td>
                     <Modal isOpen={this.state.confirm} toggle={this.state.toggleConfirm}>
                         <Confirm submit={(this.state.add) ? this.addSche : this.setEnd} toggle={this.state.toggleConfirm} />
                     </Modal>
                     {/* </div> */}
-                    {this.state.curr_thu >= this.state.thu ?
-                        <FaPencilAlt /> : <MdLockClock />} &nbsp;
                     <Button color='danger' onClick={(e) => this.setEnd(x)}>Xóa lịch này</Button>
                 </td>
             </tr>
@@ -211,7 +247,7 @@ class ScheduleTable extends Component {
                                     {console.log(this.state.current_day)}
                                 </tbody>
                             </Table>
-                            <Row style={{textAlign: 'center'}}>
+                            <Row style={{ textAlign: 'center' }}>
                                 <Col>
                                     <Button class='chanh-button-view'
                                         onClick={(e) => this.toggleAdd()}
@@ -227,15 +263,103 @@ class ScheduleTable extends Component {
 
                     </Row>
                     <Modal isOpen={this.state.add} toggle={(e) => this.toggleAdd()}>
-                        Số điện thoại
-                        <Input name="phone" onChange={(e) => { this.temp.phone = e.target.value }} required />
-                        Ngày trực Từ 2-8
-                        <Input name="day" defaultValue={this.state.curr_thu} onChange={(e) => { this.temp.day = e.target.value }} required />
-                        Buổi S/C
-                        {/* <DropdownMenu/> */}
-                        <Input name="session" onChange={(e) => { this.temp.session = e.target.value }} required />
-                        <button class='chanh-button-view' type="button" onClick={(e) => this.addSche()}>Thêm</button>
-                        <button class='chanh-button-view' type="button" onClick={(e) => this.toggleAdd()}>Hủy</button>
+                        <ModalHeader> Lịch trực </ModalHeader>
+                        <ModalBody>
+                            <Container>
+                                <Row style={{ marginBottom: '15px' }}>
+                                    <Col md="4"> Số điện thoại </Col>
+                                    <Col md="8">
+                                        <Input name="phone" onChange={(e) => { this.temp.phone = e.target.value }} required />
+                                    </Col>
+                                </Row>
+                                <Row style={{ marginBottom: '15px' }}>
+                                    <Col md="4">
+                                        Ngày trực Từ 2-8
+                                    </Col>
+                                    <Col md="8">
+                                        <Input onChange={(e) => { this.temp.day = e.target.value }} required
+                                            id="exampleSelect"
+                                            name="select"
+                                            type="select"
+                                        >
+                                            <option>
+                                                2
+                                            </option>
+                                            <option>
+                                                3
+                                            </option>
+                                            <option>
+                                                4
+                                            </option>
+                                            <option>
+                                                5
+                                            </option>
+                                            <option>
+                                                6
+                                            </option>
+                                            <option>
+                                                7
+                                            </option>
+                                            <option>
+                                                8
+                                            </option>
+                                        </Input>
+                                        {/* <Input name="day" defaultValue={this.state.curr_thu} onChange={(e) => { this.temp.day = e.target.value }} required /> */}
+                                    </Col>
+                                </Row>
+                                <Row style={{ marginBottom: '15px' }}>
+                                    <Col md="4">
+                                        Buổi S/C
+                                    </Col>
+                                    <Col md="4">
+                                        <FormGroup check>
+                                            <Input onClick={() => { this.temp.session = "S" }}
+                                                name="radio2"
+                                                type="radio"
+                                            />
+                                            {' '}
+                                            <Label check>
+                                                S
+                                            </Label>
+                                        </FormGroup>
+                                    </Col>
+                                    <Col md="4">
+                                        <FormGroup check>
+                                            <Input onClick={() => { this.temp.session = "C" }}
+                                                name="radio2"
+                                                type="radio"
+                                            />
+                                            {' '}
+                                            <Label check>
+                                                C
+                                            </Label>
+                                        </FormGroup>
+                                        {/* <DropdownMenu/> */}
+                                        {/* <Input name="session" onChange={(e) => { this.temp.session = e.target.value }} required /> */}
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Container>
+                                <Row style={{ textAlign: 'center' }}>
+                                    <Col md="6">
+                                        <button style={{
+                                            backgroundColor: '#62AFFC',
+                                            border: '0px', color: 'white'
+                                        }}
+                                            class='chanh-button-view' type="button" onClick={(e) => this.addSche()}>Thêm</button>
+                                    </Col>
+                                    <Col md="6">
+                                        <button style={{
+                                            backgroundColor: '#62AFFC',
+                                            border: '0px', color: 'white'
+                                        }}
+                                            class='chanh-button-view' type="button" onClick={(e) => this.toggleAdd()}>Hủy</button>
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </ModalFooter>
                     </Modal>
                 </Container>
             </>

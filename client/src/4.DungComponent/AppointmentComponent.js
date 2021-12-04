@@ -293,7 +293,7 @@ class Appointment extends Component {
                     {curr.doctor_phone}
                 </td>
                 <td>
-                    {this.state.current_day.split(' ').splice(1, 3).join('/')}
+                    {(new Date(this.state.current_day)).toISOString().split('T')[0].split("-").reverse().join("/")}
                 </td>
                 <td>
                     {x}
@@ -352,7 +352,7 @@ class Appointment extends Component {
                     {curr.doctor_phone}
                 </td>
                 <td>
-                    {this.state.current_day.split(' ').splice(1, 3).join('/')}
+                    {(new Date(this.state.current_day)).toISOString().split('T')[0].split("-").reverse().join("/")}
                 </td>
                 <td>
                     {x}

@@ -21,6 +21,7 @@ import PaymentMoMo from '../1.CatComponent/Buy Drug/PaymentMoMoComponent';
 import ViewMedicalDetail from '../4.DungComponent/ViewMedicalDetail';
 import Prescribe from '../1.CatComponent/Doctor/PrescribeComponent';
 import ViewPrescribe from '../1.CatComponent/Doctor/ViewPrescribeMedicine';
+import StatisticTreatmentTurn from '../1.CatComponent/Nurse Manage/Manage Treatment/StatisticTreatmentTurnComponent';
 
 // DUNG
 import Doctor from './Main UI/DoctorComponent';
@@ -157,6 +158,7 @@ class Main extends Component {
               <Route path="/view_medical_detail/:id" component={MedicalDetail} />
               <Route path="/prescribe/:id" component={Prescribe_Medicine} />
               <Route path="/view_prescribe/:id" component={View_Prescribe} />
+              <Route path='/statistic_treatment' component={StatisticTreatmentTurn} />
 
               {/*---------------------------------Dung------------------------------------*/}
               <Route path='/doctor' component={Doctor} />

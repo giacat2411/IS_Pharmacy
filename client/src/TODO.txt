@@ -5,51 +5,28 @@
 update work_schedule
 set start_day= "2021-10-11",end_day=null;
 
+ALTER TABLE `pharmacy`.`work_schedule` 
+CHANGE COLUMN `work_session` `work_session` CHAR(1) NOT NULL ,
+CHANGE COLUMN `start_day` `start_day` DATE NOT NULL ,
+CHANGE COLUMN `end_day` `end_day` DATE NULL ,
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`doctor_phone`, `work_day`, `work_session`, `start_day`);
 
 
-Bác sỹ:
-    lịch làm việc:
-        Dũng:  chưa filter những lịch đã bị end cho tương lai, 
-        chưa update lại danh sách khi được insert delete, 
-        chưa bật popup confirm, 
-        chưa giới hạn 2option S/C radio button,2-8 DropdownMenu, 
-        phân quyền bị cmt ở dòng 157 Chánh/ViewsSche
 
-    HR: chưa bật popup confirm, chưa báo msg return,
-        cho chuyên ngành thành list DropdownMenu
-
-    Bác sỹ: 
-        xem bệnh án sẽ có option chỉnh sửa
-        
-        tạo đơn thuốc:
-            Cách 1: tạo bằng cách nhập, insert mới
-            Cách 2: Chuyển abc1 sỹ tới giao diện chọn thuốc nhưng lưu đơn cho bệnh nhân
-            Note: nhớ update đơn thuốc vô trong treatment turn, t chưa viết api cái này
-Bệnh nhân:
-    xem bệnh án: đang lỗi prop nên lấy localstorage
-    
-    đơn kê toa: chưa lấy được prop từ bệnh án qua, hơi khác vì có thông tin bác sỹ
-                Bật nút thanh toán trong thông tin đơn thuốc
-        Thanh toán đơn kê toa: 
-            Cách 1: chuyển đến giao diện thanh toán
-            Cách 2: gọi hàm tính total => hiện QR Momo tại chỗ
-
-            Extra: cho phép tăng giảm lượng thuốc. Hoặc option mua nửa đơn
-    
-    nếu muốn hiện trạng thái đã thanh toán hay chưa:
-        Cách 1: left join medicine với payment
-        Cach 2: tạo bảng như cát nói ->>> ch hiểu
-    
-    Check thử đơn thuốc của bệnh nhân đã có đủ đơn mua và đơn kê toa chưa nha, tại t ghép vô á
-    Check đơn thuốc nurse y chang luôn.
-
-    Đặt lịch khám: @@@Thương iu tag Dũng :"D vì t k hiểu đc code :"D
+				FOR DŨNG
+//////////////////////////////////////////////////////////////////////////////////////////
+Đặt lịch khám: @@@Thương iu tag Dũng :"D vì t k hiểu đc code :"D
         có những lịch làm việc bị ngừng bởi end_day nên k cho nó hiển thị nữa
         Sau khi đặt thi hiện popup điền thông tin vấn đề sức khỏe. 
         Dòng 283 của reExamminate
+//////////////////////////////////////////////////////////////////////////////////////////
 
-        Nếu xong cái đó thì fix hộ t bên ViewSchedule, chỗ hàm setEnd và api, 
-        set cho cái ngày end_day lưu trong hệ thống nhỏ hơn curr_day của ViewSche 1 ngày
+Bác sỹ:
+    lịch làm việc:
+        chưa bật popup confirm
+
+    HR: chưa bật popup confirm, chưa báo toast
 
 
     5TING!!!
@@ -59,6 +36,7 @@ Bệnh nhân:
 
 
      from Hongphuc with many bugs
+
 
 
 

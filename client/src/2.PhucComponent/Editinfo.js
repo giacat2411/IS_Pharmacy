@@ -17,6 +17,8 @@ const EditInfo = (props) => {
                 var newValue = temp;
                 newValue.img = url;
                 setTemp(newValue);
+
+                console.log(temp)
                 axios.post('/api/post/info', {
                     params: {
                         // dateofbirth:Date(temp.dateofbirth),
@@ -53,7 +55,7 @@ const EditInfo = (props) => {
     }
 
     const subReg = () => {
-        const str = temp.firstname;
+        const str = temp.fullname;
         var lname = str.split(' ').slice(0, -1).join(' ');
         var fname = str.split(' ').slice(-1).join(' ');
         var newTemp = temp;
@@ -67,7 +69,7 @@ const EditInfo = (props) => {
     return <Card>
         <CardHeader>Điều chỉnh thông tin</CardHeader>
         <CardBody>
-            <CardTitle>Họ và tên</CardTitle> <Input name="firstname" onChange={handleChange} defaultValue={temp.lastname + " " + temp.firstname}></Input><FaEdit />
+            <CardTitle>Họ và tên</CardTitle> <Input name="fullname" onChange={handleChange} defaultValue={temp.lastname + " " + temp.firstname}></Input><FaEdit />
             <CardTitle>Email </CardTitle> <Input name="email" onChange={handleChange} defaultValue={temp.email} ></Input>
             <CardTitle>Ngày sinh </CardTitle> <Input name="dateofbirth" type="date" onChange={handleChange} defaultValue={temp.dateofbirth}></Input>
             <CardTitle>Địa chỉ </CardTitle> <Input name="address" onChange={handleChange} defaultValue={temp.address}></Input>

@@ -44,7 +44,7 @@ class Nurse extends Component{
                     </LinkContainer>
                     </Col>
                     <Col md="6">
-                    <LinkContainer to ="/" style={{cursor: 'pointer'}}>
+                    <LinkContainer to ="/statistic_treatment" style={{cursor: 'pointer'}}>
                             <Card className="cat-customer-item-left">
                                 <img className="cat-customer-img" width="67.29px" height="95px" src="/assets/images/make-treat-home.png" alt = "Đặt lịch khám"></img>
                                 <CardBody>

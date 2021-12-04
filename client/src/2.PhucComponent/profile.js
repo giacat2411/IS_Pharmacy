@@ -23,6 +23,7 @@ const Profile = (props) => {
     const date = (curr) => { return `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`; }
     const [user, setUser] = useState({
         phone: props.phone,
+        fullname: "",
         firstname: "",
         lastname: "",
         dateofbirth: "",
@@ -36,7 +37,8 @@ const Profile = (props) => {
             await axios.get('/api/get/info', { params: { phonenum: props.phone } })
             axios.get('/api/get/info', { params: { phonenum: props.phone } }).then(res => {
                 setUser(res.data.user);
-                console.log("Hole")
+                // setUser({...user, fullname: res.data.user.firstname + " " + res.data.user.lastname})
+                console.log(user)
                 axios.get('/api/get/role', { params: { phonenum: props.phone } }
                 )
                     .then(res => {

@@ -404,7 +404,7 @@ app.post('/api/delete/HR', (req, res) => {
   })
 })
 app.get('/api/get/info', (req, res) => {
-  sql = `SELECT * FROM system_user WHERE PHONE = ${req.query.phonenum};`;
+  sql = `SELECT *, concat(lastname, " ", firstname) as fullname FROM system_user WHERE PHONE = ${req.query.phonenum};`;
   console.log(sql);
   connection.query(sql, function (err, results) {
 
@@ -470,7 +470,7 @@ app.get('/api/get/treatment_turns', (req, res) => {
 });
 
 app.get('/api/get/work_schedules', (req, res) => {
-  var sql = "SELECT * FROM work_schedule JOIN SYSTEM_USER ON DOCTOR_PHONE=PHONE";
+  var sql = "SELECT * FROM work_schedule JOIN SYSTEM_USER ON DOCTOR_PHONE=PHONE order by work_session desc;";
   connection.query(sql, function (err, results) {
     if (err) throw err;
     res.json({ work_schedules: results });
@@ -540,7 +540,6 @@ app.post('/api/post/TTSK', (req, res) => {
 app.post('/api/post/info', (req, res) => {
   var sql = `UPDATE system_user 
   SET 
-  
   firstname="${req.body.params.firstname}",
   lastname="${req.body.params.lastname}",
   address="${req.body.params.address}",

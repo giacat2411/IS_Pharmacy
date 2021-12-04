@@ -39,7 +39,7 @@ class ViewMedicalRecord extends Component {
     onSubmitPayment() {
         let total = 0;
         this.state.orderDetailsOpen.map(detail => total += detail.quantity * detail.price)
-        axios.post('/api/insert/momo_payment', {medicine_id: this.state.treatment_curr.prescribe_id})
+        axios.post('/api/insert/momo_payment', { medicine_id: this.state.treatment_curr.prescribe_id })
         axios.post('/payment_momo', { total: total.toString() })
             .then(res => {
                 window.location.href = res.data.payUrl
@@ -106,7 +106,7 @@ class ViewMedicalRecord extends Component {
     };
     render() {
         const treatment_turn = this.state.treatment_turn.map((x) => {
-            if ((+(new Date(x.start_time))) < (+(new Date()))) {
+            if (true) {
                 const date = new Date(x.turn_time)
                 // console.log(date.getMinutes())
                 return (
@@ -141,7 +141,7 @@ class ViewMedicalRecord extends Component {
                                 paddingTop: '2px'
                             }} disabled={!(this.context.phone === x.patient_phone || this.context.role === "Doctor")}
                                 onClick={() => this.toggleOpen(x, true)}>
-                                Xem
+                                {this.context.role === "Patient" ? <span>Xem</span> : <span> Chỉnh sửa </span>}
                             </Button>
                             {/* </Link> */}
                         </td>
@@ -222,21 +222,49 @@ class ViewMedicalRecord extends Component {
                                     <span style={{ fontWeight: 'bold' }}>
                                         Mã điều trị:&nbsp;
                                     </span>
-                                    {this.state.treatment_curr.id}</Col>
-                            </Row>
-
-                            <Row style={{ marginBottom: '10px' }}>
+                                    {this.state.treatment_curr.id}
+                                </Col>
                                 <Col>
                                     <span style={{ fontWeight: 'bold' }}> Bác sĩ khám bệnh: </span> {this.state.treatment_curr.fullname}
                                 </Col>
                             </Row>
-                            <Row style={{ marginBottom: '10px' }}>
-
-                                <Col >
-                                    <span style={{ fontWeight: 'bold' }}> Bệnh nhân: </span> {this.state.system_user.lastname + " " + this.state.system_user.firstname}
-                                </Col>
+                            <Row style={{border: '1px solid', borderRadius: '10px', padding: '10px 0px 5px 0px', marginBottom: '10px'}}>
                                 <Col>
-                                    <span style={{ fontWeight: 'bold' }}> Ngày sinh: </span> {this.state.system_user.dateofbirth}
+                                    <Row style={{ marginBottom: '10px' }}>
+                                        <Col >
+                                            <span style={{ fontWeight: 'bold' }}> Bệnh nhân: </span> {this.state.system_user.lastname + " " + this.state.system_user.firstname}
+                                        </Col>
+                                        <Col>
+                                            <span style={{ fontWeight: 'bold' }}> Ngày sinh: </span> {this.state.system_user.dateofbirth}
+                                        </Col>
+                                    </Row>
+
+                                    <Row style={{ marginBottom: '10px' }}>
+                                        <Col>
+                                            <span style={{ fontWeight: 'bold' }}>Vấn đề sức khỏe: </span> {this.state.treatment_curr.health_issue}
+                                        </Col>
+                                    </Row>
+                                    <Row style={{ marginBottom: '10px' }}>
+                                        <Col>
+                                            <span style={{ fontWeight: 'bold' }}> Huyết áp: </span> {this.state.treatment_curr.blood_pressure}
+                                        </Col>
+                                        <Col>
+                                            <span style={{ fontWeight: 'bold' }}> Nhịp tim: </span> {this.state.treatment_curr.heart_beat}
+
+                                            {/* <Input defaultValue={this.state.treatment_curr.diagnose} onChange={(e) => { this.state.treatment_curr.diagnose = e.target.value }} placeholder="Chẩn đoán" />
+                                <Input defaultValue={this.state.treatment_curr.therapy} onChange={(e) => { this.state.treatment_curr.therapy = e.target.value }} placeholder="Điều trị" /> */}
+                                        </Col>
+                                    </Row>
+                                    <Row style={{ marginBottom: '10px' }}>
+                                        <Col>
+                                            <span style={{ fontWeight: 'bold' }}> Chẩn đoán: </span>{this.state.treatment_curr.diagnose}
+                                        </Col>
+                                    </Row>
+                                    <Row style={{ marginBottom: '10px' }}>
+                                        <Col>
+                                            <span style={{ fontWeight: 'bold' }}> Phương pháp điều trị: </span>{this.state.treatment_curr.therapy}
+                                        </Col>
+                                    </Row>
                                 </Col>
                             </Row>
                             <Row style={{ marginBottom: '10px' }}>
@@ -244,44 +272,22 @@ class ViewMedicalRecord extends Component {
                                     <span style={{ fontWeight: 'bold' }}> Lịch hẹn: </span> {this.state.treatment_curr.turn_time}
                                 </Col>
                             </Row>
+                            
                             <Row style={{ marginBottom: '10px' }}>
+                                { ((+(new Date(this.state.treatment_curr.start_time))) > (+(new Date()))) ? <Col> <Badge color="danger" style={{fontSize: '15px'}}> Chưa đến thời gian khám </Badge> </Col>:
+                                <>
                                 <Col>
                                     <span style={{ fontWeight: 'bold' }}> Thời điểm bắt đầu: </span>{this.state.treatment_curr.start_time}
                                 </Col>
                                 <Col>
                                     <span style={{ fontWeight: 'bold' }}>Thời điểm kết thúc: </span>{this.state.treatment_curr.end_time}
-                                </Col>
+                                </Col> </>}
                             </Row>
-                            <Row style={{ marginBottom: '10px' }}>
-                                <Col>
-                                    <span style={{ fontWeight: 'bold' }}>Vấn đề sức khỏe: </span> {this.state.treatment_curr.health_issue}
-                                </Col>
-                            </Row>
-                            <Row style={{ marginBottom: '10px' }}>
-                                <Col>
-                                    <span style={{ fontWeight: 'bold' }}> Huyết áp: </span> {this.state.treatment_curr.blood_pressure}
-                                </Col>
-                                <Col>
-                                    <span style={{ fontWeight: 'bold' }}> Nhịp tim: </span> {this.state.treatment_curr.heart_beat}
 
-                                    {/* <Input defaultValue={this.state.treatment_curr.diagnose} onChange={(e) => { this.state.treatment_curr.diagnose = e.target.value }} placeholder="Chẩn đoán" />
-                                <Input defaultValue={this.state.treatment_curr.therapy} onChange={(e) => { this.state.treatment_curr.therapy = e.target.value }} placeholder="Điều trị" /> */}
-                                </Col>
-                            </Row>
                             <Row style={{ marginBottom: '10px' }}>
-                                <Col>
-                                    <span style={{ fontWeight: 'bold' }}> Chẩn đoán: </span>{this.state.treatment_curr.diagnose}
-                                </Col>
-                            </Row>
-                            <Row style={{ marginBottom: '10px' }}>
-                                <Col>
-                                    <span style={{ fontWeight: 'bold' }}> Phương pháp điều trị: </span>{this.state.treatment_curr.therapy}
-                                </Col>
-                            </Row>
-                            <Row style={{ marginBottom: '10px' }}>
-                                <Col>
+                                <Col md="2">
                                     <Button
-                                        hidden={this.context.role === "Patient" || this.state.treatment_curr.doctor_phone !== this.context.phone}
+                                        hidden={this.context.role === "Patient" || this.state.treatment_curr.doctor_phone !== this.context.phone || ((+(new Date(this.state.treatment_curr.start_time))) > (+(new Date())))}
                                         style={{
                                             backgroundColor: '#62AFFC',
                                             border: '0px',
@@ -291,21 +297,19 @@ class ViewMedicalRecord extends Component {
                                         Hiệu chỉnh
                                     </Button>
                                 </Col>
-                            </Row>
-                            <Row style={{ marginBottom: '10px' }}>
-                                <Col>
+                                <Col md="2">
                                     <LinkContainer to={`/prescribe/${this.state.treatment_curr.id}`}
-                                     style={{ backgroundColor: '#62AFFC', border: '0px', width: '100px' }}>
-                                    <Button
-                                        hidden={this.context.role === "Patient" || this.state.treatment_curr.doctor_phone !== this.context.phone}
-                                        disabled={this.state.treatment_curr.prescribe_id != null}
-                                        style={{
-                                            backgroundColor: '#62AFFC',
-                                            border: '0px',
-                                            width: '100px'
-                                        }}>
-                                        Kê đơn
-                                    </Button>
+                                        style={{ backgroundColor: '#62AFFC', border: '0px', width: '100px' }}>
+                                        <Button
+                                            hidden={this.context.role === "Patient" || (this.state.treatment_curr.doctor_phone !== this.context.phone) || ((+(new Date(this.state.treatment_curr.start_time))) > (+(new Date())))}
+                                            disabled={this.state.treatment_curr.prescribe_id != null}
+                                            style={{
+                                                backgroundColor: '#62AFFC',
+                                                border: '0px',
+                                                width: '100px'
+                                            }}>
+                                            Kê đơn
+                                        </Button>
                                     </LinkContainer>
                                 </Col>
                             </Row>
@@ -398,7 +402,7 @@ class ViewMedicalRecord extends Component {
                                     }} hidden={this.context.role === "Doctor" || this.state.treatment_curr.prescribe_id === null}
                                         disabled={this.state.payment_detail.length !== 0}
                                         onClick={this.onSubmitPayment}>
-                                        <span style={{fontWeight: 'bold'}}> Thanh toán </span>
+                                        <span style={{ fontWeight: 'bold' }}> Thanh toán </span>
                                     </Button>
                                 </Col>
                             </Row>
