@@ -264,6 +264,22 @@ app.get('/api/get/orders', (req, res) => {
     res.json({ orders: results });
   });
 });
+
+
+app.get('/api/get/prescribe_order', (req, res) => {
+  var sql = " select medicine.id, medicine.created_date, patient_phone, concat(lastname,' ', firstname) as full_name,  sum(include.quantity * drug.price) as total, payment.id as payment_id"
+  + " from (medicine join prescriptive_medicine on medicine.id = prescribe_id)"
+  + " join treatment_turn on treatment_turn.id = treatment_id"
+  + " join system_user on (patient_phone = phone) join include on (prescribe_id = medicine_id)"
+  + " natural join drug left join payment on medicine.id = payment.medicine_id"
+  + " group by medicine.id, created_date, patient_phone, firstname, lastname, payment.id;"
+
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ orders: results });
+  });
+})
+
 app.get('/api/get/myorders', (req, res) => {
   var sql = "select id, created_date, patient_phone, concat(lastname,' ', firstname) as full_name,"
     + " sum(include.quantity * drug.price) as total"
@@ -277,10 +293,39 @@ app.get('/api/get/myorders', (req, res) => {
     res.json({ orders: results });
   });
 });
+
+app.get('/api/get/myorders_prescribe', (req, res) => {
+  var sql = " select medicine.id, medicine.created_date, patient_phone, concat(lastname,' ', firstname) as full_name,  sum(include.quantity * drug.price) as total, payment.id as payment_id"
+  + " from (medicine join prescriptive_medicine on medicine.id = prescribe_id)"
+  + " join treatment_turn on treatment_turn.id = treatment_id"
+  + " join system_user on (patient_phone = phone) join include on (prescribe_id = medicine_id)"
+  + " natural join drug left join payment on medicine.id = payment.medicine_id"
+  + " where patient_phone = " + req.query.phone
+  + " group by medicine.id, created_date, patient_phone, firstname, lastname, payment.id;"
+
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ orders: results });
+  });
+})
+
 app.get('/api/get/order_in_view', function (req, res) {
   var sql = "select purchase_id as id, concat(lastname, ' ', firstname) as fullname, dateofbirth, address, phone "
     + "from purchase_medicine join (patient natural join system_user) on (phone = patient_phone) "
     + "where purchase_id = " + req.query.orderID;
+  console.log(sql);
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ information: results });
+  });
+})
+
+app.get('/api/get/order_prescribe_in_view', function (req, res) {
+  var sql = "select  prescribe_id, concat(A.lastname, ' ', A.firstname) as fullname, A.dateofbirth, A.address, A.phone, concat(B.lastname, ' ', B.firstname) as doctor_name, treatment_turn.*"
+  + " from prescriptive_medicine join treatment_turn on id = treatment_id "
+  + " join system_user as A on patient_phone = A.phone "
+  + " join system_user as B on doctor_phone = B.phone "
+  + " where prescribe_id =  " + req.query.orderID;
   console.log(sql);
   connection.query(sql, function (err, results) {
     if (err) throw err;
@@ -736,6 +781,18 @@ app.post('/api/insert/momo_payment', function (req, res) {
   const date = (new Date()).toISOString().split('T')[0]
   var sql = "INSERT PAYMENT(id, method, created_date, medicine_id) VALUE"
           + "( " + id + ", 'MoMo doanh nghiệp', '" + date + "', " + req.body.medicine_id + ")"
+  console.log(sql); 
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ news: results });
+  });
+})
+
+app.post('/api/insert/momo_payment_nurse', function (req, res) {
+  var id = Math.floor(Math.random() * Math.pow(10, 12));
+  const date = (new Date()).toISOString().split('T')[0]
+  var sql = "INSERT PAYMENT(id, method, created_date, nurse_phone, medicine_id) VALUE"
+          + "( " + id + ", 'MoMo doanh nghiệp', '" + date + "', " + req.body.phone + ", " + req.body.medicine_id + ")"
   console.log(sql); 
   connection.query(sql, function (err, results) {
     if (err) throw err;

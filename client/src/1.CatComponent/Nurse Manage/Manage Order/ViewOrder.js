@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Spinner } from 'reactstrap';
-import { Input, Button } from 'reactstrap';
+import { Input, Button, Badge } from 'reactstrap';
 import { Table } from 'reactstrap';
 import { FaSearch } from 'react-icons/fa';
 import Pagination from "pagination-component";
@@ -27,6 +27,22 @@ class ViewOrder extends Component {
         this.sortByKey = this.sortByKey.bind(this);
         this.sortByDay = this.sortByDay.bind(this);
         this.onInputTime = this.onInputTime.bind(this);
+        this.sortPurchase = this.sortPurchase.bind(this);
+        this.sortPrescribe = this.sortPrescribe.bind(this);
+    }
+
+    sortPurchase() {
+        const data = this.state.orders.filter(order => {
+            return order.payment_id === undefined
+        })
+        this.setState({ orders_search: data })
+    }
+
+    sortPrescribe() {
+        const data = this.state.orders.filter(order => {
+            return order.payment_id !== undefined
+        })
+        this.setState({ orders_search: data })
     }
 
     onInputTime() {
@@ -52,6 +68,19 @@ class ViewOrder extends Component {
         else if (parseInt(day1[1]) < parseInt(day2[1])) return false;
         else if (parseInt(day1[0]) >= parseInt(day2[0])) return true;
         else return false;
+    }
+
+    compare(day1, day2) {
+        day1 = day1.split("/").map(x => parseInt(x));
+        day2 = day2.split("/").map(x => parseInt(x));
+
+        if (parseInt(day1[2]) > parseInt(day2[2])) return 1;
+        else if (parseInt(day1[2]) < parseInt(day2[2])) return -1;
+        else if (parseInt(day1[1]) > parseInt(day2[1])) return 1;
+        else if (parseInt(day1[1]) < parseInt(day2[1])) return -1;
+        else if (parseInt(day1[0]) > parseInt(day2[0])) return 1;
+        else if (parseInt(day1[0]) < parseInt(day2[0])) return -1;
+        else return 0;
     }
 
     convertDate(day) {
@@ -82,20 +111,35 @@ class ViewOrder extends Component {
         })
     }
 
-   async componentDidMount() {
-        const resOrders= (this.context.role==="Nurse") 
-        ? await axios.get('/api/get/orders').catch(error => console.log(error))
-        : await axios.get('/api/get/myorders',{params:{phone:this.context.phone}}).catch(error => console.log(error));
-        
-        if(resOrders) console.log(resOrders);
-        const orders=resOrders.data.orders.map(order => {
-                    const newOrder = order;
-                    newOrder.created_date = new Date(order.created_date);
-                    return newOrder;
-                });
-                
-        this.setState({ orders: orders, orders_search: orders, orderOpen: orders[0] });
-        
+    async componentDidMount() {
+        const resOrders = (this.context.role === "Nurse")
+            ? await axios.get('/api/get/orders').catch(error => console.log(error))
+            : await axios.get('/api/get/myorders', { params: { phone: this.context.phone } }).catch(error => console.log(error));
+
+        if (resOrders) console.log(resOrders);
+        const orders = resOrders.data.orders.map(order => {
+            const newOrder = order;
+            newOrder.created_date = new Date(order.created_date);
+            return newOrder;
+        });
+
+        const resOrders_prescibe = (this.context.role === "Nurse")
+            ? await axios.get('/api/get/prescribe_order').catch(error => console.log(error))
+            : await axios.get('/api/get/myorders_prescribe', { params: { phone: this.context.phone } }).catch(error => console.log(error));
+
+        if (resOrders_prescibe) console.log(resOrders_prescibe);
+        const prescribe_orders = resOrders_prescibe.data.orders.map(order => {
+            const newOrder = order;
+            newOrder.created_date = new Date(order.created_date);
+            return newOrder;
+        });
+
+        this.setState({
+            orders: (orders.concat(prescribe_orders)).sort((a, b) => this.compare(this.convertDate(b.created_date), this.convertDate(a.created_date))),
+            orders_search: (orders.concat(prescribe_orders)).sort((a, b) => this.compare(this.convertDate(b.created_date), this.convertDate(a.created_date))),
+            orderOpen: orders[0]
+        });
+        console.log(this.state.orders)
     }
 
     changePage(page) {
@@ -153,10 +197,22 @@ class ViewOrder extends Component {
                         {this.convertDate(order.created_date)}
                     </td>
                     <td>
+                        {order.payment_id === undefined ? <span>Mua</span> : <span>Kê đơn</span>}
+                    </td>
+                    <td>
                         {(order.total).toLocaleString('vi-VN')}đ
                     </td>
                     <td>
-                        <Link to={`/view_order_details/${JSON.stringify(order.id)}`}>
+                        {order.payment_id === undefined ?
+                            <Badge color="success"> Đã thanh toán </Badge>
+                            : order.payment_id === null ? <Badge color="danger"> Chưa thanh toán </Badge>
+                                : <Badge color="success"> Đã thanh toán </Badge>}
+                    </td>
+                    <td>
+                        <Link to={(() => {
+                            if (order.payment_id === undefined) return `/view_order_details/${JSON.stringify(order.id)}`
+                            else return `/view_order_prescribe_details/${JSON.stringify(order.id)}`;
+                        })()}>
                             <Button className='order-button' >
                                 Xem
                             </Button>
@@ -171,9 +227,9 @@ class ViewOrder extends Component {
         else not_Found = <span></span>;
 
         const containerStyle = (count) => {
-            if (count > 100) return { marginLeft: '25vh' }
+            if (count > 100) return { marginLeft: '45vh' }
             else if (count > 30) return { marginLeft: '34%' }
-            else if (count > 20) return { marginLeft: '37.5%' }
+            else if (count > 20) return { marginLeft: '46%' }
             else return { marginLeft: '46.5%' }
         };
 
@@ -215,7 +271,7 @@ class ViewOrder extends Component {
         if (this.context.role === "Doctor") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <>
-                {   (this.context.role === "Nurse")? <NurseSideBar />:<div/>}
+                {(this.context.role === "Nurse") ? <NurseSideBar /> : <div />}
                 <Container>
                     <Row className="manage-order-heading">
                         <Col className='manage-order-header'> Danh sách đơn thuốc </Col>
@@ -226,6 +282,12 @@ class ViewOrder extends Component {
                         </Button>
                         <Button className="search-button-sort" onClick={() => this.sortByDay()}>
                             Tìm theo ngày
+                        </Button>
+                        <Button className="search-button-sort" onClick={() => this.sortPurchase()}>
+                            Đơn thuốc mua
+                        </Button>
+                        <Button className="search-button-sort" onClick={() => this.sortPrescribe()}>
+                            Đơn thuốc kê
                         </Button>
                     </Row>
 
@@ -255,7 +317,13 @@ class ViewOrder extends Component {
                                             Ngày tạo đơn
                                         </th>
                                         <th>
+                                            Hình thức
+                                        </th>
+                                        <th>
                                             Tổng tiền
+                                        </th>
+                                        <th>
+                                            Tình trạng
                                         </th>
                                         <th>
                                             Hành động

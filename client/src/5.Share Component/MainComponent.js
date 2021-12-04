@@ -22,6 +22,7 @@ import ViewMedicalDetail from '../4.DungComponent/ViewMedicalDetail';
 import Prescribe from '../1.CatComponent/Doctor/PrescribeComponent';
 import ViewPrescribe from '../1.CatComponent/Doctor/ViewPrescribeMedicine';
 import StatisticTreatmentTurn from '../1.CatComponent/Nurse Manage/Manage Treatment/StatisticTreatmentTurnComponent';
+import ViewOrderPrescribeDetail from '../1.CatComponent/Nurse Manage/Manage Order/ViewOrderPrescribeDetail';
 
 // DUNG
 import Doctor from './Main UI/DoctorComponent';
@@ -118,6 +119,12 @@ class Main extends Component {
       )
     }
 
+    const ViewPrescribeDetails = ({ match }) => {
+      return (
+        <ViewOrderPrescribeDetail orderID={parseInt(JSON.parse(match.params.orderID))} />
+      )
+    }
+
     const Info = ({ match }) => {
       return (
         <Profile phone={parseInt(JSON.parse(match.params.phone))} />
@@ -153,6 +160,7 @@ class Main extends Component {
               <Route path='/view_order' component={ViewOrder} />
               <Route path='/statistic_order' component={StatisticOrder} />
               <Route path='/view_order_details/:orderID' component={ViewDetails} />
+              <Route path='/view_order_prescribe_details/:orderID' component={ViewPrescribeDetails} />
               <Route path='/payment' component={Payment} />
               <Route path='/payment_momo' component={PaymentMoMo} />
               <Route path="/view_medical_detail/:id" component={MedicalDetail} />
