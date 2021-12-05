@@ -278,8 +278,11 @@ class Appointment extends Component {
         const showHideClassName = this.state.show ? "modal display-block" : "modal display-none";
         const listMorning = ["8:00:00-8:30:00", "8:30:00-9:00:00", "9:00:00-9:30:00", "9:30:00-10:00:00", "10:00:00-10:30:00", "10:30:00-11:00:00"];
         const listAfternoon = ["13:00:00-13:30:00", "13:30:00-14:00:00", "14:00:00-14:30:00", "14:30:00-15:00:00", "15:00:00-15:30:00", "15:30:00-16:00:00", "16:00:00-16:30:00", "16:30:00-17:00:00"];
-        const S = this.state.work_schedule.filter(turn => turn.work_session == 'S');
-        const C = this.state.work_schedule.filter(turn => turn.work_session == 'C');
+        let S = this.state.work_schedule.filter(turn => turn.work_session == 'S');
+        let C = this.state.work_schedule.filter(turn => turn.work_session == 'C');
+        S.filter(s=> s.end_day==null || (+(new Date(s.end_day)+3600000*24-1) > (+(new Date()))) )
+        C.filter(c=> c.end_day==null || (+(new Date(c.end_day)+3600000*24-1) > (+(new Date()))) )
+
         let dem = 0;
         const listS = S.map(curr => listMorning.map((x, index) => (
             <tr>
@@ -443,7 +446,6 @@ class Appointment extends Component {
                         <tbody>
                             {listS}
                             {listC}
-                            {console.log(this.state.current_day)}
                         </tbody>
                     </Table>
                 </div>

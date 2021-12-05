@@ -216,10 +216,8 @@ class Re_examinationSchedule extends Component {
         // this.setState({current_day: currentDay});
 
         // console.log('check')
-        console.log(this.state.current_day + '______')
 
         this.setState({ curr_thu: thu + 2 });
-        console.log(thu + 2)
 
 
         let currentDay_thu = (new Date()).toUTCString().split(' ');
@@ -256,6 +254,8 @@ class Re_examinationSchedule extends Component {
         const listAfternoon = ["13:00:00-13:30:00", "13:30:00-14:00:00", "14:00:00-14:30:00", "14:30:00-15:00:00", "15:00:00-15:30:00", "15:30:00-16:00:00", "16:00:00-16:30:00", "16:30:00-17:00:00"];
         const S = this.state.work_schedule.filter(turn => turn.work_session == 'S');
         const C = this.state.work_schedule.filter(turn => turn.work_session == 'C');
+        S.filter(s=> s.end_day==null || (+(new Date(s.end_day)+3600000*24-1) > (+(new Date()))) )
+        C.filter(c=> c.end_day==null || (+(new Date(c.end_day)+3600000*24-1) > (+(new Date()))) )
         let dem = 0;
         const listS = S.map(curr => listMorning.map((x, index) => (
             <tr>
