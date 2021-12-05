@@ -40,7 +40,8 @@ class InstantAppointment extends Component {
             current_day: (new Date((+(new Date())) + 3600000 * 7)).toUTCString(),
             thu: 2,
             curr_thu: 2,
-            popup_health_issue: false
+            popup_health_issue: false, 
+            patients: []
         }
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -65,6 +66,12 @@ class InstantAppointment extends Component {
             })
             .catch(error => console.log(error));
 
+        axios.get('/api/get/patients')
+            .then(res => {
+                const patients = res.data;
+                this.setState({ patients: patients.patients });
+            })
+            .catch(error => console.log(error));
 
         axios.get('/api/get/work_schedules')
             .then(res => {
@@ -105,9 +112,16 @@ class InstantAppointment extends Component {
         const id = toast.warning('Chưa nhập số điện thoại!');
     }
 
+    onErrorClick = () => {
+        const id = toast.error('Số điện thoại không hợp lệ!');
+    }
+
     showModal = () => {
-        if(this.state.phone!==this.state.phone_nurse){
+        if(this.state.patients.filter(x => x.phone == this.state.phone).length !== 0){
             this.setState({ popup_health_issue: true });
+        }
+        else if(this.state.phone!==this.state.phone_nurse){
+            this.onErrorClick();
         }
         else{
             this.onWarningClick();
@@ -128,7 +142,7 @@ class InstantAppointment extends Component {
     }
 
     handleInsert = (event) => {
-        if(this.state.phone!==this.state.phone_nurse){
+        if(this.state.patients.filter(x => x.phone == this.state.phone).length !== 0){
             event.preventDefault();
             const newItem = {
                 id: this.randomId(),
@@ -193,7 +207,7 @@ class InstantAppointment extends Component {
 
 
     handleSubmit = (event) => {
-        if (this.state.system_users.filter(x => x.phone == this.state.phone).length !== 0) {
+        if (this.state.patients.filter(x => x.phone == this.state.phone).length !== 0) {
             const id = toast.success('Phone: ' + this.state.phone, () => {
             });
             this.setState({ showtable: true })
