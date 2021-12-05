@@ -39,7 +39,8 @@ class Re_examinationSchedule extends Component {
             thu: 2,
             curr_thu: 2,
             showtable: false,
-            popup_health_issue: false
+            popup_health_issue: false,
+            patients: []
         }
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -62,6 +63,13 @@ class Re_examinationSchedule extends Component {
             .then(res => {
                 const treatment_turns = res.data;
                 this.setState({ treatment_turns: treatment_turns.treatment_turns });
+            })
+            .catch(error => console.log(error));
+
+        axios.get('/api/get/patients')
+            .then(res => {
+                const patients = res.data;
+                this.setState({ patients: patients.patients });
             })
             .catch(error => console.log(error));
 
@@ -188,7 +196,7 @@ class Re_examinationSchedule extends Component {
     
     handleSubmit = (event) => {
 
-        if (this.state.system_users.filter(x => x.phone == this.state.phone).length !== 0) {
+        if (this.state.patients.filter(x => x.phone == this.state.phone).length !== 0) {
             const id = toast.success('Phone: ' + this.state.phone + '\nDate: ' + this.state.current_day, () => {
             });
             this.setState({ showtable: true })
