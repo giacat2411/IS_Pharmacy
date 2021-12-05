@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { Route, NavLink } from 'react-router-dom';
-import { Input, Row, Col, Button, CardHeader, CardBody, CardSubtitle, Container } from 'reactstrap';
+import { Row, Col, Button, Container, ModalHeader, ModalBody } from 'reactstrap';
 import Home from '../5.Share Component/Main UI/HomeComponent';
 import HeaderDefine from '../5.Share Component/Context';
 import { useContext } from 'react';
-import { Card, CardTitle } from 'reactstrap';
 import axios from 'axios';
-import { FaEdit } from 'react-icons/fa';
 import { Modal } from 'reactstrap';
 import NotesApp from './note';
 import { useEffect } from 'react';
@@ -14,6 +12,7 @@ import UpdatePwd from './updatePwd';
 import EditHealth from './editHealth';
 import EditInfo from './Editinfo';
 import { Link } from 'react-router-dom';
+
 const Profile = (props) => {
     const current = new Date();
     const ctx = useContext(HeaderDefine);
@@ -170,36 +169,36 @@ const Profile = (props) => {
                 </Col>
 
                 <Col md="6">
-                <Row>
-                <Col>
-                <NavLink to='/view_order'>
-                    <Button classname="center_screen" disabled={grant} 
-                        style={{
-                            backgroundColor: '#62AFFC',
-                            border: '0px',
-                            height: '40px',
-                            marginTop: '50px',
-                            width: '140px'
-                        }}>
-                        Xem đơn thuốc </Button>
-                </NavLink>
-                </Col>
-                <Col>
-                <Link to={`/medical_record/${JSON.stringify(user.phone)}`}>
-                    <Button 
-                    onClick={(e) => { localStorage.setItem("med_phone", user.phone); console.log("set") }}
-                    style={{
-                        backgroundColor: '#62AFFC',
-                        border: '0px',
-                        height: '40px',
-                        marginTop: '50px',
-                        width: '140px'
-                    }}>
-                        Lượt điều trị
-                    </Button>
-                </Link>
-                </Col>
-                </Row>
+                    <Row>
+                        <Col>
+                            <NavLink to='/view_order'>
+                                <Button classname="center_screen" disabled={grant}
+                                    style={{
+                                        backgroundColor: '#62AFFC',
+                                        border: '0px',
+                                        height: '40px',
+                                        marginTop: '50px',
+                                        width: '140px'
+                                    }}>
+                                    Xem đơn thuốc </Button>
+                            </NavLink>
+                        </Col>
+                        <Col>
+                            <Link to={`/medical_record/${JSON.stringify(user.phone)}`}>
+                                <Button
+                                    onClick={(e) => { localStorage.setItem("med_phone", user.phone); console.log("set") }}
+                                    style={{
+                                        backgroundColor: '#62AFFC',
+                                        border: '0px',
+                                        height: '40px',
+                                        marginTop: '50px',
+                                        width: '140px'
+                                    }}>
+                                    Lượt điều trị
+                                </Button>
+                            </Link>
+                        </Col>
+                    </Row>
                 </Col>
             </Row></>
         )
@@ -256,13 +255,24 @@ const Profile = (props) => {
                             </Col>
                         </Col>
                     </Row>
-                    <Modal isOpen={edit} toggle={toggleEdit}><EditInfo info={user} toggleEdit={toggleEdit} msgCall={showMsg} setUser={setAllImg} />
+                    <Modal centered isOpen={edit} toggle={toggleEdit}><EditInfo info={user} toggleEdit={toggleEdit} msgCall={showMsg} setUser={setAllImg} />
                     </Modal>
-                    <Modal isOpen={changePwd} toggle={togglePwd}><UpdatePwd togglePwd={togglePwd} phone={user.phone} msgCall={showMsg} />
+                    <Modal centered isOpen={changePwd} toggle={togglePwd}><UpdatePwd togglePwd={togglePwd} phone={user.phone} msgCall={showMsg} />
                     </Modal>
-                    <Modal isOpen={health} toggle={toggleHealth}><EditHealth health={info} phone={user.phone} toggleHealth={toggleHealth} msgCall={showMsg} />
+                    <Modal centered isOpen={health} toggle={toggleHealth}><EditHealth health={info} phone={user.phone} toggleHealth={toggleHealth} msgCall={showMsg} />
                     </Modal>
-                    <Modal isOpen={isMsg} toggle={toggleMsg}  > <Card>{msg}</Card> </Modal>
+                    <Modal centered isOpen={isMsg} toggle={toggleMsg}>
+                        <ModalHeader> Message </ModalHeader>
+                        <ModalBody>
+                            <Container>
+                                <Row style={{ textAlign: 'center' }}>
+                                    <Col>
+                                        {msg}
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </ModalBody>
+                    </Modal>
                 </Container>
             )
         else {

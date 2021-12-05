@@ -268,11 +268,11 @@ app.get('/api/get/orders', (req, res) => {
 
 app.get('/api/get/prescribe_order', (req, res) => {
   var sql = " select medicine.id, medicine.created_date, patient_phone, concat(lastname,' ', firstname) as full_name,  sum(include.quantity * drug.price) as total, payment.id as payment_id"
-  + " from (medicine join prescriptive_medicine on medicine.id = prescribe_id)"
-  + " join treatment_turn on treatment_turn.id = treatment_id"
-  + " join system_user on (patient_phone = phone) join include on (prescribe_id = medicine_id)"
-  + " natural join drug left join payment on medicine.id = payment.medicine_id"
-  + " group by medicine.id, created_date, patient_phone, firstname, lastname, payment.id;"
+    + " from (medicine join prescriptive_medicine on medicine.id = prescribe_id)"
+    + " join treatment_turn on treatment_turn.id = treatment_id"
+    + " join system_user on (patient_phone = phone) join include on (prescribe_id = medicine_id)"
+    + " natural join drug left join payment on medicine.id = payment.medicine_id"
+    + " group by medicine.id, created_date, patient_phone, firstname, lastname, payment.id;"
 
   connection.query(sql, function (err, results) {
     if (err) throw err;
@@ -296,12 +296,12 @@ app.get('/api/get/myorders', (req, res) => {
 
 app.get('/api/get/myorders_prescribe', (req, res) => {
   var sql = " select medicine.id, medicine.created_date, patient_phone, concat(lastname,' ', firstname) as full_name,  sum(include.quantity * drug.price) as total, payment.id as payment_id"
-  + " from (medicine join prescriptive_medicine on medicine.id = prescribe_id)"
-  + " join treatment_turn on treatment_turn.id = treatment_id"
-  + " join system_user on (patient_phone = phone) join include on (prescribe_id = medicine_id)"
-  + " natural join drug left join payment on medicine.id = payment.medicine_id"
-  + " where patient_phone = " + req.query.phone
-  + " group by medicine.id, created_date, patient_phone, firstname, lastname, payment.id;"
+    + " from (medicine join prescriptive_medicine on medicine.id = prescribe_id)"
+    + " join treatment_turn on treatment_turn.id = treatment_id"
+    + " join system_user on (patient_phone = phone) join include on (prescribe_id = medicine_id)"
+    + " natural join drug left join payment on medicine.id = payment.medicine_id"
+    + " where patient_phone = " + req.query.phone
+    + " group by medicine.id, created_date, patient_phone, firstname, lastname, payment.id;"
 
   connection.query(sql, function (err, results) {
     if (err) throw err;
@@ -322,10 +322,10 @@ app.get('/api/get/order_in_view', function (req, res) {
 
 app.get('/api/get/order_prescribe_in_view', function (req, res) {
   var sql = "select  prescribe_id, concat(A.lastname, ' ', A.firstname) as fullname, A.dateofbirth, A.address, A.phone, concat(B.lastname, ' ', B.firstname) as doctor_name, treatment_turn.*"
-  + " from prescriptive_medicine join treatment_turn on id = treatment_id "
-  + " join system_user as A on patient_phone = A.phone "
-  + " join system_user as B on doctor_phone = B.phone "
-  + " where prescribe_id =  " + req.query.orderID;
+    + " from prescriptive_medicine join treatment_turn on id = treatment_id "
+    + " join system_user as A on patient_phone = A.phone "
+    + " join system_user as B on doctor_phone = B.phone "
+    + " where prescribe_id =  " + req.query.orderID;
   console.log(sql);
   connection.query(sql, function (err, results) {
     if (err) throw err;
@@ -360,6 +360,30 @@ app.get('/api/get/total_value', function (req, res) {
     + "from purchase_medicine join medicine on purchase_id = id join include on id = medicine_id "
     + "natural join drug "
     + "group by created_date"
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ data_statistic: results });
+  });
+})
+
+app.get('/api/get/total_prescribe_value', function (req, res) {
+  var sql = "select E.created_date, sum(E.price * E.quantity) as total"
+    + " from (select * from prescriptive_medicine join medicine on prescribe_id = id"
+    + " join include on prescribe_id = medicine_id natural join drug) as E"
+    + " join payment on E.medicine_id = payment.medicine_id"
+    + " group by E.created_date;"
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ data_statistic: results });
+  });
+})
+
+app.get('/api/get/not_total_prescribe_value', function (req, res) {
+  var sql = "select created_date, sum(price * quantity) as total"
+    + " from prescriptive_medicine join medicine on prescribe_id = id"
+    + " join include on prescribe_id = medicine_id natural join drug"
+    + " where not exists (select * from payment where payment.medicine_id = prescribe_id)"
+    + " group by created_date;"
   connection.query(sql, function (err, results) {
     if (err) throw err;
     res.json({ data_statistic: results });
@@ -578,7 +602,7 @@ app.post('/api/post/TTSK', (req, res) => {
     WHERE phone=${req.body.params.phone}`
   console.log(sql)
   connection.query(sql, function (err, results) {
-    res.json({ msg: "done" })
+    res.json({ msg: "Thay đổi tình trạng sức khỏe thành công" })
   });
 }
 );
@@ -593,7 +617,7 @@ app.post('/api/post/info', (req, res) => {
   WHERE phone=${req.body.params.phone};`
   console.log(sql);
   connection.query(sql, function (err, results) {
-    res.json({ msg: "update info success" })
+    res.json({ msg: "Thay đổi thông tin thành công!" })
   })
 });
 // dateofbirth="${req.body.params.dateofbirth}",
@@ -608,31 +632,28 @@ app.post('/api/post/pwd', (req, res) => {
       sql = `UPDATE SYSTEM_USER SET  pwd="${newpwd}"
   WHERE phone=${req.body.params.phone} `
       connection.query(sql, () => {
-        res.json({ msg: "new pwd successful" })
+        res.json({ msg: "Đổi mật khẩu thành công!" })
       })
     } else {
-      res.json({ msg: "Wrong password!" })
+      res.json({ msg: "Sai mật khẩu!" })
     }
   })
 })
 app.post('/api/post/newpwd', (req, res) => {
-  var sql = `SELECT pwd,dateofbirth FROM system_user where phone=${req.body.params.phone}`
+  var sql = `SELECT pwd,dateofbirth FROM system_user where phone=${req.body.params.phone}`;
+  console.log(sql);
+  
   connection.query(sql, (err, results) => {
-    if (Date(results[0].dateofbirth) == Date(req.body.params.dateofbirth)) {
-      if (bcrypt.compareSync(req.body.params.pwd, results[0].pwd)) {
-        const salt = bcrypt.genSaltSync(10);
-        newpwd = bcrypt.hashSync(req.body.params.pwd, salt);
-        sql = `UPDATE SYSTEM_USER SET  pwd="${newpwd}"
+    if (new Date(req.body.params.DOB).toLocaleDateString('vi') === (new Date(results[0].dateofbirth)).toLocaleDateString('vi')) {
+      const salt = bcrypt.genSaltSync(10);
+      newpwd = bcrypt.hashSync(req.body.params.pwd, salt);
+      sql = `UPDATE SYSTEM_USER SET  pwd="${newpwd}"
                 WHERE phone=${req.body.params.phone} `
-        connection.query(sql, () => {
-          res.json({ msg: "new pwd successful" })
-        })
-      } else {
-        res.json({ msg: "Wrong password!" })
-      }
-
+      connection.query(sql, () => {
+        res.json({ msg: "Đổi mật khẩu thành công" })
+      })
     } else {
-      res.json({ msg: "Wrong information!" })
+      res.json({ msg: "Sai thông tin!" })
     }
     // var sql = `UPDATE system_user SET email = ${req.body.params.pwd}
     //         WHERE phone=${req.body.params.phone}`
@@ -674,11 +695,11 @@ app.post('api/update/treatment_turn', (req, res) => {
 
 app.post('/api/insert/schedule', (req, res) => {
   var input = req.body.params;
-  var sql = "CALL ADD_SCHEDULE(" 
-          + input.phone + ", " 
-          + input.day + ", '" 
-          + input.session + "', '"
-          + (new Date()).toISOString().split('T')[0] + "');"
+  var sql = "CALL ADD_SCHEDULE("
+    + input.phone + ", "
+    + input.day + ", '"
+    + input.session + "', '"
+    + (new Date()).toISOString().split('T')[0] + "');"
   console.log(sql)
   connection.query(sql, function (err, results) {
     res.json({ patients: req.query });
@@ -751,7 +772,7 @@ app.post('/api/insert/prescribe_medicine', function (req, res) {
   });
 
   sql = "INSERT INTO PRESCRIPTIVE_MEDICINE(prescribe_id, treatment_id) VALUE"
-        + " (" + id + ", " + req.body.treatment_id + ");"
+    + " (" + id + ", " + req.body.treatment_id + ");"
   console.log(sql);
   connection.query(sql, function (err, results) {
     if (err) throw err;
@@ -775,8 +796,8 @@ app.post('/api/insert/momo_payment', function (req, res) {
   var id = Math.floor(Math.random() * Math.pow(10, 12));
   const date = (new Date()).toISOString().split('T')[0]
   var sql = "INSERT PAYMENT(id, method, created_date, medicine_id) VALUE"
-          + "( " + id + ", 'MoMo doanh nghiệp', '" + date + "', " + req.body.medicine_id + ")"
-  console.log(sql); 
+    + "( " + id + ", 'MoMo doanh nghiệp', '" + date + "', " + req.body.medicine_id + ")"
+  console.log(sql);
   connection.query(sql, function (err, results) {
     if (err) throw err;
     res.json({ news: results });
@@ -787,8 +808,8 @@ app.post('/api/insert/momo_payment_nurse', function (req, res) {
   var id = Math.floor(Math.random() * Math.pow(10, 12));
   const date = (new Date()).toISOString().split('T')[0]
   var sql = "INSERT PAYMENT(id, method, created_date, nurse_phone, medicine_id) VALUE"
-          + "( " + id + ", 'MoMo doanh nghiệp', '" + date + "', " + req.body.phone + ", " + req.body.medicine_id + ")"
-  console.log(sql); 
+    + "( " + id + ", 'MoMo doanh nghiệp', '" + date + "', " + req.body.phone + ", " + req.body.medicine_id + ")"
+  console.log(sql);
   connection.query(sql, function (err, results) {
     if (err) throw err;
     res.json({ news: results });

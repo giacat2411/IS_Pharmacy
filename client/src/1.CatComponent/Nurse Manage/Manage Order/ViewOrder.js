@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Spinner } from 'reactstrap';
+import { Container, Row, Col, Spinner, Form, FormGroup } from 'reactstrap';
 import { Input, Button, Badge } from 'reactstrap';
 import { Table } from 'reactstrap';
 import { FaSearch } from 'react-icons/fa';
@@ -246,8 +246,13 @@ class ViewOrder extends Component {
         };
         const sortByKey = <Row>
             <Col md="3">
-                <Input className="search-box-sort" id="search" name="search-drugs" placeholder="Nhập đơn hàng"
-                    innerRef={(input) => this.search_item = input} />
+                <Form onSubmit={e => {e.preventDefault(); this.onInputOrderID()}}>
+                    <FormGroup>
+                        <Input className="search-box-sort" id="search" name="search-drugs" placeholder="Nhập đơn hàng"
+                            innerRef={(input) => this.search_item = input} autoComplete="off"/>
+                    </FormGroup>
+                </Form>
+
             </Col>
             <Button className="search-button" onClick={this.onInputOrderID}>
                 <FaSearch /> Tìm <span style={{ textTransform: 'lowercase' }}> kiếm </span>

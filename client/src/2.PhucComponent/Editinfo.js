@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Input, Row, Col, Button, CardHeader, CardBody, CardSubtitle, Container } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import { Card, CardTitle } from 'reactstrap';
+import { Input, Row, Col, Button, Container, ModalFooter } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import axios from 'axios';
 import { FaEdit } from 'react-icons/fa';
 import storage from './firebase';
@@ -54,6 +53,12 @@ const EditInfo = (props) => {
         setTemp(newValue);
     }
 
+    const [is_open, setOpen] = useState(false);
+
+    const handleOpen = () => {
+        setOpen(!is_open)
+    }
+
     const subReg = () => {
         const str = temp.fullname;
         var lname = str.split(' ').slice(0, -1).join(' ');
@@ -66,21 +71,47 @@ const EditInfo = (props) => {
     const handleFile = (event) => {
         setFile(event.target.files[0]);
     }
-    return <Card>
-        <CardHeader>Điều chỉnh thông tin</CardHeader>
-        <CardBody>
-            <CardTitle>Họ và tên</CardTitle> <Input name="fullname" onChange={handleChange} defaultValue={temp.lastname + " " + temp.firstname}></Input><FaEdit />
-            <CardTitle>Email </CardTitle> <Input name="email" onChange={handleChange} defaultValue={temp.email} ></Input>
-            <CardTitle>Ngày sinh </CardTitle> <Input name="dateofbirth" type="date" onChange={handleChange} defaultValue={temp.dateofbirth}></Input>
-            <CardTitle>Địa chỉ </CardTitle> <Input name="address" onChange={handleChange} defaultValue={temp.address}></Input>
-            <CardTitle>Ảnh đại diện </CardTitle> <Input name="img" type="file" onChange={handleFile}></Input>
-
-        </CardBody>
-        <CardSubtitle>
+    return <>
+        <ModalHeader>Điều chỉnh thông tin</ModalHeader>
+        <ModalBody>
             <Container>
-                <Row>
+                <Row style={{marginBottom: '15px'}}>
+                    <Col md="3" style={{marginTop: '8px'}}> Họ và tên</Col>
+                    <Col md="9">
+                        <Input name="fullname" onChange={handleChange} defaultValue={temp.lastname + " " + temp.firstname}> </Input> </Col>
+                </Row>
+                <Row style={{marginBottom: '15px'}}>
+                    <Col md="3" style={{marginTop: '8px'}}>Email </Col>
+                    <Col md="9">
+                        <Input name="email" onChange={handleChange} defaultValue={temp.email} ></Input>
+                    </Col>
+                </Row>
+                <Row style={{marginBottom: '15px'}}>
+                    <Col md="3" style={{marginTop: '8px'}}>Ngày sinh </Col>
+                    <Col md="9">
+                        <Input name="dateofbirth" type="date" onChange={handleChange} defaultValue={temp.dateofbirth}></Input>
+                    </Col>
+                </Row>
+                <Row style={{marginBottom: '15px'}}>
+                    <Col md="3" style={{marginTop: '8px'}}>Địa chỉ </Col>
+                    <Col md="9">
+                        <Input name="address" onChange={handleChange} defaultValue={temp.address}></Input>
+                    </Col>
+                </Row>
+                <Row style={{marginBottom: '15px'}}>
+                    <Col md="3" style={{marginTop: '8px'}}>Ảnh đại diện </Col>
+                    <Col md="9">
+                        <Input name="img" type="file" onChange={handleFile}></Input>
+                    </Col>
+
+                </Row>
+            </Container>
+        </ModalBody>
+        <ModalFooter>
+            <Container>
+                <Row style={{ textAlign: 'center' }}>
                     <Col>
-                        <Button className="center_screen" onClick={updateInfo} style={{ backgroundColor: '#62AFFC', marginTop: '10px', border: '0px' }}>
+                        <Button className="center_screen" onClick={handleOpen} style={{ backgroundColor: '#62AFFC', marginTop: '10px', border: '0px' }}>
                             Xác nhận
                         </Button>
                     </Col>
@@ -91,7 +122,33 @@ const EditInfo = (props) => {
                     </Col>
                 </Row>
             </Container>
-        </CardSubtitle>
-    </Card>
+        </ModalFooter>
+        <Modal isOpen={is_open} toggle={handleOpen} centered>
+            <ModalHeader> Bạn có chắc chắn với lựa chọn của mình ? </ModalHeader>
+            <ModalBody>
+                <Container>
+                    <Row>
+                        <Col>
+                            <Button onClick={() => { updateInfo(); handleOpen(); props.toggleEdit() }}
+                                style={{
+                                    backgroundColor: '#62AFFC',
+                                    border: '0px'
+                                }}>
+                                Có
+                            </Button>
+                        </Col>
+                        <Col>
+                            <Button onClick={() => { handleOpen(); props.toggleEdit() }}
+                                style={{
+                                    backgroundColor: '#62AFFC',
+                                    border: '0px'
+                                }}>
+                                Không </Button>
+                        </Col>
+                    </Row>
+                </Container>
+            </ModalBody>
+        </Modal>
+    </>
 }
 export default EditInfo;
