@@ -24,6 +24,7 @@ class InstantAppointment extends Component {
         super(props);
         this.state = {
             phone: '',
+            phone_nurse: '',
             show: false,
 
             treatment_turn: [],
@@ -52,10 +53,11 @@ class InstantAppointment extends Component {
         this.randomId = this.randomId.bind(this);
         this.handleChangeHealthIssue = this.handleChangeHealthIssue.bind(this);
         this.hideAllModal = this.hideAllModal.bind(this);
+        this.onWarningClick = this.onWarningClick.bind(this);
     }
 
     componentDidMount() {
-        this.setState({ phone: this.context.phone })
+        this.setState({ phone: this.context.phone, phone_nurse: this.context.phone})
         axios.get('/api/get/treatment_turns')
             .then(res => {
                 const treatment_turns = res.data;
@@ -99,9 +101,17 @@ class InstantAppointment extends Component {
             .catch(error => console.log(error));
     };
 
+    onWarningClick = () => {
+        const id = toast.warning('Chưa nhập số điện thoại!');
+    }
 
     showModal = () => {
-        this.setState({ popup_health_issue: true });
+        if(this.state.phone!==this.state.phone_nurse){
+            this.setState({ popup_health_issue: true });
+        }
+        else{
+            this.onWarningClick();
+        }
     };
 
     hideModal = () => {
@@ -118,22 +128,24 @@ class InstantAppointment extends Component {
     }
 
     handleInsert = (event) => {
-        event.preventDefault();
-        const newItem = {
-            id: this.randomId(),
-            turn_time: event.target.value.split(' ').splice(0, 4).join(' ') + ' ' + event.target.value.split(' ').splice(-1, 1).join().split('-')[0],
-            health_issue: ' ',
-            blood_pressure: 1,
-            heart_beat: 1,
-            therapy: ' ',
-            diagnose: ' ',
-            start_time: event.target.value.split(' ').splice(0, 4).join(' ') + ' ' + event.target.value.split(' ').splice(-1, 1).join().split('-')[0],
-            end_time: event.target.value.split(' ').splice(0, 4).join(' ') + ' ' + event.target.value.split(' ').splice(-1, 1).join().split('-')[1],
-            patient_phone: this.state.phone,
-            doctor_phone: event.target.name
-        };
-
-        this.setState({ registering: newItem });
+        if(this.state.phone!==this.state.phone_nurse){
+            event.preventDefault();
+            const newItem = {
+                id: this.randomId(),
+                turn_time: event.target.value.split(' ').splice(0, 4).join(' ') + ' ' + event.target.value.split(' ').splice(-1, 1).join().split('-')[0],
+                health_issue: ' ',
+                blood_pressure: 1,
+                heart_beat: 1,
+                therapy: ' ',
+                diagnose: ' ',
+                start_time: event.target.value.split(' ').splice(0, 4).join(' ') + ' ' + event.target.value.split(' ').splice(-1, 1).join().split('-')[0],
+                end_time: event.target.value.split(' ').splice(0, 4).join(' ') + ' ' + event.target.value.split(' ').splice(-1, 1).join().split('-')[1],
+                patient_phone: this.state.phone,
+                doctor_phone: event.target.name
+            };
+    
+            this.setState({ registering: newItem });
+        }
     }
 
     handleDeleteInsert = (event) => {
@@ -204,6 +216,7 @@ class InstantAppointment extends Component {
         let C = this.state.work_schedule.filter(turn => turn.work_session == 'C');
         S=S.filter(s=> s.end_day==null || (((+(new Date(s.end_day)))+3600000*24-1) > (+(new Date(this.state.current_day)))) )
         C=C.filter(c=> c.end_day==null || (((+(new Date(c.end_day)))+3600000*24-1) > (+(new Date(this.state.current_day)))) )
+        const months = {'Jan':1, 'Feb':2, 'Mar':3, 'Apr':4, 'May':5, 'Jun':6, 'Jul':7, 'Aug':8, 'Sep':9, 'Oct':10, 'Nov':11, 'Dec':12}
 
         let dem = 0;
         const listS = S.map(curr => listMorning.map((x, index) => (
@@ -218,7 +231,7 @@ class InstantAppointment extends Component {
                     {curr.doctor_phone}
                 </td>
                 <td>
-                    {this.state.current_day.split(' ').splice(1, 3).join('/')}
+                    {this.state.current_day.split(' ')[1]+'/'+months[this.state.current_day.split(' ')[2]]+'/'+this.state.current_day.split(' ')[3]}
                 </td>
                 <td>
                     {x}
@@ -229,7 +242,7 @@ class InstantAppointment extends Component {
                             <div class='dung-logomini'>
                                 <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
                             </div>    
-                            <p><label for="health-issue">Vấn đề sức khỏe hiện tại?</label></p>
+                            <p><label for="health-issue">Vấn đề sức khỏe hiện tại của bạn?</label></p>
                             <Input id="health-issue" name="health-issue" type="textarea" onChange={this.handleChangeHealthIssue} required />
                             <button type="button" onClick={(e) => { this.hideAllModal(); this.handleDeleteInsert(e) }}>
                                 Hủy
@@ -290,7 +303,7 @@ class InstantAppointment extends Component {
                     {curr.doctor_phone}
                 </td>
                 <td>
-                    {this.state.current_day.split(' ').splice(1, 3).join('/')}
+                {this.state.current_day.split(' ')[1]+'/'+months[this.state.current_day.split(' ')[2]]+'/'+this.state.current_day.split(' ')[3]}
                 </td>
                 <td>
                     {x}
@@ -301,7 +314,7 @@ class InstantAppointment extends Component {
                             <div class='dung-logomini'>
                                 <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
                             </div>    
-                            <p><label for="health-issue">Vấn đề sức khỏe hiện tại?</label></p>
+                            <p><label for="health-issue">Vấn đề sức khỏe hiện tại của bạn?</label></p>
                             <Input id="health-issue" name="health-issue" type="textarea" onChange={this.handleChangeHealthIssue} required />
                             <button type="button" onClick={(e) => { this.hideAllModal(); this.handleDeleteInsert(e) }}>
                                 Hủy

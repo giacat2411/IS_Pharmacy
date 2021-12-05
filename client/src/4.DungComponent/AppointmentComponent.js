@@ -297,6 +297,7 @@ class Appointment extends Component {
         let C = this.state.work_schedule.filter(turn => turn.work_session == 'C');
         S=S.filter(s=> s.end_day==null || (((+(new Date(s.end_day)))+3600000*24-1) > (+(new Date(this.state.current_day)))) )
         C=C.filter(c=> c.end_day==null || (((+(new Date(c.end_day)))+3600000*24-1) > (+(new Date(this.state.current_day)))) )
+        const months = {'Jan':1, 'Feb':2, 'Mar':3, 'Apr':4, 'May':5, 'Jun':6, 'Jul':7, 'Aug':8, 'Sep':9, 'Oct':10, 'Nov':11, 'Dec':12}
 
         let dem = 0;
         const listS = S.map(curr => listMorning.map((x, index) => (
@@ -311,7 +312,7 @@ class Appointment extends Component {
                     {curr.doctor_phone}
                 </td>
                 <td>
-                    {(new Date(this.state.current_day)).toISOString().split('T')[0].split("-").reverse().join("/")}
+                {this.state.current_day.split(' ')[1]+'/'+months[this.state.current_day.split(' ')[2]]+'/'+this.state.current_day.split(' ')[3]}
                 </td>
                 <td>
                     {x}
@@ -322,7 +323,7 @@ class Appointment extends Component {
                             <div class='dung-logomini'>
                                 <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
                             </div>    
-                            <p><label for="health-issue">Vấn đề sức khỏe hiện tại?</label></p>
+                            <p><label for="health-issue">Vấn đề sức khỏe hiện tại của bạn?</label></p>
                             <Input id="health-issue" name="health-issue" type="textarea" onChange={this.handleChangeHealthIssue} required />
                             <button type="button" onClick={(e) => { this.hideAllModal(); this.handleDeleteInsert(e) }}>
                                 Hủy
@@ -387,7 +388,7 @@ class Appointment extends Component {
                     {curr.doctor_phone}
                 </td>
                 <td>
-                    {(new Date(this.state.current_day)).toISOString().split('T')[0].split("-").reverse().join("/")}
+                {this.state.current_day.split(' ')[1]+'/'+months[this.state.current_day.split(' ')[2]]+'/'+this.state.current_day.split(' ')[3]}
                 </td>
                 <td>
                     {x}
@@ -398,7 +399,7 @@ class Appointment extends Component {
                             <div class='dung-logomini'>
                                 <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
                             </div>    
-                            <p><label for="health-issue">Vấn đề sức khỏe hiện tại?</label></p>
+                            <p><label for="health-issue">Vấn đề sức khỏe hiện tại của bạn?</label></p>
                             <Input id="health-issue" name="health-issue" type="textarea" onChange={this.handleChangeHealthIssue} required />
                             <button type="button" onClick={(e) => { this.hideAllModal(); this.handleDeleteInsert(e) }}>
                                 Hủy
