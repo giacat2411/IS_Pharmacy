@@ -647,39 +647,6 @@ app.post('/api/post/newpwd', (req, res) => {
 
 
 ///// Chanh /////
-app.post('api/update/work_schedule', (req, res) => {
-  input = req.body.params;
-  var sql = `UPDATE work_schedule
-      SET work_day=${input.work_day},
-          work_session=${input.work_session},
-  WHERE phone=${input.phone}`
-  connection.query(sql, function (err, results) {
-    res.json({ patients: input });
-  });
-}
-)
-app.post('/api/set/end-schedule', (req, res) => {
-  var input = req.body.params;
-  var sql = `UPDATE work_schedule
-      SET end_day='${(curr).toISOString().split('T')[0]}'
-  WHERE doctor_phone=${input.phone} and  work_day=${input.work_day}
-        and  work_session="${input.work_session}";`
-  console.log(sql)
-  connection.query(sql, function (err, results) {
-    res.json({ patients: req.query });
-  });
-}
-)
-app.post('/api/insert/schedule', (req, res) => {
-  var input = req.body.params;
-  var sql = `insert into work_schedule 
-  values(${input.phone},${input.day},"${input.session}","${curr.toISOString().split('T')[0]}",null)`
-  console.log(sql)
-  connection.query(sql, function (err, results) {
-    res.json({ patients: req.query });
-  });
-}
-)
 app.post('api/update/treatment_turn', (req, res) => {
   var sql = `UPDATE patient
       SET turn_time=${req.query.turn_time},
@@ -705,27 +672,55 @@ app.post('api/update/treatment_turn', (req, res) => {
 
 ///// Phuc /////
 
-app.post('/api/update/work_schedule', (req, res) => {
-  input = req.body.params;
-  var sql = `UPDATE work_schedule SET doctor_phone=${input.doctor_phone}, day = ${input.day}, session=${input.session}
-  WHERE doctor_phone=${input.oldphone} and day=${input.oldday} and session =${input.oldsession}
-  `;
+app.post('/api/insert/schedule', (req, res) => {
+  var input = req.body.params;
+  var sql = "CALL ADD_SCHEDULE(" 
+          + input.phone + ", " 
+          + input.day + ", '" 
+          + input.session + "', '"
+          + (new Date()).toISOString().split('T')[0] + "');"
+  console.log(sql)
   connection.query(sql, function (err, results) {
-    if (err) throw err;
-    res.json({ work_schedules: results });
+    res.json({ patients: req.query });
   });
-});
+}
+)
 
-///// Chanh /////
-app.post('/api/delete/work_schedule', (req, res) => {
-  var sql = "DELETE FROM work_schedule "
-    + "WHERE doctor_phone='" + req.body.doctor_phone + "'";
-  console.log(req);
+app.post('/api/set/end-schedule', (req, res) => {
+  var input = req.body.params;
+  var sql = `UPDATE work_schedule
+      SET end_day='${(curr).toISOString().split('T')[0]}'
+  WHERE doctor_phone=${input.phone} and  work_day=${input.work_day}
+        and  work_session="${input.work_session}" and start_day = '${(new Date(input.start_day)).toLocaleDateString('vi').split('/').reverse().join('-')}';`
+  console.log(sql)
   connection.query(sql, function (err, results) {
-    if (err) throw err;
-    res.json({ news: results });
+    res.json({ patients: req.query });
   });
-});
+}
+)
+
+// app.post('/api/update/work_schedule', (req, res) => {
+//   input = req.body.params;
+//   var sql = `UPDATE work_schedule SET doctor_phone=${input.doctor_phone}, day = ${input.day}, session=${input.session}
+//   WHERE doctor_phone=${input.oldphone} and day=${input.oldday} and session =${input.oldsession}
+//   `;
+//   connection.query(sql, function (err, results) {
+//     if (err) throw err;
+//     res.json({ work_schedules: results });
+//   });
+// });
+
+// app.post('/api/delete/work_schedule', (req, res) => {
+//   var sql = "DELETE FROM work_schedule "
+//     + "WHERE doctor_phone='" + req.body.doctor_phone + "'";
+//   console.log(req);
+//   connection.query(sql, function (err, results) {
+//     if (err) throw err;
+//     res.json({ news: results });
+//   });
+// });
+
+
 ///// Dung /////
 
 app.post('/api/delete/treatment_turns', (req, res) => {

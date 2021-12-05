@@ -34,7 +34,7 @@ class ScheduleTable extends Component {
             add: false,
             confirm: false,
         }
-        this.temp = {}
+        this.temp = {phone: '', day: '2', session: 'S'}
     }
     toggleAdd() {
         this.setState({ add: !this.state.add })
@@ -123,7 +123,9 @@ class ScheduleTable extends Component {
     //     const id = toast.success('Đăng ký thành công!',()=>{
     //     });
     // };
+
     setEnd = (x) => {
+        console.log(x);
         const newSchedules = this.state.work_schedules.filter(y => { return this.state.work_schedules.indexOf(x) !== this.state.work_schedules.indexOf(y) })
 
         const newSchedule = this.state.work_schedule.filter(y => { return this.state.work_schedule.indexOf(x) !== this.state.work_schedule.indexOf(y) })
@@ -135,13 +137,14 @@ class ScheduleTable extends Component {
     }
 
     addSche() {
-        console.log(this.state.doctors_phone)
+        console.log(this.temp)
+        console.log(this.state.work_schedules);
         if (!this.state.doctors_phone.includes(this.temp.phone.toString()))
             toast.error('Không tồn tại bác sĩ');
         else if (this.state.work_schedules.filter(x => {
-            return (x.doctor_phone === this.temp.phone.toString()
-                && x.work_day === this.temp.day.toString()
-                && x.work_session === this.temp.session.toString())
+            return (x.doctor_phone.toString() === this.temp.phone.toString()
+                && x.work_day.toString() === this.temp.day.toString()
+                && x.work_session.toString() === this.temp.session.toString())
         }).length !== 0)
             toast.error('Đã tồn tại lịch làm việc');
         else {
@@ -156,8 +159,6 @@ class ScheduleTable extends Component {
             .catch(error => console.log(error));
             this.toggleAdd();
         }
-
-        
     }
 
     listWork = () => {
