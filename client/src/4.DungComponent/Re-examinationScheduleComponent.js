@@ -35,10 +35,11 @@ class Re_examinationSchedule extends Component {
 
             registering: {},//"08:00:00-08:30:00","09:00:00-09:30:00","10:30:00-11:00:00","13:30:00-14:00:00","14:30:00-15:00:00","15:00:00-15:30:00","15:30:00-16:00:00","16:30:00-17:00:00"
 
-            current_day: (new Date()).toUTCString(),
+            current_day: (new Date((+(new Date())) + 3600000 * 7)).toUTCString(),
             thu: 2,
             curr_thu: 2,
-            showtable: false
+            showtable: false,
+            popup_health_issue: false
         }
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
@@ -51,6 +52,8 @@ class Re_examinationSchedule extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.randomId = this.randomId.bind(this);
+        this.handleChangeHealthIssue = this.handleChangeHealthIssue.bind(this);
+        this.hideAllModal = this.hideAllModal.bind(this);
     }
 
     componentDidMount() {
@@ -76,7 +79,8 @@ class Re_examinationSchedule extends Component {
                 const system_users = res.data;
                 this.setState({ system_users: system_users.system_users });
 
-                let currentDay = (new Date()).toUTCString().split(' ');
+                let currentDay = (new Date((+(new Date())) + 3600000 * 7)).toUTCString().split(' ');
+                
 
                 const days = ['Mon,', 'Tue,', 'Wed,', 'Thu,', 'Fri,', 'Sat,', 'Sun,'];
                 for (let i = 0; i < days.length; ++i) {
@@ -100,12 +104,16 @@ class Re_examinationSchedule extends Component {
 
 
     showModal = () => {
-        this.setState({ show: true });
+        this.setState({ popup_health_issue: true });
     };
 
     hideModal = () => {
-        this.setState({ show: false });
+        this.setState({ popup_health_issue: false, show: true });
     };
+
+    hideAllModal = () => {
+        this.setState({  popup_health_issue: false, show: false });
+    }
 
     randomId = () => {
         const id = Math.floor(Math.random() * 10000000);
@@ -172,6 +180,12 @@ class Re_examinationSchedule extends Component {
         this.setState({ current_day: event.target.value });
     };
 
+    handleChangeHealthIssue = (event) => {
+        let register = this.state.registering;
+        register.health_issue = event.target.value;
+        this.setState({ registering: register });
+    }
+    
     handleSubmit = (event) => {
 
         if (this.state.system_users.filter(x => x.phone == this.state.phone).length !== 0) {
@@ -220,7 +234,7 @@ class Re_examinationSchedule extends Component {
         this.setState({ curr_thu: thu + 2 });
 
 
-        let currentDay_thu = (new Date()).toUTCString().split(' ');
+        let currentDay_thu = (new Date((+(new Date())) + 3600000 * 7)).toUTCString().split(' ');
 
         // this.setState({current_day: currentDay});
 
@@ -248,14 +262,15 @@ class Re_examinationSchedule extends Component {
 
 
     render() {
+        const showPopupHealthIssue = this.state.popup_health_issue? "modal display-block" : "modal display-none";
         const showHideClassName = this.state.show ? "modal display-block" : "modal display-none";
         const showTable = this.state.showtable ? "display-block" : "display-none";
         const listMorning = ["8:00:00-8:30:00", "8:30:00-9:00:00", "9:00:00-9:30:00", "9:30:00-10:00:00", "10:00:00-10:30:00", "10:30:00-11:00:00"];
         const listAfternoon = ["13:00:00-13:30:00", "13:30:00-14:00:00", "14:00:00-14:30:00", "14:30:00-15:00:00", "15:00:00-15:30:00", "15:30:00-16:00:00", "16:00:00-16:30:00", "16:30:00-17:00:00"];
-        const S = this.state.work_schedule.filter(turn => turn.work_session == 'S');
-        const C = this.state.work_schedule.filter(turn => turn.work_session == 'C');
-        S.filter(s=> s.end_day==null || (+(new Date(s.end_day)+3600000*24-1) > (+(new Date()))) )
-        C.filter(c=> c.end_day==null || (+(new Date(c.end_day)+3600000*24-1) > (+(new Date()))) )
+        let S = this.state.work_schedule.filter(turn => turn.work_session == 'S');
+        let C = this.state.work_schedule.filter(turn => turn.work_session == 'C');
+        S=S.filter(s=> s.end_day==null || (((+(new Date(s.end_day)))+3600000*24-1) > (+(new Date(this.state.current_day)))) )
+        C=C.filter(c=> c.end_day==null || (((+(new Date(c.end_day)))+3600000*24-1) > (+(new Date(this.state.current_day)))) )
         let dem = 0;
         const listS = S.map(curr => listMorning.map((x, index) => (
             <tr>
@@ -275,36 +290,42 @@ class Re_examinationSchedule extends Component {
                     {x}
                 </td>
                 <td>
+                    <div className={showPopupHealthIssue}>
+                        <section className="modal-main aa">     
+                            <div class='dung-logomini'>
+                                <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
+                            </div>    
+                            <p><label for="health-issue">Vấn đề sức khỏe hiện tại?</label></p>
+                            <Input id="health-issue" name="health-issue" type="textarea" onChange={this.handleChangeHealthIssue} required />
+                            <button type="button" onClick={(e) => { this.hideAllModal(); this.handleDeleteInsert(e) }}>
+                                Hủy
+                            </button>
+
+                            <button type="button" onClick={(e) => { this.hideModal();  }}>
+                                Tiếp tục
+                            </button>
+                        </section>
+                    </div>
+
                     <div className={showHideClassName}>
                         <section className="modal-main">
                             <div class='dung-logomini'>
                                 <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
-                            </div>
-                            Tình trạng sức khỏe
-
-                            Vấn đề gặp phải:
-                            <Input name="health-issue" onChange={(e)=>{this.state.registering.health_issue=e.target.value}} required />  
-      Huyết áp:
-                <Input name="blood_pressure" onChange={(e)=>{this.state.registering.blood_pressure=e.target.value}} required />  
-      Nhịp tim:
-      <Input name="heartbeat" onChange={(e)=>{this.state.registering.heart_beat=e.target.value}} required />  
-      
-
-
+                            </div>      
                             <p>Bạn có chắc chắn về sự lựa chọn của mình?</p>
-                            <button type="button" onClick={(e) => { this.hideModal(); this.handleDeleteInsert(e) }}>
+                            <button type="button" onClick={(e) => { this.hideAllModal(); this.handleDeleteInsert(e) }}>
                                 Hủy
                             </button>
 
-                            <button type="button" onClick={(e) => { this.hideModal(); this.handleInsertSubmit(e); this.onClickSuccess() }}>
+                            <button type="button" onClick={(e) => { this.hideAllModal(); this.handleInsertSubmit(e); this.onClickSuccess() }}>
                                 Xác nhận
                             </button>
 
                         </section>
                     </div>
-                    {(+(new Date(this.state.current_day))) >= (+(new Date((new Date()).toUTCString().split(' ').splice(0, 4).join(' ')))) ?
+                    {(+(new Date(this.state.current_day))) >= (+(new Date((new Date((+(new Date())) + 3600000 * 7)).toUTCString().split(' ').splice(0, 4).join(' ')))) ?
                         (
-                            (+(new Date(this.state.current_day))) == (+(new Date((new Date()).toUTCString().split(' ').splice(0, 4).join(' ')))) ?
+                            (+(new Date(this.state.current_day))) == (+(new Date((new Date((+(new Date())) + 3600000 * 7)).toUTCString().split(' ').splice(0, 4).join(' ')))) ?
                                 (Number(x.split('-')[0].split(':')[0]) < Number((new Date()).toString().split(' ')[4].split(':')[0]) || Number(x.split('-')[0].split(':')[0]) == Number((new Date()).toString().split(' ')[4].split(':')[0]) && Number(x.split('-')[0].split(':')[1]) < Number((new Date()).toString().split(' ')[4].split(':')[1]) ?
                                     (this.state.treatment_turn.filter(t => t.doctor_phone == curr.doctor_phone && t.turn_time.split(' ').splice(-1, 1).join() == x.split('-')[0] && t.turn_time.split(' ').splice(0, 4).join(' ') == this.state.current_day.split(' ').splice(0, 4).join(' ')).length !== 0 ?
                                         <FaPencilAlt /> : <MdLockClock />) :
@@ -341,25 +362,42 @@ class Re_examinationSchedule extends Component {
                     {x}
                 </td>
                 <td>
+                <div className={showPopupHealthIssue}>
+                        <section className="modal-main aa">     
+                            <div class='dung-logomini'>
+                                <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
+                            </div>    
+                            <p><label for="health-issue">Vấn đề sức khỏe hiện tại?</label></p>
+                            <Input id="health-issue" name="health-issue" type="textarea" onChange={this.handleChangeHealthIssue} required />
+                            <button type="button" onClick={(e) => { this.hideAllModal(); this.handleDeleteInsert(e) }}>
+                                Hủy
+                            </button>
+
+                            <button type="button" onClick={(e) => { this.hideModal();  }}>
+                                Tiếp tục
+                            </button>
+                        </section>
+                    </div>
+
                     <div className={showHideClassName}>
                         <section className="modal-main">
                             <div class='dung-logomini'>
                                 <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
-                            </div>
+                            </div>      
                             <p>Bạn có chắc chắn về sự lựa chọn của mình?</p>
-                            <button type="button" onClick={(e) => { this.hideModal(); this.handleDeleteInsert(e) }}>
+                            <button type="button" onClick={(e) => { this.hideAllModal(); this.handleDeleteInsert(e) }}>
                                 Hủy
                             </button>
 
-                            <button type="button" onClick={(e) => { this.hideModal(); this.handleInsertSubmit(e); this.onClickSuccess() }}>
+                            <button type="button" onClick={(e) => { this.hideAllModal(); this.handleInsertSubmit(e); this.onClickSuccess() }}>
                                 Xác nhận
                             </button>
 
                         </section>
                     </div>
-                    {(+(new Date(this.state.current_day))) >= (+(new Date((new Date()).toUTCString().split(' ').splice(0, 4).join(' ')))) ?
+                    {(+(new Date(this.state.current_day))) >= (+(new Date((new Date((+(new Date())) + 3600000 * 7)).toUTCString().split(' ').splice(0, 4).join(' ')))) ?
                         (
-                            (+(new Date(this.state.current_day))) == (+(new Date((new Date()).toUTCString().split(' ').splice(0, 4).join(' ')))) ?
+                            (+(new Date(this.state.current_day))) == (+(new Date((new Date((+(new Date())) + 3600000 * 7)).toUTCString().split(' ').splice(0, 4).join(' ')))) ?
                                 (Number(x.split('-')[0].split(':')[0]) < Number((new Date()).toString().split(' ')[4].split(':')[0]) || Number(x.split('-')[0].split(':')[0]) == Number((new Date()).toString().split(' ')[4].split(':')[0]) && Number(x.split('-')[0].split(':')[1]) < Number((new Date()).toString().split(' ')[4].split(':')[1]) ?
                                     (this.state.treatment_turn.filter(t => t.doctor_phone == curr.doctor_phone && t.turn_time.split(' ').splice(-1, 1).join() == x.split('-')[0] && t.turn_time.split(' ').splice(0, 4).join(' ') == this.state.current_day.split(' ').splice(0, 4).join(' ')).length !== 0 ?
                                         <FaPencilAlt /> : <MdLockClock />) :
