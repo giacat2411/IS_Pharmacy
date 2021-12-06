@@ -1,11 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
-import { Modal, ModalBody, ModalHeader, ModalFooter, Badge } from 'reactstrap';
+import { Modal, ModalBody, ModalHeader, ModalFooter, Form, FormGroup, FormFeedback, Label } from 'reactstrap';
 import { Input, Row, Col, Button, Container } from 'reactstrap';
 import { Redirect, Switch } from 'react-router';
 import HeaderDefine from '../5.Share Component/Context';
 import { NavLink } from 'react-router-dom';
-import { FaUserPlus } from 'react-icons/fa';
+import { FaUserPlus, FaEye, FaEyeSlash } from 'react-icons/fa';
+// import { InputAdornment } from '@mui/material';
+import { InputGroup, InputGroupText } from 'reactstrap'
 
 const LoginPane = (props) => {
     const ctx = useContext(HeaderDefine);
@@ -22,6 +24,8 @@ const LoginPane = (props) => {
     const [isMsg, setMsg] = useState(false);
 
     const [Msg, setmsg] = useState("");
+
+    const [show, setShow] = useState(false);
 
     const toggleModal = () => {
         setModal(!isModal);
@@ -88,112 +92,136 @@ const LoginPane = (props) => {
                     <Col md="7">
                         <Row><img src='assets/images/pana.svg' height="595px" width="700px" alt="pana"></img></Row>
                     </Col>
-                    <Col md={{ size: 3, offset: 1 }}>
-                        <Row style={{ marginTop: '150px' }}>
-                            <Col style={{ textAlign: 'center' }}>
-                                <h1>Đăng Nhập {isModal}</h1>
-                            </Col>
-                        </Row>
-                        <Row>
-                            Số điện thoại
-                            <Input name="phone" innerRef={(input) => setphone(input)} required />
-                        </Row>
-                        <Row>
-                            Mật khẩu
-                            <Input name="pwd" innerRef={(input) => setpwd(input)} type="password" required />
-                        </Row>
-                        <Row>
-                            <Button onClick={toggleModal}
-                                style={{
-                                    backgroundColor: '#F6F8FB',
-                                    color: '#007BFF',
-                                    border: '0px',
-                                    boxShadow: 'none !important',
-                                    marginTop: '6px'
-                                }}>
-                                Quên mật khẩu?
-                            </Button>
-                        </Row>
-                        <Row align="center">
-                            <Col md={{ size: 6, offset: 3 }}>
-                                <Button onClick={apiLog} color="primary" >Đăng nhập</Button>
-                            </Col>
-                        </Row>
-                        <Row style={{ marginTop: '15px' }}>
-                            <Col md="12" style={{ textAlign: 'center' }}>
-                                <span style={{ fontStyle: 'italic' }}> Chưa có tài khoản? </span> &nbsp;
-                                <NavLink to='/signup' style={{ paddingTop: '0px' }} style={{ color: '#007BFF', cursor: 'pointer' }}>
-                                    <FaUserPlus style={{ marginTop: '-3px' }} /> Đăng ký
-                                </NavLink>
-                            </Col>
-                        </Row>
-
+                    <Col md={{size: 3, offset: 1}}>
+                        <Form onSubmit={(e) => { e.preventDefault(); apiLog() }}>
+                            <Row style={{ marginTop: '150px' }}>
+                                <Col style={{ textAlign: 'center' }}>
+                                    <h1>Đăng Nhập {isModal}</h1>
+                                </Col>
+                            </Row>
+                            <FormGroup>
+                                <Label> Số điện thoại </Label>
+                                <Input required name="phone" innerRef={(input) => setphone(input)}/>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label> Mật khẩu </Label>
+                                <InputGroup>
+                                    <Input required name="pwd" innerRef={(input) => setpwd(input)} type={show ? "text" : "password"}>
+                                    </Input>
+                                    <InputGroupText onClick={() => { setShow(!show) }} style={{cursor: 'pointer'}}>
+                                        {show ? <FaEye /> : <FaEyeSlash />}
+                                    </InputGroupText>
+                                </InputGroup>
+                            </FormGroup>
+                            <FormGroup>
+                                <Row style={{ textAlign: 'center' }}>
+                                    <Col>
+                                        <Button onClick={toggleModal}
+                                            style={{
+                                                backgroundColor: '#F6F8FB',
+                                                color: '#007BFF',
+                                                border: '0px',
+                                                boxShadow: 'none !important',
+                                                marginTop: '-10px',
+                                                marginBottom: '-10px'
+                                            }}>
+                                            Quên mật khẩu?
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            </FormGroup>
+                            <FormGroup check>
+                                <Row style={{ textAlign: 'center' }}>
+                                    <Col>
+                                        <Button style={{marginLeft: '-20px'}} color="primary" >Đăng nhập</Button>
+                                    </Col>
+                                </Row>
+                            </FormGroup>
+                            <FormGroup>
+                            <Row style={{ marginTop: '15px' }}>
+                                <Col md="12" style={{ textAlign: 'center' }}>
+                                    <span style={{ fontStyle: 'italic' }}> Chưa có tài khoản? </span> &nbsp;
+                                    <NavLink to='/signup' style={{ paddingTop: '0px' }} style={{ color: '#007BFF', cursor: 'pointer' }}>
+                                        <FaUserPlus style={{ marginTop: '-3px' }} /> Đăng ký
+                                    </NavLink>
+                                </Col>
+                            </Row>
+                            </FormGroup>
+                            {/* </Col> */}
+                            {/* <Col /> */}
+                        </Form>
                     </Col>
-                    <Col />
                 </Row>
                 <Modal isOpen={isModal} toggle={toggleModal} centered>
                     <ModalHeader>Quên mật khẩu</ModalHeader>
-                    <ModalBody>
-                        <Container>
-                            <Row style={{ marginBottom: '15px' }}>
-                                <Col md="5" style={{ marginTop: '8px' }}> Số điện thoại </Col>
-                                <Col md="7">
-                                    <Input name="phone" onChange={(e) => setPhone(e.target.value)} required />
-                                </Col>
-                            </Row>
-                            <Row style={{ marginBottom: '15px' }}>
-                                <Col md="5" style={{ marginTop: '8px' }}> Ngày sinh </Col>
-                                <Col md="7">
-                                    <Input name="date" type="date" onChange={(e) => setDOB(e.target.value)} required />
-                                </Col>
-                            </Row>
-                            <Row style={{ marginBottom: '15px' }}>
-                                <Col md="5" style={{ marginTop: '8px' }}> Mật khẩu mới </Col>
-                                <Col md="7">
-                                    <Input name="pwd" onChange={(e) => setPwd(e.target.value)} type="password" required />
-                                </Col>
-                            </Row>
-                            <Row style={{ marginBottom: '15px' }}>
-                                <Col md="5" style={{ marginTop: '8px' }}> Nhập lại mật khẩu mới </Col>
-                                <Col md="7">
-                                    <Input name="repwd" onChange={(e) => setRePwd(e.target.value)} type="password" required />
-                                    {((repwd !== "") && (Pwd !== "")) ? ((repwd !== Pwd) ? <Badge color="danger"> Mật khẩu chưa trùng khớp </Badge> : <Badge color="success"> Mật khẩu trùng khớp</Badge>) : <span></span>}
-                                </Col>
-                            </Row>
-                        </Container>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Container>
-                            <Row style={{ textAlign: 'center' }}>
-                                <Col>
-                                    <Button className="center_screen"
-                                        onClick={() => {
-                                            if ((repwd === "") || (Pwd === "") || (Phone === "") || (DOB === "")) {
-                                                setmsg("Vui lòng không bỏ trống thông tin")
-                                                toggleMsg()
-                                            }
-                                            else if (repwd !== Pwd) {
-                                                setmsg("Mật khẩu không khớp")
-                                                toggleMsg()
-                                            }
-                                            else {
-                                                newPwd();
-                                                setPhone(""); setDOB(""); setPwd(""); setRePwd("");
-                                                toggleModal();
-                                            }
-                                        }}
-                                        style={{ backgroundColor: '#62AFFC', marginTop: '10px', border: '0px' }}>
-                                        Đổi mật khẩu
-                                    </Button>
-                                </Col>
-                                <Col>
-                                    <Button onClick={toggleModal} style={{ backgroundColor: '#62AFFC', marginTop: '10px', border: '0px' }}>
-                                        Hủy
-                                    </Button>
-                                </Col>
-                            </Row>
-                        </Container>
-                    </ModalFooter>
+                    <Form onSubmit={(e) => {
+                        e.preventDefault();
+                        if ((repwd === "") || (Pwd === "") || (Phone === "") || (DOB === "")) {
+                            setmsg("Vui lòng không bỏ trống thông tin")
+                            toggleMsg()
+                        }
+                        else if (repwd !== Pwd) {
+                            setmsg("Mật khẩu không khớp")
+                            toggleMsg()
+                        }
+                        else {
+                            newPwd();
+                            setPhone(""); setDOB(""); setPwd(""); setRePwd("");
+                            toggleModal();
+                        }
+                    }}>
+                        <ModalBody>
+                            <Container>
+                                <FormGroup row>
+                                    <Label md="5"> Số điện thoại </Label>
+                                    <Col md="7">
+                                        <Input required name="phone" onChange={(e) => setPhone(e.target.value)} required />
+                                    </Col>
+                                </FormGroup>
+                                <FormGroup row>
+                                    <Label md="5"> Ngày sinh </Label>
+                                    <Col md="7">
+                                        <Input required name="date" type="date" onChange={(e) => setDOB(e.target.value)} required />
+                                    </Col>
+                                </FormGroup>
+                                <FormGroup row>
+                                    <Label md="5"> Mật khẩu mới </Label>
+                                    <Col md="7">
+                                        <Input required name="pwd" onChange={(e) => setPwd(e.target.value)} type="password" required />
+                                    </Col>
+                                </FormGroup>
+                                <FormGroup row>
+                                    <Label md="5"> Nhập lại mật khẩu mới </Label>
+                                    <Col md="7">
+                                        <Input required name="repwd" onChange={(e) => setRePwd(e.target.value)} type="password" required
+                                            valid={(repwd !== "") && (Pwd !== "") && (repwd === Pwd)}
+                                            invalid={(repwd !== "") && (Pwd !== "") && (repwd !== Pwd)} />
+                                        <FormFeedback valid> Mật khẩu trùng khớp </FormFeedback>
+                                        <FormFeedback invalid> Mật khẩu chưa trùng khớp </FormFeedback>
+                                    </Col>
+                                </FormGroup>
+                            </Container>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Container>
+                                <Row style={{ textAlign: 'center' }}>
+                                    <Col>
+                                        <FormGroup check>
+                                            <Button className="center_screen"
+                                                style={{ backgroundColor: '#62AFFC', marginTop: '10px', border: '0px' }}>
+                                                Đổi mật khẩu
+                                            </Button>
+                                        </FormGroup>
+                                    </Col>
+                                    <Col>
+                                        <Button onClick={toggleModal} style={{ backgroundColor: '#62AFFC', marginTop: '10px', border: '0px' }}>
+                                            Hủy
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </ModalFooter>
+                    </Form>
                 </Modal>
             </Container>
             // </HeaderDefine.Provider>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Badge } from 'reactstrap';
+import { Container, Row, Col, Badge, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Button } from 'reactstrap';
 import { Table } from 'reactstrap';
 import ReactToPrint from 'react-to-print';
@@ -26,10 +26,16 @@ class ViewOrderPrescribeDetail extends Component {
             orderDetailsOpen: [],
             orderOpen: { id: "", fullname: "", dateofbirth: "", address: "", phone: "" },
             payment: [],
-            nurse: ""
+            nurse: "",
+            is_open: false
         }
         this.onSubmitPayment = this.onSubmitPayment.bind(this);
         this.onSubmitPaymentNurse = this.onSubmitPaymentNurse.bind(this);
+        this.handleOpen = this.handleOpen.bind(this);
+    }
+
+    handleOpen() {
+        this.setState({is_open: !this.state.is_open});
     }
 
     onSubmitPayment(total) {
@@ -246,13 +252,39 @@ class ViewOrderPrescribeDetail extends Component {
                                         content={() => this.componentRef}
                                         pageStyle={pageStyle} />
                                 else if (this.context.role === "Nurse")
-                                    return <Button className="print-bill-button" onClick={() => this.onSubmitPaymentNurse()}> Xác nhận thanh toán </Button>
+                                    return <Button className="print-bill-button" onClick={() => this.handleOpen()}> Xác nhận thanh toán </Button>
                                 else
                                     return <Button className="print-bill-button" onClick={() => this.onSubmitPayment(total)}> Thanh toán </Button>
                             })()}
 
                         </Col>
                     </Row>
+                    <Modal isOpen={this.state.is_open} toggle={this.handleOpen} centered>
+                        <ModalHeader> Bạn có chắc chắn với lựa chọn của mình ? </ModalHeader>
+                        <ModalBody>
+                            <Container>
+                                <Row>
+                                    <Col>
+                                        <Button onClick={() => { this.onSubmitPaymentNurse(); this.handleOpen() }}
+                                            style={{
+                                                backgroundColor: '#62AFFC',
+                                                border: '0px'
+                                            }}>
+                                            Có
+                                        </Button>
+                                    </Col>
+                                    <Col>
+                                        <Button onClick={() => { this.handleOpen();  }}
+                                            style={{
+                                                backgroundColor: '#62AFFC',
+                                                border: '0px'
+                                            }}>
+                                            Không </Button>
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </ModalBody>
+                    </Modal>
 
                     <Row style={{ padding: '10px 0px 5px 0px', margin: '15px 1px auto auto' }}>
                         <Col style={{ textAlign: 'center' }}>

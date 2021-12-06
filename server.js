@@ -642,7 +642,7 @@ app.post('/api/post/pwd', (req, res) => {
 app.post('/api/post/newpwd', (req, res) => {
   var sql = `SELECT pwd,dateofbirth FROM system_user where phone=${req.body.params.phone}`;
   console.log(sql);
-  
+
   connection.query(sql, (err, results) => {
     if (new Date(req.body.params.DOB).toLocaleDateString('vi') === (new Date(results[0].dateofbirth)).toLocaleDateString('vi')) {
       const salt = bcrypt.genSaltSync(10);
@@ -876,18 +876,37 @@ app.post('/api/insert/regist', (req, res) => {
       storedPwd = hash;
     })
   })
-  var sql = `INSERT INTO system_user (phone, firstname, lastname, dateofbirth, address, email,pwd) VALUES 
-        (${req.body.params.phone},"${req.body.params.firstname}","${req.body.params.lastname}","${req.body.params.dateofbirth}","${req.body.params.address}","${req.body.params.email}","${storedPwd}")`
-  connection.query(sql, function (err, results) {
-    if (err) res.json({ msg: "Đăng ký thất bại" });
-    sql2 = `INSERT INTO patient VALUES(${req.body.params.phone},"Không", 150,53,"O+","Không");`
-    connection.query(sql2, function (err, result) {
-      res.json({
-        msg: `Đăng ký thành công!
-    Mời bạn đăng nhập vào tài khoản` });
-    });
+  var sql = `SELECT * FROM SYSTEM_USER WHERE PHONE = ${req.body.params.phone};`;
+  console.log(sql);
 
-  });
+  const str = req.body.params.fullname;
+  const lastname = str.split(' ').slice(0, -1).join(' ');
+  const firstname = str.split(' ').slice(-1).join(' ');
+
+  connection.query(sql, function (err, results) {
+    if (results.length !== 0) res.json({signal: -1, msg: "Tài khoản đã tồn tại" });
+    else {
+      sql = `INSERT INTO system_user (phone, firstname, lastname, dateofbirth, address, email, pwd, img) VALUES 
+        ("${req.body.params.phone}","${firstname}","${lastname}",
+        "${req.body.params.date}","${req.body.params.address}",
+        "${req.body.params.email}","${storedPwd}", 
+        "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png")`
+      console.log(sql);
+      connection.query(sql, function (err, results) {
+        if (err) console.log(err);
+        var sql2 = `INSERT INTO patient VALUES("${req.body.params.phone}","Không", 150,53,"O+","Không");`
+        console.log(sql2);
+        connection.query(sql2, function (err, result) {
+          res.json({
+            signal: 200,
+            msg: `Đăng ký thành công! Mời bạn đăng nhập vào tài khoản` });
+        });
+
+      });
+    }
+    if (err) console.log(err);
+  })
+
 
 });
 ///// Chanh /////
