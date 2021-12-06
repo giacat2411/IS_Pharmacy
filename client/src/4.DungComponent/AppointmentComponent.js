@@ -7,6 +7,7 @@ import ToastServive from 'react-material-toast';
 import addDays from 'date-fns/addDays';
 import HeaderDefine from '../5.Share Component/Context';
 import { Switch, Redirect } from 'react-router';
+import { Input } from 'reactstrap';
 
 const toast = ToastServive.new({
     place: 'bottomLeft',
@@ -34,7 +35,8 @@ class Appointment extends Component {
 
             current_day: (new Date((+(new Date())) + 3600000 * 7)).toUTCString(),
             thu: 2,
-            curr_thu: 2
+            curr_thu: 2,
+            popup_health_issue: false
         }
         this.handleClick = this.handleClick.bind(this);
         this.showModal = this.showModal.bind(this);
@@ -44,6 +46,8 @@ class Appointment extends Component {
         this.handleDeleteInsert = this.handleDeleteInsert.bind(this);
         this.onClickSuccess = this.onClickSuccess.bind(this);
         this.randomId = this.randomId.bind(this);
+        this.handleChangeHealthIssue = this.handleChangeHealthIssue.bind(this);
+        this.hideAllModal = this.hideAllModal.bind(this);
     }
 
     componentDidMount() {
@@ -102,12 +106,16 @@ class Appointment extends Component {
 
 
     showModal = () => {
-        this.setState({ show: true });
+        this.setState({ popup_health_issue: true });
     };
 
     hideModal = () => {
-        this.setState({ show: false });
+        this.setState({ popup_health_issue: false, show: true });
     };
+
+    hideAllModal = () => {
+        this.setState({  popup_health_issue: false, show: false });
+    }
 
     handleClick = (event) => {
         const begin = "Mon, 5 Jul 2021";
@@ -232,6 +240,12 @@ class Appointment extends Component {
         this.setState({ registering: {} });
     }
 
+    handleChangeHealthIssue = (event) => {
+        let register = this.state.registering;
+        register.health_issue = event.target.value;
+        this.setState({ registering: register });
+    }
+
     handleInsertSubmit = (event) => {
         event.preventDefault();
 
@@ -275,11 +289,16 @@ class Appointment extends Component {
 
 
     render() {
+        const showPopupHealthIssue = this.state.popup_health_issue? "modal display-block" : "modal display-none";
         const showHideClassName = this.state.show ? "modal display-block" : "modal display-none";
         const listMorning = ["8:00:00-8:30:00", "8:30:00-9:00:00", "9:00:00-9:30:00", "9:30:00-10:00:00", "10:00:00-10:30:00", "10:30:00-11:00:00"];
         const listAfternoon = ["13:00:00-13:30:00", "13:30:00-14:00:00", "14:00:00-14:30:00", "14:30:00-15:00:00", "15:00:00-15:30:00", "15:30:00-16:00:00", "16:00:00-16:30:00", "16:30:00-17:00:00"];
-        const S = this.state.work_schedule.filter(turn => turn.work_session == 'S');
-        const C = this.state.work_schedule.filter(turn => turn.work_session == 'C');
+        let S = this.state.work_schedule.filter(turn => turn.work_session == 'S');
+        let C = this.state.work_schedule.filter(turn => turn.work_session == 'C');
+        S=S.filter(s=> s.end_day==null || (((+(new Date(s.end_day)))+3600000*24-1) > (+(new Date(this.state.current_day)))) )
+        C=C.filter(c=> c.end_day==null || (((+(new Date(c.end_day)))+3600000*24-1) > (+(new Date(this.state.current_day)))) )
+        const months = {'Jan':1, 'Feb':2, 'Mar':3, 'Apr':4, 'May':5, 'Jun':6, 'Jul':7, 'Aug':8, 'Sep':9, 'Oct':10, 'Nov':11, 'Dec':12}
+
         let dem = 0;
         const listS = S.map(curr => listMorning.map((x, index) => (
             <tr>
@@ -293,23 +312,40 @@ class Appointment extends Component {
                     {curr.doctor_phone}
                 </td>
                 <td>
-                    {(new Date(this.state.current_day)).toISOString().split('T')[0].split("-").reverse().join("/")}
+                {this.state.current_day.split(' ')[1]+'/'+months[this.state.current_day.split(' ')[2]]+'/'+this.state.current_day.split(' ')[3]}
                 </td>
                 <td>
                     {x}
                 </td>
                 <td>
+                <div className={showPopupHealthIssue}>
+                        <section className="modal-main aa">     
+                            <div class='dung-logomini'>
+                                <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
+                            </div>    
+                            <p><label for="health-issue">Vấn đề sức khỏe hiện tại của bạn?</label></p>
+                            <Input id="health-issue" name="health-issue" type="textarea" onChange={this.handleChangeHealthIssue} required />
+                            <button type="button" onClick={(e) => { this.hideAllModal(); this.handleDeleteInsert(e) }}>
+                                Hủy
+                            </button>
+
+                            <button type="button" onClick={(e) => { this.hideModal();  }}>
+                                Tiếp tục
+                            </button>
+                        </section>
+                    </div>
+
                     <div className={showHideClassName}>
                         <section className="modal-main">
                             <div class='dung-logomini'>
                                 <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
-                            </div>
+                            </div>      
                             <p>Bạn có chắc chắn về sự lựa chọn của mình?</p>
-                            <button type="button" onClick={(e) => { this.hideModal(); this.handleDeleteInsert(e) }}>
+                            <button type="button" onClick={(e) => { this.hideAllModal(); this.handleDeleteInsert(e) }}>
                                 Hủy
                             </button>
 
-                            <button type="button" onClick={(e) => { this.hideModal(); this.handleInsertSubmit(e); this.onClickSuccess() }}>
+                            <button type="button" onClick={(e) => { this.hideAllModal(); this.handleInsertSubmit(e); this.onClickSuccess() }}>
                                 Xác nhận
                             </button>
 
@@ -352,23 +388,40 @@ class Appointment extends Component {
                     {curr.doctor_phone}
                 </td>
                 <td>
-                    {(new Date(this.state.current_day)).toISOString().split('T')[0].split("-").reverse().join("/")}
+                {this.state.current_day.split(' ')[1]+'/'+months[this.state.current_day.split(' ')[2]]+'/'+this.state.current_day.split(' ')[3]}
                 </td>
                 <td>
                     {x}
                 </td>
                 <td>
+                <div className={showPopupHealthIssue}>
+                        <section className="modal-main aa">     
+                            <div class='dung-logomini'>
+                                <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
+                            </div>    
+                            <p><label for="health-issue">Vấn đề sức khỏe hiện tại của bạn?</label></p>
+                            <Input id="health-issue" name="health-issue" type="textarea" onChange={this.handleChangeHealthIssue} required />
+                            <button type="button" onClick={(e) => { this.hideAllModal(); this.handleDeleteInsert(e) }}>
+                                Hủy
+                            </button>
+
+                            <button type="button" onClick={(e) => { this.hideModal();  }}>
+                                Tiếp tục
+                            </button>
+                        </section>
+                    </div>
+
                     <div className={showHideClassName}>
                         <section className="modal-main">
                             <div class='dung-logomini'>
                                 <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
-                            </div>
+                            </div>      
                             <p>Bạn có chắc chắn về sự lựa chọn của mình?</p>
-                            <button type="button" onClick={(e) => { this.hideModal(); this.handleDeleteInsert(e) }}>
+                            <button type="button" onClick={(e) => { this.hideAllModal(); this.handleDeleteInsert(e) }}>
                                 Hủy
                             </button>
 
-                            <button type="button" onClick={(e) => { this.hideModal(); this.handleInsertSubmit(e); this.onClickSuccess() }}>
+                            <button type="button" onClick={(e) => { this.hideAllModal(); this.handleInsertSubmit(e); this.onClickSuccess() }}>
                                 Xác nhận
                             </button>
 
@@ -443,7 +496,6 @@ class Appointment extends Component {
                         <tbody>
                             {listS}
                             {listC}
-                            {console.log(this.state.current_day)}
                         </tbody>
                     </Table>
                 </div>

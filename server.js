@@ -554,6 +554,14 @@ app.get('/api/get/system_users', (req, res) => {
   });
 });
 
+app.get('/api/get/patients', (req, res) => {
+  var sql = "SELECT * FROM patient";
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ patients: results });
+  });
+});
+
 
 
 //////////////////////////////

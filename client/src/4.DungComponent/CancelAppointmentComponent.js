@@ -117,6 +117,7 @@ class CancelAppointment extends Component {
 
     render() {
         const showHideClassName = this.state.show ? "modal display-block" : "modal display-none";
+        const months = {'Jan':1, 'Feb':2, 'Mar':3, 'Apr':4, 'May':5, 'Jun':6, 'Jul':7, 'Aug':8, 'Sep':9, 'Oct':10, 'Nov':11, 'Dec':12};
         let counter = 0;
         if (this.context.role !== "Patient") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
@@ -168,7 +169,7 @@ class CancelAppointment extends Component {
                                                 {x.doctor_phone}
                                             </td>
                                             <td>
-                                                {x.turn_time.split(' ').splice(1, 3).join('/')}
+                                                {x.turn_time.split(' ')[1]+'/'+months[x.turn_time.split(' ')[2]]+'/'+x.turn_time.split(' ')[3]}
                                             </td>
                                             <td>
                                                 {x.start_time.split(' ').splice(-1, 1).join() + '-' + x.end_time.split(' ').splice(-1, 1).join()}

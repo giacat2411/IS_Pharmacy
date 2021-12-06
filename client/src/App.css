@@ -847,3 +847,29 @@ button.dung.cart-button.benhan.nd.btn.btn-secondary{
 .dung-thongtin{
   margin-left: 70px;
 }
+
+.modal-main.aa {
+  position:fixed;
+  background: white;
+  width: 400px;
+  height: 300px;
+  top:40%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  border-radius: 10px;
+}
+
+textarea#health-issue.form-control{
+  width: 300px;
+  height: 90px;
+  margin: 0px 50px 20px 50px;
+}
+
+section.modal-main.aa p {
+  padding-bottom: 0px;
+}
+
+section.modal-main.aa button{
+  height: 13%;
+  width: 30%;
+}
