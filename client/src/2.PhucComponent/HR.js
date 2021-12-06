@@ -6,9 +6,16 @@ import { Modal, Row, Col } from 'reactstrap';
 import { Switch, Redirect } from 'react-router-dom';
 import HeaderDefine from '../5.Share Component/Context';
 import DoctorSideBar from '../5.Share Component/SideBar/DoctorSideBarComponent';
+import ToastServive from 'react-material-toast';
 
 import { Input } from 'reactstrap';
 import { CardHeader } from 'reactstrap';
+
+const toast = ToastServive.new({
+    place: 'bottomLeft',
+    duration: 2,
+    maxCount: 8
+});
 class HR extends Component {
     constructor() {
         super();
@@ -67,16 +74,32 @@ class HR extends Component {
     handleInsertSubmit = (event) => {
     };
 
-    setDoctor = () => {
-        axios.post('/api/new/doctor', { params: this.state.newdoc }).catch(error => console.log(error));
+    setDoctor = async () => {
+        const user = await axios.get('/api/get/info', { params: { phonenum: this.state.newdoc.phone } });
 
-        // var doc=this.state.doctor.push({phone:this.state.newphone, specialism:this.state.newspec,experience_year:this.state.newexp,activate:1});
-        this.toggleDoctor();
+        if (user.data.user) {
+            toast.error("Đã tồn tại tài khoản")
+        }
+        else {
+            axios.post('/api/new/doctor', { params: this.state.newdoc }).catch(error => console.log(error));
+
+            // var doc=this.state.doctor.push({phone:this.state.newphone, specialism:this.state.newspec,experience_year:this.state.newexp,activate:1});
+            this.toggleDoctor();
+            toast.success("Thành công");
+        }
 
     }
-    setNurse = () => {
-        this.toggleNurse();
-        axios.post('/api/new/nurse', { params: this.state.newnurse }).catch(error => console.log(error));
+    setNurse = async () => {
+        const user = await axios.get('/api/get/info', { params: { phonenum: this.state.newnurse.phone } });
+
+        if (user.data.user) {
+            toast.error("Đã tồn tại tài khoản")
+        }
+        else {
+            this.toggleNurse();
+            axios.post('/api/new/nurse', { params: this.state.newnurse }).catch(error => console.log(error));
+            toast.success("Thành công");
+        }
     }
     subReg = () => {
         const str = this.state.newfirstname;

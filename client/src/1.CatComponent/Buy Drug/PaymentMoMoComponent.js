@@ -11,6 +11,8 @@ class PaymentMoMo extends Component {
     }
 
     onSubmit() {
+        localStorage.removeItem('IS_cart');
+        localStorage.removeItem('IS_total_cart');
         alert("Thanh toán thành công !")
         window.location.href = '/';
     }

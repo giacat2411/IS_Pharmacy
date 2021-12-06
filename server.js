@@ -703,8 +703,8 @@ app.post('api/update/treatment_turn', (req, res) => {
 
 app.post('/api/insert/schedule', (req, res) => {
   var input = req.body.params;
-  var sql = "CALL ADD_SCHEDULE("
-    + input.phone + ", "
+  var sql = "CALL ADD_SCHEDULE('"
+    + input.phone + "', "
     + input.day + ", '"
     + input.session + "', '"
     + (new Date()).toISOString().split('T')[0] + "');"
@@ -816,7 +816,7 @@ app.post('/api/insert/momo_payment_nurse', function (req, res) {
   var id = Math.floor(Math.random() * Math.pow(10, 12));
   const date = (new Date()).toISOString().split('T')[0]
   var sql = "INSERT PAYMENT(id, method, created_date, nurse_phone, medicine_id) VALUE"
-    + "( " + id + ", 'MoMo doanh nghiệp', '" + date + "', " + req.body.phone + ", " + req.body.medicine_id + ")"
+    + "( " + id + ", 'MoMo doanh nghiệp', '" + date + "', '"+ req.body.phone + "', " + req.body.medicine_id + ")"
   console.log(sql);
   connection.query(sql, function (err, results) {
     if (err) throw err;
@@ -848,7 +848,7 @@ app.post('/api/insert/medicine', function (req, res) {
   });
 
   sql = "INSERT INTO PURCHASE_MEDICINE(purchase_id, patient_phone) VALUE "
-    + "(" + id + ", " + req.body.phone + ")";
+    + "(" + id + ", '" + req.body.phone + "')";
   console.log(sql);
   connection.query(sql, function (err) {
     if (err) throw err;
@@ -927,10 +927,10 @@ app.post('/api/insert/treatment_turns', function (req, res) {
     + "VALUES('"
     + req.body.id + "','"
     + req.body.turn_time + "','"
-    + req.body.health_issue + "','"
-    + req.body.blood_pressure + "','"
-    + req.body.heart_beat + "','"
-    + req.body.therap + "','"
+    + req.body.health_issue + "',"
+    + req.body.blood_pressure + ","
+    + req.body.heart_beat + ",'"
+    + req.body.therapy + "','"
     + req.body.diagnose + "','"
     + req.body.start_time + "','"
     + req.body.end_time + "','"

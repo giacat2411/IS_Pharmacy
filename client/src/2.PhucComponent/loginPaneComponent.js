@@ -73,7 +73,7 @@ const LoginPane = (props) => {
             });
     };
 
-    if (ctx.role === "Guest") {
+    if (ctx.role !== "Patient" && ctx.role !== "Doctor" && ctx.role !== "Nurse") {
         return (
             <Container>
                 <Modal centered isOpen={isMsg} toggle={toggleMsg}>

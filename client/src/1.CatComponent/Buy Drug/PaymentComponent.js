@@ -8,30 +8,29 @@ class Payment extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            zalopay: false,
-            momo_personal: false,
-            momo_bussiness: false
+            payment: ''
         }
         this.onSubmitPayment = this.onSubmitPayment.bind(this);
-        this.handleZalopayChange = this.handleZalopayChange.bind(this);
-        this.handleMoMo1change = this.handleMoMo1change.bind(this);
-        this.handleMoMo2change = this.handleMoMo2change.bind(this);
+        // this.handleZalopayChange = this.handleZalopayChange.bind(this);
+        // this.handleMoMo1change = this.handleMoMo1change.bind(this);
+        // this.handleMoMo2change = this.handleMoMo2change.bind(this);
     }
 
-    handleZalopayChange() {
-        this.setState({ zalopay: true, momo_personal: false, momo_bussiness: false })
-    }
+    // handleZalopayChange() {
+    //     this.setState({ zalopay: true, momo_personal: false, momo_bussiness: false })
+    // }
 
-    handleMoMo1change() {
-        this.setState({ zalopay: false, momo_personal: true, momo_bussiness: false })
-    }
+    // handleMoMo1change() {
+    //     this.setState({ zalopay: false, momo_personal: true, momo_bussiness: false })
+    // }
 
-    handleMoMo2change() {
-        this.setState({ zalopay: false, momo_personal: false, momo_bussiness: true})
-    }
+    // handleMoMo2change() {
+    //     this.setState({ zalopay: false, momo_personal: false, momo_bussiness: true})
+    // }
 
     onSubmitPayment() {
-        if (!this.state.momo_bussiness && !this.state.momo_personal && !this.state.zalopay)
+        console.log(this.state.payment);
+        if (this.state.payment === "")
             alert("Vui lòng chọn hình thức thanh toán");
         else {
             const cart = JSON.parse(localStorage.getItem('IS_cart'))
@@ -42,20 +41,21 @@ class Payment extends Component {
 
             axios.post('/api/insert/medicine', { phone: phone, cart: JSON.stringify(cart) }).catch(error => console.log(error))
 
-            if (this.state.momo_personal) {
-                localStorage.removeItem('IS_cart');
-                localStorage.removeItem('IS_total_cart');
+            if (this.state.payment === "momo_1") {
+                console.log("momo_1")
                 window.location.href = '/payment_momo'
             }
-            else if (this.state.momo_bussiness)
+            else if (this.state.payment === "momo_2")
                 axios.post('/payment_momo', { total: localStorage.getItem('IS_total_cart') })
                 .then(res => { 
+                    console.log("momo_2")
                     localStorage.removeItem('IS_cart');
                     localStorage.removeItem('IS_total_cart');
                     window.location.href=res.data.payUrl
                 });
             else axios.post('/payment_zalopay', { total: localStorage.getItem('IS_total_cart') })
             .then(res => { 
+                console.log("zalopay")
                 localStorage.removeItem('IS_cart');
                 localStorage.removeItem('IS_total_cart');
                 window.location.href=res.data.orderurl
@@ -75,7 +75,7 @@ class Payment extends Component {
                             <FormGroup check style={{ marginBottom: '20px', marginTop: '20px' }}>
                                 <Input
                                     name="radio1"
-                                    type="radio" onChange={this.handleZalopayChange}
+                                    type="radio" onChange={() => {this.setState({payment: 'zalo_pay'})}}
                                     style={{ marginTop: '15px' }} required
                                 />
                                 {' '}
@@ -87,7 +87,7 @@ class Payment extends Component {
                             <FormGroup check style={{ marginBottom: '20px', marginTop: '20px' }}>
                                 <Input
                                     name="radio1"
-                                    type="radio" onChange={this.handleMoMo1change}
+                                    type="radio" onChange={() => {this.setState({payment: 'momo_1'})}}
                                     style={{ marginTop: '18px', marginBottom: '20px' }}
                                 />
                                 {' '}
@@ -99,7 +99,7 @@ class Payment extends Component {
                             <FormGroup check>
                                 <Input
                                     name="radio1"
-                                    type="radio" onChange={this.handleMoMo2change}
+                                    type="radio" onChange={() => {this.setState({payment: 'momo_2'})}}
                                     style={{ marginTop: '18px', marginBottom: '20px' }}
                                 />
                                 {' '}

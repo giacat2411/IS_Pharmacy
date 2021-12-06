@@ -235,7 +235,7 @@ class ViewMedicalRecord extends Component {
                                             <span style={{ fontWeight: 'bold' }}> Bệnh nhân: </span> {this.state.system_user.lastname + " " + this.state.system_user.firstname}
                                         </Col>
                                         <Col>
-                                            <span style={{ fontWeight: 'bold' }}> Ngày sinh: </span> {this.state.system_user.dateofbirth}
+                                            <span style={{ fontWeight: 'bold' }}> Ngày sinh: </span> {(new Date(this.state.system_user.dateofbirth)).toLocaleDateString('vi')}
                                         </Col>
                                     </Row>
 
@@ -269,7 +269,7 @@ class ViewMedicalRecord extends Component {
                             </Row>
                             <Row style={{ marginBottom: '10px' }}>
                                 <Col>
-                                    <span style={{ fontWeight: 'bold' }}> Lịch hẹn: </span> {this.state.treatment_curr.turn_time}
+                                    <span style={{ fontWeight: 'bold' }}> Lịch hẹn: </span> {(new Date(this.state.treatment_curr.turn_time)).toLocaleString('vi')}
                                 </Col>
                             </Row>
                             
@@ -277,10 +277,10 @@ class ViewMedicalRecord extends Component {
                                 { ((+(new Date(this.state.treatment_curr.start_time))) > (+(new Date()))) ? <Col> <Badge color="danger" style={{fontSize: '15px'}}> Chưa đến thời gian khám </Badge> </Col>:
                                 <>
                                 <Col>
-                                    <span style={{ fontWeight: 'bold' }}> Thời điểm bắt đầu: </span>{this.state.treatment_curr.start_time}
+                                    <span style={{ fontWeight: 'bold' }}> Thời điểm bắt đầu: </span>{(new Date(this.state.treatment_curr.start_time)).toLocaleString('vi')}
                                 </Col>
                                 <Col>
-                                    <span style={{ fontWeight: 'bold' }}>Thời điểm kết thúc: </span>{this.state.treatment_curr.end_time}
+                                    <span style={{ fontWeight: 'bold' }}>Thời điểm kết thúc: </span>{(new Date(this.state.treatment_curr.end_time)).toLocaleString('vi')}
                                 </Col> </>}
                             </Row>
 

@@ -8,6 +8,7 @@ import addDays from 'date-fns/addDays';
 import HeaderDefine from '../5.Share Component/Context';
 import { Switch, Redirect } from 'react-router';
 import { Input } from 'reactstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 const toast = ToastServive.new({
     place: 'bottomLeft',
@@ -222,8 +223,8 @@ class Appointment extends Component {
             id: this.randomId(),
             turn_time: event.target.value.split(' ').splice(0, 4).join(' ') + ' ' + event.target.value.split(' ').splice(-1, 1).join().split('-')[0],
             health_issue: ' ',
-            blood_pressure: 1,
-            heart_beat: 1,
+            blood_pressure: null,
+            heart_beat: null,
             therapy: ' ',
             diagnose: ' ',
             start_time: event.target.value.split(' ').splice(0, 4).join(' ') + ' ' + event.target.value.split(' ').splice(-1, 1).join().split('-')[0],
@@ -324,7 +325,7 @@ class Appointment extends Component {
                                 <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
                             </div>    
                             <p><label for="health-issue">Vấn đề sức khỏe hiện tại của bạn?</label></p>
-                            <Input id="health-issue" name="health-issue" type="textarea" onChange={this.handleChangeHealthIssue} required />
+                            <Input id="health-issue" name="health-issue" type="textarea" defaultValue={this.state.registering.health_issue} onChange={this.handleChangeHealthIssue} required />
                             <button type="button" onClick={(e) => { this.hideAllModal(); this.handleDeleteInsert(e) }}>
                                 Hủy
                             </button>
@@ -344,11 +345,11 @@ class Appointment extends Component {
                             <button type="button" onClick={(e) => { this.hideAllModal(); this.handleDeleteInsert(e) }}>
                                 Hủy
                             </button>
-
-                            <button type="button" onClick={(e) => { this.hideAllModal(); this.handleInsertSubmit(e); this.onClickSuccess() }}>
-                                Xác nhận
-                            </button>
-
+                            <LinkContainer to='/appointment'>
+                                <button type="button" onClick={(e) => { this.hideAllModal(); this.handleInsertSubmit(e); this.onClickSuccess() }}>
+                                    Xác nhận
+                                </button>
+                            </LinkContainer>
                         </section>
                     </div>
                     {this.state.curr_thu >= this.state.thu ?

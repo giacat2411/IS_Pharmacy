@@ -89,7 +89,7 @@ const EditInfo = (props) => {
                 <Row style={{marginBottom: '15px'}}>
                     <Col md="3" style={{marginTop: '8px'}}>Ngày sinh </Col>
                     <Col md="9">
-                        <Input name="dateofbirth" type="date" onChange={handleChange} defaultValue={temp.dateofbirth}></Input>
+                        <Input name="dateofbirth" type="date" onChange={handleChange} defaultValue={(new Date(temp.dateofbirth)).toLocaleDateString('vi').split("/").reverse().join('-')}></Input>
                     </Col>
                 </Row>
                 <Row style={{marginBottom: '15px'}}>

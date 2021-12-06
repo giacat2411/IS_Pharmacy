@@ -5,6 +5,7 @@ import { Input } from 'reactstrap';
 import axios from 'axios';
 import ToastServive from 'react-material-toast';
 import { Link } from 'react-router-dom';
+import HeaderDefine from '../5.Share Component/Context';
 
 const toast = ToastServive.new({
     place: 'bottomLeft',
@@ -114,7 +115,7 @@ class MedicalRecord extends Component {
                                             border: '0px',
                                             color: 'white',
                                             borderRadius: '10px'
-                                        }}
+                                        }} hidden={this.context.role === "Patient" && this.context.phone !== this.state.phone}
                                             className="dung cart-button benhan">
                                             Thông tin cá nhân
                                         </Button>
@@ -142,5 +143,5 @@ class MedicalRecord extends Component {
     }
 }
 
-
+MedicalRecord.contextType = HeaderDefine;
 export default MedicalRecord;

@@ -246,7 +246,7 @@ const Profile = (props) => {
                                 </Row>
                                 <Row>
                                     <Col>
-                                        Ngày sinh: {date(user.dateofbirth)}
+                                        Ngày sinh: {(new Date(user.dateofbirth)).toLocaleDateString('vi')}
                                     </Col>
                                 </Row>
                                 {accessright() == 1 ?
