@@ -273,7 +273,7 @@ class ViewOrder extends Component {
                 </Button>
             </Col>
         </Row>
-        if (this.context.role === "Doctor") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
+        if (this.context.role !== "Patient" && this.context.role !== "Nurse") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <>
                 {(this.context.role === "Nurse") ? <NurseSideBar /> : <div />}

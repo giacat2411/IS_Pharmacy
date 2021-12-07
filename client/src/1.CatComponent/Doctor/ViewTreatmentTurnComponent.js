@@ -7,7 +7,8 @@ import { Link } from 'react-router-dom';
 import { Input, Button, Form, Label } from 'reactstrap';
 import HeaderDefine from '../../5.Share Component/Context';
 import { LinkContainer } from 'react-router-bootstrap';
-import { FaSearch } from 'react-icons/fa'
+import { FaSearch } from 'react-icons/fa';
+import { Switch, Redirect } from 'react-router';
 
 const toast = ToastServive.new({
     place: 'bottomLeft',
@@ -262,7 +263,7 @@ class ViewTreatmentTurn extends Component {
                 </Button>
             </Col>
         </Row>
-
+        if (this.context.role !== "Doctor") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <Container id='dung-benhan'>
                 <Row style={{ textAlign: 'center', marginTop: '50px', marginBottom: '20px' }}>

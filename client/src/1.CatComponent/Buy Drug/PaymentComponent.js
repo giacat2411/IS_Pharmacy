@@ -3,6 +3,7 @@ import { Container, Row, Col, FormGroup, Input, Label, Form, Button } from 'reac
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import HeaderDefine from '../../5.Share Component/Context';
+import {Switch, Redirect} from 'react-router-dom';
 
 class Payment extends Component {
     constructor(props) {
@@ -64,6 +65,7 @@ class Payment extends Component {
     }
 
     render() {
+        if (this.context.role !== "Patient") return <Switch> <Redirect to={`/${this.context.role.toString()}`} /> </Switch>
         return <Container>
             <Row>
                 <Col className="cart-header"> Vui lòng chọn hình thức thanh toán </Col>

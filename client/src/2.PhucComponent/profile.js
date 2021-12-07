@@ -13,6 +13,7 @@ import EditHealth from './editHealth';
 import EditInfo from './Editinfo';
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
+import {Switch, Redirect} from 'react-router-dom';
 
 const Profile = (props) => {
     const current = new Date();
@@ -109,6 +110,7 @@ const Profile = (props) => {
     };
 
     const accessright = () => {
+        if (ctx.role === "Guest") return -1;
         if (role === "Patient") return 1;
         if (user.phone === ctx.phone) return 2;
         return 0;
@@ -203,6 +205,7 @@ const Profile = (props) => {
     }
 
     const View = () => {
+        if (ctx.role !== "Patient" && ctx.role !== "Doctor" && ctx.role !== "Nurse") return <Switch> <Redirect to='/home' /> </Switch>
         if (accessright)
             return (
                 <Container >

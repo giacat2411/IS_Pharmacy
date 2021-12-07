@@ -184,7 +184,7 @@ class ViewDoctor extends Component {
             </Button>
         </Row>
         
-        if (this.context.role === "Doctor") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
+        if (this.context.role !== "Patient") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <>
                 <Container>

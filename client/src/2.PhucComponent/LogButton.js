@@ -65,7 +65,7 @@ const LogButton = (props) => {
     // }
     // console.log(user.role)
 
-    if (user.role === "Guest")
+    if (user.role !== "Patient" && user.role !== "Doctor" && user.role !== "Nurse")
         return (
             <>
                 {swit}

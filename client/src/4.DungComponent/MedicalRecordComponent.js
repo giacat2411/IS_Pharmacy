@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Modal, Table, ModalBody, Badge, Spinner, ModalHeader, FormGroup, ModalFooter } from 'reactstrap';
 import axios from 'axios';
 import ToastServive from 'react-material-toast';
-
+import { Switch, Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Input, Button, Form, Label } from 'reactstrap';
 import HeaderDefine from '../5.Share Component/Context';
 import { LinkContainer } from 'react-router-bootstrap';
+import DoctorSideBar from '../5.Share Component/SideBar/DoctorSideBarComponent';
 
 const toast = ToastServive.new({
     place: 'bottomLeft',
@@ -169,16 +170,18 @@ class ViewMedicalRecord extends Component {
             }
         }
         )
-        return (
+        if (this.context.role !== "Doctor" && this.context.role !== "Patient") return <Switch> <Redirect to={`/${this.context.role.toString()}`} /> </Switch>
+        return (<>
+            {this.context.role === "Doctor" ? <DoctorSideBar /> : <span></span>}
             <Container id='dung-benhan'>
-                <Row style={{ textAlign: 'center', marginTop: '50px', marginBottom: '50px' }}>
+                <Row style={{ textAlign: 'center', marginBottom: '30px' }}>
                     <Col class='dung-title'>
                         <h1>Lịch sử điều trị</h1>
                         <hr />
                     </Col>
                 </Row>
 
-                <Row style={{ marginBottom: '98px', marginTop: '91px' }}>
+                <Row style={{ marginBottom: '98px', marginTop: '0px' }}>
                     <Col>
                         <Table hover >
                             <thead>
@@ -534,6 +537,7 @@ class ViewMedicalRecord extends Component {
                     </ModalBody>
                 </Modal>
             </Container>
+            </>
         )
     }
 }

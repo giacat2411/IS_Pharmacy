@@ -2,9 +2,12 @@ import React, {Component} from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { Card, CardBody, CardTitle, NavLink } from 'reactstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import HeaderDefine from '../Context';
+import { Switch, Redirect } from 'react-router-dom';
 
 class Nurse extends Component{
     render(){
+        if (this.context.role !== "Nurse") return <Switch><Redirect to={`/${this.context.role.toString()}`} /> </Switch>
         return(
             <Container>
                 <Row>
@@ -58,4 +61,6 @@ class Nurse extends Component{
         )
     }
 }
+
+Nurse.contextType = HeaderDefine;
 export default Nurse;

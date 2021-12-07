@@ -49,7 +49,10 @@ class ScheduleTable extends Component {
                 const work_schedules = res.data;
                 console.log(work_schedules);
                 this.setState({ work_schedules: work_schedules.work_schedules.filter(x => { return x.end_day === null }) });
-                this.setState({ work_schedule: work_schedules.work_schedules.filter(x => { return x.end_day === null }) });
+                this.setState({ work_schedule: work_schedules.work_schedules.filter(x => { return x.end_day === null }).filter(w => w.work_day == 2) });
+
+                const today = new Date();
+                this.setState({ current_day: new Date(today.getTime() - 86400000*(today.getDay()-1))})
             })
             .catch(error => console.log(error));
         let currentDay = (new Date((+(new Date())) + 3600000 * 7)).toUTCString().split(' ');
@@ -186,7 +189,7 @@ class ScheduleTable extends Component {
                         <Confirm submit={(this.state.add) ? this.addSche : this.setEnd} toggle={this.state.toggleConfirm} />
                     </Modal>
                     {/* </div> */}
-                    <Button color='danger' onClick={(e) => this.setEnd(x)}>Xóa lịch này</Button>
+                    <Button color='danger' hidden={this.context.role !== "Doctor"} onClick={(e) => this.setEnd(x)}>Xóa lịch này</Button>
                 </td>
             </tr>
         )
@@ -197,7 +200,7 @@ class ScheduleTable extends Component {
 
         return (
             <>
-                <DoctorSideBar />
+                {this.context.role === "Doctor" ? <DoctorSideBar /> : <span></span>}
                 <Container id='dung-appointment'>
                     <Row>
                         <Col class='dung-title' style={{ textAlign: 'center' }}>
@@ -250,7 +253,7 @@ class ScheduleTable extends Component {
                             </Table>
                             <Row style={{ textAlign: 'center' }}>
                                 <Col>
-                                    <Button class='chanh-button-view'
+                                    <Button class='chanh-button-view' hidden={this.context.role !== "Doctor"}
                                         onClick={(e) => this.toggleAdd()}
                                         style={{
                                             backgroundColor: '#62AFFC',
@@ -348,7 +351,7 @@ class ScheduleTable extends Component {
                                         <button style={{
                                             backgroundColor: '#62AFFC',
                                             border: '0px', color: 'white'
-                                        }}
+                                        }} 
                                             class='chanh-button-view' type="button" onClick={(e) => this.addSche()}>Thêm</button>
                                     </Col>
                                     <Col md="6">
