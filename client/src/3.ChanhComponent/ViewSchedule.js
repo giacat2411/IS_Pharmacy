@@ -8,6 +8,7 @@ import HeaderDefine from '../5.Share Component/Context';
 import { Switch, Redirect } from 'react-router';
 import { Input, Modal, Row, Col } from 'reactstrap';
 import DoctorSideBar from '../5.Share Component/SideBar/DoctorSideBarComponent';
+import { Spinner } from 'reactstrap';
 
 const toast = ToastServive.new({
     place: 'bottomLeft',
@@ -197,7 +198,7 @@ class ScheduleTable extends Component {
     };
     render() {
         // if (this.context.role !== "Doctor") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
-
+        const spinner = <Row style={{textAlign: 'center'}}> <Col><Spinner></Spinner></Col> </Row>
         return (
             <>
                 {this.context.role === "Doctor" ? <DoctorSideBar /> : <span></span>}
@@ -251,6 +252,7 @@ class ScheduleTable extends Component {
                                     {console.log(this.state.current_day)}
                                 </tbody>
                             </Table>
+                            {this.listWork().length === 0 ? spinner : <span />}
                             <Row style={{ textAlign: 'center' }}>
                                 <Col>
                                     <Button class='chanh-button-view' hidden={this.context.role !== "Doctor"}
