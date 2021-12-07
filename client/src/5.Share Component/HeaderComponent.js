@@ -27,7 +27,7 @@ const Header = (props) => {
                         </NavItem>
                     </Nav>
                     {/* <HeaderDefine.Provider value={ProviderValue}> */}
-                    <LogButton />
+                    <LogButton updatePage={props.updatePage}/>
                     {/* </HeaderDefine.Provider> */}
                 </Collapse>
             </Navbar>

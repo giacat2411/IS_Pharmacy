@@ -35,6 +35,7 @@ const LogButton = (props) => {
         console.log("OUT")
         user.setPhone("");
         user.setRole("Guest");
+        props.updatePage('home');
         setSwit(<Switch> <Redirect to='/home' /> </Switch>)
 
         await axios.get('/api/destroy/session');

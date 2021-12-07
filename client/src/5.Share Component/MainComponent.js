@@ -23,6 +23,8 @@ import Prescribe from '../1.CatComponent/Doctor/PrescribeComponent';
 import ViewPrescribe from '../1.CatComponent/Doctor/ViewPrescribeMedicine';
 import StatisticTreatmentTurn from '../1.CatComponent/Nurse Manage/Manage Treatment/StatisticTreatmentTurnComponent';
 import ViewOrderPrescribeDetail from '../1.CatComponent/Nurse Manage/Manage Order/ViewOrderPrescribeDetail';
+import ViewDoctor from '../1.CatComponent/Patient/ViewDoctorComponent';
+import ViewTreatmentTurn from '../1.CatComponent/Doctor/ViewTreatmentTurnComponent';
 
 // DUNG
 import Doctor from './Main UI/DoctorComponent';
@@ -87,7 +89,7 @@ class Main extends Component {
     axios.get('/api/get/session').then(res => {
       console.log(res.data.role);
       if (res.data !== undefined)
-        this.updatePage(res.data.role === undefined ? 'home' : res.data.role)
+        this.updatePage(res.data.role === "Guest" ? 'home' : res.data.role)
     })
   }
 
@@ -96,6 +98,11 @@ class Main extends Component {
   }
 
   render() {
+    const Treatment = ({match}) => {
+      return (
+        <ViewTreatmentTurn phone = {parseInt(JSON.parse(match.params.id))} />
+      )
+    }
     const Prescribe_Medicine = ({match}) => {
       return (
         <Prescribe treatment_id = {parseInt(JSON.parse(match.params.id))} />
@@ -149,7 +156,7 @@ class Main extends Component {
       <HeaderProvider>
         <div>
           <Header updatePage={this.updatePage} />
-          <div>
+          <div className="content-container">
             <Switch>
               {/*---------------------------------Cat------------------------------------*/}
               <Route exact path='/home' component={Home} />
@@ -167,6 +174,8 @@ class Main extends Component {
               <Route path="/prescribe/:id" component={Prescribe_Medicine} />
               <Route path="/view_prescribe/:id" component={View_Prescribe} />
               <Route path='/statistic_treatment' component={StatisticTreatmentTurn} />
+              <Route path='/view_doctor' component={ViewDoctor} />
+              <Route path='/view_treatment/:id' component={Treatment} />
 
               {/*---------------------------------Dung------------------------------------*/}
               <Route path='/doctor' component={Doctor} />

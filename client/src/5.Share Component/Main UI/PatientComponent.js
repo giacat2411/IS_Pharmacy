@@ -14,12 +14,12 @@ class Patient extends Component{
                 <hr />
                 <Row>
                     <Col md="6">
-                    <LinkContainer to ="/view_medical_record" style={{cursor: 'pointer'}}>
+                    <LinkContainer to ="/view_doctor" style={{cursor: 'pointer'}}>
                         {/* <NavLink className="cat-customer-item-link"> */}
                         <Card className="cat-customer-item-right">
                             <img className="cat-customer-img" width="90px" height="90px" src="/assets/images/view-home.png" alt = "Xem hồ sơ bệnh án"></img>
                             <CardBody>
-                            <CardTitle tag="h5" className="cat-customer-text">Tra cứu</CardTitle>
+                            <CardTitle tag="h5" className="cat-customer-text">Xem danh sách bác sĩ</CardTitle>
                             </CardBody>
                         </Card>
                     {/* </NavLink> */}

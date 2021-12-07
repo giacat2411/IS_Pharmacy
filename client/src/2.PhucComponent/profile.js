@@ -12,6 +12,7 @@ import UpdatePwd from './updatePwd';
 import EditHealth from './editHealth';
 import EditInfo from './Editinfo';
 import { Link } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
 
 const Profile = (props) => {
     const current = new Date();
@@ -31,41 +32,34 @@ const Profile = (props) => {
         img: "https://www.pngkey.com/png/full/115-1150152_default-profile-picture-avatar-png-green.png",
     })
 
-    useEffect(() => {
-        async function fetchData() {
-            await axios.get('/api/get/info', { params: { phonenum: props.phone } })
-            axios.get('/api/get/info', { params: { phonenum: props.phone } }).then(res => {
-                setUser(res.data.user);
-                // setUser({...user, fullname: res.data.user.firstname + " " + res.data.user.lastname})
-                console.log(user)
-                axios.get('/api/get/role', { params: { phonenum: props.phone } }
-                )
-                    .then(res => {
-                        const roleData = res.data.role;
-                        if (roleData !== "Patient") {
-                            if (user.phone != ctx.phone) {
-                                setRole("Guest")
-                            }
-                            else setRole(roleData);
-                        }
-                        else {
-                            setRole("Patient");
-                            console.log(role)
-                            axios.get('/api/get/patientInfo', { params: { phone: props.phone } }).then(
-                                res => {
-                                    const health = res.data;
-                                    if (health) {
-                                        setInfo(health[0]);
-                                    }
-                                    console.log(info)
-                                }
-                            )
-                        }
-                    });
-            })
-        }
+    useEffect(async () => {
+        {
+            const res1 = await axios.get('/api/get/info', { params: { phonenum: props.phone } })
+            setUser(res1.data.user);
 
-        fetchData();
+            console.log(user)
+
+            const res = await axios.get('/api/get/role', { params: { phonenum: props.phone } })
+            const roleData = res.data.role;
+
+            if (roleData !== "Patient") {
+                if (user.phone != ctx.phone) {
+                    setRole("Guest")
+                }
+                else setRole(roleData);
+            }
+            else {
+                setRole("Patient");
+                console.log(role)
+                const res = await axios.get('/api/get/patientInfo', { params: { phone: props.phone } })
+                const health = res.data;
+                if (health) {
+                    setInfo(health[0]);
+                }
+                console.log(info)
+            }
+        }
+        // fetchData();
     }, [props.phone]);
 
     console.log(ctx)
@@ -251,7 +245,12 @@ const Profile = (props) => {
                                 </Row>
                                 {accessright() == 1 ?
                                     <Health />
-                                    : <NotesApp />}
+                                    : <> <Row style={{ textAlign: 'center' }}> <Col>
+                                        <LinkContainer to={`/view_treatment/${JSON.stringify(ctx.phone)}`} style={{ backgroundColor: '#62AFFC', border: '0px', marginBottom: '15px', marginTop: '10px' }}>
+                                            <Button disabled={grant} onClick={toggleEdit}>
+                                                Xem lượt điều trị
+                                            </Button>
+                                        </LinkContainer> </Col> </Row> <NotesApp /> </>}
                             </Col>
                         </Col>
                     </Row>

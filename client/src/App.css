@@ -103,6 +103,10 @@ body.modal-open {
   margin-left: 520px;
 }
 
+.content-container {
+  min-height: calc(100vh - 157.5px);
+}
+
 .footer {
   background-color: #5B9BF3;
   clear: both;

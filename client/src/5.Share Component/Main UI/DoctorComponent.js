@@ -19,7 +19,7 @@ class Doctor extends Component{
                         <Card className="cat-customer-item-right">
                             <img className="cat-customer-img" width="90px" height="90px" src="/assets/images/view-home.png" alt = "Xem hồ sơ bệnh án"></img>
                             <CardBody>
-                            <CardTitle tag="h5" className="cat-customer-text">Tra cứu lượt điều trị</CardTitle>
+                            <CardTitle tag="h5" className="cat-customer-text">Tra cứu lịch sử điều trị</CardTitle>
                             </CardBody>
                         </Card>
                     {/* </NavLink> */}
