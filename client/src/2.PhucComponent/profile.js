@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { Component, useState } from 'react';
 import { Route, NavLink } from 'react-router-dom';
-import { Row, Col, Button, Container, ModalHeader, ModalBody } from 'reactstrap';
+import { Row, Col, Button, Container, ModalHeader, ModalBody, Table } from 'reactstrap';
 import Home from '../5.Share Component/Main UI/HomeComponent';
 import HeaderDefine from '../5.Share Component/Context';
 import { useContext } from 'react';
@@ -13,15 +13,13 @@ import EditHealth from './editHealth';
 import EditInfo from './Editinfo';
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import {Switch, Redirect} from 'react-router-dom';
+import { Switch, Redirect } from 'react-router-dom';
+import { extend } from 'jquery';
 
 const Profile = (props) => {
-    const current = new Date();
     const ctx = useContext(HeaderDefine);
     const [edit, setEdit] = useState(false);
-    const [health, setHealth] = useState(false);
     const [changePwd, setChangePwd] = useState(false);
-    const date = (curr) => { return `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`; }
     const [user, setUser] = useState({
         phone: props.phone,
         fullname: "",
@@ -51,13 +49,6 @@ const Profile = (props) => {
             }
             else {
                 setRole("Patient");
-                console.log(role)
-                const res = await axios.get('/api/get/patientInfo', { params: { phone: props.phone } })
-                const health = res.data;
-                if (health) {
-                    setInfo(health[0]);
-                }
-                console.log(info)
             }
         }
         // fetchData();
@@ -66,44 +57,20 @@ const Profile = (props) => {
     console.log(ctx)
     console.log(user)
     const grant = user === undefined ? false : user.phone === ctx.phone ? false : true;
-    const [role, setRole] = useState("Patient");
-    const [info, setInfo] = useState({
-        height: "1.23",
-        weight: "53",
-        BMI: 12.6,
-        blood_type: "O",
-        medical_history: "",
-        medical_background: "",
+    const [role, setRole] = useState("Guest");
 
-    })
     const [msg, setMsg] = useState("");
     const [isMsg, setIsMsg] = useState(false);
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         checkData();
-    //     }, 1000);
-    // }, []);
     const showMsg = (msg) => {
         setMsg(msg);
         setIsMsg(true);
 
     }
-    // (async () => {
-    //     console.log("AKJLD")
-
-
-    //     console.log(user.phone)
-    //     console.log(ctx.phone)
-
-    // })()
     const toggleMsg = () => {
         setIsMsg(!isMsg);
     }
     const toggleEdit = () => {
         setEdit(!edit);
-    };
-    const toggleHealth = () => {
-        setHealth(!health);
     };
     const togglePwd = () => {
         setChangePwd(!changePwd);
@@ -116,89 +83,7 @@ const Profile = (props) => {
         return 0;
     }
 
-    const Health = () => {
-        return (<>
-            <Row>
-                <Col md="6">
-                    <Row>
-                        <Col>
-                            Chiều cao: {info.height}
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            Cân nặng: {info.weight}
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            Chỉ số BMI: {info.BMI}
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            Nhóm máu: {info.blood}
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            Tiền sử: {info.medical_history}
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            Bệnh lý nền: {info.medical_background}
-                        </Col>
-                    </Row>
-                    <Row classname="additional">
-                        <Col>
-                            Thông tin từ ngày {date(current)}
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <Button disabled={grant} onClick={toggleHealth}
-                                style={{ backgroundColor: '#62AFFC', border: '0px', marginTop: '10px' }}>
-                                Cập nhật tình trạng sức khỏe </Button>
-                        </Col>
-                    </Row>
-                </Col>
 
-                <Col md="6">
-                    <Row>
-                        <Col>
-                            <NavLink to='/view_order'>
-                                <Button classname="center_screen" disabled={grant}
-                                    style={{
-                                        backgroundColor: '#62AFFC',
-                                        border: '0px',
-                                        height: '40px',
-                                        marginTop: '50px',
-                                        width: '140px'
-                                    }}>
-                                    Xem đơn thuốc </Button>
-                            </NavLink>
-                        </Col>
-                        <Col>
-                            <Link to={`/medical_record/${JSON.stringify(user.phone)}`}>
-                                <Button
-                                    onClick={(e) => { localStorage.setItem("med_phone", user.phone); console.log("set") }}
-                                    style={{
-                                        backgroundColor: '#62AFFC',
-                                        border: '0px',
-                                        height: '40px',
-                                        marginTop: '50px',
-                                        width: '140px'
-                                    }}>
-                                    Lượt điều trị
-                                </Button>
-                            </Link>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row></>
-        )
-    }
     const setAllImg = (newUser) => {
         ctx.setImg(newUser.img);
         setUser(newUser);
@@ -246,14 +131,10 @@ const Profile = (props) => {
                                         Ngày sinh: {(new Date(user.dateofbirth)).toLocaleDateString('vi')}
                                     </Col>
                                 </Row>
-                                {accessright() == 1 ?
-                                    <Health />
-                                    : <> <Row style={{ textAlign: 'center' }}> <Col>
-                                        <LinkContainer to={`/view_treatment/${JSON.stringify(ctx.phone)}`} style={{ backgroundColor: '#62AFFC', border: '0px', marginBottom: '15px', marginTop: '10px' }}>
-                                            <Button disabled={grant} onClick={toggleEdit}>
-                                                Xem lượt điều trị
-                                            </Button>
-                                        </LinkContainer> </Col> </Row> <NotesApp /> </>}
+                                {role === "Patient" ? <Patient phone={user.phone} access={accessright()} grant={grant} />
+                                    : role === "Doctor" ? <Doctor phone={user.phone} access={accessright} />
+                                        : <Nurse phone={user.phone} />}
+
                             </Col>
                         </Col>
                     </Row>
@@ -261,8 +142,7 @@ const Profile = (props) => {
                     </Modal>
                     <Modal centered isOpen={changePwd} toggle={togglePwd}><UpdatePwd togglePwd={togglePwd} phone={user.phone} msgCall={showMsg} />
                     </Modal>
-                    <Modal centered isOpen={health} toggle={toggleHealth}><EditHealth health={info} phone={user.phone} toggleHealth={toggleHealth} msgCall={showMsg} />
-                    </Modal>
+
                     <Modal centered isOpen={isMsg} toggle={toggleMsg}>
                         <ModalHeader> Message </ModalHeader>
                         <ModalBody>
@@ -284,3 +164,234 @@ const Profile = (props) => {
     return View();
 }
 export default Profile;
+
+
+
+class Patient extends Component {
+    constructor(props) {
+
+        super(props);
+        this.state = {
+            phone: props.phone,
+            access: props.access,
+            grant: props.grant,
+            health: false,
+            info: {
+                height: "1.23",
+                weight: "53",
+                BMI: "Ổn định",
+                blood_type: "O",
+                medical_history: "",
+                medical_background: "",
+
+            },
+        }
+
+    }
+
+    async componentDidMount() {
+        const res = await axios.get('/api/get/patientInfo', { params: { phone: this.state.phone } })
+        const health = res.data;
+        if (health) {
+            let saveData = health[0];
+            let bmiValue = (saveData.weight / saveData.height) / saveData.height*10000;
+            // this.setState({ bmi : bmiValue });
+            saveData.BMI = this.getBmi( bmiValue.toPrecision(4));
+            this.setState({ info: saveData });
+        }
+    }
+    getBmi(bmi) {
+        if (bmi < 18.5) {
+            return bmi+" (Thiếu cân)";
+        }
+        if (bmi >= 18.5 && bmi < 24.9) {
+            return bmi+" (Ổn định)";
+        }
+        if (bmi >= 25 && bmi < 29.9) {
+            return bmi+" (Thừa cân)";
+        }
+        if (bmi >= 30) {
+            return bmi+" (Béo phì)";
+        }
+    }
+    toggleHealth = () => {
+        this.setState({ health: !this.state.health })
+    };
+
+    render() {
+
+        if (this.state.access == 1)
+            return (
+                <>
+                    {this.Health(this.state.info)}
+                    <Modal centered isOpen={this.state.health} toggle={this.toggleHealth}><EditHealth health={this.state.info} phone={this.state.phone} toggleHealth={this.toggleHealth} />
+                        {/* msgCall={showMsg} /> */}
+                    </Modal>
+                </>
+            )
+        else
+            return (<>
+                {this.Health(this.state.info)}
+                <Row style={{ textAlign: 'center' }}> <Col>
+                    <LinkContainer to={`/view_treatment/${JSON.stringify(this.state.phone)}`} style={{ backgroundColor: '#62AFFC', border: '0px', marginBottom: '15px', marginTop: '10px' }}>
+                        <Button disabled={this.state.grant} >
+                            {/* onClick={toggleEdit}> */}
+                            Xem lượt điều trị
+                        </Button>
+                    </LinkContainer> </Col>
+                     </Row>
+                {/* <Modal centered isOpen={this.state.health} toggle={this.toggleHealth}><EditHealth health={this.state.info} phone={this.state.phone} toggleHealth={this.toggleHealth} />
+                    msgCall={showMsg} />
+                </Modal> */}
+            </>
+
+
+            )
+    }
+
+    Health = (info) => {
+
+        const current = new Date();
+        const date = (curr) => { return `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`; }
+        return (<>
+            <Row>
+                <Col md="6">
+                    <Row>
+                        <Col>
+                            Chiều cao: {info.height}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            Cân nặng: {info.weight}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            Chỉ số BMI: {info.BMI}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            Nhóm máu: {info.blood_type}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            Tiền sử: {info.medical_history ? info.medical_history : "Không"}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            Bệnh lý nền: {info.medical_background ? info.medical_background : "Không"}
+                        </Col>
+                    </Row>
+                    <Row classname="additional">
+                        <Col>
+                            Thông tin từ ngày {date(current)}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Button hidden={this.state.grant} onClick={this.toggleHealth}
+                                style={{ backgroundColor: '#62AFFC', border: '0px', marginTop: '10px' }}>
+                                Cập nhật tình trạng sức khỏe </Button>
+                        </Col>
+                    </Row>
+                </Col>
+
+                <Col md="6">
+                    <Row>
+                        <Col>
+                            <NavLink to='/view_order'>
+                                <Button classname="center_screen" hidden={this.state.grant}
+                                    style={{
+                                        backgroundColor: '#62AFFC',
+                                        border: '0px',
+                                        height: '40px',
+                                        marginTop: '50px',
+                                        width: '140px'
+                                    }}>
+                                    Xem đơn thuốc </Button>
+                            </NavLink>
+                        </Col>
+                        <Col>
+                            <Link to={`/medical_record/${JSON.stringify(this.state.phone)}`}>
+                                <Button
+                                    onClick={(e) => { localStorage.setItem("med_phone", this.state.phone); console.log("set") }}
+                                    style={{
+                                        backgroundColor: '#62AFFC',
+                                        border: '0px',
+                                        height: '40px',
+                                        marginTop: '50px',
+                                        width: '140px'
+                                    }}>
+                                    Lượt điều trị
+                                </Button>
+                            </Link>
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
+
+        </>
+        )
+    }
+
+}
+
+class Doctor extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            phone: props.phone,
+            display_sche: [{}],
+            doc:{}
+        }
+
+
+    }
+    async componentDidMount() {
+        const sche = await axios.get('/api/get/my_work_schedules', { params: { phone: this.state.phone } })
+        const sche_list = sche.data ? sche.data.work_schedules : []
+        this.setState({ display_sche: sche_list.filter(sche => !(sche.end_day)) })
+        const info=await axios.get('/api/get/my-doctors-info',{params:{phone:this.state.phone}})
+        this.setState({doc:info.data.doctors[0]})
+    }
+    render() {
+        return (<>
+                <Row>Chuyên ngành: {this.state.doc.specialism} </Row>
+                <Row>Kinh nghiệm: {this.state.doc.experience_year} năm</Row>
+            <Row style={{padding:"20px"}}>
+
+
+
+                <Col class='dung-appointment-table'>
+                    <Table hover>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Ngày trực
+                                </th>
+                                <th>
+                                    Buổi
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                this.state.display_sche.map(sche => <tr><td> {sche.work_day}</td><td>{sche.work_session === "S" ? "Sáng" : "Chiều"}</td> </tr>)}
+                        </tbody>
+                    </Table>
+                </Col>
+            </Row>
+            </>
+        )
+    }
+}
+class Nurse extends Component {
+    render() {
+        return (<>
+        </>)
+    }
+}

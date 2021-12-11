@@ -236,6 +236,13 @@ app.get('/api/get/doctors-info', (req, res) => {
     res.json({ doctors: results });
   });
 });
+app.get('/api/get/my-doctors-info', (req, res) => {
+  var sql = "SELECT * FROM DOCTOR WHERE PHONE="+req.query.phone;
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ doctors: results });
+  });
+});
 app.get('/api/get/nurse-info', (req, res) => {
   var sql = "  SELECT * FROM nurse JOIN system_user ON nurse.phone=system_user.phone;";
   connection.query(sql, function (err, results) {
@@ -557,6 +564,14 @@ app.get('/api/get/work_schedules', (req, res) => {
   });
 });
 
+app.get('/api/get/my_work_schedules', (req, res) => {
+  console.log(req.query)
+  var sql = "SELECT * FROM work_schedule WHERE DOCTOR_PHONE="+req.query.phone;
+  connection.query(sql, function (err, results) {
+    if (err) throw err;
+    res.json({ work_schedules: results });
+  });
+});
 app.get('/api/get/system_users', (req, res) => {
   var sql = "SELECT * FROM system_user";
   connection.query(sql, function (err, results) {
