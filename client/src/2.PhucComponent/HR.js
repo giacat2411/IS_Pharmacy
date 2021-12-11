@@ -26,16 +26,19 @@ class HR extends Component {
             newnurse: {},
             modalDoctor: false,
             modalNurse: false,
+            phone:"",
+            role:"",
+            show:false,
         };
         this.showModal = this.showModal.bind(this);
         this.hideModal = this.hideModal.bind(this);
         this.deleteModal = this.deleteModal.bind(this);
-        this.handleClick = this.handleClick.bind(this);
         this.delete = this.delete.bind(this);
         this.toggleDoctor = this.toggleDoctor.bind(this);
         this.toggleNurse = this.toggleNurse.bind(this);
+        // this.showHideClassName=this.showHideClassName.bind(this);
     }
-
+        
     showModal = () => {
         this.setState({ show: true });
     };
@@ -45,9 +48,6 @@ class HR extends Component {
     deleteModal = () => {
         this.setState({ deleted: true });
     };
-    handleClick = ({ target }) => {
-
-    }
     toggleDoctor() {
         this.setState({ modalDoctor: !this.state.modalDoctor })
     }
@@ -65,10 +65,10 @@ class HR extends Component {
 
         axios.get('/api/get/nurse-info')
             .then(res => {
-
                 this.setState({ nurse: res.data.nurses });
             })
             .catch(error => console.log(error));
+        this.setState({show:false})
     };
 
     handleInsertSubmit = (event) => {
@@ -109,14 +109,26 @@ class HR extends Component {
 
 
 
-    delete = (phone, role) => {
-        axios.post('/api/delete/HR', { params: { phone: phone, role: role } });
-        if (role === "DOCTOR") this.setState({ doctor: this.state.doctor.filter(row => row.activate === 1) });
-        else this.setState({ nurse: this.state.nurse.filter(row => row.activate === 1) })
+    delete = () => {
+        axios.post('/api/delete/HR', { params: { phone: this.state.phone, role: this.state.role } }).then(res=>{
+            if(res.data.msg){
+            toast.success('Xóa thành công', () => {
+            });
+        if (this.state.role === "DOCTOR") 
+            this.setState({doctor: this.state.doctor.map(row => {if (row.phone === this.state.phone) row.activate=0; return row})})
+        //this.setState({ doctor: this.state.doctor.filter(row => row.activate === 1) });
+        else this.setState({ nurse: this.state.nurse.map(row => {if (row.phone === this.state.phone) row.activate=0; return row})})
+
+        }
+            else toast.error('Đã xảy ra lỗi', () => {
+            });
+        });
+
 
     }
     render() {
-
+        const showHideClassName = this.state.show ? "modal display-block" : "modal display-none";
+    
         if (this.context.role !== "Doctor") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <>
@@ -163,7 +175,7 @@ class HR extends Component {
                                                 <td style={{ textAlign: 'center' }}>
                                                     <button class='chanh-button-view' type="button"
                                                         style={{ width: '50px', height: '30px' }}
-                                                        onClick={(e) => { row.activate = false; this.delete(row.phone, "DOCTOR") }}>X</button>
+                                                        onClick={(e) => { this.setState({phone:row.phone,role:"DOCTOR",show:true}) }}>X</button>
                                                 </td>
                                             </tr>
                                         );
@@ -231,11 +243,11 @@ class HR extends Component {
                                 </thead>
                                 <tbody className="dung-table-body">
 
-                                    {this.state.nurse.map(nurse => <tr style={{ textAlign: 'left' }}> <td> {nurse.firstname + " " + nurse.lastname}</td>
+                                    {this.state.nurse.filter(row => row.activate === 1).map(nurse => <tr style={{ textAlign: 'left' }}> <td> {nurse.firstname + " " + nurse.lastname}</td>
                                         <td style={{ textAlign: 'center' }}>
                                             <button class='chanh-button-view'
                                                 type="button"
-                                                onClick={(e) => { nurse.activate = false; this.delete(nurse.phone, "NURSE") }}
+                                                onClick={(e) => { this.setState({phone:nurse.phone,role:"NURSE",show:true}); }}
                                                 style={{ width: '50px', height: '30px' }}>
                                                 X
                                             </button>
@@ -263,6 +275,23 @@ class HR extends Component {
                             </button>
                         </Col>
                     </Row>
+                    
+                    <div className={showHideClassName}>
+                        <section className="modal-main">
+                            <div class='dung-logomini'>
+                                <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
+                            </div>      
+                            <p>Xác nhận xóa</p>
+                            <button type="button" onClick={(e) => { this.setState({show:false}) }}>
+                                Hủy
+                            </button>
+
+                            <button type="button" onClick={(e) => {this.setState({show:false}); this.delete(); }}>
+                                Xác nhận
+                            </button>
+
+                        </section>
+                    </div>
                     <Modal isOpen={this.state.modalNurse} toggle={(e) => this.toggleNurse()}>
                         <ModalHeader> Thêm điều dưỡng </ModalHeader>
                         <Container>
@@ -281,7 +310,7 @@ class HR extends Component {
                                     <button
                                         class='chanh-button-view'
                                         type="button"
-                                        onClick={(e) => this.setNurse()}
+                                        onClick={(e) => {this.setNurse();}}
                                         style={{ width: '140px', height: '40px', marginTop: '20px', marginBottom: '20px' }}>
                                         Thêm điều dưỡng
                                     </button>

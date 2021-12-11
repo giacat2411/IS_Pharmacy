@@ -734,7 +734,8 @@ app.post('/api/set/end-schedule', (req, res) => {
         and  work_session="${input.work_session}" and start_day = '${(new Date(input.start_day)).toLocaleDateString('vi').split('/').reverse().join('-')}';`
   console.log(sql)
   connection.query(sql, function (err, results) {
-    res.json({ patients: req.query });
+    if (err) throw err;
+    res.json({ msg:"Thành công" });
   });
 }
 )
