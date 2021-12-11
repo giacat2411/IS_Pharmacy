@@ -27,7 +27,7 @@ class ScheduleTable extends Component {
             work_schedules: [],
             registering: {},
             curr: {},
-
+            toDelete:{},
             current_day: (new Date((+(new Date())) + 3600000 * 7)).toUTCString(),
             thu: 2,
             curr_thu: 2,
@@ -69,21 +69,6 @@ class ScheduleTable extends Component {
             })
             .catch(error => console.log(error));
     }
-    // componentDidUpdate() {
-    //     axios.get('/api/get/work_schedules')
-    //         .then(res => {
-    //             const work_schedules = res.data;
-    //             this.setState({ work_schedules: work_schedules.work_schedules });
-    //         })
-    //         .catch(error => console.log(error));
-    // }
-    // showModal = () => {
-    //     this.setState({ show: true });
-    // };
-
-    // hideModal = () => {
-    //     this.setState({ show: false });
-    // };
     checkDate = (nw, curr) => {
         return nw.split(' ')[1] == curr.split(' ')[1] && nw.split(' ')[2] == curr.split(' ')[2] && nw.split(' ')[3] == curr.split(' ')[3]
     }
@@ -99,41 +84,19 @@ class ScheduleTable extends Component {
 
         this.setState({ work_schedule: new_Work_schedule, curr_thu: event.target.value });
     }
-    // handleDeleteInsert = (event) =>{
-    //     event.preventDefault();
-    //     this.setState({registering:{}});
-    // }
-
-    // handleInsertSubmit = (event) => {
-    //     event.preventDefault();
-    //     axios.post('/api/insert/treatment_turns', this.state.registering)
-    //     .then(res => {
-    //         let news = this.state.treatment_turns;
-    //         news = [this.state.registering,...news];
-    //         this.setState({ treatment_turns: news });
-    //         this.setState({registering:{}});
-
-
-    //         const new_Work_schedule=this.state.work_schedules.filter(w=>w.work_day==this.state.thu);//&&(Number(w.turn_time.split(' ').splice(1,1))>=5&&Number(w.turn_time.split(' ').splice(1,1))<=11))
-    //         })
-    //     .catch(error => console.log(error));
-
-    //   };
-    //   onClickSuccess = () => {
-    //     const id = toast.success('Đăng ký thành công!',()=>{
-    //     });
-    // };
 
     setEnd = (x) => {
-        console.log(x);
-        const newSchedules = this.state.work_schedules.filter(y => { return this.state.work_schedules.indexOf(x) !== this.state.work_schedules.indexOf(y) })
+        axios.post('/api/set/end-schedule', { params: x }).then(
+            res=>{if(res.data.msg){toast.success("Thành công");console.log(x);
+            const newSchedules = this.state.work_schedules.filter(y => { return this.state.work_schedules.indexOf(x) !== this.state.work_schedules.indexOf(y) })
+    
+            const newSchedule = this.state.work_schedule.filter(y => { return this.state.work_schedule.indexOf(x) !== this.state.work_schedule.indexOf(y) })
+    
+            this.setState({ work_schedules: newSchedules, work_schedule: newSchedule })
+            }
+            else toast.error("Thất bại")}
+        )
 
-        const newSchedule = this.state.work_schedule.filter(y => { return this.state.work_schedule.indexOf(x) !== this.state.work_schedule.indexOf(y) })
-
-        this.setState({ work_schedules: newSchedules, work_schedule: newSchedule })
-        axios.post('/api/set/end-schedule', { params: x })
-
-        alert("Xóa thành công");
     }
 
     addSche() {
@@ -182,19 +145,16 @@ class ScheduleTable extends Component {
                     {x.work_session}
                 </td>
                 <td>
-                    <Modal isOpen={this.state.confirm} toggle={this.state.toggleConfirm}>
-                        <Confirm submit={(this.state.add) ? this.addSche : this.setEnd} toggle={this.state.toggleConfirm} />
-                    </Modal>
-                    {/* </div> */}
-                    <Button color='danger' onClick={(e) => this.setEnd(x)}>Xóa lịch này</Button>
+                    <Button color='danger' onClick={(e) => this.setState({show:true,toDelete:x})}>Xóa lịch này</Button>
                 </td>
             </tr>
         )
         )
     };
     render() {
-        // if (this.context.role !== "Doctor") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
-
+        if (this.context.role !== "Doctor") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
+        const showHideClassName = this.state.show ? "modal display-block" : "modal display-none";
+    
         return (
             <>
                 <DoctorSideBar />
@@ -363,6 +323,22 @@ class ScheduleTable extends Component {
                         </ModalFooter>
                     </Modal>
                 </Container>
+                <div className={showHideClassName}>
+                        <section className="modal-main">
+                            <div class='dung-logomini'>
+                                <img src='assets/images/logo_modal.png' height="60px" width="230px" alt='HealthCare' />
+                            </div>      
+                            <p>Xác nhận xóa</p>
+                            <button type="button" onClick={(e) => { this.setState({show:false}) }}>
+                                Hủy
+                            </button>
+
+                            <button type="button" onClick={(e) => {this.setState({show:false}); this.setEnd(this.state.toDelete); }}>
+                                Xác nhận
+                            </button>
+
+                        </section>
+                    </div>
             </>
         )
     }
