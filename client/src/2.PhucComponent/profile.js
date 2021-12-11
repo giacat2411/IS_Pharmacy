@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Switch, Redirect } from 'react-router-dom';
 import { extend } from 'jquery';
+import DoctorSideBar from '../5.Share Component/SideBar/DoctorSideBarComponent';
 
 const Profile = (props) => {
     const ctx = useContext(HeaderDefine);
@@ -92,7 +93,8 @@ const Profile = (props) => {
     const View = () => {
         if (ctx.role !== "Patient" && ctx.role !== "Doctor" && ctx.role !== "Nurse") return <Switch> <Redirect to='/home' /> </Switch>
         if (accessright)
-            return (
+            return (<>
+                {/* {ctx.phone != props.phone ? <DoctorSideBar /> : <span></span>} */}
                 <Container >
                     <Row style={{ marginTop: '20px', marginBottom: '20px' }}>
                         <Col md="4">
@@ -131,9 +133,11 @@ const Profile = (props) => {
                                         Ngày sinh: {(new Date(user.dateofbirth)).toLocaleDateString('vi')}
                                     </Col>
                                 </Row>
-                                {role === "Patient" ? <Patient phone={user.phone} access={accessright()} grant={grant} />
-                                    : role === "Doctor" ? <Doctor phone={user.phone} access={accessright} />
-                                        : <Nurse phone={user.phone} />}
+                                <Row>
+                                    {role === "Patient" ? <Patient phone={user.phone} access={accessright()} grant={grant} msg={msg} setMsg={setMsg} msgCall={showMsg}/>
+                                        : role === "Doctor" ? <Doctor phone={user.phone} access={accessright} grant={grant} msg={msg} setMsg={setMsg} msgCall={showMsg}/>
+                                            : <Nurse phone={user.phone} msg={msg} setMsg={setMsg} msgCall={showMsg}/>}
+                                </Row>
 
                             </Col>
                         </Col>
@@ -156,6 +160,7 @@ const Profile = (props) => {
                         </ModalBody>
                     </Modal>
                 </Container>
+                </>
             )
         else {
             return <> Hồ sơ không tồn tại</>
@@ -194,24 +199,24 @@ class Patient extends Component {
         const health = res.data;
         if (health) {
             let saveData = health[0];
-            let bmiValue = (saveData.weight / saveData.height) / saveData.height*10000;
+            let bmiValue = (saveData.weight / saveData.height) / saveData.height * 10000;
             // this.setState({ bmi : bmiValue });
-            saveData.BMI = this.getBmi( bmiValue.toPrecision(4));
+            saveData.BMI = this.getBmi(bmiValue.toPrecision(4));
             this.setState({ info: saveData });
         }
     }
     getBmi(bmi) {
         if (bmi < 18.5) {
-            return bmi+" (Thiếu cân)";
+            return bmi + " (Thiếu cân)";
         }
         if (bmi >= 18.5 && bmi < 24.9) {
-            return bmi+" (Ổn định)";
+            return bmi + " (Ổn định)";
         }
         if (bmi >= 25 && bmi < 29.9) {
-            return bmi+" (Thừa cân)";
+            return bmi + " (Thừa cân)";
         }
         if (bmi >= 30) {
-            return bmi+" (Béo phì)";
+            return bmi + " (Béo phì)";
         }
     }
     toggleHealth = () => {
@@ -224,7 +229,7 @@ class Patient extends Component {
             return (
                 <>
                     {this.Health(this.state.info)}
-                    <Modal centered isOpen={this.state.health} toggle={this.toggleHealth}><EditHealth health={this.state.info} phone={this.state.phone} toggleHealth={this.toggleHealth} />
+                    <Modal centered isOpen={this.state.health} toggle={this.toggleHealth}><EditHealth health={this.state.info} phone={this.state.phone} toggleHealth={this.toggleHealth} msgCall={this.props.msgCall}/>
                         {/* msgCall={showMsg} /> */}
                     </Modal>
                 </>
@@ -232,14 +237,6 @@ class Patient extends Component {
         else
             return (<>
                 {this.Health(this.state.info)}
-                <Row style={{ textAlign: 'center' }}> <Col>
-                    <LinkContainer to={`/view_treatment/${JSON.stringify(this.state.phone)}`} style={{ backgroundColor: '#62AFFC', border: '0px', marginBottom: '15px', marginTop: '10px' }}>
-                        <Button disabled={this.state.grant} >
-                            {/* onClick={toggleEdit}> */}
-                            Xem lượt điều trị
-                        </Button>
-                    </LinkContainer> </Col>
-                     </Row>
                 {/* <Modal centered isOpen={this.state.health} toggle={this.toggleHealth}><EditHealth health={this.state.info} phone={this.state.phone} toggleHealth={this.toggleHealth} />
                     msgCall={showMsg} />
                 </Modal> */}
@@ -326,7 +323,7 @@ class Patient extends Component {
                                         marginTop: '50px',
                                         width: '140px'
                                     }}>
-                                    Lượt điều trị
+                                    Lịch sử điều trị
                                 </Button>
                             </Link>
                         </Col>
@@ -346,7 +343,7 @@ class Doctor extends Component {
         this.state = {
             phone: props.phone,
             display_sche: [{}],
-            doc:{}
+            doc: {}
         }
 
 
@@ -355,14 +352,15 @@ class Doctor extends Component {
         const sche = await axios.get('/api/get/my_work_schedules', { params: { phone: this.state.phone } })
         const sche_list = sche.data ? sche.data.work_schedules : []
         this.setState({ display_sche: sche_list.filter(sche => !(sche.end_day)) })
-        const info=await axios.get('/api/get/my-doctors-info',{params:{phone:this.state.phone}})
-        this.setState({doc:info.data.doctors[0]})
+        const info = await axios.get('/api/get/my-doctors-info', { params: { phone: this.state.phone } })
+        this.setState({ doc: info.data.doctors[0] })
     }
     render() {
         return (<>
-                <Row>Chuyên ngành: {this.state.doc.specialism} </Row>
-                <Row>Kinh nghiệm: {this.state.doc.experience_year} năm</Row>
-            <Row style={{padding:"20px"}}>
+            <Row>
+                <Col>Chuyên ngành: {this.state.doc.specialism} </Col></Row>
+            <Row> <Col> Kinh nghiệm: {this.state.doc.experience_year} năm </Col> </Row>
+            <Row style={{ padding: "20px" }}>
 
 
 
@@ -385,7 +383,16 @@ class Doctor extends Component {
                     </Table>
                 </Col>
             </Row>
-            </>
+
+            <Row style={{ textAlign: 'center' }}> <Col>
+                <LinkContainer to={`/view_treatment/${JSON.stringify(this.state.phone)}`} style={{ backgroundColor: '#62AFFC', border: '0px', marginBottom: '15px', marginTop: '10px' }}>
+                    <Button>
+                        {/* onClick={toggleEdit}> */}
+                        Xem lượt điều trị
+                    </Button>
+                </LinkContainer> </Col>
+            </Row>
+        </>
         )
     }
 }

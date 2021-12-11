@@ -133,7 +133,7 @@ class MedicalRecord extends Component {
                                         }}
                                             className="dung cart-button benhan nd"
                                             onClick={(e) => { localStorage.setItem("med_phone", this.state.phone); console.log("set") }}>
-                                            Lượt điều trị
+                                            Lịch sử điều trị
                                         </Button>
                                     </Link>
                                 </div>

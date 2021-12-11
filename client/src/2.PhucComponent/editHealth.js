@@ -10,7 +10,7 @@ const EditHealth = (props) => {
     const ctx = useContext(HeaderDefine);
     const postHealth = () => {
         axios.post('/api/post/TTSK', { params: { tempInfo, phone: props.phone } }).then(res => {
-            props.toggleHealth();
+            // props.toggleHealth();
             if (res.data.msg) props.msgCall(res.data.msg);
         })
     }

@@ -9,6 +9,8 @@ import LogButton from '../2.PhucComponent/LogButton';
 import HeaderDefine from './Context';
 
 const Header = (props) => {
+    const ctx = useContext(HeaderDefine);
+    const page = ctx.role in ["Patient", "Doctor", "Nurse"] ? ctx.role.toString() : 'home';
     return (
         <div>
             <Navbar className="navbar-header" color="light"  expand="md"  light container>
@@ -17,13 +19,13 @@ const Header = (props) => {
                 <Collapse navbar>
                     <Nav navbar>
                         <NavItem>
-                            <NavLink className="nav-link" to='/'><FaHome /> Trang chủ</NavLink>
+                            <NavLink className="nav-link" to={`/${page}`}><FaHome /> Trang chủ</NavLink>
                         </NavItem>
                         <NavItem>
                             <NavLink className="nav-link" to='/scheduleTable'><FaRegCalendarAlt /> Lịch làm việc</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink className="nav-link" to='/'><FaInfo /> Liên hệ</NavLink>
+                            <NavLink className="nav-link" to='/contact'><FaInfo /> Liên hệ</NavLink>
                         </NavItem>
                     </Nav>
                     {/* <HeaderDefine.Provider value={ProviderValue}> */}
