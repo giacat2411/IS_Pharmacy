@@ -2,9 +2,12 @@ import React, {Component} from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { Card, CardBody, CardTitle} from 'reactstrap';
 import { LinkContainer } from 'react-router-bootstrap'; 
+import HeaderDefine from '../Context';
+import { Switch, Redirect } from 'react-router-dom';
 
 class Patient extends Component{
     render(){
+        if (this.context.role !== "Patient") return <Switch><Redirect to={`/${this.context.role.toString()}`} /> </Switch>
         return(
             <Container>
                 <Row>
@@ -14,12 +17,12 @@ class Patient extends Component{
                 <hr />
                 <Row>
                     <Col md="6">
-                    <LinkContainer to ="/view_medical_record" style={{cursor: 'pointer'}}>
+                    <LinkContainer to ="/view_doctor" style={{cursor: 'pointer'}}>
                         {/* <NavLink className="cat-customer-item-link"> */}
                         <Card className="cat-customer-item-right">
                             <img className="cat-customer-img" width="90px" height="90px" src="/assets/images/view-home.png" alt = "Xem hồ sơ bệnh án"></img>
                             <CardBody>
-                            <CardTitle tag="h5" className="cat-customer-text">Tra cứu</CardTitle>
+                            <CardTitle tag="h5" className="cat-customer-text">Xem danh sách bác sĩ</CardTitle>
                             </CardBody>
                         </Card>
                     {/* </NavLink> */}
@@ -66,4 +69,6 @@ class Patient extends Component{
         )
     }
 }
+
+Patient.contextType = HeaderDefine;
 export default Patient;

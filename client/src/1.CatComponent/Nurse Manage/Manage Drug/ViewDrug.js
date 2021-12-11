@@ -110,7 +110,7 @@ class ViewDrug extends Component {
                                     autocomplete="off">
                                     <FormGroup>
                                         <Input className="search-box" id="search" name="search-drugs" placeholder="Nhập tên thuốc"
-                                        innerRef={(input) => this.search_item = input} />
+                                        innerRef={(input) => this.search_item = input} style={{height: '37.5px', width: '190px', marginTop: '1px'}}/>
                                     </FormGroup>
                                 </Form> 
                                 <Button className="search-drug-button" onClick={this.onInputDrugName}>
@@ -164,7 +164,7 @@ class ViewDrug extends Component {
                                     autocomplete="off">
                                     <FormGroup>
                                         <Input className="search-box" id="search" name="search-drugs" placeholder="Nhập số lượng"
-                                        innerRef={(input) => this.drugs_quantity = input} />
+                                        innerRef={(input) => this.drugs_quantity = input} style={{width: '188px', marginTop: '1px', height: '37.5px'}}/>
                                     </FormGroup>
                                 </Form> 
                                 <Button className="search-drug-button" onClick={() => {if (this.check_quantity()) this.onToggleAgreeModel(); }}>

@@ -118,15 +118,23 @@ class NoteSearch extends React.Component {
 
   render() {
     return (
-      <Container style={{marginTop: '10px'}}>
-        <Row >
-          <Col md="9">
-            <input type="search" className="search-input" placeholder="Search..."
+      <Container style={{ marginTop: '10px' }}>
+        <Row style={{ textAlign: 'center' }}>
+          <Col md="12">
+            <input type="search"
+              style={{
+                marginTop: '0px',
+                padding: '7px 20px',
+                fontSize: '18px',
+                lineHeight: '1',
+                outline: 'none',
+                border: '1px solid rgba(0,0,0,0.24)',
+                height: '36px'
+              }} placeholder="Search..."
               onChange={(event) => { this.handleSearch(event) }} />
+            <Button style={{ backgroundColor: '#62AFFC', marginTop: '-6px', border: '0px' }} onClick={this.props.search}><FaSearch /></Button>
           </Col>
-          <Col md="3">
-            <Button style={{ backgroundColor: '#62AFFC', marginTop: '0px', border: '0px' }} onClick={this.props.search}><FaSearch /></Button>
-          </Col>
+
         </Row>
       </Container>
     );

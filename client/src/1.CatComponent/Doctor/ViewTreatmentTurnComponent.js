@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Modal, Table, ModalBody, Badge, Spinner, ModalHeader, FormGroup, ModalFooter } from 'reactstrap';
 import axios from 'axios';
 import ToastServive from 'react-material-toast';
-import { Switch, Redirect } from 'react-router';
+
 import { Link } from 'react-router-dom';
 import { Input, Button, Form, Label } from 'reactstrap';
-import HeaderDefine from '../5.Share Component/Context';
+import HeaderDefine from '../../5.Share Component/Context';
 import { LinkContainer } from 'react-router-bootstrap';
-import DoctorSideBar from '../5.Share Component/SideBar/DoctorSideBarComponent';
+import { FaSearch } from 'react-icons/fa';
+import { Switch, Redirect } from 'react-router';
 
 const toast = ToastServive.new({
     place: 'bottomLeft',
@@ -16,12 +17,13 @@ const toast = ToastServive.new({
 });
 
 
-class ViewMedicalRecord extends Component {
+class ViewTreatmentTurn extends Component {
     constructor(props) {
         super(props);
         this.state = {
             phone: this.props.phone,// this.props.phone,
             treatment_turn: [{}],
+            search: [{}],
             system_user: {},
             treatment_curr: {},
             is_open: false,
@@ -35,6 +37,77 @@ class ViewMedicalRecord extends Component {
         this.toggleEdit = this.toggleEdit.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onSubmitPayment = this.onSubmitPayment.bind(this);
+        this.onInputTime = this.onInputTime.bind(this);
+        this.sortToday = this.sortToday.bind(this);
+        this.sortThisWeek = this.sortThisWeek.bind(this);
+        this.sortThisMonth = this.sortThisMonth.bind(this);
+        this.sortAll = this.sortAll.bind(this);
+    }
+
+    sortAll() {
+        this.setState({search: this.state.treatment_turn})
+    }
+
+    sortToday() {
+        const today = (new Date()).toLocaleDateString("vi")
+        const treats = this.state.treatment_turn.filter(x => {
+            const date = (new Date(x.turn_time)).toLocaleDateString("vi");
+            return date === today;
+        })
+        this.setState({ search: treats })
+    }
+
+    sortThisWeek() {
+        const today = new Date();
+        const start_time = (new Date(today.getTime() - 86400000*(today.getDay()-1))).toLocaleDateString('vi');
+        const end_time = today.toLocaleDateString('vi');
+
+        const treats = this.state.treatment_turn.filter(x => {
+            const date = (new Date(x.turn_time)).toLocaleDateString("vi");
+            if (this.compareDay(date, start_time) && this.compareDay(end_time, date)) return true;
+            else return false;
+        })
+
+        this.setState({ search: treats })
+    }
+
+    sortThisMonth() {
+        const today = new Date();
+        const start_time = (new Date(today.getTime() - 86400000*(today.getDate()-1))).toLocaleDateString('vi');
+        const end_time = today.toLocaleDateString('vi');
+
+        const treats = this.state.treatment_turn.filter(x => {
+            const date = (new Date(x.turn_time)).toLocaleDateString("vi");
+            if (this.compareDay(date, start_time) && this.compareDay(end_time, date)) return true;
+            else return false;
+        })
+
+        this.setState({ search: treats })
+    }
+
+    onInputTime() {
+        const start_time = this.start_time.value.split("-").reverse().join("/");
+        const end_time = this.end_time.value.split("-").reverse().join("/");
+        const treats = this.state.treatment_turn.filter(x => {
+            const date = (new Date(x.turn_time)).toLocaleDateString("vi");
+            if (this.compareDay(date, start_time) && this.compareDay(end_time, date)) return true;
+            else return false;
+        })
+
+        this.setState({ search: treats })
+    }
+
+    compareDay(day1, day2) {
+        day1 = day1.split("/").map(x => parseInt(x));
+        day2 = day2.split("/").map(x => parseInt(x));
+
+        if (parseInt(day1[2]) > parseInt(day2[2])) return true;
+        else if (parseInt(day1[2]) < parseInt(day2[2])) return false;
+        else if (parseInt(day1[1]) > parseInt(day2[1])) return true;
+        else if (parseInt(day1[1]) < parseInt(day2[1])) return false;
+        else if (parseInt(day1[0]) > parseInt(day2[0])) return true;
+        else if (parseInt(day1[0]) < parseInt(day2[0])) return false;
+        else return true;
     }
 
     onSubmitPayment() {
@@ -80,51 +153,56 @@ class ViewMedicalRecord extends Component {
     async toggleOpen(treatment, flag) {
         let res = [];
         let payment = [];
+        let user = {};
         // console.log(treatment);
 
         if (flag) {
             this.setState({ treatment_curr: treatment })
+
+            user = await axios.get('/api/get/info', { params: { phonenum: treatment.patient_phone } })
+            this.setState({ system_user: user.data.user })
+            console.log(user.data)
+
             if (treatment.prescribe_id !== null) {
                 res = await axios.get('/api/get/order_details', { params: { orderID: treatment.prescribe_id } })
                 this.setState({ orderDetailsOpen: res.data.order_details })
                 console.log(res.data.order_details)
+
                 payment = await axios.get('/api/get/payment', { params: { medicine_id: treatment.prescribe_id } })
-                console.log(payment)
                 this.setState({ payment_detail: payment.data.payment })
+                console.log(payment)
             }
         }
         this.setState({ is_open: !this.state.is_open })
     }
 
-    componentDidMount() {
-        axios.get('/api/get/mytreatment', { params: { phone: this.state.phone } }).then(
-            res => {
-                this.setState({
-                    treatment_turn: res.data.sort((a, b) => {
-                        let day1 = (new Date(b.turn_time)).toLocaleDateString('vi');
-                        let day2 = (new Date(a.turn_time)).toLocaleDateString('vi');
+    async componentDidMount() {
+        const res = await axios.get('/api/get/doctor_treatment', { params: { phone: this.state.phone } })
 
-                        day1 = day1.split("/").map(x => parseInt(x));
-                        day2 = day2.split("/").map(x => parseInt(x));
+        const treatments = res.data.sort((a, b) => {
+            let day1 = (new Date(b.turn_time)).toLocaleDateString('vi');
+            let day2 = (new Date(a.turn_time)).toLocaleDateString('vi');
 
-                        if (parseInt(day1[2]) > parseInt(day2[2])) return 1;
-                        else if (parseInt(day1[2]) < parseInt(day2[2])) return -1;
-                        else if (parseInt(day1[1]) > parseInt(day2[1])) return 1;
-                        else if (parseInt(day1[1]) < parseInt(day2[1])) return -1;
-                        else if (parseInt(day1[0]) > parseInt(day2[0])) return 1;
-                        else if (parseInt(day1[0]) < parseInt(day2[0])) return -1;
-                        else return 0;
-                    })
-                }); console.log(this.state.treatment_turn)
-            }
-        )
-            .catch(error => console.log(error));
+            day1 = day1.split("/").map(x => parseInt(x));
+            day2 = day2.split("/").map(x => parseInt(x));
 
-        axios.get('/api/get/info', { params: { phonenum: this.state.phone } }).then(res => this.setState({ system_user: res.data.user }))
-            .catch(error => console.log(error));
+            if (parseInt(day1[2]) > parseInt(day2[2])) return 1;
+            else if (parseInt(day1[2]) < parseInt(day2[2])) return -1;
+            else if (parseInt(day1[1]) > parseInt(day2[1])) return 1;
+            else if (parseInt(day1[1]) < parseInt(day2[1])) return -1;
+            else if (parseInt(day1[0]) > parseInt(day2[0])) return 1;
+            else if (parseInt(day1[0]) < parseInt(day2[0])) return -1;
+            else return 0;
+        });
+
+        this.setState({ treatment_turn: treatments });
+        this.setState({ search: treatments })
+        console.log(this.state.treatment_turn)
+
     };
+
     render() {
-        const treatment_turn = this.state.treatment_turn.map((x) => {
+        const treatment_turn = this.state.search.map((x) => {
             if (true) {
                 const date = new Date(x.turn_time)
                 // console.log(date.getMinutes())
@@ -157,11 +235,10 @@ class ViewMedicalRecord extends Component {
                                 color: 'white',
                                 borderRadius: '10px',
                                 height: '30px',
-                                paddingTop: '2px',
-                                width: '100px'
+                                paddingTop: '2px'
                             }} disabled={!(this.context.phone === x.patient_phone || this.context.role === "Doctor")}
                                 onClick={() => this.toggleOpen(x, true)}>
-                                {this.context.phone !== x.doctor_phone ? <span>Xem</span> : <span> Hiệu chỉnh </span>}
+                                {this.context.role === "Patient" ? <span>Xem</span> : <span> Chỉnh sửa </span>}
                             </Button>
                             {/* </Link> */}
                         </td>
@@ -170,18 +247,50 @@ class ViewMedicalRecord extends Component {
             }
         }
         )
-        if (this.context.role !== "Doctor" && this.context.role !== "Patient") return <Switch> <Redirect to={`/${this.context.role.toString()}`} /> </Switch>
-        return (<>
-            {this.context.role === "Doctor" ? <DoctorSideBar /> : <span></span>}
+
+        const sortByDay = <Row>
+            <Col md="2">
+                <Input className="search-box-sort" id="startTime" name="date" placeholder="Bắt đầu" type="date"
+                    innerRef={(input) => this.start_time = input} style={{ width: '180px' }} />
+            </Col>
+            <Col md="2">
+                <Input className="search-box-sort" id="endTime" name="date" placeholder="Kết thúc" type="date"
+                    innerRef={(input) => this.end_time = input} style={{ width: '180px' }} />
+            </Col>
+            <Col md="2">
+                <Button className="search-statistic-button" style={{ marginTop: '0px', width: '102px' }} onClick={this.onInputTime}>
+                    <FaSearch /> Tìm <span style={{ textTransform: 'lowercase' }}> kiếm </span>
+                </Button>
+            </Col>
+        </Row>
+        if (this.context.role !== "Doctor") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
+        return (
             <Container id='dung-benhan'>
-                <Row style={{ textAlign: 'center', marginBottom: '30px' }}>
+                <Row style={{ textAlign: 'center', marginTop: '50px', marginBottom: '20px' }}>
                     <Col class='dung-title'>
-                        <h1>Lịch sử điều trị</h1>
+                        <h1>Lượt điều trị</h1>
                         <hr />
                     </Col>
                 </Row>
 
-                <Row style={{ marginBottom: '98px', marginTop: '0px' }}>
+                <Row>
+                <Button className="search-button-sort" onClick={() => this.sortAll()}>
+                        Tất cả
+                    </Button>
+                    <Button className="search-button-sort" onClick={() => this.sortToday()}>
+                        Hôm nay
+                    </Button>
+                    <Button className="search-button-sort" onClick={() => this.sortThisWeek()}>
+                        Trong tuần này
+                    </Button>
+                    <Button className="search-button-sort" onClick={() => this.sortThisMonth()}>
+                        Trong tháng này
+                    </Button>
+                </Row>
+
+                {sortByDay}
+
+                <Row style={{ marginBottom: '50px', marginTop: '20px' }}>
                     <Col>
                         <Table hover >
                             <thead>
@@ -537,9 +646,8 @@ class ViewMedicalRecord extends Component {
                     </ModalBody>
                 </Modal>
             </Container>
-            </>
         )
     }
 }
-ViewMedicalRecord.contextType = HeaderDefine;
-export default ViewMedicalRecord;
+ViewTreatmentTurn.contextType = HeaderDefine;
+export default ViewTreatmentTurn;

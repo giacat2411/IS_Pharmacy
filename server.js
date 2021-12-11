@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 app.use(cookieParser());
 
-var session;
+var session = {user: {phone: '', role: 'Guest', firstname: '', img: ''}};
 
 app.use(sessions({
   secret: "key",
@@ -41,6 +41,7 @@ app.use(sessions({
 
 app.get('/api/get/session', (req, res) => {
   // console.log(req.session)
+  console.log(session)
   if (session)
     res.json(session.user)
   else res.json(session)
@@ -50,7 +51,7 @@ app.get('/api/destroy/session', (req, res) => {
   console.log('SESSION DESTROYED !')
   // req.session.destroy();
   // req.session.regenerate();
-  session = undefined;
+  session = {user: {phone: '', role: 'Guest', firstname: '', img: ''}};
 });
 
 app.get('/api/get/access', (req, res) => {
@@ -515,6 +516,16 @@ app.get('/api/get/mytreatment', (req, res) => {
   var sql = `SELECT treatment_turn.*, prescriptive_medicine.*, concat(lastname, ' ', firstname) as fullname
   FROM treatment_turn left join prescriptive_medicine on id = treatment_id
       join system_user on doctor_phone = phone where patient_phone=${req.query.phone}`;
+  console.log(sql)
+  connection.query(sql, function (err, results) {
+    res.json(results);
+  });
+})
+
+app.get('/api/get/doctor_treatment', (req, res) => {
+  var sql = `SELECT treatment_turn.*, prescriptive_medicine.*, concat(lastname, ' ', firstname) as fullname
+  FROM treatment_turn left join prescriptive_medicine on id = treatment_id
+      join system_user on doctor_phone = phone where doctor_phone=${req.query.phone}`;
   console.log(sql)
   connection.query(sql, function (err, results) {
     res.json(results);

@@ -20,14 +20,14 @@ const Header = (props) => {
                             <NavLink className="nav-link" to='/'><FaHome /> Trang chủ</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink className="nav-link" to='/'><FaRegCalendarAlt /> Lịch làm việc</NavLink>
+                            <NavLink className="nav-link" to='/scheduleTable'><FaRegCalendarAlt /> Lịch làm việc</NavLink>
                         </NavItem>
                         <NavItem>
                             <NavLink className="nav-link" to='/'><FaInfo /> Liên hệ</NavLink>
                         </NavItem>
                     </Nav>
                     {/* <HeaderDefine.Provider value={ProviderValue}> */}
-                    <LogButton />
+                    <LogButton updatePage={props.updatePage}/>
                     {/* </HeaderDefine.Provider> */}
                 </Collapse>
             </Navbar>

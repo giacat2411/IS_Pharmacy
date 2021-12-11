@@ -249,7 +249,7 @@ class ViewOrder extends Component {
                 <Form onSubmit={e => {e.preventDefault(); this.onInputOrderID()}}>
                     <FormGroup>
                         <Input className="search-box-sort" id="search" name="search-drugs" placeholder="Nhập đơn hàng"
-                            innerRef={(input) => this.search_item = input} autoComplete="off"/>
+                            innerRef={(input) => this.search_item = input} autoComplete="off" style={{width: '220px', height: '37.5px'}}/>
                     </FormGroup>
                 </Form>
 
@@ -273,7 +273,7 @@ class ViewOrder extends Component {
                 </Button>
             </Col>
         </Row>
-        if (this.context.role === "Doctor") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
+        if (this.context.role !== "Patient" && this.context.role !== "Nurse") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <>
                 {(this.context.role === "Nurse") ? <NurseSideBar /> : <div />}

@@ -79,7 +79,7 @@ class ViewCart extends Component {
                         <LinkContainer to='/payment'>
 
                             <Button className="cart-button">
-                                <span style={{ marginTop: '20px' }}> Thanh toán </span>
+                                <span style={{ marginTop: '100px' }}> Thanh toán </span>
                                 <div className="cart-total" style={{marginTop: '-2px'}}> {(total).toLocaleString('vi-VN')}đ </div>
                             </Button>
 

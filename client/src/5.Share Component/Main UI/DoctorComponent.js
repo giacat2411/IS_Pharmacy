@@ -2,9 +2,12 @@ import React, {Component} from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { Card, CardBody, CardTitle} from 'reactstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import HeaderDefine from '../Context';
+import { Switch, Redirect } from 'react-router-dom';
 
 class Doctor extends Component{
     render(){
+        if (this.context.role !== "Doctor") return <Switch><Redirect to={`/${this.context.role.toString()}`} /> </Switch>
         return(
             <Container>
                 <Row>
@@ -19,7 +22,7 @@ class Doctor extends Component{
                         <Card className="cat-customer-item-right">
                             <img className="cat-customer-img" width="90px" height="90px" src="/assets/images/view-home.png" alt = "Xem hồ sơ bệnh án"></img>
                             <CardBody>
-                            <CardTitle tag="h5" className="cat-customer-text">Tra cứu lượt điều trị</CardTitle>
+                            <CardTitle tag="h5" className="cat-customer-text">Tra cứu lịch sử điều trị</CardTitle>
                             </CardBody>
                         </Card>
                     {/* </NavLink> */}
@@ -121,4 +124,5 @@ class Doctor extends Component{
     }
 }
 
+Doctor.contextType = HeaderDefine;
 export default Doctor;

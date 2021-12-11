@@ -8,6 +8,7 @@ import HeaderDefine from '../5.Share Component/Context';
 import { Switch, Redirect } from 'react-router';
 import { Input, Modal, Row, Col } from 'reactstrap';
 import DoctorSideBar from '../5.Share Component/SideBar/DoctorSideBarComponent';
+import { Spinner } from 'reactstrap';
 
 const toast = ToastServive.new({
     place: 'bottomLeft',
@@ -49,7 +50,10 @@ class ScheduleTable extends Component {
                 const work_schedules = res.data;
                 console.log(work_schedules);
                 this.setState({ work_schedules: work_schedules.work_schedules.filter(x => { return x.end_day === null }) });
-                this.setState({ work_schedule: work_schedules.work_schedules.filter(x => { return x.end_day === null }) });
+                this.setState({ work_schedule: work_schedules.work_schedules.filter(x => { return x.end_day === null }).filter(w => w.work_day == 2) });
+
+                const today = new Date();
+                this.setState({ current_day: new Date(today.getTime() - 86400000*(today.getDay()-1))})
             })
             .catch(error => console.log(error));
         let currentDay = (new Date((+(new Date())) + 3600000 * 7)).toUTCString().split(' ');
@@ -145,19 +149,21 @@ class ScheduleTable extends Component {
                     {x.work_session}
                 </td>
                 <td>
-                    <Button color='danger' onClick={(e) => this.setState({show:true,toDelete:x})}>Xóa lịch này</Button>
+                    <Button color='danger' hidden={this.context.role !== "Doctor"}  onClick={(e) => this.setState({show:true,toDelete:x})}>Xóa lịch này</Button>
+
                 </td>
             </tr>
         )
         )
     };
     render() {
-        if (this.context.role !== "Doctor") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
+        // if (this.context.role !== "Doctor") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
+        const spinner = <Row style={{textAlign: 'center'}}> <Col><Spinner></Spinner></Col> </Row>
         const showHideClassName = this.state.show ? "modal display-block" : "modal display-none";
     
         return (
             <>
-                <DoctorSideBar />
+                {this.context.role === "Doctor" ? <DoctorSideBar /> : <span></span>}
                 <Container id='dung-appointment'>
                     <Row>
                         <Col class='dung-title' style={{ textAlign: 'center' }}>
@@ -208,9 +214,10 @@ class ScheduleTable extends Component {
                                     {console.log(this.state.current_day)}
                                 </tbody>
                             </Table>
+                            {this.listWork().length === 0 ? spinner : <span />}
                             <Row style={{ textAlign: 'center' }}>
                                 <Col>
-                                    <Button class='chanh-button-view'
+                                    <Button class='chanh-button-view' hidden={this.context.role !== "Doctor"}
                                         onClick={(e) => this.toggleAdd()}
                                         style={{
                                             backgroundColor: '#62AFFC',
@@ -308,7 +315,7 @@ class ScheduleTable extends Component {
                                         <button style={{
                                             backgroundColor: '#62AFFC',
                                             border: '0px', color: 'white'
-                                        }}
+                                        }} 
                                             class='chanh-button-view' type="button" onClick={(e) => this.addSche()}>Thêm</button>
                                     </Col>
                                     <Col md="6">

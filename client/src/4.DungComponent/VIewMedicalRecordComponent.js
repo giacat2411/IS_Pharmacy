@@ -6,6 +6,8 @@ import axios from 'axios';
 import ToastServive from 'react-material-toast';
 import { Link } from 'react-router-dom';
 import HeaderDefine from '../5.Share Component/Context';
+import { Switch, Redirect } from 'react-router';
+import DoctorSideBar from '../5.Share Component/SideBar/DoctorSideBarComponent';
 
 const toast = ToastServive.new({
     place: 'bottomLeft',
@@ -71,7 +73,8 @@ class MedicalRecord extends Component {
     render() {
         const showButton = this.state.show ? "display-block" : "display-none";
         const showTable = this.state.showtable ? "display-block" : "display-none";
-        return (
+        if (this.context.role !== "Doctor") return <Switch> <Redirect to={`/${this.context.role.toString()}`} /> </Switch>
+        return (<> <DoctorSideBar />
             <Container id='dung-viewmedicalrecord'>
                 <Row style={{ textAlign: 'center' }}>
                     <Col class='dung-title'>
@@ -139,6 +142,7 @@ class MedicalRecord extends Component {
                     </Col>
                 </Row>
             </Container>
+            </>
         )
     }
 }
