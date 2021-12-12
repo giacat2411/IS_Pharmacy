@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 app.use(cookieParser());
 
-var session = {user: {phone: '', role: 'Guest', firstname: '', img: ''}};
+var session = { user: { phone: '', role: 'Guest', firstname: '', img: '' } };
 
 app.use(sessions({
   secret: "key",
@@ -51,7 +51,7 @@ app.get('/api/destroy/session', (req, res) => {
   console.log('SESSION DESTROYED !')
   // req.session.destroy();
   // req.session.regenerate();
-  session = {user: {phone: '', role: 'Guest', firstname: '', img: ''}};
+  session = { user: { phone: '', role: 'Guest', firstname: '', img: '' } };
 });
 
 app.get('/api/get/access', (req, res) => {
@@ -237,7 +237,7 @@ app.get('/api/get/doctors-info', (req, res) => {
   });
 });
 app.get('/api/get/my-doctors-info', (req, res) => {
-  var sql = "SELECT * FROM DOCTOR WHERE PHONE="+req.query.phone;
+  var sql = "SELECT * FROM DOCTOR WHERE PHONE=" + req.query.phone;
   connection.query(sql, function (err, results) {
     if (err) throw err;
     res.json({ doctors: results });
@@ -423,7 +423,9 @@ app.get('/api/get/role', (req, res) => {
       if (err) throw err;
       if (results[0]) {
         res.json({ role: RoleList[i], activate: results[0].activate });
-        session.user.role = RoleList[i];
+        if (results[0].activate === undefined || results[0].activate === 1)
+          session.user.role = RoleList[i];
+        else session = { user: { phone: '', role: 'Guest', firstname: '', img: '' } };
       }
     });
   }
@@ -566,7 +568,7 @@ app.get('/api/get/work_schedules', (req, res) => {
 
 app.get('/api/get/my_work_schedules', (req, res) => {
   console.log(req.query)
-  var sql = "SELECT * FROM work_schedule WHERE DOCTOR_PHONE="+req.query.phone;
+  var sql = "SELECT * FROM work_schedule WHERE DOCTOR_PHONE=" + req.query.phone;
   connection.query(sql, function (err, results) {
     if (err) throw err;
     res.json({ work_schedules: results });
@@ -750,7 +752,7 @@ app.post('/api/set/end-schedule', (req, res) => {
   console.log(sql)
   connection.query(sql, function (err, results) {
     if (err) throw err;
-    res.json({ msg:"Thành công" });
+    res.json({ msg: "Thành công" });
   });
 }
 )
@@ -843,7 +845,7 @@ app.post('/api/insert/momo_payment_nurse', function (req, res) {
   var id = Math.floor(Math.random() * Math.pow(10, 12));
   const date = (new Date()).toISOString().split('T')[0]
   var sql = "INSERT PAYMENT(id, method, created_date, nurse_phone, medicine_id) VALUE"
-    + "( " + id + ", 'MoMo doanh nghiệp', '" + date + "', '"+ req.body.phone + "', " + req.body.medicine_id + ")"
+    + "( " + id + ", 'MoMo doanh nghiệp', '" + date + "', '" + req.body.phone + "', " + req.body.medicine_id + ")"
   console.log(sql);
   connection.query(sql, function (err, results) {
     if (err) throw err;
@@ -919,7 +921,7 @@ app.post('/api/insert/regist', (req, res) => {
   const firstname = str.split(' ').slice(-1).join(' ');
 
   connection.query(sql, function (err, results) {
-    if (results.length !== 0) res.json({signal: -1, msg: "Tài khoản đã tồn tại" });
+    if (results.length !== 0) res.json({ signal: -1, msg: "Tài khoản đã tồn tại" });
     else {
       sql = `INSERT INTO system_user (phone, firstname, lastname, dateofbirth, address, email, pwd, img) VALUES 
         ("${req.body.params.phone}","${firstname}","${lastname}",
@@ -934,7 +936,8 @@ app.post('/api/insert/regist', (req, res) => {
         connection.query(sql2, function (err, result) {
           res.json({
             signal: 200,
-            msg: `Đăng ký thành công! Mời bạn đăng nhập vào tài khoản` });
+            msg: `Đăng ký thành công! Mời bạn đăng nhập vào tài khoản`
+          });
         });
 
       });

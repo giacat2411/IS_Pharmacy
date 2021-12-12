@@ -46,9 +46,9 @@ const LoginPane = (props) => {
             const user = res.data;
             if (user.user) {
                 const res1 = await axios.get('/api/get/role', { params: { phonenum: phone.value } });
-                console.log(res1.data.activate);
+                console.log(typeof(res1.data.activate));
 
-                if (res1.data.activate.toString() === "1") {
+                if (res1.data.activate === undefined || res1.data.activate === 1) {
                     ctx.setPhone(user.user[0].phone);
                     ctx.setName(user.user[0].firstname);
                     ctx.setImg(user.user[0].img);
