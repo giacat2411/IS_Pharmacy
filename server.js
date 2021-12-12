@@ -628,7 +628,8 @@ app.post('/api/update/treatment_turn_doctor', function (req, res) {
 
 ///// Phuc /////
 app.post('/api/post/TTSK', (req, res) => {
-  info = req.body.params.tempInfo
+  const info = req.body.params.tempInfo;
+  console.log(info)
   var sql = `UPDATE patient
         SET medical_history="${info.medical_history}",
             height=${info.height},
