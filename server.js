@@ -422,7 +422,7 @@ app.get('/api/get/role', (req, res) => {
     connection.query(sql, function (err, results) {
       if (err) throw err;
       if (results[0]) {
-        res.json({ role: RoleList[i] });
+        res.json({ role: RoleList[i], activate: results[0].activate });
         session.user.role = RoleList[i];
       }
     });

@@ -10,7 +10,7 @@ import HeaderDefine from './Context';
 
 const Header = (props) => {
     const ctx = useContext(HeaderDefine);
-    const page = ctx.role in ["Patient", "Doctor", "Nurse"] ? ctx.role.toString() : 'home';
+    const page = ["Patient", "Doctor", "Nurse"].includes(ctx.role) ? ctx.role.toString() : 'home';
     return (
         <div>
             <Navbar className="navbar-header" color="light"  expand="md"  light container>

@@ -35,29 +35,32 @@ const LoginPane = (props) => {
         setMsg(!isMsg);
     }
 
-    const apiLog = () => {
+    const apiLog = async () => {
         if (phone.value === "" || pwd.value === "") { setmsg("Không được bỏ trống thông tin"); toggleMsg() }
-        else axios.get('/api/get/access', { params: { phonenum: phone.value, userpwd: pwd.value } })
-            .then(res => {
-                console.log("over access")
-                console.log(res.data);
-                const user = res.data;
-                if (user.user) {
+        else {
+            const res = await axios.get('/api/get/access', { params: { phonenum: phone.value, userpwd: pwd.value } })
+            
+            console.log("over access")
+            console.log(res.data);
+
+            const user = res.data;
+            if (user.user) {
+                const res1 = await axios.get('/api/get/role', { params: { phonenum: phone.value } });
+                console.log(res1.data.activate);
+
+                if (res1.data.activate.toString() === "1") {
                     ctx.setPhone(user.user[0].phone);
                     ctx.setName(user.user[0].firstname);
                     ctx.setImg(user.user[0].img);
+                    ctx.setRole(res1.data.role);
+
                     console.log(ctx);
-                    axios
-                        .get('/api/get/role', { params: { phonenum: phone.value } }
-                        )
-                        .then(res => {
-                            ctx.setRole(res.data.role);
-                            // axios.post('/api/set/role', { role: res.data.role })
-                            props.updatePage(res.data.role.toString())
-                        });
-                }
-                else { setmsg("Sai thông tin tài khoản!"); toggleMsg(); }
-            });
+                    // axios.post('/api/set/role', { role: res.data.role })
+                    props.updatePage(res1.data.role.toString())
+                } else { setmsg("Tài khoản đã ngưng cấp quyền"); toggleMsg(); }
+            }
+            else { setmsg("Sai thông tin tài khoản!"); toggleMsg(); }
+        };
     };
 
     const newPwd = () => {
@@ -92,7 +95,7 @@ const LoginPane = (props) => {
                     <Col md="7">
                         <Row><img src='assets/images/pana.svg' height="595px" width="700px" alt="pana"></img></Row>
                     </Col>
-                    <Col md={{size: 3, offset: 1}}>
+                    <Col md={{ size: 3, offset: 1 }}>
                         <Form onSubmit={(e) => { e.preventDefault(); apiLog() }}>
                             <Row style={{ marginTop: '150px' }}>
                                 <Col style={{ textAlign: 'center' }}>
@@ -101,14 +104,14 @@ const LoginPane = (props) => {
                             </Row>
                             <FormGroup>
                                 <Label> Số điện thoại </Label>
-                                <Input required name="phone" innerRef={(input) => setphone(input)}/>
+                                <Input required name="phone" innerRef={(input) => setphone(input)} />
                             </FormGroup>
                             <FormGroup>
                                 <Label> Mật khẩu </Label>
                                 <InputGroup>
                                     <Input required name="pwd" innerRef={(input) => setpwd(input)} type={show ? "text" : "password"}>
                                     </Input>
-                                    <InputGroupText onClick={() => { setShow(!show) }} style={{cursor: 'pointer'}}>
+                                    <InputGroupText onClick={() => { setShow(!show) }} style={{ cursor: 'pointer' }}>
                                         {show ? <FaEye /> : <FaEyeSlash />}
                                     </InputGroupText>
                                 </InputGroup>
@@ -133,19 +136,19 @@ const LoginPane = (props) => {
                             <FormGroup check>
                                 <Row style={{ textAlign: 'center' }}>
                                     <Col>
-                                        <Button style={{marginLeft: '-20px'}} color="primary" >Đăng nhập</Button>
+                                        <Button style={{ marginLeft: '-20px' }} color="primary" >Đăng nhập</Button>
                                     </Col>
                                 </Row>
                             </FormGroup>
                             <FormGroup>
-                            <Row style={{ marginTop: '15px' }}>
-                                <Col md="12" style={{ textAlign: 'center' }}>
-                                    <span style={{ fontStyle: 'italic' }}> Chưa có tài khoản? </span> &nbsp;
-                                    <NavLink to='/signup' style={{ paddingTop: '0px' }} style={{ color: '#007BFF', cursor: 'pointer' }}>
-                                        <FaUserPlus style={{ marginTop: '-3px' }} /> Đăng ký
-                                    </NavLink>
-                                </Col>
-                            </Row>
+                                <Row style={{ marginTop: '15px' }}>
+                                    <Col md="12" style={{ textAlign: 'center' }}>
+                                        <span style={{ fontStyle: 'italic' }}> Chưa có tài khoản? </span> &nbsp;
+                                        <NavLink to='/signup' style={{ paddingTop: '0px' }} style={{ color: '#007BFF', cursor: 'pointer' }}>
+                                            <FaUserPlus style={{ marginTop: '-3px' }} /> Đăng ký
+                                        </NavLink>
+                                    </Col>
+                                </Row>
                             </FormGroup>
                             {/* </Col> */}
                             {/* <Col /> */}

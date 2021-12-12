@@ -27,7 +27,7 @@ class DoctorSideBar extends Component {
                 </SidebarHeader>
                 <SidebarContent>
                     <Menu iconShape="square">
-                        <MenuItem icon={<FaHeart />}>Tra cứu lượt điều trị
+                        <MenuItem icon={<FaHeart />}>Tra cứu lịch sử điều trị
                             <Link to="/view_medical_record" />
                         </MenuItem>
                         <MenuItem icon={<FaHeart />}>Thống kê lượt điều trị
