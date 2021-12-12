@@ -35,13 +35,13 @@ const EditHealth = (props) => {
                 <Row style={{ marginBottom: '15px' }}>
                     <Col md="3" style={{ marginTop: '8px' }}> Chiều cao</Col>
                     <Col md="9">
-                        <Input name="height" defaultValue={tempInfo.height} ></Input>
+                        <Input name="height" onChange={handleChange} defaultValue={tempInfo.height} ></Input>
                     </Col>
                 </Row>
                 <Row style={{ marginBottom: '15px' }}>
                     <Col md="3" style={{ marginTop: '8px' }}>Cân nặng </Col>
                     <Col md="9">
-                        <Input name="weight" onChange={handleChange} defaultValue={tempInfo.weight} />
+                        <Input name="weight" defaultValue={tempInfo.weight} onChange={handleChange} />
                     </Col>
                 </Row>
                 <Row style={{ marginBottom: '15px' }}>
