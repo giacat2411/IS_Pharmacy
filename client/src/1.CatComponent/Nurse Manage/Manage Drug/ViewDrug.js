@@ -6,8 +6,10 @@ import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { FaSearch } from 'react-icons/fa';
 import { Spinner } from 'reactstrap';
 import axios from 'axios';
+import { Switch, Redirect } from 'react-router';
 
 import './managedrug.css';
+import HeaderDefine from '../../../5.Share Component/Context';
 
 class ViewDrug extends Component {
     constructor(props) {
@@ -95,7 +97,8 @@ class ViewDrug extends Component {
         let not_Found = <span></span>;
         if (display_drugs.length === 0) not_Found = <div className="not-found-search"> Không tìm thấy kết quả </div>
         else not_Found = <span></span>;
-
+        
+        if (this.context.role !== "Nurse") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <Container>
                     <Row className="manage-drug-heading">
@@ -107,7 +110,7 @@ class ViewDrug extends Component {
                                     autocomplete="off">
                                     <FormGroup>
                                         <Input className="search-box" id="search" name="search-drugs" placeholder="Nhập tên thuốc"
-                                        innerRef={(input) => this.search_item = input} />
+                                        innerRef={(input) => this.search_item = input} style={{height: '37.5px', width: '190px', marginTop: '1px'}}/>
                                     </FormGroup>
                                 </Form> 
                                 <Button className="search-drug-button" onClick={this.onInputDrugName}>
@@ -161,7 +164,7 @@ class ViewDrug extends Component {
                                     autocomplete="off">
                                     <FormGroup>
                                         <Input className="search-box" id="search" name="search-drugs" placeholder="Nhập số lượng"
-                                        innerRef={(input) => this.drugs_quantity = input} />
+                                        innerRef={(input) => this.drugs_quantity = input} style={{width: '188px', marginTop: '1px', height: '37.5px'}}/>
                                     </FormGroup>
                                 </Form> 
                                 <Button className="search-drug-button" onClick={() => {if (this.check_quantity()) this.onToggleAgreeModel(); }}>
@@ -207,5 +210,5 @@ class ViewDrug extends Component {
         )
     }
 }
-
+ViewDrug.contextType = HeaderDefine
 export default ViewDrug;

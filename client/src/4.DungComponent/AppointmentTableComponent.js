@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
-import { Container, Row, Col, Table, Nav, NavItem, NavLink, TabContent, TabPane} from 'reactstrap';
-import { Button } from 'reactstrap';
-import { Card, CardText, CardBody, CardTitle} from 'reactstrap';
+import { Container, Table } from 'reactstrap';
 import Modal from './Modal.js';
-import axios from 'axios';
 
 class AppointmentTable extends Component {
     constructor() {

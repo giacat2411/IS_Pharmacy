@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import { Form, FormGroup, Label, Input, Button, FormFeedback } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import './managedrug.css';
+import { Switch, Redirect } from 'react-router';
+import HeaderDefine from '../../../5.Share Component/Context';
 
 import axios from 'axios';
 
@@ -48,6 +50,7 @@ class AddDrug extends Component {
     }
 
     render() {
+        if (this.context.role !== "Nurse") return <Switch> <Redirect to={`/${this.context.role}`} /></Switch>
         return (
             <Container>
                     <Row className="manage-drug-heading">
@@ -82,7 +85,7 @@ class AddDrug extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label> Số lượng </Label>
-                            <Input placeholder="Nhập số lượng" 
+                            <Input placeholder="Nhập số lượng" type="number"
                                     innerRef={(input) => this.quantity = input}/>
                         </FormGroup>
                         </Form>
@@ -128,4 +131,5 @@ class AddDrug extends Component {
     }
 }
 
+AddDrug.contextType = HeaderDefine;
 export default AddDrug;

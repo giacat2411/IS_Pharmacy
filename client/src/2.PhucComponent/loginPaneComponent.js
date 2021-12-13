@@ -1,139 +1,265 @@
-import React, { Component, useContext, useState, useMemo } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
-import { Modal, ModalBody } from 'reactstrap';
-import { Container, Input, Row, Col, Button } from 'reactstrap';
+import { Modal, ModalBody, ModalHeader, ModalFooter, Form, FormGroup, FormFeedback, Label } from 'reactstrap';
+import { Input, Row, Col, Button, Container } from 'reactstrap';
 import { Redirect, Switch } from 'react-router';
-import HeaderDefine from '../1.CatComponent/Context';
+import HeaderDefine from '../5.Share Component/Context';
+import { NavLink } from 'react-router-dom';
+import { FaUserPlus, FaEye, FaEyeSlash } from 'react-icons/fa';
+// import { InputAdornment } from '@mui/material';
+import { InputGroup, InputGroupText } from 'reactstrap'
 
-const LoginPane = () => {
+const LoginPane = (props) => {
     const ctx = useContext(HeaderDefine);
 
-    const [users, setUsers] = useState();
-    const [init, setInit] = useState(true);
-    const [doctors, setDoctors] = useState();
+    const [phone, setphone] = useState("");
+    const [pwd, setpwd] = useState("");
 
-    (() => {
-        if (init === true) {
-            setInit(false);
-            axios.get('/api/get/doctors').then(
-                res => {
-                    const doctors = res.data.doctors;
-                    setDoctors(doctors);
-                })
-            axios.get('/api/get/users')
-                .then(res => {
-                    const users = res.data.users;
-                    setUsers(users);
-                });
+    const [Phone, setPhone] = useState("");
+    const [Pwd, setPwd] = useState("");
+    const [repwd, setRePwd] = useState("");
+    const [DOB, setDOB] = useState("");
 
-        }
-    })();
-
-    const [phone, setPhone] = useState();
-    const [pwd, setPwd] = useState();
-
-    // const ProviderValue=useMemo(()=>({formValue,setFormValue}),[formValue,setFormValue]);
     const [isModal, setModal] = useState(false);
+    const [isMsg, setMsg] = useState(false);
+
+    const [Msg, setmsg] = useState("");
+
+    const [show, setShow] = useState(false);
 
     const toggleModal = () => {
         setModal(!isModal);
     }
 
-    const apiLog = () => {
-        const login = users.filter((user) => {return user.phone.toString() === phone.value.toString()})
-        console.log(login.length);
-        if (login.length !== 0)
-        { console.log('Hi')
-            const doc_role = doctors.filter((doctor) => {return doctor.phone.toString() === phone.value.toString()})
-            console.log(doc_role);
-            if (doc_role.length !== 0)  ctx.setRole("Doctor");
-            else {
-                ctx.setRole('Patient');
-            }
-        }
-        else ctx.setRole("Guest");
-        //ASSIGN SESSION
-        axios.get('/api/set/user', { params: { phone: ctx.phone, role: ctx.role } });
-        //TODO search for Nurse list and assign
-
-
-        // if (phone.value === "1") ctx.setRole('Patient');
-        // else if (phone.value === "2") ctx.setRole('Doctor');
-        // else if (phone.value === "3") ctx.setRole('Nurse');
-    };
-    const newPwd = () => {
-        // console.log(formValue)
-        // axios
-        //     .get('/api/post/newpwd', { params: formValue }
-        //     )
-        //     .then(res => {
-        //         const users = res.data;
-        //         setFormValue(users.users);
-        //         toggleModal();
-        //     });
-    };
-    if (ctx.role === "Patient") {
-        return (
-            <Switch>
-                <Redirect to='/customer' />
-            </Switch>
-        )
-    } else if (ctx.role === "Nurse") {
-        return (
-            <Switch>
-                <Redirect to='/nurse' />
-            </Switch>
-        )
-    } else if (ctx.role === "Doctor") {
-        return (<Switch>
-            <Redirect to='/doctor' />
-        </Switch>)
+    const toggleMsg = () => {
+        setMsg(!isMsg);
     }
 
-    else
+    const apiLog = async () => {
+        if (phone.value === "" || pwd.value === "") { setmsg("Không được bỏ trống thông tin"); toggleMsg() }
+        else {
+            const res = await axios.get('/api/get/access', { params: { phonenum: phone.value, userpwd: pwd.value } })
+            
+            console.log("over access")
+            console.log(res.data);
+
+            const user = res.data;
+            if (user.user) {
+                const res1 = await axios.get('/api/get/role', { params: { phonenum: phone.value } });
+                console.log(typeof(res1.data.activate));
+
+                if (res1.data.activate === undefined || res1.data.activate === 1) {
+                    ctx.setPhone(user.user[0].phone);
+                    ctx.setName(user.user[0].firstname);
+                    ctx.setImg(user.user[0].img);
+                    ctx.setRole(res1.data.role);
+
+                    console.log(ctx);
+                    // axios.post('/api/set/role', { role: res.data.role })
+                    props.updatePage(res1.data.role.toString())
+                } else { setmsg("Tài khoản đã ngưng cấp quyền"); toggleMsg(); }
+            }
+            else { setmsg("Sai thông tin tài khoản!"); toggleMsg(); }
+        };
+    };
+
+    const newPwd = () => {
+        toggleModal();
+        axios
+            .post('/api/post/newpwd', { params: { phone: Phone, pwd: Pwd, DOB: DOB } }//DOB:DOB.value,
+            )
+            .then(res => {
+                const msg = res.data;
+                if (msg.msg) { setmsg(msg.msg) }
+                else { setmsg("Không thể thực hiện thay đổi") };
+                toggleMsg();
+            });
+    };
+
+    if (ctx.role !== "Patient" && ctx.role !== "Doctor" && ctx.role !== "Nurse") {
         return (
-            // <HeaderDefine.Provider value={ProviderValue}>
-            <div className="center">
-                <Row>
-                    <Col xs={0.5}>
-                        <Row><img src='assets/images/pana.svg' xs={0.8}></img></Row>
-                    </Col>
-                    <Col><div>
-
-                        <form>
-                            <h1>Đăng Nhập {isModal}</h1>
-                            Số điện thoại
-                            <Input name="phone" innerRef={(input) => setPhone(input)} required />
-                            Mật khẩu
-                            <Input name="pwd" innerRef={(input) => setPwd(input)} type="password" required />
-                            <Button onClick={toggleModal} className="exception">Quên mật khẩu?</Button>
-
-                            <Row align="center">
-                                <Button onClick={apiLog} color="primary" >Đăng nhập</Button>
+            <Container>
+                <Modal centered isOpen={isMsg} toggle={toggleMsg}>
+                    <ModalHeader> Message </ModalHeader>
+                    <ModalBody>
+                        <Container>
+                            <Row style={{ textAlign: 'center' }}>
+                                <Col>
+                                    {Msg}
+                                </Col>
                             </Row>
-                        </form><Button className="exception">Chưa có tài khoản? Đăng ký</Button>
-
-                    </div>
-                    </Col>
-                    <Col />
-                </Row>
-                {/* <Modal isOpen={isModal} toggle={toggleModal}>
-                    <ModalBody className="modal-drug-item">
-                        <h1> Quên mật khẩu </h1>
-                        Số điện thoại
-                        <Input name="phone" onChange={handleChange} required />
-                        Ngày sinh
-                        <Input name="date" type="date" onChange={handleChange} />
-                        Mật khẩu mới
-                        <Input name="pwd" onChange={handleChange} type="password" required />
-                        Xác nhận mật khẩu
-                        <Input name="repwd" onChange={handleChange} type="password" required />
-                        <Button onClick={newPwd} color="primary">Đổi mật khẩu</Button> <Button onClick={toggleModal}>Hủy</Button>
-
+                        </Container>
                     </ModalBody>
-                </Modal> */}
-            </div>
+                </Modal>
+                <Row>
+                    <Col md="7">
+                        <Row><img src='assets/images/pana.svg' height="595px" width="700px" alt="pana"></img></Row>
+                    </Col>
+                    <Col md={{ size: 3, offset: 1 }}>
+                        <Form onSubmit={(e) => { e.preventDefault(); apiLog() }}>
+                            <Row style={{ marginTop: '150px' }}>
+                                <Col style={{ textAlign: 'center' }}>
+                                    <h1>Đăng Nhập {isModal}</h1>
+                                </Col>
+                            </Row>
+                            <FormGroup>
+                                <Label> Số điện thoại </Label>
+                                <Input required name="phone" innerRef={(input) => setphone(input)} />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label> Mật khẩu </Label>
+                                <InputGroup>
+                                    <Input required name="pwd" innerRef={(input) => setpwd(input)} type={show ? "text" : "password"}>
+                                    </Input>
+                                    <InputGroupText onClick={() => { setShow(!show) }} style={{ cursor: 'pointer' }}>
+                                        {show ? <FaEye /> : <FaEyeSlash />}
+                                    </InputGroupText>
+                                </InputGroup>
+                            </FormGroup>
+                            <FormGroup>
+                                <Row style={{ textAlign: 'center' }}>
+                                    <Col>
+                                        <Button onClick={toggleModal}
+                                            style={{
+                                                backgroundColor: '#F6F8FB',
+                                                color: '#007BFF',
+                                                border: '0px',
+                                                boxShadow: 'none !important',
+                                                marginTop: '-10px',
+                                                marginBottom: '-10px'
+                                            }}>
+                                            Quên mật khẩu?
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            </FormGroup>
+                            <FormGroup check>
+                                <Row style={{ textAlign: 'center' }}>
+                                    <Col>
+                                        <Button style={{ marginLeft: '-20px' }} color="primary" >Đăng nhập</Button>
+                                    </Col>
+                                </Row>
+                            </FormGroup>
+                            <FormGroup>
+                                <Row style={{ marginTop: '15px' }}>
+                                    <Col md="12" style={{ textAlign: 'center' }}>
+                                        <span style={{ fontStyle: 'italic' }}> Chưa có tài khoản? </span> &nbsp;
+                                        <NavLink to='/signup' style={{ paddingTop: '0px' }} style={{ color: '#007BFF', cursor: 'pointer' }}>
+                                            <FaUserPlus style={{ marginTop: '-3px' }} /> Đăng ký
+                                        </NavLink>
+                                    </Col>
+                                </Row>
+                            </FormGroup>
+                            {/* </Col> */}
+                            {/* <Col /> */}
+                        </Form>
+                    </Col>
+                </Row>
+                <Modal isOpen={isModal} toggle={toggleModal} centered>
+                    <ModalHeader>Quên mật khẩu</ModalHeader>
+                    <Form onSubmit={(e) => {
+                        e.preventDefault();
+                        if ((repwd === "") || (Pwd === "") || (Phone === "") || (DOB === "")) {
+                            setmsg("Vui lòng không bỏ trống thông tin")
+                            toggleMsg()
+                        }
+                        else if (repwd !== Pwd) {
+                            setmsg("Mật khẩu không khớp")
+                            toggleMsg()
+                        }
+                        else {
+                            newPwd();
+                            setPhone(""); setDOB(""); setPwd(""); setRePwd("");
+                            toggleModal();
+                        }
+                    }}>
+                        <ModalBody>
+                            <Container>
+                                <FormGroup row>
+                                    <Label md="5"> Số điện thoại </Label>
+                                    <Col md="7">
+                                        <Input required name="phone" onChange={(e) => setPhone(e.target.value)} required />
+                                    </Col>
+                                </FormGroup>
+                                <FormGroup row>
+                                    <Label md="5"> Ngày sinh </Label>
+                                    <Col md="7">
+                                        <Input required name="date" type="date" onChange={(e) => setDOB(e.target.value)} required />
+                                    </Col>
+                                </FormGroup>
+                                <FormGroup row>
+                                    <Label md="5"> Mật khẩu mới </Label>
+                                    <Col md="7">
+                                        <Input required name="pwd" onChange={(e) => setPwd(e.target.value)} type="password" required />
+                                    </Col>
+                                </FormGroup>
+                                <FormGroup row>
+                                    <Label md="5"> Nhập lại mật khẩu mới </Label>
+                                    <Col md="7">
+                                        <Input required name="repwd" onChange={(e) => setRePwd(e.target.value)} type="password" required
+                                            valid={(repwd !== "") && (Pwd !== "") && (repwd === Pwd)}
+                                            invalid={(repwd !== "") && (Pwd !== "") && (repwd !== Pwd)} />
+                                        <FormFeedback valid> Mật khẩu trùng khớp </FormFeedback>
+                                        <FormFeedback invalid> Mật khẩu chưa trùng khớp </FormFeedback>
+                                    </Col>
+                                </FormGroup>
+                            </Container>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Container>
+                                <Row style={{ textAlign: 'center' }}>
+                                    <Col>
+                                        <FormGroup check>
+                                            <Button className="center_screen"
+                                                style={{ backgroundColor: '#62AFFC', marginTop: '10px', border: '0px' }}>
+                                                Đổi mật khẩu
+                                            </Button>
+                                        </FormGroup>
+                                    </Col>
+                                    <Col>
+                                        <Button onClick={toggleModal} style={{ backgroundColor: '#62AFFC', marginTop: '10px', border: '0px' }}>
+                                            Hủy
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </ModalFooter>
+                    </Form>
+                </Modal>
+            </Container>
             // </HeaderDefine.Provider>
         )
+    }
+    else {
+        // axios.get('/api/set/user', { params: { phone: ctx.phone, role: ctx.role } });
+        // var userSession = { phone: ctx.phone, role: ctx.role };
+        // console.log(userSession);
+        // sessionStorage.clear();
+        // sessionStorage.setItem('user', JSON.stringify(userSession));
+        // console.log(ctx);
+        // axios.get('/api/set/user',{params:{phone:ctx.phone,name:ctx.name,role:ctx.role, img:ctx.img}});
+
+        // <Switch>
+        //     <Redirect to='/home' />
+        // </Switch>
+        if (ctx.role === "Patient") {
+            return (
+                <Switch>
+                    <Redirect to='/patient' />
+                </Switch>
+            )
+        } else if (ctx.role === "Nurse") {
+            return (
+                <Switch>
+                    <Redirect to='/nurse' />
+                </Switch>
+            )
+        } else if (ctx.role === "Doctor") {
+            return (<Switch>
+                <Redirect to='/doctor' />
+            </Switch>)
+        }
+
+    }
 }
 export default LoginPane;

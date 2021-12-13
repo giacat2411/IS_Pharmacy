@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
-import { NavLink } from 'reactstrap';
 import { Container, Row, Col } from 'reactstrap';
 import { Card, CardBody, CardTitle} from 'reactstrap';
 import { LinkContainer } from 'react-router-bootstrap'; 
+import HeaderDefine from '../Context';
+import { Switch, Redirect } from 'react-router-dom';
 
-class Customer extends Component{
+class Patient extends Component{
     render(){
+        if (this.context.role !== "Patient") return <Switch><Redirect to={`/${this.context.role.toString()}`} /> </Switch>
         return(
             <Container>
                 <Row>
@@ -15,51 +17,51 @@ class Customer extends Component{
                 <hr />
                 <Row>
                     <Col md="6">
-                    <LinkContainer to ="/" style={{cursor: 'pointer'}}>
-                        <NavLink className="cat-customer-item-link">
+                    <LinkContainer to ="/view_doctor" style={{cursor: 'pointer'}}>
+                        {/* <NavLink className="cat-customer-item-link"> */}
                         <Card className="cat-customer-item-right">
-                            <img className="cat-customer-img" width="91.98px" height="90px" src="/assets/images/view-home.png" alt = "Xem hồ sơ bệnh án"></img>
+                            <img className="cat-customer-img" width="90px" height="90px" src="/assets/images/view-home.png" alt = "Xem hồ sơ bệnh án"></img>
                             <CardBody>
-                            <CardTitle tag="h5" className="cat-customer-text">Tra cứu</CardTitle>
+                            <CardTitle tag="h5" className="cat-customer-text">Xem danh sách bác sĩ</CardTitle>
                             </CardBody>
                         </Card>
-                    </NavLink>
+                    {/* </NavLink> */}
                     </LinkContainer>    
                     </Col>
                     <Col md="6">    
                     <LinkContainer to ="/buydrug" style={{cursor: 'pointer'}}>
-                        <NavLink className="cat-customer-item-link">
+                        {/* <NavLink className="cat-customer-item-link"> */}
                         <Card className="cat-customer-item-left">
-                            <img className="cat-customer-img" width="61.86px" height="85px" src="/assets/images/buy-home.png" alt = "Mua thuốc online"></img>
+                            <img className="cat-customer-img" width="65px" height="90px" src="/assets/images/buy-home.png" alt = "Mua thuốc online"></img>
                             <CardBody>
                             <CardTitle tag="h5" className="cat-customer-text">Mua thuốc online</CardTitle>
                             </CardBody>
                         </Card>
-                        </NavLink>
+                        {/* </NavLink> */}
                         </LinkContainer>
                     </Col>
                     <Col md="6">
                     <LinkContainer to ="/appointment" style={{cursor: 'pointer'}}>
-                        <NavLink className="cat-customer-item-link">
+                        {/* <NavLink className="cat-customer-item-link"> */}
                             <Card className="cat-customer-item-right">
-                                <img className="cat-customer-img" width="67.29px" height="95px" src="/assets/images/make-treat-home.png" alt = "Đặt lịch khám"></img>
+                                <img className="cat-customer-img" width="65px" height="90px" src="/assets/images/make-treat-home.png" alt = "Đặt lịch khám"></img>
                                 <CardBody>
                                 <CardTitle tag="h5" className="cat-customer-text">Đặt lịch khám</CardTitle>
                                 </CardBody>
                             </Card>
-                            </NavLink>
+                            {/* </NavLink> */}
                         </LinkContainer>
                     </Col>
                     <Col md="6">
                         <LinkContainer to ="/cancelappointment" style={{cursor: 'pointer'}}>
-                        <NavLink className="cat-customer-item-link">
+                        {/* <NavLink className="cat-customer-item-link"> */}
                             <Card className="cat-customer-item-left">
-                                <img className="cat-customer-img" width="94px" height="95px" src="/assets/images/cancal-treat.png" alt = "Hủy lịch khám"></img>
+                                <img className="cat-customer-img" width="93px" height="90px" src="/assets/images/cancal-treat.png" alt = "Hủy lịch khám"></img>
                                 <CardBody>
                                 <CardTitle tag="h5" className="cat-customer-text">Hủy lịch khám</CardTitle>
                                 </CardBody>
                             </Card>
-                            </NavLink>
+                            {/* </NavLink> */}
                         </LinkContainer>
                     </Col>
                 </Row>
@@ -67,4 +69,6 @@ class Customer extends Component{
         )
     }
 }
-export default Customer;
+
+Patient.contextType = HeaderDefine;
+export default Patient;

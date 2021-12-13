@@ -1,13 +1,6 @@
 import React, {Component} from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import { Card, CardBody, CardTitle, CardSubtitle, CardText } from 'reactstrap';
-import { Navbar, Nav, NavItem, 
-    Collapse } from 'reactstrap';
-import { Form, FormGroup, Input, Button } from 'reactstrap';
-import { Modal, ModalBody } from 'reactstrap';
-import { FaShoppingCart, FaSearch } from 'react-icons/fa';
+import { Container } from 'reactstrap';
 import axios from 'axios';
-import { NavLink, Link } from 'react-router-dom';
 
 class Fetch extends Component {
     constructor(props) {

@@ -7,7 +7,8 @@ import { Form, FormGroup, Input, Button } from 'reactstrap';
 import { Modal, ModalBody } from 'reactstrap';
 import { FaShoppingCart, FaSearch } from 'react-icons/fa';
 import axios from 'axios';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Switch, Redirect } from 'react-router-dom';
+import HeaderDefine from '../../5.Share Component/Context';
 
 class BuyDrug extends Component {
     constructor(props) {
@@ -56,7 +57,11 @@ class BuyDrug extends Component {
         const item = this.state.item_open;
         const number = this.state.nums_item_open;
 
+        // console.log(newCart)
+        // console.log(typeof(newCart))
         newCart.push({item, number});
+
+        localStorage.setItem('IS_cart', JSON.stringify(newCart))
         
         this.setState({
             carts: newCart,
@@ -79,6 +84,13 @@ class BuyDrug extends Component {
     }
 
     componentDidMount() {
+        const cart = localStorage.getItem('IS_cart');
+        
+        if (cart !== null)  {
+            this.setState({cart: JSON.parse(cart)})
+            this.setState({nums_item_buy: JSON.parse(cart).length})
+        }
+
         axios.get('/api/get/drugs')
              .then(res => {
                 const drugs = res.data;
@@ -120,7 +132,8 @@ class BuyDrug extends Component {
                 </Col>
               )
           });
-
+          if (this.context.role !== "Patient") 
+          return <Switch> <Redirect to={`/${this.context.role.toString()}`} /> </Switch>
           return(
               <>
                 <Navbar dark expand="md">
@@ -152,9 +165,9 @@ class BuyDrug extends Component {
                             </NavItem>
                         </Nav>
 
-                        <Nav className="ml-auto" navbar>
+                        <Nav className="ms-auto" navbar style={{marginTop: '-15px'}}>
                             <NavItem className="cart">
-                            <NavLink className="nav-link" to={`/view_cart/${JSON.stringify(this.state.cart)}`}>
+                            <NavLink className="nav-link" to='/view_cart'>
                             <FaShoppingCart className="buy-cart"/> 
                             <span> Giỏ hàng </span>
                             <span className="buy-cart-item"> {this.state.nums_item_buy} </span>
@@ -195,4 +208,5 @@ class BuyDrug extends Component {
       }
 }
 
+BuyDrug.contextType = HeaderDefine;
 export default BuyDrug;
