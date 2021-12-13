@@ -112,6 +112,7 @@ class BuyDrug extends Component {
           }
           const drug_list = this.state.drugs_display.map(drug => {
               const price = drug.price;
+              if (drug.remain == 0) return <span></span>;
               return(
                 <Col lg="2" md="3" sm="4">
                 <Card className="drug-item">

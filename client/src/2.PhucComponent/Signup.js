@@ -62,8 +62,7 @@ class SignUp extends Component {
         if (this.state.pwd !== this.state.repwd) {
             this.setState({ Msg: 'Mật khẩu không trùng khớp' })
             this.toggleMsg();
-        }
-        this.apiReg();
+        } else this.apiReg();
     }
 
     render() {

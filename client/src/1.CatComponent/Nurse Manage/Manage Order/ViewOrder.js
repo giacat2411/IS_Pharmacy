@@ -227,7 +227,7 @@ class ViewOrder extends Component {
         else not_Found = <span></span>;
 
         const containerStyle = (count) => {
-            if (count > 100) return { marginLeft: '45vh' }
+            if (count > 100) return { marginLeft: '25vh' }
             else if (count > 30) return { marginLeft: '34%' }
             else if (count > 20) return { marginLeft: '46%' }
             else return { marginLeft: '46.5%' }
