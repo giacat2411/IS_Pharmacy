@@ -78,7 +78,11 @@ class BuyDrug extends Component {
 
     handleSubmit(){
         const search = this.state.drugs.filter(drug => {
-            return drug.drug_name.toLowerCase().replace(/\s/g, '').includes(this.search_item.value.toLowerCase().replace(/\s/g, ''));
+            return drug.drug_name.split(" ").join("").normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd')
+            .replace(/Đ/g, 'D').toLowerCase()
+            .includes(this.search_item.value.split(" ").join("").normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase());
         })
         this.setState({drugs_display: search});
     }
@@ -152,7 +156,7 @@ class BuyDrug extends Component {
                                 <img className="show-category" src='/assets/images/arrow.png' width="17px" height="17px" alt="Chọn"></img>
                             </NavItem>
                             <NavItem>
-                                <Form className="search-bar-cat" onSubmit={e => {e.preventDefault();}}>
+                                <Form className="search-bar-cat" onSubmit={e => {this.handleSubmit(); e.preventDefault();}}>
                                     <FormGroup>
                                         <Input id="search" name="search-drugs" placeholder="Tìm sản phẩm thuốc mong muốn"
                                         innerRef={(input) => this.search_item = input} />

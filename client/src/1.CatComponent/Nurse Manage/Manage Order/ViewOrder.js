@@ -151,10 +151,10 @@ class ViewOrder extends Component {
             return order.id.toString().includes(this.search_item.value.toString())
         });
         let name = this.state.orders.filter(order => {
-            return (order.full_name.normalize('NFD')
+            return (order.full_name.split(" ").join("").normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd')
                 .replace(/Đ/g, 'D').toLowerCase()
-                .includes(this.search_item.value.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .includes(this.search_item.value.split(" ").join("").normalize('NFD').replace(/[\u0300-\u036f]/g, '')
                     .replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase())) && !id.includes(order)
         });
 
