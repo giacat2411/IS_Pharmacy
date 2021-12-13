@@ -85,9 +85,9 @@ app.post('/api/set/role', (req, res) => { session.user.role = req.body.role; });
 //                        PAYMENT                        //
 ///////////////////////////////////////////////////////////
 app.post('/payment_momo', (request, result) => {
-  var partnerCode = "MOMO1CWC20211113";
-  var accessKey = "YD5SpOGSm6vYt9Ln";
-  var secretkey = "zIRAhf9xcKk369jFKQRWh3Ygtbi36x0V";
+  var partnerCode = "MOMODZXF20211213";
+  var accessKey = "GGPqbepkNu7RizEi";
+  var secretkey = "uUc3kJmX2xFj8a8syYmt5hUsYlx1R1AX";
   var requestId = partnerCode + new Date().getTime();
   var orderId = requestId;
   var orderInfo = "Thanh toán cho HealthCare";
@@ -129,7 +129,7 @@ app.post('/payment_momo', (request, result) => {
 
   const https = require('https');
   const options = {
-    hostname: 'test-payment.momo.vn',
+    hostname: 'payment.momo.vn',
     port: 443,
     path: '/gw_payment/transactionProcessor',
     method: 'POST',

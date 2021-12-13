@@ -60,8 +60,9 @@ class ViewTreatmentTurn extends Component {
     sortThisWeek() {
         const today = new Date();
         const start_time = (new Date(today.getTime() - 86400000*(today.getDay()-1))).toLocaleDateString('vi');
-        const end_time = today.toLocaleDateString('vi');
-
+        const end_time = (new Date(today.getTime() - 86400000*(today.getDay()-1-6))).toLocaleDateString('vi');
+        console.log(start_time)
+        console.log(end_time)
         const treats = this.state.treatment_turn.filter(x => {
             const date = (new Date(x.turn_time)).toLocaleDateString("vi");
             if (this.compareDay(date, start_time) && this.compareDay(end_time, date)) return true;
@@ -74,8 +75,10 @@ class ViewTreatmentTurn extends Component {
     sortThisMonth() {
         const today = new Date();
         const start_time = (new Date(today.getTime() - 86400000*(today.getDate()-1))).toLocaleDateString('vi');
-        const end_time = today.toLocaleDateString('vi');
-
+        const end_time = (new Date(today.getTime() - 86400000*(today.getDate()-1-30))).toLocaleDateString('vi');
+        console.log(start_time)
+        console.log(end_time)
+        
         const treats = this.state.treatment_turn.filter(x => {
             const date = (new Date(x.turn_time)).toLocaleDateString("vi");
             if (this.compareDay(date, start_time) && this.compareDay(end_time, date)) return true;

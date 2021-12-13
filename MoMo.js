@@ -1,6 +1,6 @@
-var partnerCode = "MOMO1CWC20211113";
-var accessKey = "NrKmcSEcOMYKUNUU";
-var secretkey = "5uBE8vIBNGYOy8YX9dnc3pIbGBTaOSF7";
+var partnerCode = "MOMODZXF20211213";
+var accessKey = "GGPqbepkNu7RizEi";
+var secretkey = "uUc3kJmX2xFj8a8syYmt5hUsYlx1R1AX";
 var requestId = partnerCode + new Date().getTime();
 var orderId = requestId;
 var orderInfo = "Thanh toán cho HealthCare";
@@ -48,13 +48,16 @@ const options = {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(requestBody)
+        'Content-Length': Buffer.byteLength(requestBody),
+        'Access-Control-Allow-Origin': 'payment.momo.vn'
     }
 }   
 
 const req = https.request(options, res => {
     res.setEncoding('utf8');
+    console.log(res.body);
     res.on('data', (body) => {
+        console.log(body);
         console.log('payUrl: ');
         console.log(JSON.parse(body).payUrl);
     });
