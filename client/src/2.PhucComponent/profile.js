@@ -14,8 +14,6 @@ import EditInfo from './Editinfo';
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Switch, Redirect } from 'react-router-dom';
-import { extend } from 'jquery';
-import DoctorSideBar from '../5.Share Component/SideBar/DoctorSideBarComponent';
 
 const Profile = (props) => {
     const ctx = useContext(HeaderDefine);

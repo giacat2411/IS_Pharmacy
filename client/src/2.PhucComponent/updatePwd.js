@@ -1,8 +1,6 @@
 import React, { useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import { Input, Row, Col, Button, Container, Modal, ModalBody, ModalHeader, ModalFooter, Badge, Form, FormGroup, Label, FormFeedback } from 'reactstrap';
 import axios from 'axios';
-import { FaEdit } from 'react-icons/fa';
 import HeaderDefine from '../5.Share Component/Context';
 
 const UpdatePwd = (props) => {

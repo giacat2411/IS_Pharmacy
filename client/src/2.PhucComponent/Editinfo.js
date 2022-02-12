@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Input, Row, Col, Button, Container, ModalFooter } from 'reactstrap';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import axios from 'axios';
-import { FaEdit } from 'react-icons/fa';
 import storage from './firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from '@firebase/storage'
 
 
 const EditInfo = (props) => {
@@ -11,8 +11,8 @@ const EditInfo = (props) => {
     const updateInfo = async () => {
         await subReg();
         if (file) {
-            var snapshot = await storage.ref(`/images/${temp.phone}`).put(file);
-            snapshot.ref.getDownloadURL().then(url => {
+            var snapshot = await uploadBytesResumable(ref(storage, `/images/${temp.phone}`), file);
+            getDownloadURL(snapshot.ref).then(url => {
                 var newValue = temp;
                 newValue.img = url;
                 setTemp(newValue);
