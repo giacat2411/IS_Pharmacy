@@ -47,7 +47,7 @@ class Payment extends Component {
                 window.location.href = '/payment_momo'
             }
             else if (this.state.payment === "momo_2")
-                axios.post('/payment_momo', { total: localStorage.getItem('IS_total_cart') })
+                axios.post('https://mysql-healthcare.herokuapp.com/payment_momo', { total: localStorage.getItem('IS_total_cart') })
                 .then(res => { 
                     console.log("momo_2")
                     localStorage.removeItem('IS_cart');
