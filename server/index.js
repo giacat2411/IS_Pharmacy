@@ -3,7 +3,19 @@ const PORT = 4000;
 const express = require("express");
 const app = express();
 
-const path = require('path');
+// var cors = require('cors');
+// const corsOptions ={
+//   origin:'http://localhost:3000', 
+//   credentials:true,            //access-control-allow-credentials:true
+//   optionSuccessStatus:200
+// }
+// app.use(cors(corsOptions));
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
 
 const cookieParser = require('cookie-parser')
 const sessions = require('express-session');
