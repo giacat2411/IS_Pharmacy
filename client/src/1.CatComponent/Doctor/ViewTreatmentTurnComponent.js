@@ -115,8 +115,8 @@ class ViewTreatmentTurn extends Component {
     onSubmitPayment() {
         let total = 0;
         this.state.orderDetailsOpen.map(detail => total += detail.quantity * detail.price)
-        axios.post('/api/insert/momo_payment', { medicine_id: this.state.treatment_curr.prescribe_id })
-        axios.post('/payment_momo', { total: total.toString() })
+        axios.post('https://mysql-healthcare.herokuapp.com/api/insert/momo_payment', { medicine_id: this.state.treatment_curr.prescribe_id })
+        axios.post('https://mysql-healthcare.herokuapp.com/payment_momo', { total: total.toString() })
             .then(res => {
                 window.location.href = res.data.payUrl
             });
@@ -145,7 +145,7 @@ class ViewTreatmentTurn extends Component {
         alert('Chỉnh sửa thành công');
         this.toggleEdit();
         // console.log(treatment);
-        await axios.post('/api/update/treatment_turn_doctor', treatment)
+        await axios.post('https://mysql-healthcare.herokuapp.com/api/update/treatment_turn_doctor', treatment)
     }
 
     toggleEdit() {
@@ -161,16 +161,16 @@ class ViewTreatmentTurn extends Component {
         if (flag) {
             this.setState({ treatment_curr: treatment })
 
-            user = await axios.get('/api/get/info', { params: { phonenum: treatment.patient_phone } })
+            user = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/info', { params: { phonenum: treatment.patient_phone } })
             this.setState({ system_user: user.data.user })
             console.log(user.data)
 
             if (treatment.prescribe_id !== null) {
-                res = await axios.get('/api/get/order_details', { params: { orderID: treatment.prescribe_id } })
+                res = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/order_details', { params: { orderID: treatment.prescribe_id } })
                 this.setState({ orderDetailsOpen: res.data.order_details })
                 console.log(res.data.order_details)
 
-                payment = await axios.get('/api/get/payment', { params: { medicine_id: treatment.prescribe_id } })
+                payment = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/payment', { params: { medicine_id: treatment.prescribe_id } })
                 this.setState({ payment_detail: payment.data.payment })
                 console.log(payment)
             }
@@ -179,7 +179,7 @@ class ViewTreatmentTurn extends Component {
     }
 
     async componentDidMount() {
-        const res = await axios.get('/api/get/doctor_treatment', { params: { phone: this.state.phone } })
+        const res = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/doctor_treatment', { params: { phone: this.state.phone } })
 
         const treatments = res.data.sort((a, b) => {
             let day1 = (new Date(b.turn_time)).toLocaleDateString('vi');

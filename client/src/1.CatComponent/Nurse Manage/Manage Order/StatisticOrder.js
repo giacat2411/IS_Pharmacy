@@ -24,7 +24,7 @@ class StatisticOrder extends Component {
     }
 
     componentDidMount() {
-        axios.get('/api/get/total_value')
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/total_value')
             .then(res => {
                 const orders = res.data.data_statistic.map(order => {
                     const newOrder = order;
@@ -36,7 +36,7 @@ class StatisticOrder extends Component {
             })
             .catch(error => console.log(error));
 
-        axios.get('/api/get/total_prescribe_value')
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/total_prescribe_value')
             .then(res => {
                 const orders = res.data.data_statistic.map(order => {
                     const newOrder = order;
@@ -48,7 +48,7 @@ class StatisticOrder extends Component {
             })
             .catch(error => console.log(error));
 
-        axios.get('/api/get/not_total_prescribe_value')
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/not_total_prescribe_value')
             .then(res => {
                 const orders = res.data.data_statistic.map(order => {
                     const newOrder = order;

@@ -85,8 +85,8 @@ class Main extends Component {
   }
 
   async componentDidMount() {
-    await axios.get('/api/get/session')
-    axios.get('/api/get/session').then(res => {
+    await axios.get('https://mysql-healthcare.herokuapp.com/api/get/session')
+    axios.get('https://mysql-healthcare.herokuapp.com/api/get/session').then(res => {
       console.log(res.data.role);
       if (res.data !== undefined)
         this.updatePage(res.data.role === "Guest" ? 'home' : res.data.role)

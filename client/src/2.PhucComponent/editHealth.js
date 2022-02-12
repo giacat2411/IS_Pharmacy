@@ -9,7 +9,7 @@ import HeaderDefine from '../5.Share Component/Context';
 const EditHealth = (props) => {
     const ctx = useContext(HeaderDefine);
     const postHealth = () => {
-        axios.post('/api/post/TTSK', { params: { tempInfo, phone: props.phone } }).then(res => {
+        axios.post('https://mysql-healthcare.herokuapp.com/api/post/TTSK', { params: { tempInfo, phone: props.phone } }).then(res => {
             // props.toggleHealth();
             if (res.data.msg) props.msgCall(res.data.msg);
         })

@@ -18,7 +18,7 @@ const EditInfo = (props) => {
                 setTemp(newValue);
 
                 console.log(temp)
-                axios.post('/api/post/info', {
+                axios.post('https://mysql-healthcare.herokuapp.com/api/post/info', {
                     params: {
                         // dateofbirth:Date(temp.dateofbirth),
                         firstname: temp.firstname,
@@ -32,16 +32,16 @@ const EditInfo = (props) => {
                     props.toggleEdit();
                     if (res.data.msg) props.msgCall(res.data.msg);
                     props.setUser(temp);
-                    axios.get('/api/set/user', { params: temp });
+                    axios.get('https://mysql-healthcare.herokuapp.com/api/set/user', { params: temp });
                 })
             })
         }
         else {
-            axios.post('/api/post/info', { params: temp }).then(res => {
+            axios.post('https://mysql-healthcare.herokuapp.com/api/post/info', { params: temp }).then(res => {
                 props.toggleEdit();
                 if (res.data.msg) props.msgCall(res.data.msg);
                 props.setUser(temp);
-                axios.get('/api/set/user', { params: temp });
+                axios.get('https://mysql-healthcare.herokuapp.com/api/set/user', { params: temp });
             })
         }
     }

@@ -53,7 +53,7 @@ class Appointment extends Component {
 
     componentDidMount() {
         this.setState({ phone: this.context.phone })
-        axios.get('/api/get/treatment_turns')
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/treatment_turns')
             .then(res => {
                 const treatment_turns = res.data;
                 this.setState({ treatment_turns: treatment_turns.treatment_turns });
@@ -61,7 +61,7 @@ class Appointment extends Component {
             .catch(error => console.log(error));
 
 
-        axios.get('/api/get/work_schedules')
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/work_schedules')
             .then(res => {
                 const work_schedules = res.data;
                 this.setState({ work_schedules: work_schedules.work_schedules });
@@ -69,7 +69,7 @@ class Appointment extends Component {
             .catch(error => console.log(error));
 
 
-        axios.get('/api/get/system_users')
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/system_users')
             .then(res => {
                 const system_users = res.data;
                 this.setState({ system_users: system_users.system_users });
@@ -264,7 +264,7 @@ class Appointment extends Component {
         //     doctor_phone: event.target.name
         // };
 
-        axios.post('/api/insert/treatment_turns', this.state.registering)
+        axios.post('https://mysql-healthcare.herokuapp.com/api/insert/treatment_turns', this.state.registering)
             .then(res => {
                 let news = this.state.treatment_turns;
                 news = [this.state.registering, ...news];

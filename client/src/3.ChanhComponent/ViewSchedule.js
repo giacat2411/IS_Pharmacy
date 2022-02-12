@@ -45,7 +45,7 @@ class ScheduleTable extends Component {
     }
     componentDidMount() {
         this.setState({ phone: this.context.phone })
-        axios.get('/api/get/work_schedules')
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/work_schedules')
             .then(res => {
                 const work_schedules = res.data;
                 console.log(work_schedules);
@@ -65,7 +65,7 @@ class ScheduleTable extends Component {
             }
         }
 
-        axios.get('/api/get/doctors')
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/doctors')
             .then(res => {
                 const system_users = res.data.doctors.map(x => { return x.phone });
                 this.setState({ doctors_phone: system_users });
@@ -90,7 +90,7 @@ class ScheduleTable extends Component {
     }
 
     setEnd = (x) => {
-        axios.post('/api/set/end-schedule', { params: x }).then(
+        axios.post('https://mysql-healthcare.herokuapp.com/api/set/end-schedule', { params: x }).then(
             res=>{if(res.data.msg){toast.success("Thành công");console.log(x);
             const newSchedules = this.state.work_schedules.filter(y => { return this.state.work_schedules.indexOf(x) !== this.state.work_schedules.indexOf(y) })
     
@@ -115,8 +115,8 @@ class ScheduleTable extends Component {
         }).length !== 0)
             toast.error('Đã tồn tại lịch làm việc');
         else {
-            axios.post('/api/insert/schedule', { params: this.temp })
-            axios.get('/api/get/work_schedules')
+            axios.post('https://mysql-healthcare.herokuapp.com/api/insert/schedule', { params: this.temp })
+            axios.get('https://mysql-healthcare.herokuapp.com/api/get/work_schedules')
             .then(res => {
                 const work_schedules = res.data;
                 console.log(work_schedules);

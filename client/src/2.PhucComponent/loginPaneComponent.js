@@ -38,14 +38,14 @@ const LoginPane = (props) => {
     const apiLog = async () => {
         if (phone.value === "" || pwd.value === "") { setmsg("Không được bỏ trống thông tin"); toggleMsg() }
         else {
-            const res = await axios.get('/api/get/access', { params: { phonenum: phone.value, userpwd: pwd.value } })
+            const res = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/access', { params: { phonenum: phone.value, userpwd: pwd.value } })
             
             console.log("over access")
             console.log(res.data);
 
             const user = res.data;
             if (user.user) {
-                const res1 = await axios.get('/api/get/role', { params: { phonenum: phone.value } });
+                const res1 = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/role', { params: { phonenum: phone.value } });
                 console.log(typeof(res1.data.activate));
 
                 if (res1.data.activate === undefined || res1.data.activate === 1) {
@@ -66,7 +66,7 @@ const LoginPane = (props) => {
     const newPwd = () => {
         toggleModal();
         axios
-            .post('/api/post/newpwd', { params: { phone: Phone, pwd: Pwd, DOB: DOB } }//DOB:DOB.value,
+            .post('https://mysql-healthcare.herokuapp.com/api/post/newpwd', { params: { phone: Phone, pwd: Pwd, DOB: DOB } }//DOB:DOB.value,
             )
             .then(res => {
                 const msg = res.data;

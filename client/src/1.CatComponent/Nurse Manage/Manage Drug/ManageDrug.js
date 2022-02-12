@@ -44,7 +44,7 @@ class ManageDrug extends Component {
     }
 
     componentDidMount() {
-        axios.get('/api/get/drugs')
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/drugs')
             .then(res => {
                 const newdrugs = res.data.drugs;
                 this.setState({ drugs: newdrugs, display_drugs: newdrugs });
@@ -53,7 +53,7 @@ class ManageDrug extends Component {
     }
 
     getDrugs() {
-        axios.get('/api/get/drugs')
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/drugs')
             .then(res => {
                 const newdrugs = res.data.drugs;
                 this.setState({ drugs: newdrugs, display_drugs: newdrugs });

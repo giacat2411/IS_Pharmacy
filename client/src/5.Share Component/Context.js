@@ -11,8 +11,8 @@ let session = {
 };
 
 (async () => {
-  await axios.get('/api/get/session')
-  axios.get('/api/get/session').then((res) => {
+  await axios.get('https://mysql-healthcare.herokuapp.com/api/get/session')
+  axios.get('https://mysql-healthcare.herokuapp.com/api/get/session').then((res) => {
     console.log(res.data)
     session = {
       phone: res.data.phone === undefined ? '097100000': res.data.phone,

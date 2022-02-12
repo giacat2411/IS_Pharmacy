@@ -13,7 +13,7 @@ const UpdatePwd = (props) => {
 
     const [repwd, setRepwd] = useState("");
     const changePwd = () => {
-        axios.post('/api/post/pwd', { params: { phone: props.phone, pwd: pwd, newpwd: newpwd } }).then(res => {
+        axios.post('https://mysql-healthcare.herokuapp.com/api/post/pwd', { params: { phone: props.phone, pwd: pwd, newpwd: newpwd } }).then(res => {
             props.togglePwd();
             if (res.data.msg) props.msgCall(res.data.msg);
         })

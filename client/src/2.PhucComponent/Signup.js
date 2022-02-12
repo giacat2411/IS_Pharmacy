@@ -42,7 +42,7 @@ class SignUp extends Component {
 
     apiReg() {
         console.log(this.state);
-        axios.post('/api/insert/regist', {
+        axios.post('https://mysql-healthcare.herokuapp.com/api/insert/regist', {
             params: this.state
         })
             .then(res => {

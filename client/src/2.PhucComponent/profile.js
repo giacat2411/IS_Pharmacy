@@ -32,12 +32,12 @@ const Profile = (props) => {
 
     useEffect(async () => {
         {
-            const res1 = await axios.get('/api/get/info', { params: { phonenum: props.phone } })
+            const res1 = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/info', { params: { phonenum: props.phone } })
             setUser(res1.data.user);
 
             console.log(user)
 
-            const res = await axios.get('/api/get/role', { params: { phonenum: props.phone } })
+            const res = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/role', { params: { phonenum: props.phone } })
             const roleData = res.data.role;
 
             if (roleData !== "Patient") {
@@ -193,7 +193,7 @@ class Patient extends Component {
     }
 
     async componentDidMount() {
-        const res = await axios.get('/api/get/patientInfo', { params: { phone: this.state.phone } })
+        const res = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/patientInfo', { params: { phone: this.state.phone } })
         const health = res.data;
         if (health) {
             let saveData = health[0];
@@ -347,10 +347,10 @@ class Doctor extends Component {
 
     }
     async componentDidMount() {
-        const sche = await axios.get('/api/get/my_work_schedules', { params: { phone: this.state.phone } })
+        const sche = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/my_work_schedules', { params: { phone: this.state.phone } })
         const sche_list = sche.data ? sche.data.work_schedules : []
         this.setState({ display_sche: sche_list.filter(sche => !(sche.end_day)) })
-        const info = await axios.get('/api/get/my-doctors-info', { params: { phone: this.state.phone } })
+        const info = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/my-doctors-info', { params: { phone: this.state.phone } })
         this.setState({ doc: info.data.doctors[0] })
     }
     render() {

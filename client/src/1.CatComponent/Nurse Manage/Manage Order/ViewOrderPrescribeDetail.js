@@ -39,8 +39,8 @@ class ViewOrderPrescribeDetail extends Component {
     }
 
     onSubmitPayment(total) {
-        axios.post('/api/insert/momo_payment', { medicine_id: this.state.orderOpen.prescribe_id })
-        axios.post('/payment_momo', { total: total.toString() })
+        axios.post('https://mysql-healthcare.herokuapp.com/api/insert/momo_payment', { medicine_id: this.state.orderOpen.prescribe_id })
+        axios.post('https://mysql-healthcare.herokuapp.com/payment_momo', { total: total.toString() })
             .then(res => {
                 window.location.href = res.data.payUrl
             });
@@ -48,14 +48,14 @@ class ViewOrderPrescribeDetail extends Component {
 
     async onSubmitPaymentNurse() {
         console.log(this.context.phone)
-        axios.post('/api/insert/momo_payment_nurse', { medicine_id: this.state.orderOpen.prescribe_id, phone: this.context.phone })
+        axios.post('https://mysql-healthcare.herokuapp.com/api/insert/momo_payment_nurse', { medicine_id: this.state.orderOpen.prescribe_id, phone: this.context.phone })
         toast.success('Thành công');
 
-        const res = await axios.get('/api/get/payment', { params: { medicine_id: this.props.orderID } })
+        const res = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/payment', { params: { medicine_id: this.props.orderID } })
 
         this.setState({ payment: res.data.payment })
 
-        const res2 = await axios.get('/api/get/info', { params: { phonenum: this.context.phone } })
+        const res2 = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/info', { params: { phonenum: this.context.phone } })
 
         console.log(res2)
         this.setState({ nurse: res2.data.user.fullname })
@@ -65,14 +65,14 @@ class ViewOrderPrescribeDetail extends Component {
 
     async componentDidMount() {
         const orderID = this.props.orderID;
-        axios.get('/api/get/order_details', { params: { orderID: orderID } })
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/order_details', { params: { orderID: orderID } })
             .then(res => {
                 const order_details = res.data.order_details;
                 this.setState({ orderDetailsOpen: order_details });
             })
             .catch(error => console.log(error));
 
-        axios.get('/api/get/order_prescribe_in_view', { params: { orderID: orderID } })
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/order_prescribe_in_view', { params: { orderID: orderID } })
             .then(res => {
                 const information = res.data.information;
                 this.setState({ orderOpen: information[0] });
@@ -80,14 +80,14 @@ class ViewOrderPrescribeDetail extends Component {
             })
             .catch(error => console.log(error));
 
-        const res = await axios.get('/api/get/payment', { params: { medicine_id: orderID } })
+        const res = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/payment', { params: { medicine_id: orderID } })
         console.log(res);
         this.setState({ payment: res.data.payment })
 
         console.log(res.data.payment[0])
         if (res.data.payment.length !== 0)
             if (res.data.payment[0].nurse_phone !== null) {
-                const res2 = await axios.get('/api/get/info', { params: { phonenum: res.data.payment[0].nurse_phone } })
+                const res2 = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/info', { params: { phonenum: res.data.payment[0].nurse_phone } })
 
                 console.log(res2)
                 this.setState({ nurse: res2.data.user.fullname })

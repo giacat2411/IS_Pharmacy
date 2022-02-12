@@ -24,14 +24,14 @@ class ViewOrderDetail extends Component {
 
     componentDidMount() {
         const orderID = this.props.orderID;
-        axios.get('/api/get/order_details', { params: { orderID: orderID } })
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/order_details', { params: { orderID: orderID } })
             .then(res => {
                 const order_details = res.data.order_details;
                 this.setState({ orderDetailsOpen: order_details });
             })
             .catch(error => console.log(error));
 
-        axios.get('/api/get/order_in_view', { params: { orderID: orderID } })
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/order_in_view', { params: { orderID: orderID } })
             .then(res => {
                 const information = res.data.information;
                 this.setState({ orderOpen: information[0] });

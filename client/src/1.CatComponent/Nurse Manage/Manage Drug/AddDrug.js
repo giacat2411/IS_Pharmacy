@@ -26,7 +26,7 @@ class AddDrug extends Component {
             remain: this.quantity.value,
             price: this.price.value
         }
-        axios.post('/api/insert/drug', drug)
+        axios.post('https://mysql-healthcare.herokuapp.com/api/insert/drug', drug)
             .then().catch(error => console.log(error));
         this.props.getDrugs();
     }

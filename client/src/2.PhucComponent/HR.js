@@ -56,14 +56,14 @@ class HR extends Component {
     }
     componentDidMount() {
 
-        axios.get('/api/get/doctors-info')
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/doctors-info')
             .then(res => {
                 this.setState({ doctor: res.data.doctors });
                 console.log(this.state.doctor);
             })
             .catch(error => console.log(error));
 
-        axios.get('/api/get/nurse-info')
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/nurse-info')
             .then(res => {
                 this.setState({ nurse: res.data.nurses });
             })
@@ -75,13 +75,13 @@ class HR extends Component {
     };
 
     setDoctor = async () => {
-        const user = await axios.get('/api/get/info', { params: { phonenum: this.state.newdoc.phone } });
+        const user = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/info', { params: { phonenum: this.state.newdoc.phone } });
 
         if (user.data.user) {
             toast.error("Đã tồn tại tài khoản")
         }
         else {
-            axios.post('/api/new/doctor', { params: this.state.newdoc }).catch(error => console.log(error));
+            axios.post('https://mysql-healthcare.herokuapp.com/api/new/doctor', { params: this.state.newdoc }).catch(error => console.log(error));
 
             // var doc=this.state.doctor.push({phone:this.state.newphone, specialism:this.state.newspec,experience_year:this.state.newexp,activate:1});
             this.toggleDoctor();
@@ -90,14 +90,14 @@ class HR extends Component {
 
     }
     setNurse = async () => {
-        const user = await axios.get('/api/get/info', { params: { phonenum: this.state.newnurse.phone } });
+        const user = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/info', { params: { phonenum: this.state.newnurse.phone } });
 
         if (user.data.user) {
             toast.error("Đã tồn tại tài khoản")
         }
         else {
             this.toggleNurse();
-            axios.post('/api/new/nurse', { params: this.state.newnurse }).catch(error => console.log(error));
+            axios.post('https://mysql-healthcare.herokuapp.com/api/new/nurse', { params: this.state.newnurse }).catch(error => console.log(error));
             toast.success("Thành công");
         }
     }
@@ -110,7 +110,7 @@ class HR extends Component {
 
 
     delete = () => {
-        axios.post('/api/delete/HR', { params: { phone: this.state.phone, role: this.state.role } }).then(res=>{
+        axios.post('https://mysql-healthcare.herokuapp.com/api/delete/HR', { params: { phone: this.state.phone, role: this.state.role } }).then(res=>{
             if(res.data.msg){
             toast.success('Xóa thành công', () => {
             });

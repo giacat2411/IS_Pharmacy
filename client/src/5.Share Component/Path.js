@@ -5,7 +5,7 @@ const PathCtx = React.createContext();
 
 let currPath = '/';
 const checkData=async()=>{
-  await axios.get('/api/get/session').then((res)=>{
+  await axios.get('https://mysql-healthcare.herokuapp.com/api/get/session').then((res)=>{
     currPath=res.data;
 } 
   )

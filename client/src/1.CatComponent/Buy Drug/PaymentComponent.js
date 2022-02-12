@@ -40,7 +40,7 @@ class Payment extends Component {
             console.log(phone);
             console.log(cart);
 
-            axios.post('/api/insert/medicine', { phone: phone, cart: JSON.stringify(cart) }).catch(error => console.log(error))
+            axios.post('https://mysql-healthcare.herokuapp.com/api/insert/medicine', { phone: phone, cart: JSON.stringify(cart) }).catch(error => console.log(error))
 
             if (this.state.payment === "momo_1") {
                 console.log("momo_1")
@@ -54,7 +54,7 @@ class Payment extends Component {
                     localStorage.removeItem('IS_total_cart');
                     window.location.href=res.data.payUrl
                 });
-            else axios.post('/payment_zalopay', { total: localStorage.getItem('IS_total_cart') })
+            else axios.post('https://mysql-healthcare.herokuapp.com/payment_zalopay', { total: localStorage.getItem('IS_total_cart') })
             .then(res => { 
                 console.log("zalopay")
                 localStorage.removeItem('IS_cart');

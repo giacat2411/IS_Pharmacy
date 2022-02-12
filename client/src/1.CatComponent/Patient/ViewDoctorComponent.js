@@ -67,7 +67,7 @@ class ViewDoctor extends Component {
     }
 
     async componentDidMount() {
-        const _doctors = await axios.get('/api/get/doctors-info')
+        const _doctors = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/doctors-info')
 
         const __doctors = _doctors.data.doctors.map(x => {
             return {...x, dateofbirth: (new Date(x.dateofbirth)).toLocaleDateString('vi'), fullname: x.lastname + " " + x.firstname}

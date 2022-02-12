@@ -95,7 +95,7 @@ class BuyDrug extends Component {
             this.setState({nums_item_buy: JSON.parse(cart).length})
         }
 
-        axios.get('/api/get/drugs')
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/drugs')
              .then(res => {
                 const drugs = res.data;
                 this.setState({ drugs: drugs.drugs, 

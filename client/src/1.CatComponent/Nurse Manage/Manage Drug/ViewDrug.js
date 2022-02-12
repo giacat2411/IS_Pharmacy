@@ -49,7 +49,7 @@ class ViewDrug extends Component {
         quantity: parseInt(this.drugs_quantity.value) + parseInt(this.props.drug_open.remain)
         }
         console.log(item);
-        axios.post('/api/update/drug_quantity', item)
+        axios.post('https://mysql-healthcare.herokuapp.com/api/update/drug_quantity', item)
             .then().catch(error => console.log(error));
         this.props.getDrugs();
         

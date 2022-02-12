@@ -26,17 +26,17 @@ class PrescribeDetail extends Component {
 
     componentDidMount() {
         const orderID = this.props.orderID;
-        axios.get('/api/get/order_details', {params: {orderID: orderID}})
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/order_details', {params: {orderID: orderID}})
                 .then(res => {
                     const order_details = res.data.order_details;
                         this.setState({orderDetailsOpen: order_details});
                     })
                 .catch(error => console.log(error));
 
-        axios.get('/api/get/prescribe-doctor',{params: {orderID: orderID}}).then(res=>{
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/prescribe-doctor',{params: {orderID: orderID}}).then(res=>{
             this.setState({treatmentInfo:res.data})
         })
-        axios.get('/api/get/info',{params:{phone:this.state.userInfo.phone}}).then(
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/info',{params:{phone:this.state.userInfo.phone}}).then(
             res=>{
                 this.setState({userInfo:res.data})
             }

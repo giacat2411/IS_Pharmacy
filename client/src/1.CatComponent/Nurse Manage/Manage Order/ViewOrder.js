@@ -113,8 +113,8 @@ class ViewOrder extends Component {
 
     async componentDidMount() {
         const resOrders = (this.context.role === "Nurse")
-            ? await axios.get('/api/get/orders').catch(error => console.log(error))
-            : await axios.get('/api/get/myorders', { params: { phone: this.context.phone } }).catch(error => console.log(error));
+            ? await axios.get('https://mysql-healthcare.herokuapp.com/api/get/orders').catch(error => console.log(error))
+            : await axios.get('https://mysql-healthcare.herokuapp.com/api/get/myorders', { params: { phone: this.context.phone } }).catch(error => console.log(error));
 
         if (resOrders) console.log(resOrders);
         const orders = resOrders.data.orders.map(order => {
@@ -124,8 +124,8 @@ class ViewOrder extends Component {
         });
 
         const resOrders_prescibe = (this.context.role === "Nurse")
-            ? await axios.get('/api/get/prescribe_order').catch(error => console.log(error))
-            : await axios.get('/api/get/myorders_prescribe', { params: { phone: this.context.phone } }).catch(error => console.log(error));
+            ? await axios.get('https://mysql-healthcare.herokuapp.com/api/get/prescribe_order').catch(error => console.log(error))
+            : await axios.get('https://mysql-healthcare.herokuapp.com/api/get/myorders_prescribe', { params: { phone: this.context.phone } }).catch(error => console.log(error));
 
         if (resOrders_prescibe) console.log(resOrders_prescibe);
         const prescribe_orders = resOrders_prescibe.data.orders.map(order => {

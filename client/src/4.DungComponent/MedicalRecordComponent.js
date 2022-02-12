@@ -40,8 +40,8 @@ class ViewMedicalRecord extends Component {
     onSubmitPayment() {
         let total = 0;
         this.state.orderDetailsOpen.map(detail => total += detail.quantity * detail.price)
-        axios.post('/api/insert/momo_payment', { medicine_id: this.state.treatment_curr.prescribe_id })
-        axios.post('/payment_momo', { total: total.toString() })
+        axios.post('https://mysql-healthcare.herokuapp.com/api/insert/momo_payment', { medicine_id: this.state.treatment_curr.prescribe_id })
+        axios.post('https://mysql-healthcare.herokuapp.com/payment_momo', { total: total.toString() })
             .then(res => {
                 window.location.href = res.data.payUrl
             });
@@ -70,7 +70,7 @@ class ViewMedicalRecord extends Component {
         alert('Chỉnh sửa thành công');
         this.toggleEdit();
         // console.log(treatment);
-        await axios.post('/api/update/treatment_turn_doctor', treatment)
+        await axios.post('https://mysql-healthcare.herokuapp.com/api/update/treatment_turn_doctor', treatment)
     }
 
     toggleEdit() {
@@ -85,10 +85,10 @@ class ViewMedicalRecord extends Component {
         if (flag) {
             this.setState({ treatment_curr: treatment })
             if (treatment.prescribe_id !== null) {
-                res = await axios.get('/api/get/order_details', { params: { orderID: treatment.prescribe_id } })
+                res = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/order_details', { params: { orderID: treatment.prescribe_id } })
                 this.setState({ orderDetailsOpen: res.data.order_details })
                 console.log(res.data.order_details)
-                payment = await axios.get('/api/get/payment', { params: { medicine_id: treatment.prescribe_id } })
+                payment = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/payment', { params: { medicine_id: treatment.prescribe_id } })
                 console.log(payment)
                 this.setState({ payment_detail: payment.data.payment })
             }
@@ -97,7 +97,7 @@ class ViewMedicalRecord extends Component {
     }
 
     componentDidMount() {
-        axios.get('/api/get/mytreatment', { params: { phone: this.state.phone } }).then(
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/mytreatment', { params: { phone: this.state.phone } }).then(
             res => {
                 this.setState({
                     treatment_turn: res.data.sort((a, b) => {
@@ -120,7 +120,7 @@ class ViewMedicalRecord extends Component {
         )
             .catch(error => console.log(error));
 
-        axios.get('/api/get/info', { params: { phonenum: this.state.phone } }).then(res => this.setState({ system_user: res.data.user }))
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/info', { params: { phonenum: this.state.phone } }).then(res => this.setState({ system_user: res.data.user }))
             .catch(error => console.log(error));
     };
     render() {

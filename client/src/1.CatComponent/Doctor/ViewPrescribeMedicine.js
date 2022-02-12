@@ -18,7 +18,7 @@ class ViewPrescribe extends Component {
     }
 
     onPrescribe() {
-        axios.post('/api/insert/prescribe_medicine', {treatment_id: this.state.treatment_id, cart: this.state.cart})
+        axios.post('https://mysql-healthcare.herokuapp.com/api/insert/prescribe_medicine', {treatment_id: this.state.treatment_id, cart: this.state.cart})
         localStorage.removeItem('IS_prescribe');
         alert('Thêm đơn thuốc thành công')
     }

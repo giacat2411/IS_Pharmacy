@@ -34,7 +34,7 @@ class MedicalRecord extends Component {
     }
 
     componentDidMount() {
-        axios.get('/api/get/system_users')
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/system_users')
             .then(res => {
                 const system_users = res.data;
                 this.setState({ system_users: system_users.system_users });
