@@ -12,19 +12,20 @@ const LogButton = (props) => {
     const user = useContext(HeaderDefine);
     console.log(user);
     useEffect(() => {
-        async function checkData () {
-            await axios.get('https://mysql-healthcare.herokuapp.com/api/get/session').then(res => {
-                console.log("done get session")
-                console.log(res.data);
-                if (res.data) {
-                    user.setPhone(res.data.phone);
-                    user.setName(res.data.firstname);
-                    user.setRole(res.data.role);
-                    user.setImg(res.data.img);
-                    // axios.get('/api/get/role', { params: { phonenum: res.data.phone } }).then(resp => user.setRole(resp.data.role))
-                }
+        async function checkData() {
+            const res = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/session')
+            console.log("done get session")
+            console.log(res.data);
+            if (res.data) {
+                user.setPhone(res.data.phone);
+                user.setName(res.data.firstname);
+                // user.setRole(res.data.role);
+                user.setImg(res.data.img);
+
+                const resp = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/role', { params: { phonenum: res.data.phone } });
+                user.setRole(resp.data.role);
+
             }
-            )
         };
         checkData();
     }, []);
@@ -71,10 +72,10 @@ const LogButton = (props) => {
                 {swit}
                 <Nav className="ms-auto" navbar>
                     <NavItem>
-                        <NavLink className="nav-link" to='/signup' style={{color: 'black'}} > <FaUserPlus /> Đăng ký </NavLink>
+                        <NavLink className="nav-link" to='/signup' style={{ color: 'black' }} > <FaUserPlus /> Đăng ký </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink className="nav-link" to='/login' style={{color: 'black'}} > <FaSignInAlt /> Đăng nhập </NavLink>
+                        <NavLink className="nav-link" to='/login' style={{ color: 'black' }} > <FaSignInAlt /> Đăng nhập </NavLink>
                     </NavItem>
                 </Nav>
                 {/* <Switch>
@@ -85,14 +86,14 @@ const LogButton = (props) => {
     return (
         // <HeaderDefine.Consumer>
         <Nav className="ms-auto" navbar>
-            <NavItem style={{color: 'black'}} >
+            <NavItem style={{ color: 'black' }} >
                 <NavLink className="nav-link" to={`/profile/${JSON.stringify(user.phone)}`}>
                     <img src={user.img} className="mini-ava" alt="Mini-ava"
                         style={{ borderRadius: '55px' }} /> {user.name}
                 </NavLink>
                 {/* <img src={user.user.ava} /> {user.user.fullname} */}
             </NavItem>
-            <NavItem style={{color: 'black'}} >
+            <NavItem style={{ color: 'black' }} >
                 <Button
                     style={{
                         backgroundColor: '#5B9BF3',

@@ -11,16 +11,18 @@ let session = {
 };
 
 (async () => {
-  await axios.get('https://mysql-healthcare.herokuapp.com/api/get/session')
-  axios.get('https://mysql-healthcare.herokuapp.com/api/get/session').then((res) => {
-    console.log(res.data)
-    session = {
-      phone: res.data.phone === undefined ? '097100000': res.data.phone,
-      role: res.data.role === undefined ? 'Guest' : res.data.role,
-      name: res.data.firstname === undefined ? 'Hong Phuc' : res.data.firstname,
-      img: res.data.img === undefined ? '' : res.data.img
-    }
-  })
+  const res = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/session');
+  console.log(res.data)
+  session = {
+    phone: res.data.phone === undefined ? '097100000' : res.data.phone,
+    role: res.data.role === undefined ? 'Guest' : res.data.role,
+    name: res.data.firstname === undefined ? 'Hong Phuc' : res.data.firstname,
+    img: res.data.img === undefined ? '' : res.data.img
+  }
+  if (res.data.phone !== undefined) {
+    const res2 = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/role', { params: { phonenum: res.data.phone } });
+    if (res2.data.role !== undefined) session.role = res2.data.role;
+  }
 })()
 
 // const checkData = async () => {
