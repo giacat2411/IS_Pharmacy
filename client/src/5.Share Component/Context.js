@@ -11,7 +11,7 @@ let session = {
 };
 
 (async () => {
-  const res = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/session');
+  const res = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/session', {params: {session_id: sessionStorage.getItem('sessionId')}});
   console.log(res.data)
   session = {
     phone: res.data.phone === undefined ? '' : res.data.phone,

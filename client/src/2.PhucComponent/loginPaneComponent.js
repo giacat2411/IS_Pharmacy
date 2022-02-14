@@ -47,6 +47,7 @@ const LoginPane = (props) => {
             if (user.user) {
                 const res1 = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/role', { params: { phonenum: phone.value } });
                 console.log(typeof(res1.data.activate));
+                sessionStorage.setItem('sessionId', user.sessionid)
 
                 if (res1.data.activate === undefined || res1.data.activate === 1) {
                     ctx.setPhone(user.user[0].phone);

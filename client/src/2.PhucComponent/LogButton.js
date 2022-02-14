@@ -13,7 +13,7 @@ const LogButton = (props) => {
     console.log(user);
     useEffect(() => {
         async function checkData() {
-            const res = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/session')
+            const res = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/session', {params: {session_id: sessionStorage.getItem('sessionId')}})
             console.log("done get session")
             console.log(res.data);
             if (res.data) {
@@ -42,7 +42,8 @@ const LogButton = (props) => {
         props.updatePage('home');
         setSwit(<Switch> <Redirect to='/home' /> </Switch>)
 
-        await axios.get('https://mysql-healthcare.herokuapp.com/api/destroy/session');
+        await axios.get('https://mysql-healthcare.herokuapp.com/api/destroy/session', {params: {session_id: sessionStorage.getItem('sessionId')}});
+        sessionStorage.setItem('sessionId', '')
         // sessionStorage.setItem('user', JSON.stringify({ phone: '', role: 'Guest' }));
     }
 
