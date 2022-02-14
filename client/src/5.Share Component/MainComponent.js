@@ -85,12 +85,11 @@ class Main extends Component {
   }
 
   async componentDidMount() {
-    await axios.get('https://mysql-healthcare.herokuapp.com/api/get/session')
-    axios.get('https://mysql-healthcare.herokuapp.com/api/get/session').then(res => {
-      console.log(res.data.role);
-      if (res.data !== undefined)
+    const res = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/session')
+    console.log(res.data.role);
+    if (res.data !== undefined)
+      if (res.data.role !== undefined)
         this.updatePage(res.data.role === "Guest" ? 'home' : res.data.role)
-    })
   }
 
   updatePage(page) {
@@ -98,26 +97,26 @@ class Main extends Component {
   }
 
   render() {
-    const Treatment = ({match}) => {
+    const Treatment = ({ match }) => {
       return (
-        <ViewTreatmentTurn phone = {parseInt(JSON.parse(match.params.id))} />
+        <ViewTreatmentTurn phone={parseInt(JSON.parse(match.params.id))} />
       )
     }
-    const Prescribe_Medicine = ({match}) => {
+    const Prescribe_Medicine = ({ match }) => {
       return (
-        <Prescribe treatment_id = {parseInt(JSON.parse(match.params.id))} />
-      )
-    }
-
-    const View_Prescribe = ({match}) => {
-      return (
-        <ViewPrescribe treatment_id = {parseInt(JSON.parse(match.params.id))} />
+        <Prescribe treatment_id={parseInt(JSON.parse(match.params.id))} />
       )
     }
 
-    const MedicalDetail = ({match}) => {
+    const View_Prescribe = ({ match }) => {
       return (
-        <ViewMedicalDetail medicalID = {parseInt(JSON.parse(match.params.id))} />
+        <ViewPrescribe treatment_id={parseInt(JSON.parse(match.params.id))} />
+      )
+    }
+
+    const MedicalDetail = ({ match }) => {
+      return (
+        <ViewMedicalDetail medicalID={parseInt(JSON.parse(match.params.id))} />
       )
     }
     const ViewDetails = ({ match }) => {
@@ -144,7 +143,7 @@ class Main extends Component {
       )
     }
 
-    const Record = ({match}) => {
+    const Record = ({ match }) => {
       return <ViewMedicalRecord phone={parseInt(JSON.parse(match.params.phone))} />
     }
 
@@ -200,7 +199,7 @@ class Main extends Component {
               <Route path='/saveSchedule' component={SaveSchedule} />
               <Route path='/view' component={View} />
               <Route path='/scheduleTable' component={ScheduleTable} />
-              
+
               <Redirect to={`/${this.state.redirect_page}`} />
             </Switch>
           </div>

@@ -22,8 +22,11 @@ const LogButton = (props) => {
                 // user.setRole(res.data.role);
                 user.setImg(res.data.img);
 
-                const resp = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/role', { params: { phonenum: res.data.phone } });
-                user.setRole(resp.data.role);
+                if (res.data.phone !== undefined)
+                    if (res.data.phone !== '') {
+                        const resp = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/role', { params: { phonenum: res.data.phone } });
+                        user.setRole(resp.data.role);
+                    }
 
             }
         };

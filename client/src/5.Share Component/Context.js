@@ -4,9 +4,9 @@ import React, { useState, useEffect } from "react"
 const HeaderDefine = React.createContext();
 
 let session = {
-  phone: '097100000',
+  phone: '',
   role: 'Guest',
-  name: 'Hong Phuc',
+  name: '',
   img: ''
 };
 
@@ -14,15 +14,17 @@ let session = {
   const res = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/session');
   console.log(res.data)
   session = {
-    phone: res.data.phone === undefined ? '097100000' : res.data.phone,
+    phone: res.data.phone === undefined ? '' : res.data.phone,
     role: res.data.role === undefined ? 'Guest' : res.data.role,
-    name: res.data.firstname === undefined ? 'Hong Phuc' : res.data.firstname,
+    name: res.data.firstname === undefined ? '' : res.data.firstname,
     img: res.data.img === undefined ? '' : res.data.img
   }
-  if (res.data.phone !== undefined) {
-    const res2 = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/role', { params: { phonenum: res.data.phone } });
-    if (res2.data.role !== undefined) session.role = res2.data.role;
-  }
+  if (res.data.phone !== undefined)
+    if (res.data.phone !== '') {
+      const res2 = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/role', { params: { phonenum: res.data.phone } });
+      if (res2.data.role !== undefined) session.role = res2.data.role;
+      console.log(res2.data.role);
+    }
 })()
 
 // const checkData = async () => {
