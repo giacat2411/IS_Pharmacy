@@ -35,18 +35,18 @@ const LoginPane = (props) => {
         setMsg(!isMsg);
     }
 
-    const apiLog = async () => {
-        if (phone.value === "" || pwd.value === "") { setmsg("Không được bỏ trống thông tin"); toggleMsg() }
+    const apiLog = async (supply = false, role = undefined) => {
+        if (!supply && (phone.value === "" || pwd.value === "")) { setmsg("Không được bỏ trống thông tin"); toggleMsg() }
         else {
-            const res = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/access', { params: { phonenum: phone.value, userpwd: pwd.value } })
-            
+            const res = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/access', { params: { phonenum: phone.value, userpwd: pwd.value, role: role} })
+
             console.log("over access")
             console.log(res.data);
 
             const user = res.data;
             if (user.user) {
-                const res1 = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/role', { params: { phonenum: phone.value } });
-                console.log(typeof(res1.data.activate));
+                const res1 = await axios.get('https://mysql-healthcare.herokuapp.com/api/get/role', { params: { phonenum: phone.value, role: role } });
+                console.log(typeof (res1.data.activate));
                 sessionStorage.setItem('sessionId', user.sessionid)
 
                 if (res1.data.activate === undefined || res1.data.activate === 1) {
@@ -98,7 +98,7 @@ const LoginPane = (props) => {
                     </Col>
                     <Col md={{ size: 3, offset: 1 }}>
                         <Form onSubmit={(e) => { e.preventDefault(); apiLog() }}>
-                            <Row style={{ marginTop: '150px' }}>
+                            <Row style={{ marginTop: '70px' }}>
                                 <Col style={{ textAlign: 'center' }}>
                                     <h1>Đăng Nhập {isModal}</h1>
                                 </Col>
@@ -148,6 +148,25 @@ const LoginPane = (props) => {
                                         <NavLink to='/signup' style={{ paddingTop: '0px' }} style={{ color: '#007BFF', cursor: 'pointer' }}>
                                             <FaUserPlus style={{ marginTop: '-3px' }} /> Đăng ký
                                         </NavLink>
+                                    </Col>
+                                </Row>
+                            </FormGroup>
+                            <hr></hr>
+                            <FormGroup>
+                                <Row>
+                                    <Col style={{ textAlign: 'center' }}>
+                                        <h4>Tài khoản thử nghiệm</h4>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Button onClick={()=>{apiLog(true, 1)}} style={{width: "70px"}} color="primary" >Bệnh nhân</Button>
+                                    </Col>
+                                    <Col>
+                                        <Button onClick={()=>{apiLog(true, 2)}} style={{width: "70px"}} color="primary" >Bác <br /> sĩ</Button>
+                                    </Col>
+                                    <Col>
+                                        <Button onClick={()=>{apiLog(true, 3)}} style={{width: "70px"}} color="primary" >Y <br /> tá</Button>
                                     </Col>
                                 </Row>
                             </FormGroup>

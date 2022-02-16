@@ -24,7 +24,7 @@ class StatisticTreatmentTurn extends Component {
     }
 
     componentDidMount() {
-        axios.get('/api/get/treatment_turns').then(res => {
+        axios.get('https://mysql-healthcare.herokuapp.com/api/get/treatment_turns').then(res => {
             console.log(res.data.treatment_turns)
             const treatment = res.data.treatment_turns.map(treat => {
                 const newTreat = treat;
