@@ -1,6 +1,7 @@
 // IMPORT FROM EXTERNAL
 import React, { Component, useContext } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import { Container, Row, Col } from 'reactstrap';
 
 // IMPORT DATA
 
@@ -153,7 +154,20 @@ class Main extends Component {
     console.log(this.state.redirect_page)
     return (
       <HeaderProvider>
-        <div>
+        <div class="d-xl-none">
+          <div style={{
+            textAlign: 'center',
+            boxShadow: '0 1px 5px -1px rgb(51 62 73 / 14%), 0 4px 10px 0 rgb(51 62 73 / 8%)',
+            minHeight: '96px',
+            minWidth: '100%'
+          }}>
+            <img src='/assets/images/Logo.png' height="80px" width="80px" alt='HealthCare' />
+          </div>
+          <h1 style={{fontSize: '2em', margin: '0.67em 0px 0px 0px', textAlign: 'center'}}>Healthcare hiện tại chưa hỗ trợ <br /> Mobile và Tablet</h1>
+          <hr />
+          <p style={{textAlign: 'center', fontSize: '15px', lineHeight: '20px'}}> Vui lòng sử dụng máy vi tính (&ge; 1200px) để có trải nghiệm tốt nhất </p>
+        </div>
+        <div class="d-none d-xl-block">
           <Header updatePage={this.updatePage} />
           <div className="content-container">
             <Switch>
